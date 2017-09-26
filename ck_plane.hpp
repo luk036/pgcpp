@@ -17,11 +17,12 @@ auto altitude(const P &p, const L &l) {
   return L{p, ~l};
 }
 
-template <class P, class L = typename P::dual>
-requires Cayley_Klein_plane<P, L>
+//template <class P, class L = typename P::dual>
+//requires Cayley_Klein_plane<P, L>
+Cayley_Klein_plane{P, L}
 auto orthocenter(const P &a1, const P &a2, const P &a3) {
-  auto &&t1 = altitude(a1, L{a2, a3});
-  auto &&t2 = altitude(a2, L{a1, a3});
+  auto t1 = altitude(a1, L{a2, a3});
+  auto t2 = altitude(a2, L{a1, a3});
   return P{t1, t2};
 }
 
@@ -32,8 +33,7 @@ bool check_sine_law(const _K &s1, const _K &q1, const _K &s2, const _K &q2) {
 
 namespace CK {
 
-template <class P, class L = typename P::dual>
-requires Cayley_Klein_plane<P, L>
+Cayley_Klein_plane2{P}
 auto omega(const P &x) {
   return x.dot(~x);
 }

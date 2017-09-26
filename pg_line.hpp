@@ -88,6 +88,11 @@ _Stream &operator<<(_Stream &os, const pg_line<_K> &l) {
   os << '<' << l[0] << ':' << l[1] << ':' << l[2] << '>';
   return os;
 }
+
+// template deduction guides (C++17)
+template <typename _K>
+pg_line(const std::array<_K, 3> &a) -> pg_line<_K>;
+
 } // namespace fun
 
 #endif

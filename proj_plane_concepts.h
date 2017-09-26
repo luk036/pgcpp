@@ -32,13 +32,6 @@ concept bool Projective_plane =
 template <class P>
 concept bool Projective_plane2 = Projective_plane<P>; // Make the compiler happy
 
-///  Return true if @a p, @a q, @a r are collinear
-Projective_plane2{P}
-constexpr bool coincident(const P &p, const P &q, const P &r) {
-  using L = typename P::dual;
-  return r.incident(L{p, q});
-}
-
 template <class P, class L>
 concept bool Cayley_Klein_plane_h =
   Projective_plane_h<P, L> && requires(P p, P q, L l) {

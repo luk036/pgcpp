@@ -21,14 +21,16 @@ template <typename _K> pg_point<_K> operator~(pg_line<_K> l) {
   return pg_point<_K>(l);
 }
 
-template <class P, class L = typename P::dual>
-// requires Cayley_Klein_plane<P, L>
+//template <class P, class L = typename P::dual>
+//requires Cayley_Klein_plane<P, L>
+Cayley_Klein_plane2{P}
 auto omega(const P &x) {
   return x.dot(~x);
 }
 
-template <class P, class L = typename P::dual>
+// template <class P, class L = typename P::dual>
 // requires Cayley_Klein_plane<P, L>
+Cayley_Klein_plane2{P}
 auto measure(const P &a1, const P &a2) {
   auto omg = a1.dot(~a2);
   using K = typename P::value_type;
@@ -39,14 +41,16 @@ auto measure(const P &a1, const P &a2) {
   }
 }
 
-template <class P, class L = typename P::dual>
+// template <class P, class L = typename P::dual>
 // requires Cayley_Klein_plane<P, L>
+Cayley_Klein_plane2{P}
 auto quadrance(const P &p, const P &q) {
   return measure(p, q);
 }
 
-template <class L, class P = typename L::dual>
+// template <class L, class P = typename L::dual>
 // requires Cayley_Klein_plane<P, L>
+Cayley_Klein_plane2{L}
 auto spread(const L &l, const L &m) {
   return measure(l, m);
 }

@@ -1,5 +1,52 @@
 {
-  "variant": null,
+  "variant": {
+    "label": "Debug",
+    "keywordSettings": {
+      "buildType": "debug"
+    },
+    "description": "Emit debug information without performing optimizations"
+  },
   "activeEnvironments": [],
-  "codeModel": null
+  "codeModel": {
+    "configurations": [
+      {
+        "name": "Debug",
+        "projects": [
+          {
+            "buildDirectory": "/home/ubuntu/github/pgcpp/build",
+            "name": "pgcpp",
+            "sourceDirectory": "/home/ubuntu/github/pgcpp",
+            "targets": [
+              {
+                "artifacts": [
+                  "/home/ubuntu/github/pgcpp/build/Main"
+                ],
+                "buildDirectory": "/home/ubuntu/github/pgcpp/build",
+                "fileGroups": [
+                  {
+                    "compileFlags": "-g   -Wall -Wextra -Wpedantic -fconcepts -std=c++1z",
+                    "isGenerated": false,
+                    "language": "CXX",
+                    "sources": [
+                      "Main.cpp"
+                    ]
+                  }
+                ],
+                "fullName": "Main",
+                "linkLanguageFlags": "-g",
+                "linkLibraries": "-rdynamic",
+                "linkerLanguage": "CXX",
+                "name": "Main",
+                "sourceDirectory": "/home/ubuntu/github/pgcpp",
+                "type": "EXECUTABLE"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "cookie": "0.17446524308985034",
+    "inReplyTo": "codemodel",
+    "type": "reply"
+  }
 }

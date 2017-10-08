@@ -1,5 +1,5 @@
-#ifndef COMMON_CONCEPTS_HPP
-#define COMMON_CONCEPTS_HPP 1
+#ifndef _HOME_UBUNTU_GITHUB_PGCPP_COMMON_CONCEPTS_H
+#define _HOME_UBUNTU_GITHUB_PGCPP_COMMON_CONCEPTS_H 1
 
 #include <utility>
 
@@ -38,6 +38,6 @@ concept bool Equality_comparable = requires(T a, T b){
   };
 // ( T, == ) must be reflective, symmetric, and transitive.
 
-} // namespace
+} // namespace fun
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef _HOME_UBUNTU_CUBSTORE_PROJ_GEOM_PGCPP_HYPER_PLANE_HPP
-#define _HOME_UBUNTU_CUBSTORE_PROJ_GEOM_PGCPP_HYPER_PLANE_HPP 1
+#ifndef _HOME_UBUNTU_GITHUB_PGCPP_HYPER_PLANE_HPP
+#define _HOME_UBUNTU_GITHUB_PGCPP_HYPER_PLANE_HPP 1
 
 //#include "proj_plane_concepts.h"
 #include "ck_plane.hpp"
@@ -24,14 +24,14 @@ template <typename _K> pg_point<_K> operator~(pg_line<_K> l) {
 //template <class P, class L = typename P::dual>
 //requires Cayley_Klein_plane<P, L>
 Cayley_Klein_plane2{P}
-auto omega(const P &x) {
+auto omega(const P & x) {
   return x.dot(~x);
 }
 
 // template <class P, class L = typename P::dual>
 // requires Cayley_Klein_plane<P, L>
 Cayley_Klein_plane2{P}
-auto measure(const P &a1, const P &a2) {
+auto measure(const P & a1, const P & a2) {
   auto omg = a1.dot(~a2);
   using K = typename P::value_type;
   if constexpr (std::is_integral<K>::value) {
@@ -44,14 +44,14 @@ auto measure(const P &a1, const P &a2) {
 // template <class P, class L = typename P::dual>
 // requires Cayley_Klein_plane<P, L>
 Cayley_Klein_plane2{P}
-auto quadrance(const P &p, const P &q) {
+auto quadrance(const P & p, const P & q) {
   return measure(p, q);
 }
 
 // template <class L, class P = typename L::dual>
 // requires Cayley_Klein_plane<P, L>
 Cayley_Klein_plane2{L}
-auto spread(const L &l, const L &m) {
+auto spread(const L & l, const L & m) {
   return measure(l, m);
 }
 

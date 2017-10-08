@@ -1,5 +1,5 @@
-#ifndef _HOME_UBUNTU_CUBSTORE_PROJ_GEOM_PGCPP_PROJ_PLANE_HPP
-#define _HOME_UBUNTU_CUBSTORE_PROJ_GEOM_PGCPP_PROJ_PLANE_HPP 1
+#ifndef _HOME_UBUNTU_GITHUB_PGCPP_PROJ_PLANE_HPP
+#define _HOME_UBUNTU_GITHUB_PGCPP_PROJ_PLANE_HPP 1
 
 //#include "proj_plane_concepts.h"
 #include <boost/rational.hpp>
@@ -17,7 +17,7 @@ namespace fun {
 //template <class P, class L = typename P::dual>
 //requires Projective_plane<P, L>
 Projective_plane{P, L}
-constexpr bool coincident(const P &p, const P &q, const P &r) {
+constexpr bool coincident(const P & p, const P & q, const P & r) {
   return r.incident(L{p, q});
 }
 
@@ -25,7 +25,7 @@ constexpr bool coincident(const P &p, const P &q, const P &r) {
 //template <class L, class C, class P = typename L::dual>
 //requires Projective_plane<P, L> && Sequence<C>
 Projective_plane{P, L}
-constexpr bool coincident(const L &l, const Sequence &seq) {
+constexpr bool coincident(const L & l, const Sequence & seq) {
   for (const P &p : seq) {
     if (!l.incident(p))
       return false;
@@ -36,7 +36,7 @@ constexpr bool coincident(const L &l, const Sequence &seq) {
 //template <class P, class L = typename P::dual>
 //requires Projective_plane<P, L>
 Projective_plane{P, L}
-auto x_ratio(P &A, P &B, L &l, L &m) {
+auto x_ratio(P & A, P & B, L & l, L & m) {
   auto dAl = A.dot(l);
   auto dAm = A.dot(m);
   auto dBl = B.dot(l);
@@ -52,7 +52,7 @@ auto x_ratio(P &A, P &B, L &l, L &m) {
 //template <class P, class L = typename P::dual>
 //requires Projective_plane<P, L>
 Projective_plane{P, L}
-void check_pappus(P &A, P &B, P &C, P &D, P &E, P &F) {
+void check_pappus(P & A, P & B, P & C, P & D, P & E, P & F) {
   auto G = P{L{A, E}, L{B, D}};
   auto H = P{L{A, F}, L{C, D}};
   auto I = P{L{B, F}, L{C, E}};
@@ -62,7 +62,7 @@ void check_pappus(P &A, P &B, P &C, P &D, P &E, P &F) {
 //template <class P, class L = typename P::dual>
 //requires Projective_plane<P, L>
 Projective_plane{P, L}
-bool persp(P &A, P &B, P &C, P &D, P &E, P &F) {
+bool persp(P & A, P & B, P & C, P & D, P & E, P & F) {
   auto O = P{L{A, D}, L{B, E}};
   return O.incident(L{C, F});
 }
@@ -70,7 +70,7 @@ bool persp(P &A, P &B, P &C, P &D, P &E, P &F) {
 //template <class P, class L = typename P::dual>
 //requires Projective_plane<P, L>
 Projective_plane{P, L}
-void check_desargue(P &A, P &B, P &C, P &D, P &E, P &F) {
+void check_desargue(P & A, P & B, P & C, P & D, P & E, P & F) {
   auto a = L{B, C};
   auto b = L{A, C};
   auto c = L{B, A};

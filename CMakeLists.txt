@@ -8,9 +8,9 @@ project (ModernCppCI)
 
 set_property (GLOBAL PROPERTY USE_FOLDERS ON)
 
-set (CMAKE_CXX_STANDARD 17)
+set (CMAKE_CXX_STANDARD 14)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
-add_definitions ( -Wall -Wextra -Wpedantic -fconcepts )
+## add_definitions ( -Wall -Wextra -Wpedantic -fconcepts )
 
 set (THREADS_PREFER_PTHREAD_FLAG ON)
 find_package (Threads REQUIRED)

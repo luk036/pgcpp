@@ -6,7 +6,7 @@ using namespace fun;
 using namespace std;
 using namespace fun::HG;
 
-int main()
+int PgMain()
 {
   auto a1 = pg_point<double>{{1., 3., 1.}};
   auto a2 = pg_point<double>{{4., 2., 1.}};

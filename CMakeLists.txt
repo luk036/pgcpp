@@ -4,7 +4,7 @@
 
 cmake_minimum_required (VERSION 3.3)
 
-project (pgcpp)
+project (ModernCppCI)
 
 set_property (GLOBAL PROPERTY USE_FOLDERS ON)
 

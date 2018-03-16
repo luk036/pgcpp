@@ -52,13 +52,13 @@ TEST_CASE("chain operations will work", "[calc]") {
   REQUIRE(calc.result() == 3);
 }
 
-TEST_CASE("we could stream results", "[calc]") {
-  std::ostringstream string_stream{};
+// TEST_CASE("we could stream results", "[calc]") {
+//   std::ostringstream string_stream{};
 
-  string_stream << (Calc{} << 1 << "+" << 2);
+//   string_stream << (Calc{} << 1 << "+" << 2);
 
-  REQUIRE(string_stream.str() == "1 + 2 = 3");
-}
+//   REQUIRE(string_stream.str() == "1 + 2 = 3");
+// }
 
 TEST_CASE("default operation Plus will work", "[operations]") {
   auto result = DefaultOperations::Plus(10, 2);

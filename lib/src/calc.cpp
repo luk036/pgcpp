@@ -28,41 +28,41 @@ void Calc::add_step(const std::string &operation_name) {
 }
 
 int Calc::result() const {
-  logger_.debug("[{}]", __func__);
+  //logger_.debug("[{}]", __func__);
 
   int total{0};
-  logger_.trace("total is {}", total);
+  //logger_.trace("total is {}", total);
   Operation operation_to_execute{DefaultOperations::Zero};
   bool execute_operation{false};
   bool first_value{true};
 
   for (const auto &step : steps_) {
-    logger_.trace("step = {}", step);
+    //logger_.trace("step = {}", step);
     if (step.has_operation()) {
-      logger_.trace("step is an operation");
+      //logger_.trace("step is an operation");
       operation_to_execute = step.operation();
       execute_operation = true;
       continue;
     }
 
     if (step.has_value()) {
-      logger_.trace("step has value");
+      //logger_.trace("step has value");
       if (first_value) {
-        logger_.trace("step is first step");
+        //logger_.trace("step is first step");
         total = step.value();
         first_value = false;
         continue;
       }
       if (execute_operation) {
-        logger_.trace("executing operation");
+        //logger_.trace("executing operation");
         total = operation_to_execute(total, step.value());
         execute_operation = false;
-        logger_.trace("total so far is = {}", total);
+        //logger_.trace("total so far is = {}", total);
       }
     }
   }
 
-  logger_.debug("[{}] = {}", __func__, total);
+  //logger_.debug("[{}] = {}", __func__, total);
 
   return total;
 }
@@ -76,6 +76,6 @@ std::ostream &operator<<(std::ostream &stream, const Calc &calc) {
   return stream;
 }
 
-Logger Calc::logger_{typeid(Calc).name()};
+//Logger Calc::logger_{typeid(Calc).name()};
 
 }  // namespace ModernCppCI

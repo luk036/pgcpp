@@ -27,4 +27,4 @@ target_link_libraries (${TEST_APP_NAME} ${LIB_NAME} Threads::Threads)
 enable_testing()
 
 #parse catch tests
-ParseAndAddCatchTests (${TEST_APP_NAME})
+## ParseAndAddCatchTests (${TEST_APP_NAME})

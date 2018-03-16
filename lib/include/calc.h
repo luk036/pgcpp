@@ -13,7 +13,7 @@
 #include <map>
 #include <ostream>
 #include "calc_step.h"
-#include "logger.h"
+// #include "logger.h"
 
 namespace ModernCppCI {
 
@@ -72,7 +72,7 @@ class Calc {
                                     {"-", DefaultOperations::Minus},
                                     {"*", DefaultOperations::Times},
                                     {"/", DefaultOperations::Div}};
-  static Logger logger_;
+  // static Logger logger_;
 };
 
 }  // namespace ModernCppCI

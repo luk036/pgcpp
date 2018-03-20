@@ -23,12 +23,13 @@ namespace fun {
  */
 
 // Forward declarations.
+
 template <typename _K> class pg_point;
 
 /**
- *  Projective line: one dimensional subspace of K^3
- *
- *  @param  _K  Type of line elements
+ * @brief Projective line: one dimensional subspace of K^3
+ * 
+ * @tparam  _K  Type of line elements 
  */
 template <typename _K = int> class pg_line : public std::array<_K, 3> {
   /// Value typedef.
@@ -48,7 +49,10 @@ public:
   /// Return the base class.
   //constexpr const _Base &base() const { return *this; }
 
-  /// Construct by an array
+  /**
+   * @brief Construct by an array
+   * 
+   */
   constexpr explicit pg_line(const _Base &a) : _Base{a} {}
 
   /// Construct by meet of two points @a p and @a q. (p. 53)
@@ -76,6 +80,16 @@ public:
   constexpr pg_point<_K> aux() { return pg_point<_K>{*this}; }
 };
 
+/**
+ * @brief Pl\u{"}cker
+ * 
+ * @tparam _K coordinate type
+ * @param a 
+ * @param l1 
+ * @param b 
+ * @param l2 
+ * @return auto 
+ */
 template <typename _K>
 auto plucker(const _K &a, const pg_line<_K> &l1, const _K &b,
              const pg_line<_K> &l2) {

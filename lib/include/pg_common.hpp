@@ -6,16 +6,40 @@
 
 namespace fun {
 
+/**
+ * @brief 1st term of Cross product
+ * 
+ * @tparam _K 
+ * @param v 
+ * @param w 
+ * @return auto 
+ */
 template <typename _K>
 auto cross0 (const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
   return v[1] * w[2] - w[1] * v[2];
 }
 
+/**
+ * @brief 2nd term of Cross product
+ * 
+ * @tparam _K 
+ * @param v 
+ * @param w 
+ * @return auto 
+ */
 template <typename _K>
 auto cross1(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
   return v[0] * w[2] - w[0] * v[2];
 }
 
+/**
+ * @brief 3rd term of Cross product
+ * 
+ * @tparam _K 
+ * @param v 
+ * @param w 
+ * @return auto 
+ */
 template <typename _K>
 auto cross2(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
   return v[0] * w[1] - w[0] * v[1];

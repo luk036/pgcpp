@@ -8,7 +8,7 @@ Configuuration inspided by Modern C++ Continuous Integration
 ## Pre-installation
 
 ```shell
-  sudo apt install catch
+  sudo apt install catch libboost-dev
 ```
 
 

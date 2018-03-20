@@ -14,30 +14,107 @@
         "projects": [
           {
             "buildDirectory": "/home/ubuntu/github/pgcpp/build",
-            "name": "pgcpp",
+            "name": "Fun",
             "sourceDirectory": "/home/ubuntu/github/pgcpp",
             "targets": [
               {
                 "artifacts": [
-                  "/home/ubuntu/github/pgcpp/build/Main"
+                  "/home/ubuntu/github/pgcpp/build/app/FunApp"
                 ],
-                "buildDirectory": "/home/ubuntu/github/pgcpp/build",
+                "buildDirectory": "/home/ubuntu/github/pgcpp/build/app",
                 "fileGroups": [
                   {
-                    "compileFlags": "-g   -Wall -Wextra -Wpedantic -fconcepts -std=c++1z",
+                    "compileFlags": "-g   -fconcepts -pthread -std=gnu++1z",
+                    "includePath": [
+                      {
+                        "path": "/home/ubuntu/github/pgcpp/lib/include"
+                      },
+                      {
+                        "path": "/include"
+                      }
+                    ],
                     "isGenerated": false,
                     "language": "CXX",
                     "sources": [
-                      "Main.cpp"
+                      "src/PgMain.cpp",
+                      "src/main.cpp"
                     ]
                   }
                 ],
-                "fullName": "Main",
+                "fullName": "FunApp",
                 "linkFlags": "-rdynamic",
                 "linkLanguageFlags": "-g",
+                "linkLibraries": "../lib/libFunLib.a -pthread",
                 "linkerLanguage": "CXX",
-                "name": "Main",
-                "sourceDirectory": "/home/ubuntu/github/pgcpp",
+                "name": "FunApp",
+                "sourceDirectory": "/home/ubuntu/github/pgcpp/app",
+                "type": "EXECUTABLE"
+              },
+              {
+                "artifacts": [
+                  "/home/ubuntu/github/pgcpp/build/lib/libFunLib.a"
+                ],
+                "buildDirectory": "/home/ubuntu/github/pgcpp/build/lib",
+                "fileGroups": [
+                  {
+                    "compileFlags": "-g   -fconcepts -std=gnu++1z",
+                    "includePath": [
+                      {
+                        "path": "/home/ubuntu/github/pgcpp/lib/include"
+                      },
+                      {
+                        "path": "/include"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "CXX",
+                    "sources": [
+                      "src/calc.cpp",
+                      "src/calc_step.cpp"
+                    ]
+                  }
+                ],
+                "fullName": "libFunLib.a",
+                "linkerLanguage": "CXX",
+                "name": "FunLib",
+                "sourceDirectory": "/home/ubuntu/github/pgcpp/lib",
+                "type": "STATIC_LIBRARY"
+              },
+              {
+                "artifacts": [
+                  "/home/ubuntu/github/pgcpp/build/lib/test/FunLibTest"
+                ],
+                "buildDirectory": "/home/ubuntu/github/pgcpp/build/lib/test",
+                "fileGroups": [
+                  {
+                    "compileFlags": "-g   -fconcepts -fconcepts -pthread -std=gnu++1z",
+                    "includePath": [
+                      {
+                        "path": "/home/ubuntu/github/pgcpp/lib/include"
+                      },
+                      {
+                        "path": "/include"
+                      },
+                      {
+                        "path": "/home/ubuntu/github/pgcpp/third_party/benchmark/include"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "CXX",
+                    "sources": [
+                      "src/calc_step_test.cpp",
+                      "src/calc_test.cpp",
+                      "src/main.cpp"
+                    ]
+                  }
+                ],
+                "fullName": "FunLibTest",
+                "linkFlags": "-rdynamic",
+                "linkLanguageFlags": "-g",
+                "linkLibraries": "../libFunLib.a -pthread",
+                "linkerLanguage": "CXX",
+                "name": "FunLibTest",
+                "sourceDirectory": "/home/ubuntu/github/pgcpp/lib/test",
                 "type": "EXECUTABLE"
               }
             ]
@@ -45,7 +122,7 @@
         ]
       }
     ],
-    "cookie": "0.7568929310701535",
+    "cookie": "0.7832692818270579",
     "inReplyTo": "codemodel",
     "type": "reply"
   }

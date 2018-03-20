@@ -1,6 +1,6 @@
 [submodule "third_party/fmt"]
-	path = fmt
+	path = third_party/fmt
 	url = https://github.com/fmtlib/fmt.git
 [submodule "third_party/benchmark"]
-	path = benchmark
-    url = https://github.com/google/benchmark.git
+	path = third_party/benchmark
+	url = https://github.com/google/benchmark.git

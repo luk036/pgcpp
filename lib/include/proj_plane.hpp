@@ -1,7 +1,7 @@
 #ifndef _HOME_UBUNTU_GITHUB_PGCPP_PROJ_PLANE_HPP
 #define _HOME_UBUNTU_GITHUB_PGCPP_PROJ_PLANE_HPP 1
 
-//#include "proj_plane_concepts.h"
+#include "proj_plane_concepts.h"
 #include <boost/rational.hpp>
 #include <cassert>
 

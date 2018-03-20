@@ -23,12 +23,13 @@ namespace fun {
  */
 
 // Forward declarations.
+
 template <typename _K> class pg_line;
 
 /**
- *  Projective point: one dimensional subspace of K^3
- *
- *  @param  _K  Type of point elements
+ * @brief Projective point: one dimensional subspace of K^3
+ * 
+ * @tparam _K  Type of point elements
  */
 template <typename _K = int> class pg_point : public std::array<_K, 3> {
   /// Value typedef.

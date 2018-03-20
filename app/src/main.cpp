@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
   using namespace std;
   using namespace fun::HG;
 
-  Calc{} << 1 << "+" << 2 << "*" << 5 << "-" << 3 << "/" << 4);
+  Calc{} << 1 << "+" << 2 << "*" << 5 << "-" << 3 << "/" << 4;
 
   auto a1 = pg_point<double>{{1., 3., 1.}};
   auto a2 = pg_point<double>{{4., 2., 1.}};
@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
   auto q2 = quadrance(a1, a3);
   auto q3 = quadrance(a1, a2);
 
-  cout << s1 << ',' << s2 << ',' << s3 << '\n';
+  std::cout << s1 << ',' << s2 << ',' << s3 << '\n';
   cout << q1 << ',' << q2 << ',' << q3 << '\n';
 
   auto t12 = q1 * s2 - q2 * s1;

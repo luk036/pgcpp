@@ -17,6 +17,9 @@ include_directories (${LIBRARY_INCLUDE_PATH} ${TEST_THIRD_PARTY_INCLUDE_PATH})
 #set test sources
 file (GLOB TEST_SOURCE_FILES "${TEST_SRC_PATH}/*.cpp")
 
+#set concepts TS
+add_definitions ( -fconcepts )
+
 #set target executable
 add_executable (${TEST_APP_NAME} ${TEST_SOURCE_FILES})
 

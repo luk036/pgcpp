@@ -1,4 +1,6 @@
-# Modern C++ Continuous Integration
+# Projective Geometry
+
+Configuuration inspided by Modern C++ Continuous Integration
 
 ## Pre-installation
 

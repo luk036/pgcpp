@@ -31,7 +31,7 @@ template <typename _K> class pg_line;
  * 
  * @tparam _K  Type of point elements
  */
-template <typename _K = int> class pg_point : public std::array<_K, 3> {
+template <typename _K> class pg_point : public std::array<_K, 3> {
   /// Value typedef.
   typedef std::array<_K, 3> _Base;
 
@@ -51,6 +51,13 @@ public:
 
   /// Construct by meet of two lines @a l and @a m. (p. 53)
   constexpr explicit pg_point(const _Base &a) : _Base{a} {}
+
+  /**
+   * @brief Construct by data
+   * 
+   */
+  constexpr explicit pg_point(const _K &x, const _K &y, const _K &z) 
+      : _Base{x, y, z} {}
 
   /// Construct by meet of two lines @a l and @a m. (p. 53)
   constexpr pg_point(const pg_line<_K> &l, const pg_line<_K> &m)
@@ -93,7 +100,10 @@ _Stream &operator<<(_Stream &os, const pg_point<_K> &p) {
 
 // template deduction guides (C++17)
 template <typename _K>
-pg_point(const std::array<_K, 3> &a) -> pg_point<_K>;
+pg_point(const std::array<_K, 3> &) -> pg_point<_K>;
+
+template <typename _K>
+pg_point(const _K &, const _K &, const _K &) -> pg_point<_K>; 
 
 } // namespace fun
 

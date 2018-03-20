@@ -10,12 +10,6 @@ namespace ModernCppCI {
 
 namespace Test {
 
-TEST_CASE("calc should be created", "[calc]") {
-  auto calc = std::make_unique<Calc>();
-
-  REQUIRE(calc != nullptr);
-}
-
 TEST_CASE("we could use +", "[calc]") {
   auto calc = Calc{} << 2 << "+" << 1;
 

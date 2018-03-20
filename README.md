@@ -1,5 +1,8 @@
 # Projective Geometry
 
+[![Build Status](https://travis-ci.org/luk036/pgcpp.svg?branch=master)](https://travis-ci.org/luk036/pgcpp)
+
+
 Configuuration inspided by Modern C++ Continuous Integration
 
 ## Pre-installation

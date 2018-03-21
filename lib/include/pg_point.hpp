@@ -29,7 +29,7 @@ template <typename _K> class pg_line;
 /**
  * @brief Projective point: one dimensional subspace of K^3
  * 
- * @tparam _K  Type of point elements
+ * @tparam _K Type of point elements
  */
 template <typename _K> class pg_point : public std::array<_K, 3> {
   /// Value typedef.
@@ -39,16 +39,6 @@ public:
   using value_type = _K;
   using dual = pg_line<_K>;
 
-  // Lets the compiler synthesize the copy constructor
-  // pg_point (const pg_point<_K>&);
-  /// Return the base class.
-  //constexpr _Base base() { return *this; }
-
-  // Lets the compiler synthesize the copy constructor
-  // pg_point (const pg_point<_K>&);
-  /// Return the base class.
-  //constexpr const _Base &base() const { return *this; }
-
   /// Construct by meet of two lines @a l and @a m. (p. 53)
   constexpr explicit pg_point(const _Base &a) : _Base{a} {}
 
@@ -56,18 +46,37 @@ public:
    * @brief Construct by data
    * 
    */
+
+  /**
+   * @brief Construct a new pg_point object
+   * 
+   * @param x 
+   * @param y 
+   * @param z 
+   */
   constexpr explicit pg_point(const _K &x, const _K &y, const _K &z) 
       : _Base{x, y, z} {}
 
-  /// Construct by meet of two lines @a l and @a m. (p. 53)
+  /**
+   * @brief Construct a new pg_point object by meet of two lines (p. 53)
+   * 
+   * @param l 
+   * @param m 
+   */
   constexpr pg_point(const pg_line<_K> &l, const pg_line<_K> &m)
       : _Base{cross(l, m)} {}
 
   // Operators:
 
-  /// Return true if @a p is equivalent to @a q (in projective sense).
-  constexpr bool operator==(const pg_point<_K> &other) const {
-    return cross(*this, other) == _Base({0, 0, 0});
+  /**
+   * @brief Equal to
+   * 
+   * @param rhs
+   * @return true if this point is equivalent to the rhs
+   * @return false otherwise
+   */
+  constexpr bool operator==(const pg_point<_K> &rhs) const {
+    return cross(*this, rhs) == _Base({0, 0, 0});
   }
 
   /// Return the dot product
@@ -77,7 +86,7 @@ public:
 
   /// Return true if a line @a l incident with point @a p
   constexpr bool incident(const pg_line<_K> &l) const {
-    return dot_c(*this, l) == 0;
+    return this->dot(l) == 0;
   }
 
   ///  Return new line not incident with p

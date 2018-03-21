@@ -13,17 +13,33 @@ using boost::rational;
 
 namespace fun {
 
-///  Return true if @a p, @a q, @a r are collinear
-//template <class P, class L = typename P::dual>
-//requires Projective_plane<P, L>
+/**
+ * @brief Coincident
+ * 
+ * @tparam P Point
+ * @tparam L Line
+ * @param p p
+ * @param q q
+ * @param r r
+ * @return true if three points are conincident 
+ * @return false otherwise
+ */
 Projective_plane{P, L}
 constexpr bool coincident(const P & p, const P & q, const P & r) {
   return r.incident(L{p, q});
 }
 
-///  Return true if @a p, @a q, @a r, @a s are collinear
-//template <class L, class C, class P = typename L::dual>
-//requires Projective_plane<P, L> && Sequence<C>
+
+/**
+ * @brief Coincident
+ * 
+ * @tparam P Point
+ * @tparam L Line
+ * @param l line 
+ * @param seq Sequence of points
+ * @return true if all points are incident with l
+ * @return false otherwise
+ */
 Projective_plane{P, L}
 constexpr bool coincident(const L & l, const Sequence & seq) {
   for (const P &p : seq) {

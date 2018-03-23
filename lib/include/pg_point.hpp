@@ -30,14 +30,13 @@ template <typename _K> class pg_point : public std::array<_K, 3> {
 public:
   using value_type = _K;
   using dual = pg_line<_K>;
-
-  /// Construct by meet of two lines @a l and @a m. (p. 53)
-  constexpr explicit pg_point(const _Base &a) : _Base{a} {}
-
+  
   /**
-   * @brief Construct by data
+   * @brief Construct a new pg point object
    * 
+   * @param a array of coordinates
    */
+  explicit pg_point(const _Base &a) : _Base{a} {}
 
   /**
    * @brief Construct a new pg_point object

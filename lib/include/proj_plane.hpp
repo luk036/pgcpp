@@ -70,6 +70,8 @@ constexpr bool coincident(const L & l, const Sequence & seq) {
  * @param l line \in P
  * @param m line \in P
  * @return cross ratio R(A,B;l,m)
+ * 
+ * @todo rewrite by projecting to the y-axis first [:2]
  */
 template <class P, class L>
   requires Projective_plane<P, L> 
@@ -107,9 +109,23 @@ void check_pappus(P & A, P & B, P & C, P & D, P & E, P & F) {
   assert(G.incident(L{H, I}) && "Pappus Theorem failed");
 }
 
-//template <class P, class L = typename P::dual>
-//requires Projective_plane<P, L>
-Projective_plane{P, L}
+//Projective_plane{P, L}
+/**
+ * @brief 
+ * 
+ * @tparam P 
+ * @tparam L 
+ * @param A 
+ * @param B 
+ * @param C 
+ * @param D 
+ * @param E 
+ * @param F 
+ * @return true 
+ * @return false 
+ */
+template <class P, class L = typename P::dual>
+  requires Projective_plane<P, L>
 bool persp(P & A, P & B, P & C, P & D, P & E, P & F) {
   auto O = P{L{A, D}, L{B, E}};
   return O.incident(L{C, F});

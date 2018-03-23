@@ -2,6 +2,8 @@
 Build
 build
 Win32
+html
+latex
 .idea/
 cmake-build-*/
 .vs/

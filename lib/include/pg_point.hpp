@@ -14,14 +14,6 @@
 
 namespace fun {
 
-/**
- * @defgroup 3d_point 3d Point in projective geometry
- * @ingroup geometry
- *
- * Classes and functions for 3d point.
- * @{
- */
-
 // Forward declarations.
 
 template <typename _K> class pg_line;

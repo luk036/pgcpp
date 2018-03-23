@@ -5,7 +5,13 @@
 #include "hyper_plane.hpp"
 #include <iostream>
 
-
+/**
+ * @brief Main program
+ * 
+ * @param argc 
+ * @param argv 
+ * @return int 
+ */
 int main(int argc, char *argv[]) {
   using namespace fun;
   using namespace fun::HG;

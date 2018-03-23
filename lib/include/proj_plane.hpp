@@ -5,6 +5,10 @@
 #include <boost/rational.hpp>
 #include <cassert>
 
+/** @file include/proj_plane.hpp
+ *  This is a C++ Library header.
+ */
+
 /**
  @todo: projectivity >=
 **/
@@ -12,6 +16,8 @@
 using boost::rational;
 
 namespace fun {
+
+// Projective_plane{P, L}
 
 /**
  * @brief Coincident
@@ -24,7 +30,8 @@ namespace fun {
  * @return true if three points are conincident 
  * @return false otherwise
  */
-Projective_plane{P, L}
+template <class P, class L>
+  requires Projective_plane<P, L> 
 constexpr bool coincident(const P & p, const P & q, const P & r) {
   return r.incident(L{p, q});
 }
@@ -40,7 +47,8 @@ constexpr bool coincident(const P & p, const P & q, const P & r) {
  * @return true if all points are incident with l
  * @return false otherwise
  */
-Projective_plane{P, L}
+template <class P, class L>
+  requires Projective_plane<P, L> 
 constexpr bool coincident(const L & l, const Sequence & seq) {
   for (const P &p : seq) {
     if (!l.incident(p))
@@ -51,7 +59,20 @@ constexpr bool coincident(const L & l, const Sequence & seq) {
 
 //template <class P, class L = typename P::dual>
 //requires Projective_plane<P, L>
-Projective_plane{P, L}
+
+/**
+ * @brief Cross Ratio
+ * 
+ * @tparam P 
+ * @tparam L 
+ * @param A point \in P
+ * @param B point \in P
+ * @param l line \in P
+ * @param m line \in P
+ * @return cross ratio R(A,B;l,m)
+ */
+template <class P, class L>
+  requires Projective_plane<P, L> 
 auto x_ratio(P & A, P & B, L & l, L & m) {
   auto dAl = A.dot(l);
   auto dAm = A.dot(m);
@@ -65,9 +86,20 @@ auto x_ratio(P & A, P & B, L & l, L & m) {
   }
 }
 
-//template <class P, class L = typename P::dual>
-//requires Projective_plane<P, L>
-Projective_plane{P, L}
+/**
+ * @brief Check Pappus Theorem
+ * 
+ * @tparam P 
+ * @tparam L 
+ * @param A 
+ * @param B 
+ * @param C 
+ * @param D 
+ * @param E 
+ * @param F 
+ */
+template <class P, class L = typename P::dual>
+  requires Projective_plane<P, L>
 void check_pappus(P & A, P & B, P & C, P & D, P & E, P & F) {
   auto G = P{L{A, E}, L{B, D}};
   auto H = P{L{A, F}, L{C, D}};

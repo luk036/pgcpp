@@ -14,20 +14,12 @@
 
 namespace fun {
 
-/**
- * @defgroup 3d_line 3d line in projective geometry
- * @ingroup geometry
- *
- * Classes and functions for 3d line.
- * @{
- */
-
 // Forward declarations.
 
 template <typename _K> class pg_point;
 
 /**
- * @brief Projective line: one dimensional subspace of K^3
+ * @brief Projective line: two dimensional subspace of K^3
  * 
  * @tparam  _K  Type of line elements 
  */

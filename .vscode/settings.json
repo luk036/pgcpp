@@ -7,5 +7,6 @@
         "string_view": "cpp",
         "type_traits": "cpp",
         "utility": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }

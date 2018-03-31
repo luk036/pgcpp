@@ -108,7 +108,7 @@ auto ratio_ratio(K a, K b, K c, K d) {
  */
 template <class P, class L>
   requires Projective_plane<P, L> 
-auto x_ratio(P & A, P & B, L & l, L & m) {
+auto x_ratio(const P & A, const P & B, const L & l, const L & m) {
   auto dAl = A.dot(l);
   auto dAm = A.dot(m);
   auto dBl = B.dot(l);

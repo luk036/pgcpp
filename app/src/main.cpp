@@ -14,7 +14,7 @@
  */
 int main(int argc, char *argv[]) {
   using namespace fun;
-  using namespace fun::HG;
+  using namespace fun::CK;
 
   auto a1 = pg_point{1., 3.,  1.};
   auto a2 = pg_point{4., 2.,  1.};

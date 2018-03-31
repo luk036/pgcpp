@@ -1,5 +1,5 @@
-#ifndef _HOME_UBUNTU_GITHUB_PGCPP_HYPER_PLANE_HPP
-#define _HOME_UBUNTU_GITHUB_PGCPP_HYPER_PLANE_HPP 1
+#ifndef _HOME_UBUNTU_GITHUB_PGCPP_ELL_PLANE_HPP
+#define _HOME_UBUNTU_GITHUB_PGCPP_ELL_PLANE_HPP 1
 
 //#include "proj_plane_concepts.h"
 #include "ck_plane.hpp"
@@ -11,17 +11,15 @@ namespace fun {
 
 namespace CK {
 
-template <typename _K> pg_line<_K> operator~(pg_point<_K> p) {
-  p[2] = -p[2];
+template <typename _K> pg_line<_K> operator~(const pg_point<_K>& p) {
   return pg_line<_K>(p);
 }
 
-template <typename _K> pg_point<_K> operator~(pg_line<_K> l) {
-  l[2] = -l[2];
+template <typename _K> pg_point<_K> operator~(const pg_line<_K>& l) {
   return pg_point<_K>(l);
 }
 
-namespace HG {
+namespace ELL {
 
 template <typename _K>
 auto check_cross_TQF(const _K &q1, const _K &q2, const _K &q3) {
@@ -34,7 +32,7 @@ bool check_cross_law(const _K &s1, const _K &s2, const _K &s3, const _K &q3) {
          4 * (1 - s1) * (1 - s2) * (1 - s3);
 }
 
-} // namespace HG
+} // namespace ELL
 
 } // namespace CK
 

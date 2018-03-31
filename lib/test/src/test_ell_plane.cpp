@@ -2,28 +2,14 @@
  *  Distributed under the MIT License (See accompanying file /LICENSE )
  */
 #include <catch.hpp>
-#include "ck_plane.hpp"
+#include "ell_plane.hpp"
 #include "pg_point.hpp"
 #include "pg_line.hpp"
-
-namespace fun::CK {
-
-template <typename _K>
-auto operator~(const pg_point<_K>& v) {
-    return pg_line<_K>(-2*v[0], v[1], -2*v[2]);
-}
-
-template <typename _K>
-auto operator~(const pg_line<_K>& v) {
-    return pg_point<_K>(-v[0], 2*v[1], -v[2]);
-}
-
-} // namespace 
 
 using namespace fun;
 using namespace fun::CK;
 
-TEST_CASE( "CK plane", "[ck_plane]" ) {
+TEST_CASE( "Ell plane", "[ell_plane]" ) {
     auto a1 = pg_point(1, 2,  3);
     auto a2 = pg_point(4, -5, 6);
     auto a3 = pg_point(-7, 8, 9);

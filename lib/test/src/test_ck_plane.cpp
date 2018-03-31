@@ -3,14 +3,14 @@
  */
 #define CATCH_CONFIG_MAIN
 #include <catch.hpp>
-#include "proj_plane.hpp"
+#include "ck_plane.hpp"
 #include "pg_point.hpp"
 #include "pg_line.hpp"
 #include <complex>
 
 using namespace fun;
 
-TEST_CASE( "Projective Point", "[proj_plane]" ) {
+TEST_CASE( "CK plane", "[ck_plane]" ) {
     auto p = pg_point(1-2j, 3-1j, 2+1j);  // complex number
     auto q = pg_point(-2+1j, 1-3j, -1-1j);
     auto l = p * q;

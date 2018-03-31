@@ -7,6 +7,8 @@
 
 namespace fun {
 
+namespace CK {
+
 Cayley_Klein_plane2{L}
 bool is_perpendicular(const L & l, const L & m) {
   return m.incident(~l);
@@ -14,15 +16,15 @@ bool is_perpendicular(const L & l, const L & m) {
 
 Cayley_Klein_plane{P, L}
 auto altitude(const P & p, const L & l) {
-  return L{p, ~l};
+  return L{p * ~l};
 }
 
 //template <class P, class L = typename P::dual>
 //requires Cayley_Klein_plane<P, L>
-Cayley_Klein_plane{P, L}
+Cayley_Klein_plane2{P}
 auto orthocenter(const P & a1, const P & a2, const P & a3) {
-  auto t1 = altitude(a1, L{a2 * a3});
-  auto t2 = altitude(a2, L{a1 * a3});
+  auto t1 = altitude(a1, a2 * a3);
+  auto t2 = altitude(a2, a1 * a3);
   return P{t1, t2};
 }
 
@@ -30,8 +32,6 @@ template <typename _K>
 bool check_sine_law(const _K &s1, const _K &q1, const _K &s2, const _K &q2) {
   return s1*q2 == s2*q1;
 }
-
-namespace CK {
 
 Cayley_Klein_plane2{P}
 auto omega(const P & x) {

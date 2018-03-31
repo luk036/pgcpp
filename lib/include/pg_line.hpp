@@ -42,8 +42,8 @@ public:
    * @brief Construct by data
    * 
    */
-  // constexpr explicit pg_line(const _K &a, const _K &b, const _K &c) 
-  //    : _Base{a, b, c} {}
+  constexpr pg_line(const _K &a, const _K &b, const _K &c) 
+     : _Base{a, b, c} {}
 
   /// Construct by meet of two points @a p and @a q. (p. 53)
   // constexpr pg_line(const dual &p, const dual &q)
@@ -83,7 +83,7 @@ public:
 
 /// Return meet of two lines.
 template <typename _K>
-auto meet(pg_line<_K> &l, pg_line<_K> &m) {
+auto meet(const pg_line<_K> &l, const pg_line<_K> &m) {
     return l * m;
 }
 
@@ -108,8 +108,8 @@ template <typename _K>
 pg_line(const std::array<_K, 3>) -> pg_line<_K>;
 
 
-//template <typename _K>
-//pg_line(const _K &, const _K &, const _K &) -> pg_line<_K>; 
+template <typename _K>
+pg_line(const _K &, const _K &, const _K &) -> pg_line<_K>; 
 
 } // namespace fun
 

@@ -131,14 +131,14 @@ bool persp(P & A, P & B, P & C, P & D, P & E, P & F) {
 
 //template <class P, class L = typename P::dual>
 //requires Projective_plane<P, L>
-Projective_plane{P, L}
+Projective_plane2{P}
 void check_desargue(P & A, P & B, P & C, P & D, P & E, P & F) {
-  auto a = L{B * C};
-  auto b = L{A * C};
-  auto c = L{B * A};
-  auto d = L{E * F};
-  auto e = L{D * F};
-  auto f = L{E * D};
+  auto a = B * C;
+  auto b = A * C;
+  auto c = B * A;
+  auto d = E * F;
+  auto e = D * F;
+  auto f = E * D;
 
   auto b1 = persp(A, B, C, D, E, F);
   auto b2 = persp(a, b, c, d, e, f);

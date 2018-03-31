@@ -16,9 +16,9 @@ int main(int argc, char *argv[]) {
   using namespace fun;
   using namespace fun::HG;
 
-  auto a1 = pg_point(std::array{1., 3., 1.});
-  auto a2 = pg_point(std::array{4., 2., 1.});
-  auto a3 = pg_point(std::array{1., 1., -1.});
+  auto a1 = pg_point{1., 3.,  1.};
+  auto a2 = pg_point{4., 2.,  1.};
+  auto a3 = pg_point{1., 1., -1.};
 
   auto l1 = pg_line(a2 * a3);
   auto l2 = pg_line(a1 * a3);

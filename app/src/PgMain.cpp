@@ -8,9 +8,9 @@ using namespace fun::HG;
 
 int PgMain()
 {
-  auto a1 = pg_point<double>({1., 3.,  1.});
-  auto a2 = pg_point<double>({4., 2.,  1.});
-  auto a3 = pg_point<double>({1., 1., -1.});
+  auto a1 = pg_point<double>{1., 3.,  1.};
+  auto a2 = pg_point<double>{4., 2.,  1.};
+  auto a3 = pg_point<double>{1., 1., -1.};
 
   auto l1 = pg_line<double>(a2 * a3);
   auto l2 = pg_line<double>(a1 * a3);

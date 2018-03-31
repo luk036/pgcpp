@@ -12,11 +12,11 @@ namespace fun {
 namespace EUG {
 
 template <typename _K> pg_line<_K> operator~(pg_point<_K> p) {
-  return pg_line<_K>({0, 0, p[2]});
+  return pg_line<_K>(0, 0, p[2]);
 }
 
 template <typename _K> pg_point<_K> operator~(pg_line<_K> l) {
-  return pg_point<_K>({l[0], l[1], 0});
+  return pg_point<_K>(l[0], l[1], 0);
 }
 
 template <class L, class P = typename L::dual>
@@ -28,7 +28,7 @@ bool is_perpendicular(const L &l, const L &m) {
 template <class P, class L>
 // requires Cayley_Klein_plane<P, L>
 auto altitude(const P &p, const L &l) {
-  return L{p, ~l};
+  return L{p * ~l};
 }
 
 template <class P, class L = typename P::dual>

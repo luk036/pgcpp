@@ -37,7 +37,7 @@ public:
    * 
    * @param a array of coordinates
    */
-  explicit pg_point(const _Base &a) : _Base{a} {}
+  constexpr explicit pg_point(const _Base &a) : _Base{a} {}
 
   /**
    * @brief Construct a new pg_point object
@@ -46,8 +46,8 @@ public:
    * @param y 
    * @param z 
    */
-  // constexpr explicit pg_point(const _K &x, const _K &y, const _K &z) 
-  //    : _Base{x, y, z} {}
+  constexpr pg_point(const _K &x, const _K &y, const _K &z) 
+      : _Base{x, y, z} {}
 
   /**
    * @brief Construct a new pg_point object by meet of two lines (p. 53)
@@ -110,7 +110,7 @@ public:
 
 /// Return join of two points.
 template <typename _K>
-auto join(pg_point<_K> &p, pg_point<_K> &q) {
+auto join(const pg_point<_K> &p, const pg_point<_K> &q) {
     return p * q;
 }
 
@@ -126,8 +126,8 @@ template <typename _K>
 pg_point(const std::array<_K,3> ) -> pg_point<_K>;
 
 
-//template <typename _K>
-//pg_point(const _K &, const _K &, const _K &) -> pg_point<_K>; 
+template <typename _K>
+pg_point(const _K &, const _K &, const _K &) -> pg_point<_K>; 
 
 } // namespace fun
 

@@ -41,12 +41,7 @@ template <class P, class L = typename P::dual>
 // requires Cayley_Klein_plane<P, L>
 auto measure(const P &a1, const P &a2) {
   auto omg = a1.dot(~a2);
-  using K = typename P::value_type;
-  if constexpr (std::is_integral<K>::value) {
-    return 1 - rational<K>(omg, omega(a1)) * rational<K>(omg, omega(a2));
-  } else {
-    return 1 - (omg * omg) / (omega(a1) * omega(a2));
-  }
+  return 1 - ratio_ratio(omg, omega(a1), omega(a2), omg);
 }
 
 template <class P, class L = typename P::dual>

@@ -28,32 +28,32 @@ auto omega(const P & x) {
   return x.dot(~x);
 }
 
-// template <class P, class L = typename P::dual>
-// requires Cayley_Klein_plane<P, L>
-Cayley_Klein_plane2{P}
-auto measure(const P & a1, const P & a2) {
-  auto omg = a1.dot(~a2);
-  using K = typename P::value_type;
-  if constexpr (std::is_integral<K>::value) {
-    return 1 - rational<K>(omg, omega(a1)) * rational<K>(omg, omega(a2));
-  } else {
-    return 1 - (omg * omg) / (omega(a1) * omega(a2));
-  }
-}
+// // template <class P, class L = typename P::dual>
+// // requires Cayley_Klein_plane<P, L>
+// Cayley_Klein_plane2{P}
+// auto measure(const P & a1, const P & a2) {
+//   auto omg = a1.dot(~a2);
+//   using K = typename P::value_type;
+//   if constexpr (std::is_integral<K>::value) {
+//     return 1 - rational<K>(omg, omega(a1)) * rational<K>(omg, omega(a2));
+//   } else {
+//     return 1 - (omg * omg) / (omega(a1) * omega(a2));
+//   }
+// }
 
-// template <class P, class L = typename P::dual>
-// requires Cayley_Klein_plane<P, L>
-Cayley_Klein_plane2{P}
-auto quadrance(const P & p, const P & q) {
-  return measure(p, q);
-}
+// // template <class P, class L = typename P::dual>
+// // requires Cayley_Klein_plane<P, L>
+// Cayley_Klein_plane2{P}
+// auto quadrance(const P & p, const P & q) {
+//   return measure(p, q);
+// }
 
-// template <class L, class P = typename L::dual>
-// requires Cayley_Klein_plane<P, L>
-Cayley_Klein_plane2{L}
-auto spread(const L & l, const L & m) {
-  return measure(l, m);
-}
+// // template <class L, class P = typename L::dual>
+// // requires Cayley_Klein_plane<P, L>
+// Cayley_Klein_plane2{L}
+// auto spread(const L & l, const L & m) {
+//   return measure(l, m);
+// }
 
 template <typename _K>
 auto check_cross_TQF(const _K &q1, const _K &q2, const _K &q3) {

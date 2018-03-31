@@ -13,7 +13,7 @@
  @todo: projectivity >=
 **/
 
-using boost::rational;
+//using boost::rational;
 
 namespace fun {
 
@@ -57,6 +57,41 @@ constexpr bool coincident(const L & l, const Sequence & seq) {
   return true;
 }
 
+Projective_plane{P, L}
+class involution {
+  using K = typename P::value_type;
+
+private:
+  L _m;
+  P _o;
+  K _c;
+
+public:
+  involution(L m, P o): _m{m}, _o{o}, _c{m.dot(o)} {}
+
+  auto operator()(P p) const {
+    return plucker(_c, p, -2*p.dot(_m), _o);
+  }
+};
+
+/**
+ * @brief Basic ratio of ratio
+ * 
+ * @tparam K 
+ * @param a 
+ * @param b 
+ * @param c 
+ * @param d 
+ * @return (a/b) / (c/d)
+ */
+template <typename K>
+auto ratio_ratio(K a, K b, K c, K d) {
+  if constexpr (std::is_integral<K>::value) {
+    return boost::rational<K>(a, b) / boost::rational<K>(c, d);
+  } else {
+    return a * d / (b * c);
+  }
+}
 
 /**
  * @brief Cross Ratio
@@ -78,12 +113,7 @@ auto x_ratio(P & A, P & B, L & l, L & m) {
   auto dAm = A.dot(m);
   auto dBl = B.dot(l);
   auto dBm = B.dot(m);
-  using K = typename P::value_type;
-  if constexpr (std::is_integral<K>::value) {
-    return rational<K>(dAl, dAm) / rational<K>(dBl, dBm);
-  } else {
-    return dAl * dBm / (dAm * dBl);
-  }
+  return ratio_ratio(dAl, dAm, dBl, dBm);
 }
 
 /**

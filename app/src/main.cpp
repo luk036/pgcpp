@@ -23,24 +23,24 @@ int main(int argc, char *argv[]) {
   auto l1 = pg_line(a2 * a3);
   auto l2 = pg_line(a1 * a3);
   auto l3 = pg_line(a1 * a2);
-  auto s1 = spread(l2, l3);
-  auto s2 = spread(l1, l3);
-  auto s3 = spread(l1, l2);
+  // auto s1 = spread(l2, l3);
+  // auto s2 = spread(l1, l3);
+  // auto s3 = spread(l1, l2);
 
-  auto q1 = quadrance(a2, a3);
-  auto q2 = quadrance(a1, a3);
-  auto q3 = quadrance(a1, a2);
+  // auto q1 = quadrance(a2, a3);
+  // auto q2 = quadrance(a1, a3);
+  // auto q3 = quadrance(a1, a2);
 
-  std::cout << s1 << ',' << s2 << ',' << s3 << '\n';
-  std::cout << q1 << ',' << q2 << ',' << q3 << '\n';
+  // std::cout << s1 << ',' << s2 << ',' << s3 << '\n';
+  // std::cout << q1 << ',' << q2 << ',' << q3 << '\n';
 
-  auto t12 = q1 * s2 - q2 * s1;
-  // t12 = sympy.simplify(t12)
+  // auto t12 = q1 * s2 - q2 * s1;
+  // // t12 = sympy.simplify(t12)
 
-  std::cout << t12 << '\n';
+  // std::cout << t12 << '\n';
 
-  std::cout << check_cross_law(s1, s2, s3, q3) << '\n';
-  std::cout << check_cross_law(q1, q2, q3, s3) << '\n';
+  // std::cout << check_cross_law(s1, s2, s3, q3) << '\n';
+  // std::cout << check_cross_law(q1, q2, q3, s3) << '\n';
 
   return 0;
 }

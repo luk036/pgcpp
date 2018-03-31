@@ -33,7 +33,7 @@ namespace fun {
 template <class P, class L>
   requires Projective_plane<P, L> 
 constexpr bool coincident(const P & p, const P & q, const P & r) {
-  return r.incident(L{p, q});
+  return r.incident(p * q);
 }
 
 
@@ -57,8 +57,6 @@ constexpr bool coincident(const L & l, const Sequence & seq) {
   return true;
 }
 
-//template <class P, class L = typename P::dual>
-//requires Projective_plane<P, L>
 
 /**
  * @brief Cross Ratio
@@ -103,10 +101,10 @@ auto x_ratio(P & A, P & B, L & l, L & m) {
 template <class P, class L = typename P::dual>
   requires Projective_plane<P, L>
 void check_pappus(P & A, P & B, P & C, P & D, P & E, P & F) {
-  auto G = P{L{A, E}, L{B, D}};
-  auto H = P{L{A, F}, L{C, D}};
-  auto I = P{L{B, F}, L{C, E}};
-  assert(G.incident(L{H, I}) && "Pappus Theorem failed");
+    auto G = P{L{A*E} * L{B*D}};
+    auto H = P{L{A*F} * L{C*D}};
+    auto I = P{L{B*F} * L{C*E}};
+    assert (coincident(G, H, I));
 }
 
 //Projective_plane{P, L}
@@ -127,20 +125,21 @@ void check_pappus(P & A, P & B, P & C, P & D, P & E, P & F) {
 template <class P, class L = typename P::dual>
   requires Projective_plane<P, L>
 bool persp(P & A, P & B, P & C, P & D, P & E, P & F) {
-  auto O = P{L{A, D}, L{B, E}};
-  return O.incident(L{C, F});
+  auto O = (A*D) * (B*E);
+  return O.incident(C*F);
 }
 
 //template <class P, class L = typename P::dual>
 //requires Projective_plane<P, L>
 Projective_plane{P, L}
 void check_desargue(P & A, P & B, P & C, P & D, P & E, P & F) {
-  auto a = L{B, C};
-  auto b = L{A, C};
-  auto c = L{B, A};
-  auto d = L{E, F};
-  auto e = L{D, F};
-  auto f = L{E, D};
+  auto a = L{B * C};
+  auto b = L{A * C};
+  auto c = L{B * A};
+  auto d = L{E * F};
+  auto e = L{D * F};
+  auto f = L{E * D};
+
   auto b1 = persp(A, B, C, D, E, F);
   auto b2 = persp(a, b, c, d, e, f);
   assert((b1 && b2) || (!b1 && !b2));

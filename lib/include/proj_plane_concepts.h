@@ -25,8 +25,8 @@ concept bool Projective_plane_h =
   Equality_comparable<P> && requires(P p, P q, L l) {
   { P(p) } -> P; // copyable
   { p.incident(l) } -> bool; // incidence
-  { L(p, q) } -> L; // join or meet
-  { p.aux() } -> L; // line not incident with p
+  { p * q } -> L; // join or meet
+  //{ p.aux() } -> L; // line not incident with p
   { p.dot(l) } -> typename P::value_type; 
 };
 

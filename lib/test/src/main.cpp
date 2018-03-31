@@ -10,18 +10,18 @@
 using namespace fun;
 
 TEST_CASE( "Projective Point", "[proj_plane]" ) {
-    auto p = pg_point<int>{{1, 3, 1}};
-    auto q = pg_point<int>{{4, 2, 1}};
+    auto p = pg_point<int>{std::array{1, 3, 1}};
+    auto q = pg_point<int>{std::array{4, 2, 1}};
     // auto a3 = pg_point<int>{{1, 1, -1}};
 
-    REQUIRE( p.incident({p, q}) );
+    REQUIRE( p.incident(p * q) );
 }
 
-TEST_CASE( "Projective Point", "[proj_plane]" ) {
-    auto l = pg_line<int>{{1, 3, 1}};
-    auto m = pg_line<int>{{4, 2, 1}};
+TEST_CASE( "Projective Line", "[proj_plane]" ) {
+    auto l = pg_line<int>{std::array{1, 3, 1}};
+    auto m = pg_line<int>{std::array{4, 2, 1}};
 
-    REQUIRE( l.incident({l, m}) );
+    REQUIRE( l.incident(l * m) );
 }
 
 

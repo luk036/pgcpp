@@ -120,6 +120,12 @@ auto plucker(const _K &lambda1, const pg_point<_K> &p,
   return pg_point<_K>{plucker_c(lambda1, p, mu1, q)};
 }
 
+///  Insertion operator for point values.
+template <typename _K, class _Stream>
+_Stream &operator<<(_Stream &os, const pg_point<_K> &p) {
+  os << '[' << p[0] << ',' << p[1] << ',' << p[2] << ']';
+  return os;
+}
 
 // template deduction guides (C++17)
 template <typename _K>

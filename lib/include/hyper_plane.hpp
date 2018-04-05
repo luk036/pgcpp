@@ -9,19 +9,56 @@
 
 namespace fun {
 
-namespace CK {
-
-template <typename _K> pg_line<_K> operator~(pg_point<_K> p) {
-  p[2] = -p[2];
-  return pg_line<_K>(p);
-}
-
-template <typename _K> pg_point<_K> operator~(pg_line<_K> l) {
-  l[2] = -l[2];
-  return pg_point<_K>(l);
-}
-
 namespace HG {
+
+template <class P, class L = typename P::dual>
+  requires Projective_plane<P, L>
+auto dual = [](const P& v) { 
+  return L(v[0], v[1], -v[2]); 
+};
+
+template <class L, class P = typename L::dual>
+  requires Projective_plane<P, L>
+bool is_perpendicular(const L & l, const L & m) {
+  return fun::is_perpendicular(l, m, dual<L>);
+}
+
+template <class P, class L = typename P::dual>
+  requires Projective_plane<P, L>
+auto altitude(const P & p, const L & l) {
+  return fun::altitude(p, l, dual<L>);
+}
+
+template <class P, class L = typename P::dual>
+  requires Projective_plane<P, L>
+auto orthocenter(const P & a1, const P & a2, const P & a3) {
+  return fun::orthocenter(a1, a2, a3, dual<L>);
+}
+
+template <class L, class P = typename L::dual>
+  requires Projective_plane<P, L>
+auto line_reflect(const L& m) {
+  return fun::line_reflect(m, dual<L>);
+}
+
+template <class P, class L = typename P::dual>
+  requires Projective_plane<P, L>
+auto measure(const P &a1, const P &a2) {
+  return fun::measure(a1, a2, dual<P>);
+}
+
+template <class P, class L = typename P::dual>
+  requires Projective_plane<P, L>
+auto quadrance(const P &p, const P &q) {
+  return fun::quadrance(p, q, dual<P>);
+}
+
+template <class L, class P = typename L::dual>
+  requires Projective_plane<P, L>
+auto spread(const L &l, const L &m) {
+  return fun::spread(l, m, dual<L>);
+}
+
 
 template <typename _K>
 auto check_cross_TQF(const _K &q1, const _K &q2, const _K &q3) {
@@ -35,8 +72,6 @@ bool check_cross_law(const _K &s1, const _K &s2, const _K &s3, const _K &q3) {
 }
 
 } // namespace HG
-
-} // namespace CK
 
 } // namespace fun
 

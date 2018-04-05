@@ -1,16 +1,16 @@
 {
   "variant": {
-    "label": "Debug",
+    "label": "Release",
     "keywordSettings": {
-      "buildType": "debug"
+      "buildType": "release"
     },
-    "description": "Emit debug information without performing optimizations"
+    "description": "Enable optimizations, omit debug info"
   },
   "activeEnvironments": [],
   "codeModel": {
     "configurations": [
       {
-        "name": "Debug",
+        "name": "Release",
         "projects": [
           {
             "buildDirectory": "/home/ubuntu/github/pgcpp/build",
@@ -24,7 +24,7 @@
                 "buildDirectory": "/home/ubuntu/github/pgcpp/build/lib",
                 "fileGroups": [
                   {
-                    "compileFlags": "-g   -fconcepts -std=gnu++1z",
+                    "compileFlags": "-O3 -DNDEBUG   -fconcepts -std=gnu++1z",
                     "includePath": [
                       {
                         "path": "/home/ubuntu/github/pgcpp/lib/include"
@@ -54,7 +54,7 @@
                 "buildDirectory": "/home/ubuntu/github/pgcpp/build/lib/test",
                 "fileGroups": [
                   {
-                    "compileFlags": "-g   -fconcepts -fconcepts -pthread -std=gnu++1z",
+                    "compileFlags": "-O3 -DNDEBUG   -fconcepts -fconcepts -pthread -std=gnu++1z",
                     "includePath": [
                       {
                         "path": "/home/ubuntu/github/pgcpp/lib/include"
@@ -69,15 +69,16 @@
                     "isGenerated": false,
                     "language": "CXX",
                     "sources": [
-                      "src/calc_step_test.cpp",
-                      "src/calc_test.cpp",
-                      "src/main.cpp"
+                      "src/main.cpp",
+                      "src/test_ck_plane.cpp",
+                      "src/test_ell_plane.cpp",
+                      "src/test_hy_plane.cpp"
                     ]
                   }
                 ],
                 "fullName": "FunLibTest",
                 "linkFlags": "-rdynamic",
-                "linkLanguageFlags": "-g",
+                "linkLanguageFlags": "-O3 -DNDEBUG",
                 "linkLibraries": "../libFunLib.a -pthread",
                 "linkerLanguage": "CXX",
                 "name": "FunLibTest",
@@ -91,7 +92,7 @@
                 "buildDirectory": "/home/ubuntu/github/pgcpp/build/app",
                 "fileGroups": [
                   {
-                    "compileFlags": "-g   -fconcepts -pthread -std=gnu++1z",
+                    "compileFlags": "-O3 -DNDEBUG   -fconcepts -pthread -std=gnu++1z",
                     "includePath": [
                       {
                         "path": "/home/ubuntu/github/pgcpp/lib/include"
@@ -103,14 +104,13 @@
                     "isGenerated": false,
                     "language": "CXX",
                     "sources": [
-                      "src/PgMain.cpp",
                       "src/main.cpp"
                     ]
                   }
                 ],
                 "fullName": "FunApp",
                 "linkFlags": "-rdynamic",
-                "linkLanguageFlags": "-g",
+                "linkLanguageFlags": "-O3 -DNDEBUG",
                 "linkLibraries": "../lib/libFunLib.a -pthread",
                 "linkerLanguage": "CXX",
                 "name": "FunApp",
@@ -122,7 +122,7 @@
         ]
       }
     ],
-    "cookie": "0.48539184608554553",
+    "cookie": "0.1280823258093462",
     "inReplyTo": "codemodel",
     "type": "reply"
   }

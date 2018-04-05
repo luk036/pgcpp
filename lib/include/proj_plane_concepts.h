@@ -55,42 +55,6 @@ axiom(P p, P q, P r, L l) {
 template <class P>
 concept bool Projective_plane2 = Projective_plane<P>; // Make the compiler happy
 
-/**
- * @brief Cayley Klein plane Concept (half)
- * 
- * @tparam P Point
- * @tparam L Line
- */
-template <class P, class L>
-concept bool Cayley_Klein_plane_h =
-  Projective_plane_h<P, L> && requires(P p, P q, L l) {
-  { ~p } -> L; // line not incident with p
-};
-
-/**
- * @brief Cayley Klein plane Concept (full)
- * 
- * @tparam P Point
- * @tparam L Line 
- */
-template <class P, class L = typename P::dual>
-concept bool Cayley_Klein_plane =
-  Cayley_Klein_plane_h<P, L> && Cayley_Klein_plane_h<L, P>;
-
-/* (non-degenerate) 
-axiom(P p) {
-  ~(~p) == p
-}
-*/
-
-/**
- * @brief Shorthand Notation of Cayley_Klein_plane
- * 
- * @tparam P Point
- */
-template <class P>
-concept bool Cayley_Klein_plane2 = Cayley_Klein_plane<P>; // Make the compiler happy
-
 
 } // namespace fun
 

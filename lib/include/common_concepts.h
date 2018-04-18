@@ -11,7 +11,7 @@ template <typename T> using Element_type = decltype(back(std::declval<T>()));
 
 template <typename T> using Iterator_type = decltype(begin(std::declval<T>()));
 
-template <typename T> concept bool Sequence = 
+template <typename T> concept bool Sequence =
   requires(T t, Element_type<T> x) {
     { t.size() } -> int;
     { t.empty() } -> bool;

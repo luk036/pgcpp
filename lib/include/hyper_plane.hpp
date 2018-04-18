@@ -13,8 +13,8 @@ namespace HG {
 
 template <class P, class L = typename P::dual>
   requires Projective_plane<P, L>
-auto dual = [](const P& v) { 
-  return L(v[0], v[1], -v[2]); 
+auto dual = [](const P& v) {
+  return L(v[0], v[1], -v[2]);
 };
 
 template <class L, class P = typename L::dual>

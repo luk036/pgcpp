@@ -9,11 +9,11 @@
 using namespace fun;
 
 TEST_CASE( "CK plane", "[ck_plane]" ) {
-    auto dualP = [](const pg_point<int>& v) { 
-        return pg_line<int>(-2*v[0], v[1], -2*v[2]); 
+    auto dualP = [](const pg_point<int>& v) {
+        return pg_line<int>(-2*v[0], v[1], -2*v[2]);
         };
-    auto dualL = [](const pg_line<int>& v) { 
-        return pg_point<int>(-v[0], 2*v[1], -v[2]); 
+    auto dualL = [](const pg_line<int>& v) {
+        return pg_point<int>(-v[0], 2*v[1], -v[2]);
         };
 
     // using P = pg_point<int>;

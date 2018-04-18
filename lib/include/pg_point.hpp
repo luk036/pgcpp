@@ -20,7 +20,7 @@ template <typename _K> class pg_line;
 
 /**
  * @brief Projective point: one dimensional subspace of K^3
- * 
+ *
  * @tparam _K Type of point elements
  */
 template <typename _K> class pg_point : public std::array<_K, 3> {
@@ -31,29 +31,29 @@ template <typename _K> class pg_point : public std::array<_K, 3> {
 public:
   using value_type = _K;
   using dual = pg_line<_K>;
-  
+
   /**
    * @brief Construct a new pg point object
-   * 
+   *
    * @param a array of coordinates
    */
   constexpr explicit pg_point(const _Base &a) : _Base{a} {}
 
   /**
    * @brief Construct a new pg_point object
-   * 
-   * @param x 
-   * @param y 
-   * @param z 
+   *
+   * @param x
+   * @param y
+   * @param z
    */
-  constexpr pg_point(const _K &x, const _K &y, const _K &z) 
+  constexpr pg_point(const _K &x, const _K &y, const _K &z)
       : _Base{x, y, z} {}
 
   /**
    * @brief Construct a new pg_point object by meet of two lines (p. 53)
-   * 
-   * @param l 
-   * @param m 
+   *
+   * @param l
+   * @param m
    */
   // constexpr pg_point(const pg_line<_K> &l, const pg_line<_K> &m)
   //    : _Base{cross(l, m)} {}
@@ -62,7 +62,7 @@ public:
 
   /**
    * @brief Equal to
-   * 
+   *
    * @param rhs
    * @return true if this point is equivalent to the rhs
    * @return false otherwise
@@ -73,7 +73,7 @@ public:
 
   /**
    * @brief Not Equal to
-   * 
+   *
    * @param rhs
    * @return true if this point is not equivalent to the rhs
    * @return false otherwise
@@ -94,7 +94,7 @@ public:
 
   /**
    * @brief Equal to
-   * 
+   *
    * @param rhs
    * @return true if this point is equivalent to the rhs
    * @return false otherwise
@@ -115,7 +115,7 @@ auto join(const pg_point<_K> &p, const pg_point<_K> &q) {
 }
 
 template <typename _K>
-auto plucker(const _K &lambda1, const pg_point<_K> &p, 
+auto plucker(const _K &lambda1, const pg_point<_K> &p,
              const _K &mu1, const pg_point<_K> &q) {
   return pg_point<_K>{plucker_c(lambda1, p, mu1, q)};
 }
@@ -133,7 +133,7 @@ pg_point(const std::array<_K,3> ) -> pg_point<_K>;
 
 
 template <typename _K>
-pg_point(const _K &, const _K &, const _K &) -> pg_point<_K>; 
+pg_point(const _K &, const _K &, const _K &) -> pg_point<_K>;
 
 } // namespace fun
 

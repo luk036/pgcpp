@@ -33,7 +33,7 @@ TEST_CASE( "Ell plane", "[ell_plane]" ) {
     auto o = orthocenter(a1, a2, a3);
     std::cout << meet(t2, t3) << std::endl;
     std::cout << o << std::endl;
-    
+
     REQUIRE( o == meet(t2, t3) );
     REQUIRE( a1 == orthocenter(o, a2, a3) );
 

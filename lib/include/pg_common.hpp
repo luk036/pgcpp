@@ -12,10 +12,10 @@ namespace fun {
 
 /**
  * @brief 1st term of Cross product
- * 
- * @tparam _K 
- * @param v 
- * @param w 
+ *
+ * @tparam _K
+ * @param v
+ * @param w
  * @return 1st term of Cross product
  */
 template <typename _K>
@@ -25,10 +25,10 @@ auto cross0 (const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
 
 /**
  * @brief 2nd term of Cross product
- * 
- * @tparam _K 
- * @param v 
- * @param w 
+ *
+ * @tparam _K
+ * @param v
+ * @param w
  * @return 2nd term of Cross product
  */
 template <typename _K>
@@ -38,11 +38,11 @@ auto cross1(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
 
 /**
  * @brief 3rd term of Cross product
- * 
- * @tparam _K 
- * @param v 
- * @param w 
- * @return 3rd term of Cross product 
+ *
+ * @tparam _K
+ * @param v
+ * @param w
+ * @return 3rd term of Cross product
  */
 template <typename _K>
 auto cross2(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
@@ -51,11 +51,11 @@ auto cross2(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
 
 /**
  * @brief Cross product
- * 
- * @tparam _K 
- * @param v 
- * @param w 
- * @return Cross product 
+ *
+ * @tparam _K
+ * @param v
+ * @param w
+ * @return Cross product
  */
 template <typename _K>
 auto cross(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
@@ -64,11 +64,11 @@ auto cross(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
 
 /**
  * @brief Dot product
- * 
- * @tparam _K 
- * @param v 
- * @param w 
- * @return auto 
+ *
+ * @tparam _K
+ * @param v
+ * @param w
+ * @return auto
  */
 template <typename _K>
 auto dot_c(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
@@ -79,12 +79,12 @@ auto dot_c(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
 
 /**
  * @brief generic Plucker function
- * 
+ *
  * @tparam _K data type
  * @param ld lamda
- * @param v 
- * @param mu 
- * @param w 
+ * @param v
+ * @param mu
+ * @param w
  * @return lamda*v + mu*w
  */
 template <typename _K>
@@ -97,12 +97,12 @@ auto plucker_c(const _K &ld, const std::array<_K, 3> &v1, const _K &mu,
 }
 
 /**
- * @brief dot product of the (0,1)-component of two vectors 
- * 
- * @tparam _K 
- * @param v 
- * @param w 
- * @return auto 
+ * @brief dot product of the (0,1)-component of two vectors
+ *
+ * @tparam _K
+ * @param v
+ * @param w
+ * @return auto
  */
 template <typename _K>
 auto dot1(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
@@ -110,12 +110,12 @@ auto dot1(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
 }
 
 /**
- * @brief dot product of the (0,2)-component of two vectors 
- * 
- * @tparam _K 
- * @param v 
- * @param w 
- * @return auto 
+ * @brief dot product of the (0,2)-component of two vectors
+ *
+ * @tparam _K
+ * @param v
+ * @param w
+ * @return auto
  */
 template <typename _K>
 auto dot2(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
@@ -124,7 +124,7 @@ auto dot2(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
 
 /**
  * @brief Square function
- * 
+ *
  * @tparam T data type
  * @param a input value
  * @return a^2
@@ -132,6 +132,6 @@ auto dot2(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
 template <typename T>
 constexpr auto sq(T&& a) { return a*a; }
 
-} // namespace fun 
+} // namespace fun
 
 #endif

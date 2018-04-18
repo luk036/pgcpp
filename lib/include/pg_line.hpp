@@ -20,8 +20,8 @@ template <typename _K> class pg_point;
 
 /**
  * @brief Projective line: two dimensional subspace of K^3
- * 
- * @tparam  _K  Type of line elements 
+ *
+ * @tparam  _K  Type of line elements
  */
 template <typename _K> class pg_line : public std::array<_K, 3> {
   /// Value typedef.
@@ -34,15 +34,15 @@ public:
 
   /**
    * @brief Construct by an array
-   * 
+   *
    */
   constexpr explicit pg_line(const _Base &a) : _Base{a} {}
 
   /**
    * @brief Construct by data
-   * 
+   *
    */
-  constexpr pg_line(const _K &a, const _K &b, const _K &c) 
+  constexpr pg_line(const _K &a, const _K &b, const _K &c)
      : _Base{a, b, c} {}
 
   /// Construct by meet of two points @a p and @a q. (p. 53)
@@ -89,7 +89,7 @@ auto meet(const pg_line<_K> &l, const pg_line<_K> &m) {
 
 
 template <typename _K>
-auto plucker(const _K &lambda1, const pg_line<_K> &l, 
+auto plucker(const _K &lambda1, const pg_line<_K> &l,
              const _K &mu1, const pg_line<_K> &m) {
   return pg_line<_K>{plucker_c(lambda1, l, mu1, m)};
 }
@@ -109,7 +109,7 @@ pg_line(const std::array<_K, 3>) -> pg_line<_K>;
 
 
 template <typename _K>
-pg_line(const _K &, const _K &, const _K &) -> pg_line<_K>; 
+pg_line(const _K &, const _K &, const _K &) -> pg_line<_K>;
 
 } // namespace fun
 

@@ -15,39 +15,39 @@ namespace fun {
 
 /**
  * @brief Projective object: one dimensional subspace of K^3
- * 
+ *
  * @tparam _K Type of object elements
  */
-template <typename _K, typename dual> 
+template <typename _K, typename dual>
 class pg_object : public std::array<_K, 3> {
   /// Value typedef.
   typedef std::array<_K, 3> _Base;
 
 public:
   using value_type = _K;
-  
+
   /**
    * @brief Construct a new pg object object
-   * 
+   *
    * @param a array of coordinates
    */
   explicit pg_object(const _Base &a) : _Base{a} {}
 
   /**
    * @brief Construct a new pg_object object
-   * 
-   * @param x 
-   * @param y 
-   * @param z 
+   *
+   * @param x
+   * @param y
+   * @param z
    */
-  constexpr explicit pg_object(const _K &x, const _K &y, const _K &z) 
+  constexpr explicit pg_object(const _K &x, const _K &y, const _K &z)
       : _Base{x, y, z} {}
 
   /**
    * @brief Construct a new pg_object object by meet of two lines (p. 53)
-   * 
-   * @param l 
-   * @param m 
+   *
+   * @param l
+   * @param m
    */
   constexpr pg_object(const dual &l, const dual &m)
       : _Base{cross(l, m)} {}
@@ -56,7 +56,7 @@ public:
 
   /**
    * @brief Equal to
-   * 
+   *
    * @param rhs
    * @return true if this object is equivalent to the rhs
    * @return false otherwise
@@ -98,7 +98,7 @@ template <typename _K>
 pg_object(const std::array<_K, 3> &) -> pg_object<_K>;
 
 template <typename _K>
-pg_object(const _K &, const _K &, const _K &) -> pg_object<_K>; 
+pg_object(const _K &, const _K &, const _K &) -> pg_object<_K>;
 
 } // namespace fun
 

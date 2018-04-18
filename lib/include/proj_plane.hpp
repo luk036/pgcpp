@@ -21,17 +21,17 @@ namespace fun {
 
 /**
  * @brief Coincident
- * 
+ *
  * @tparam P Point
  * @tparam L Line
  * @param p p
  * @param q q
  * @param r r
- * @return true if three points are conincident 
+ * @return true if three points are conincident
  * @return false otherwise
  */
 template <class P, class L>
-  requires Projective_plane<P, L> 
+  requires Projective_plane<P, L>
 constexpr bool coincident(const P & p, const P & q, const P & r) {
   return r.incident(p * q);
 }
@@ -39,16 +39,16 @@ constexpr bool coincident(const P & p, const P & q, const P & r) {
 
 /**
  * @brief Coincident
- * 
+ *
  * @tparam P Point
  * @tparam L Line
- * @param l line 
+ * @param l line
  * @param seq Sequence of points
  * @return true if all points are incident with l
  * @return false otherwise
  */
 template <class P, class L>
-  requires Projective_plane<P, L> 
+  requires Projective_plane<P, L>
 constexpr bool coincident(const L & l, const Sequence & seq) {
   for (const P &p : seq) {
     if (!l.incident(p))
@@ -76,12 +76,12 @@ public:
 
 /**
  * @brief Basic ratio of ratio
- * 
- * @tparam K 
- * @param a 
- * @param b 
- * @param c 
- * @param d 
+ *
+ * @tparam K
+ * @param a
+ * @param b
+ * @param c
+ * @param d
  * @return (a/b) / (c/d)
  */
 template <typename K>
@@ -95,19 +95,19 @@ auto ratio_ratio(K a, K b, K c, K d) {
 
 /**
  * @brief Cross Ratio
- * 
- * @tparam P 
- * @tparam L 
+ *
+ * @tparam P
+ * @tparam L
  * @param A point \in P
  * @param B point \in P
  * @param l line \in P
  * @param m line \in P
  * @return cross ratio R(A,B;l,m)
- * 
+ *
  * @todo rewrite by projecting to the y-axis first [:2]
  */
 template <class P, class L>
-  requires Projective_plane<P, L> 
+  requires Projective_plane<P, L>
 auto x_ratio(const P & A, const P & B, const L & l, const L & m) {
   auto dAl = A.dot(l);
   auto dAm = A.dot(m);
@@ -118,15 +118,15 @@ auto x_ratio(const P & A, const P & B, const L & l, const L & m) {
 
 /**
  * @brief Check Pappus Theorem
- * 
- * @tparam P 
- * @tparam L 
- * @param A 
- * @param B 
- * @param C 
- * @param D 
- * @param E 
- * @param F 
+ *
+ * @tparam P
+ * @tparam L
+ * @param A
+ * @param B
+ * @param C
+ * @param D
+ * @param E
+ * @param F
  */
 template <class P, class L = typename P::dual>
   requires Projective_plane<P, L>
@@ -139,18 +139,18 @@ void check_pappus(P & A, P & B, P & C, P & D, P & E, P & F) {
 
 //Projective_plane{P, L}
 /**
- * @brief 
- * 
- * @tparam P 
- * @tparam L 
- * @param A 
- * @param B 
- * @param C 
- * @param D 
- * @param E 
- * @param F 
- * @return true 
- * @return false 
+ * @brief
+ *
+ * @tparam P
+ * @tparam L
+ * @param A
+ * @param B
+ * @param C
+ * @param D
+ * @param E
+ * @param F
+ * @return true
+ * @return false
  */
 template <class P, class L = typename P::dual>
   requires Projective_plane<P, L>

@@ -41,7 +41,7 @@ auto line_reflect(const L& m, dL dualL) {
 template <typename dP, class P, class L = typename P::dual>
   requires Projective_plane<P, L>
 auto measure(const P &a1, const P &a2, dP dualP) {
-  return 1 - x_ratio(a1, a2, dualP(a2), dualP(a1));  
+  return 1 - x_ratio(a1, a2, dualP(a2), dualP(a1));
 }
 
 template <typename dP, class P, class L = typename P::dual>

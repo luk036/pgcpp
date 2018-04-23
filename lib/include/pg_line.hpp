@@ -53,6 +53,7 @@ public:
 
   /// Return true if @a p is equivalent to @a q (in projective sense).
   constexpr bool operator==(const _Self &other) const {
+    if (this == &other) return true;
     return cross(*this, other) == _Base({0, 0, 0});
   }
 
@@ -77,7 +78,7 @@ public:
   }
 
   ///  Return new point not incident with p
-  // constexpr dual aux() { return dual{*this}; }
+  constexpr dual aux() { return dual{*this}; }
 };
 
 

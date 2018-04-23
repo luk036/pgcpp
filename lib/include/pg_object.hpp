@@ -18,13 +18,14 @@ namespace fun {
  *
  * @tparam _K Type of object elements
  */
-template <typename _K, typename dual>
+template <typename _K, typename pg_dual>
 class pg_object : public std::array<_K, 3> {
   /// Value typedef.
-  typedef std::array<_K, 3> _Base;
+  using _Base = std::array<_K, 3>;
 
 public:
   using value_type = _K;
+  using dual = pg_dual;
 
   /**
    * @brief Construct a new pg object object
@@ -62,7 +63,19 @@ public:
    * @return false otherwise
    */
   constexpr bool operator==(const pg_object<_K> &rhs) const {
+    if (this == &rhs) return true;
     return cross(*this, rhs) == _Base({0, 0, 0});
+  }
+
+  /**
+   * @brief Not equal to
+   *
+   * @param rhs
+   * @return true if this object is not equivalent to the rhs
+   * @return false otherwise
+   */
+  constexpr bool operator!=(const pg_object<_K> &rhs) const {
+    return !(*this == rhs);
   }
 
   /// Return the dot product
@@ -73,6 +86,10 @@ public:
   /// Return true if a line @a l incident with object @a p
   constexpr bool incident(const dual &l) const {
     return this->dot(l) == 0;
+  }
+
+  constexpr dual operator*(const pg_object<_K> &rhs) const {
+    return dual(cross(*this, rhs));
   }
 
   ///  Return new line not incident with p

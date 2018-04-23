@@ -68,6 +68,7 @@ public:
    * @return false otherwise
    */
   constexpr bool operator==(const _Self &rhs) const {
+    if (this == &rhs) return true;
     return cross(*this, rhs) == _Base({0, 0, 0});
   }
 
@@ -93,7 +94,7 @@ public:
   }
 
   /**
-   * @brief Equal to
+   * @brief Join or meet
    *
    * @param rhs
    * @return true if this point is equivalent to the rhs
@@ -104,7 +105,7 @@ public:
   }
 
   ///  Return new line not incident with p
-  //constexpr dual aux() { return dual{*this}; }
+  constexpr dual aux() { return dual{*this}; }
 };
 
 

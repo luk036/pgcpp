@@ -14,6 +14,8 @@
 
 namespace fun {
 
+template <typename T> using Value_type = typename T::value_type;
+
 /**
  * @brief Projective plane Concept (half)
  *
@@ -23,11 +25,13 @@ namespace fun {
 template <class P, class L>
 concept bool Projective_plane_h =
   Equality_comparable<P> && requires(P p, P q, L l) {
-  { P(p) } -> P; // copyable
-  { p.incident(l) } -> bool; // incidence
-  { p * q } -> L; // join or meet
-  //{ p.aux() } -> L; // line not incident with p
-  { p.dot(l) } -> typename P::value_type;
+    typename Value_type<P>;
+    { P(p) } -> P; // copyable
+    { p.incident(l) } -> bool; // incidence
+    { p * q } -> L; // join or meet
+    { p.aux() } -> L; // line not incident with p
+    { p.dot(l) } -> Value_type<P>;
+    // plucker
 };
 
 /**

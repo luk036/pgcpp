@@ -19,6 +19,7 @@ namespace fun {
 
 // Projective_plane{P, L}
 
+
 /**
  * @brief Coincident
  *

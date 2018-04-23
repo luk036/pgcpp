@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/luk036/pgcpp.svg?branch=master)](https://travis-ci.org/luk036/pgcpp)
 [![CodeFactor](https://www.codefactor.io/repository/github/luk036/pgcpp/badge)](https://www.codefactor.io/repository/github/luk036/pgcpp)
 [![BCH compliance](https://bettercodehub.com/edge/badge/luk036/pgcpp?branch=master)](https://bettercodehub.com/)
-
+[![Coverity](https://scan.coverity.com/projects/15577/badge.svg)][https://scan.coverity.com/projects/luk036-pgcpp]
 
 Configuuration inspided by Modern C++ Continuous Integration
 

@@ -2,7 +2,8 @@
 #define _HOME_UBUNTU_GITHUB_PGCPP_PROJ_PLANE_HPP 1
 
 #include "proj_plane_concepts.h"
-#include <boost/rational.hpp>
+// #include <boost/rational.hpp>
+#include "fraction.hpp"
 #include <cassert>
 
 /** @file include/proj_plane.hpp
@@ -88,7 +89,8 @@ public:
 template <typename K>
 auto ratio_ratio(K a, K b, K c, K d) {
   if constexpr (std::is_integral<K>::value) {
-    return boost::rational<K>(a, b) / boost::rational<K>(c, d);
+    // return boost::rational<K>(a, b) / boost::rational<K>(c, d);
+    return Fraction<K>(a, b) / Fraction<K>(c, d);
   } else {
     return a * d / (b * c);
   }

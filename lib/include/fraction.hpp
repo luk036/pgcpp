@@ -3,13 +3,14 @@
 
 #include <cassert>
 #include <type_traits>
+#include <cmath>
 
 namespace fun {
 
 template <typename Z>
   requires std::is_integral<Z>::value
 inline constexpr Z gcd(const Z &a, const Z &b) noexcept {
-  return b == Z(0) ? abs(a) : gcd(b, a % b);
+  return b == Z(0) ? std::abs(a) : gcd(b, a % b);
 }
 
 template <typename Z>
@@ -21,7 +22,7 @@ inline constexpr Z lcm(const Z &a, const Z &b) noexcept {
 template <typename Z> class Fraction {
   using _Self = Fraction<Z>;
 
-private:
+public:
   Z _numerator;
   Z _denominator;
 
@@ -33,9 +34,9 @@ public:
   }
 
   constexpr auto operator+(const _Self &frac) const {
-    auto common = lcm(_denominator, frac.denominator);
+    auto common = lcm(_denominator, frac._denominator);
     auto n = common / _denominator * _numerator +
-        common / frac.denominator * frac.numerator;
+        common / frac._denominator * frac._numerator;
     return _Self(n, common);
   }
 
@@ -48,12 +49,12 @@ public:
   }
 
   constexpr auto abs() const {
-    return _Self(abs(_numerator), abs(_denominator));
+    return _Self(std::abs(_numerator), std::abs(_denominator));
   }
 
   constexpr auto operator*(const _Self &frac) const {
-    return _Self(_numerator * frac.numerator,
-                    _denominator * frac.denominator);
+    return _Self(_numerator * frac._numerator,
+                    _denominator * frac._denominator);
   }
 
   constexpr auto operator/(const _Self &frac) const {
@@ -82,6 +83,17 @@ public:
     return this->cmp(frac) < 0;
   }
 
+  constexpr auto cmp(const Z &c) const {
+    return _numerator - _denominator * c;
+  }
+
+  constexpr bool operator==(const Z &c) const {
+    return this->cmp(c) == 0;
+  }
+
+  constexpr bool operator<(const Z &c) const {
+    return this->cmp(c) < 0;
+  }
 
   // constexpr auto operator float() {
   //     return float(_numerator / _denominator);
@@ -91,6 +103,19 @@ public:
   //     return int(_numerator / _denominator);
   // }
 };
+
+template <typename Z>
+  requires std::is_integral<Z>::value
+constexpr auto operator-(const Z &c, const Fraction<Z> &frac) {
+  return Fraction<Z>(frac._denominator*c - frac._numerator, frac._denominator);
+}
+
+// template <typename _Stream, typename Z>
+//   requires std::is_integral<Z>::value
+// _Stream operator<<(_Stream& os, const Fraction<Z> &frac) {
+//   os << frac._numerator << "/" << frac._denominator;
+//   return os;
+// }
 
 // For template deduction
 template <typename Z> Fraction(const Z &, const Z &) -> Fraction<Z>;

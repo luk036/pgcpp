@@ -70,16 +70,16 @@ public:
    * @param frac 
    * @return constexpr auto 
    */
-  constexpr auto operator<=>(const _Self &frac) const {
+  constexpr auto cmp(const _Self &frac) const {
     return _numerator * frac._denominator - _denominator * frac._numerator;
   }
 
   constexpr bool operator==(const _Self &frac) const {
-    return (*this <=> frac) == 0;
+    return this->cmp(frac) == 0;
   }
 
   constexpr bool operator<(const _Self &frac) const {
-    return (*this <=> frac) < 0;
+    return this->cmp(frac) < 0;
   }
 
 

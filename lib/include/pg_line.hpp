@@ -27,7 +27,7 @@ template <typename _K>
 class pg_line : public pg_object< _K, pg_point<_K> > {
   /// Value typedef.
   using _Base = pg_object< _K, pg_point<_K> >;
-  using _Base2 = std::array<_K, 3>;  
+  using _Base2 = std::array<_K, 3>;
   using _Self = pg_line<_K>;
 
 public:
@@ -49,7 +49,6 @@ public:
    */
   constexpr pg_line(const _K &x, const _K &y, const _K &z)
       : _Base{x, y, z} {}
-
 };
 
 
@@ -60,11 +59,11 @@ auto meet(const pg_line<_K> &l, const pg_line<_K> &m) {
 }
 
 
-template <typename _K>
-auto plucker(const _K &lambda1, const pg_line<_K> &l,
-             const _K &mu1, const pg_line<_K> &m) {
-  return pg_line<_K>(plucker_c(lambda1, l, mu1, m));
-}
+// template <typename _K>
+// auto plucker(const _K &lambda1, const pg_line<_K> &l,
+//              const _K &mu1, const pg_line<_K> &m) {
+//   return pg_line<_K>(plucker_c(lambda1, l, mu1, m));
+// }
 
 
 // ///  Insertion operator for line values.

@@ -12,6 +12,7 @@
 #include "pg_common.hpp"
 #include "pg_object.hpp"
 
+
 namespace fun {
 
 // Forward declarations.
@@ -22,7 +23,7 @@ template <typename _K>
 class pg_point : public pg_object< _K, pg_line<_K> > {
   /// Value typedef.
   using _Base = pg_object< _K, pg_line<_K> >;
-  using _Base2 = std::array<_K, 3>;  
+  using _Base2 = std::array<_K, 3>;
   using _Self = pg_point<_K>;
 
 public:
@@ -44,7 +45,6 @@ public:
    */
   constexpr pg_point(const _K &x, const _K &y, const _K &z)
       : _Base{x, y, z} {}
-
 };
 
 /// Return join of two points.
@@ -53,11 +53,11 @@ auto join(const pg_point<_K> &p, const pg_point<_K> &q) {
     return p * q;
 }
 
-template <typename _K>
-auto plucker(const _K &lambda1, const pg_point<_K> &p,
-             const _K &mu1, const pg_point<_K> &q) {
-  return pg_point<_K>(plucker_c(lambda1, p, mu1, q));
-}
+// template <typename _K>
+// auto plucker(const _K &lambda1, const pg_point<_K> &p,
+//              const _K &mu1, const pg_point<_K> &q) {
+//   return pg_point<_K>(plucker_c(lambda1, p, mu1, q));
+// }
 
 // ///  Insertion operator for point values.
 // template <typename _K, class _Stream>
@@ -68,8 +68,7 @@ auto plucker(const _K &lambda1, const pg_point<_K> &p,
 
 // template deduction guides (C++17)
 template <typename _K>
-pg_point(const std::array<_K,3> ) -> pg_point<_K>;
-
+pg_point(const std::array<_K,3> &) -> pg_point<_K>;
 
 template <typename _K>
 pg_point(const _K &, const _K &, const _K &) -> pg_point<_K>;

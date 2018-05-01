@@ -10,7 +10,7 @@
 #define _HOME_UBUNTU_GITHUB_PGCPP_PG_LINE_HPP 1
 
 #include "pg_common.hpp"
-#include "pg_point.hpp"
+#include "pg_object.hpp"
 
 namespace fun {
 
@@ -23,62 +23,33 @@ template <typename _K> class pg_point;
  *
  * @tparam  _K  Type of line elements
  */
-template <typename _K> class pg_line : public std::array<_K, 3> {
+template <typename _K>
+class pg_line : public pg_object< _K, pg_point<_K> > {
   /// Value typedef.
-  using _Base = std::array<_K, 3>;
+  using _Base = pg_object< _K, pg_point<_K> >;
+  using _Base2 = std::array<_K, 3>;  
   using _Self = pg_line<_K>;
 
 public:
   using value_type = _K;
-  using dual = pg_point<_K>;
 
   /**
-   * @brief Construct by an array
+   * @brief Construct a new pg object object
    *
+   * @param a array of coordinates
    */
-  constexpr explicit pg_line(const _Base &a) : _Base{a} {}
+  constexpr explicit pg_line(const _Base2 &a) : _Base{a} {}
 
   /**
-   * @brief Construct by data
+   * @brief Construct a new pg_object object
    *
+   * @param x
+   * @param y
+   * @param z
    */
-  constexpr pg_line(const _K &a, const _K &b, const _K &c)
-     : _Base{a, b, c} {}
+  constexpr pg_line(const _K &x, const _K &y, const _K &z)
+      : _Base{x, y, z} {}
 
-  /// Construct by meet of two points @a p and @a q. (p. 53)
-  // constexpr pg_line(const dual &p, const dual &q)
-  //     : _Base{cross(p, q)} {}
-
-  // Operators:
-
-  /// Return true if @a p is equivalent to @a q (in projective sense).
-  constexpr bool operator==(const _Self &other) const {
-    if (this == &other) return true;
-    return cross(*this, other) == _Base({0, 0, 0});
-  }
-
-  /// Return true if @a p is equivalent to @a q (in projective sense).
-  constexpr bool operator!=(const _Self &other) const {
-    return !(*this == other);
-  }
-
-  /// Return the dot product
-  constexpr auto dot(const dual &l) const {
-    return dot_c(*this, l);
-  }
-
-  /// Return true if a point @a l incident with line @a p
-  constexpr bool incident(const dual &p) const {
-    return this->dot(p) == 0;
-  }
-
-  /// Return meet of two line.
-  constexpr dual operator*(const _Self &other) const {
-    return dual{cross(*this, other)};
-  }
-
-  ///  Return new point not incident with p
-  constexpr dual aux() { return dual{*this}; }
 };
 
 
@@ -92,16 +63,16 @@ auto meet(const pg_line<_K> &l, const pg_line<_K> &m) {
 template <typename _K>
 auto plucker(const _K &lambda1, const pg_line<_K> &l,
              const _K &mu1, const pg_line<_K> &m) {
-  return pg_line<_K>{plucker_c(lambda1, l, mu1, m)};
+  return pg_line<_K>(plucker_c(lambda1, l, mu1, m));
 }
 
 
-///  Insertion operator for line values.
-template <typename _K, class _Stream>
-_Stream &operator<<(_Stream &os, const pg_line<_K> &l) {
-  os << '<' << l[0] << ':' << l[1] << ':' << l[2] << '>';
-  return os;
-}
+// ///  Insertion operator for line values.
+// template <typename _K, class _Stream>
+// _Stream &operator<<(_Stream &os, const pg_line<_K> &l) {
+//   os << '<' << l[0] << ':' << l[1] << ':' << l[2] << '>';
+//   return os;
+// }
 
 
 // template deduction guides (C++17)

@@ -13,7 +13,6 @@ matrix:
           packages:
             - g++-7
             - catch
-            - libboost-dev
       env: COMPILER='g++-7' BUILD_TYPE='Release'
 
     - os: linux

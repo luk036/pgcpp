@@ -94,14 +94,6 @@ public:
   constexpr bool operator<(const Z &c) const {
     return this->cmp(c) < 0;
   }
-
-  // constexpr auto operator float() {
-  //     return float(_numerator / _denominator);
-  // }
-
-  // constexpr auto operator int() {
-  //     return int(_numerator / _denominator);
-  // }
 };
 
 template <typename Z>

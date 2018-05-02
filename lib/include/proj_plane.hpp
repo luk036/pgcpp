@@ -1,11 +1,10 @@
 #ifndef _HOME_UBUNTU_GITHUB_PGCPP_PROJ_PLANE_HPP
 #define _HOME_UBUNTU_GITHUB_PGCPP_PROJ_PLANE_HPP 1
 
-#include "proj_plane_concepts.h"
-// #include <boost/rational.hpp>
 #include "fraction.hpp"
-#include <tuple>
+#include "proj_plane_concepts.h"
 #include <cassert>
+#include <tuple>
 
 /** @file include/proj_plane.hpp
  *  This is a C++ Library header.
@@ -15,12 +14,7 @@
  @todo: projectivity >=
 **/
 
-//using boost::rational;
-
 namespace fun {
-
-// Projective_plane{P, L}
-
 
 /**
  * @brief Coincident
@@ -33,9 +27,8 @@ namespace fun {
  * @return true if three points are conincident
  * @return false otherwise
  */
-template <class P, class L>
-  requires Projective_plane<P, L>
-constexpr bool coincident(const P & p, const P & q, const P & r) {
+Projective_plane { P, L }
+constexpr bool coincident(const P &p, const P &q, const P &r) {
   return r.incident(p * q);
 }
 
@@ -49,9 +42,8 @@ constexpr bool coincident(const P & p, const P & q, const P & r) {
  * @return true if all points are incident with l
  * @return false otherwise
  */
-template <class P, class L>
-  requires Projective_plane<P, L>
-constexpr bool coincident(const L & l, const Sequence & seq) {
+Projective_plane { P, L }
+constexpr bool coincident(const L &l, const Sequence &seq) {
   for (const P &p : seq) {
     if (!l.incident(p))
       return false;
@@ -59,7 +51,32 @@ constexpr bool coincident(const L & l, const Sequence & seq) {
   return true;
 }
 
-Projective_plane{P, L}
+template <typename P> using Triple = std::tuple<P, P, P>;
+
+Projective_plane2 { P }
+auto tri(const Triple<P>& T) {
+  auto [a1, a2, a3] = T;
+  auto l1 = a2 * a3;
+  auto l2 = a1 * a3;
+  auto l3 = a1 * a2;
+  return Triple<typename P::dual>(l1, l2, l3);
+}
+
+Projective_plane2 { P }
+bool persp(const Triple<P> &tp1, const Triple<P> &tp2) {
+  auto [A, B, C] = tp1;
+  auto [D, E, F] = tp2;
+  auto O = (A * D) * (B * E);
+  return O.incident(C * F);
+}
+
+Projective_plane2 { P }
+auto harm_conj(const P &A, const P &B, const P &C) {
+  auto lC = C * (A * B).aux();
+  return plucker(B.dot(lC), A, A.dot(lC), B);
+}
+
+Projective_plane { P, L }
 class involution {
   using K = typename P::value_type;
 
@@ -69,10 +86,12 @@ private:
   K _c;
 
 public:
-  involution(const L &m, const P &o): _m{m}, _o{o}, _c{m.dot(o)} {}
+  involution(const L &m, const P &o)
+      : // input mirror and center
+        _m{m}, _o{o}, _c{m.dot(o)} {}
 
   auto operator()(const P &p) const {
-    return plucker(_c, p, -K(2)*p.dot(_m), _o);
+    return plucker(_c, p, -K(2) * p.dot(_m), _o);
   }
 };
 
@@ -108,9 +127,8 @@ auto ratio_ratio(const K &a, const K &b, const K &c, const K &d) {
  *
  * @todo rewrite by projecting to the y-axis first [:2]
  */
-template <class P, class L>
-  requires Projective_plane<P, L>
-auto x_ratio(const P & A, const P & B, const L & l, const L & m) {
+Projective_plane { P, L }
+auto x_ratio(const P &A, const P &B, const L &l, const L &m) {
   auto dAl = A.dot(l);
   auto dAm = A.dot(m);
   auto dBl = B.dot(l);
@@ -118,9 +136,22 @@ auto x_ratio(const P & A, const P & B, const L & l, const L & m) {
   return ratio_ratio(dAl, dAm, dBl, dBm);
 }
 
-template <typename P>
-using Triple = std::tuple<P, P, P>;
+/* @todo
 
+def R(A, B, C, D):
+    # not sure???
+    if A[1]*B[2] != B[1]*A[2]:
+        # Project points to yz-plane
+        a, b, c, d = A[1:], B[1:], C[1:], D[1:]
+    else:
+        # Project points to xz-plane
+        a, b, c, d = A[(0, 2)], B[(0, 2)], C[(0, 2)], D[(0, 2)]
+    return R1(a, b, c, d)
+
+def isharmonic(A, B, C, D):
+    return R(A, B, C, D) == -1
+
+*/
 
 /**
  * @brief Check Pappus Theorem
@@ -130,55 +161,24 @@ using Triple = std::tuple<P, P, P>;
  * @param co1
  * @param co2
  */
-template <class P, class L = typename P::dual>
-  requires Projective_plane<P, L>
-void check_pappus(const Triple<P>& co1, const Triple<P>& co2) {
+Projective_plane2 { P }
+void check_pappus(const Triple<P> &co1, const Triple<P> &co2) {
   auto [A, B, C] = co1;
   auto [D, E, F] = co2;
-  // auto G = P{L{A*E} * L{B*D}};
-  // auto H = P{L{A*F} * L{C*D}};
-  // auto I = P{L{B*F} * L{C*E}};
-  auto G = (A*E) * (B*D);
-  auto H = (A*F) * (C*D);
-  auto I = (B*F) * (C*E);
-  assert (coincident(G, H, I));
+  auto G = (A * E) * (B * D);
+  auto H = (A * F) * (C * D);
+  auto I = (B * F) * (C * E);
+  assert(coincident(G, H, I));
 }
 
-//Projective_plane{P, L}
-/**
- * @brief
- *
- * @tparam P
- * @tparam L
- * @param A
- * @param B
- * @param C
- * @param D
- * @param E
- * @param F
- * @return true
- * @return false
- */
-template <class P, class L = typename P::dual>
-  requires Projective_plane<P, L>
-bool persp(P & A, P & B, P & C, P & D, P & E, P & F) {
-  auto O = (A*D) * (B*E);
-  return O.incident(C*F);
-}
-
-//template <class P, class L = typename P::dual>
-//requires Projective_plane<P, L>
-Projective_plane2{P}
-void check_desargue(P & A, P & B, P & C, P & D, P & E, P & F) {
-  auto a = B * C;
-  auto b = A * C;
-  auto c = B * A;
-  auto d = E * F;
-  auto e = D * F;
-  auto f = E * D;
-
-  auto b1 = persp(A, B, C, D, E, F);
-  auto b2 = persp(a, b, c, d, e, f);
+// template <class P, class L = typename P::dual>
+// requires Projective_plane<P, L>
+Projective_plane2 { P }
+void check_desargue(const Triple<P> &tri1, const Triple<P> &tri2) {
+  auto trid1 = tri(tri1);
+  auto trid2 = tri(tri2);
+  auto b1 = persp(tri1, tri2);
+  auto b2 = persp(trid1, trid2);
   assert((b1 && b2) || (!b1 && !b2));
 }
 

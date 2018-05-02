@@ -28,7 +28,7 @@ TEST_CASE("Projective Point", "[proj_plane]") {
 
   auto O = meet(join(p, s), join(q, t));
   auto u = plucker(1 + 0j, O, -1 - 1j, r);
-  check_desargue(p, q, r, s, t, u);
+  check_desargue(std::tuple{p, q, r}, std::tuple{s, t, u});
 }
 
 TEST_CASE("Projective Line", "[proj_plane]") {
@@ -52,7 +52,7 @@ TEST_CASE("Projective Line", "[proj_plane]") {
 
   auto o = join(meet(l, s), meet(m, t));
   auto u = plucker(1 + 0j, o, -1 - 1j, r);
-  check_desargue(l, m, r, s, t, u);
+  check_desargue(std::tuple{l, m, r}, std::tuple{s, t, u});
 }
 
 // int main(int argc, char* argv[]) {

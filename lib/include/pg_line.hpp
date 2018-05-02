@@ -23,12 +23,10 @@ template <typename _K> class pg_point;
  *
  * @tparam  _K  Type of line elements
  */
-template <typename _K>
-class pg_line : public pg_object< _K, pg_point<_K> > {
+template <typename _K> class pg_line : public pg_object<_K, pg_point<_K>> {
   /// Value typedef.
-  using _Base = pg_object< _K, pg_point<_K> >;
+  using _Base = pg_object<_K, pg_point<_K>>;
   using _Base2 = std::array<_K, 3>;
-  using _Self = pg_line<_K>;
 
 public:
   using value_type = _K;
@@ -47,40 +45,18 @@ public:
    * @param y
    * @param z
    */
-  constexpr pg_line(const _K &x, const _K &y, const _K &z)
-      : _Base{x, y, z} {}
+  constexpr pg_line(const _K &x, const _K &y, const _K &z) : _Base{x, y, z} {}
 };
 
-
 /// Return meet of two lines.
-template <typename _K>
-auto meet(const pg_line<_K> &l, const pg_line<_K> &m) {
-    return l * m;
+template <typename _K> auto meet(const pg_line<_K> &l, const pg_line<_K> &m) {
+  return l * m;
 }
 
-
-// template <typename _K>
-// auto plucker(const _K &lambda1, const pg_line<_K> &l,
-//              const _K &mu1, const pg_line<_K> &m) {
-//   return pg_line<_K>(plucker_c(lambda1, l, mu1, m));
-// }
-
-
-// ///  Insertion operator for line values.
-// template <typename _K, class _Stream>
-// _Stream &operator<<(_Stream &os, const pg_line<_K> &l) {
-//   os << '<' << l[0] << ':' << l[1] << ':' << l[2] << '>';
-//   return os;
-// }
-
-
 // template deduction guides (C++17)
-template <typename _K>
-pg_line(const std::array<_K, 3>) -> pg_line<_K>;
+template <typename _K> pg_line(const std::array<_K, 3>)->pg_line<_K>;
 
-
-template <typename _K>
-pg_line(const _K &, const _K &, const _K &) -> pg_line<_K>;
+template <typename _K> pg_line(const _K &, const _K &, const _K &)->pg_line<_K>;
 
 } // namespace fun
 

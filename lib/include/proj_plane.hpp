@@ -64,8 +64,8 @@ class involution {
   using K = typename P::value_type;
 
 private:
-  const L& _m;
-  const P& _o;
+  L _m;
+  P _o;
   K _c;
 
 public:

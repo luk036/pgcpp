@@ -72,7 +72,7 @@ public:
   involution(const L &m, const P &o): _m{m}, _o{o}, _c{m.dot(o)} {}
 
   auto operator()(const P &p) const {
-    return plucker(_c, p, -2*p.dot(_m), _o);
+    return plucker(_c, p, -K(2)*p.dot(_m), _o);
   }
 };
 

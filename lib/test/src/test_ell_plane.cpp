@@ -11,12 +11,14 @@ TEST_CASE("Ell plane", "[ell_plane]") {
   using namespace fun;
   using namespace fun::ELL;
 
-  using P = pg_point<int>;
-  using L = pg_line<int>;
+  auto a1 = pg_point(1L, 2L, 3L);
+  auto a2 = pg_point(4L, -5L, 6L);
+  auto a3 = pg_point(-7L, 8L, 9L);
 
-  auto a1 = pg_point(1, 2, 3);
-  auto a2 = pg_point(4, -5, 6);
-  auto a3 = pg_point(-7, 8, 9);
+  using K = decltype(a1)::value_type;
+  using P = pg_point<K>;
+  using L = pg_line<K>;
+
   REQUIRE(dual<L>(dual<P>(a1)) == a1);
 
   auto l1 = join(a2, a3);

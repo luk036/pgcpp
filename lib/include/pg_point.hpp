@@ -40,7 +40,7 @@ public:
    * @param y
    * @param z
    */
-  constexpr pg_point(const _K &x, const _K &y, const _K &z) : _Base{x, y, z} {}
+  constexpr pg_point(const _K &x, const _K &y, const _K &z) : _Base{_Base2{x, y, z}} {}
 };
 
 /// Return join of two points.

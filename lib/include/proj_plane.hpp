@@ -54,7 +54,7 @@ constexpr bool coincident(const L &l, const Sequence &seq) {
 template <typename P> using Triple = std::tuple<P, P, P>;
 
 Projective_plane2 { P }
-auto tri(const Triple<P> &T) {
+constexpr auto tri(const Triple<P> &T) {
   auto [a1, a2, a3] = T;
   auto l1 = a2 * a3;
   auto l2 = a1 * a3;
@@ -63,7 +63,7 @@ auto tri(const Triple<P> &T) {
 }
 
 Projective_plane2 { P }
-bool persp(const Triple<P> &tp1, const Triple<P> &tp2) {
+constexpr bool persp(const Triple<P> &tp1, const Triple<P> &tp2) {
   auto [A, B, C] = tp1;
   auto [D, E, F] = tp2;
   auto O = (A * D) * (B * E);
@@ -71,7 +71,7 @@ bool persp(const Triple<P> &tp1, const Triple<P> &tp2) {
 }
 
 Projective_plane2 { P }
-auto harm_conj(const P &A, const P &B, const P &C) {
+constexpr auto harm_conj(const P &A, const P &B, const P &C) {
   auto lC = C * (A * B).aux();
   return plucker(B.dot(lC), A, A.dot(lC), B);
 }
@@ -86,11 +86,11 @@ private:
   K _c;
 
 public:
-  involution(const L &m, const P &o)
+  constexpr explicit involution(const L &m, const P &o)
       : // input mirror and center
         _m{m}, _o{o}, _c{m.dot(o)} {}
 
-  auto operator()(const P &p) const {
+  constexpr auto operator()(const P &p) const {
     return plucker(_c, p, -K(2) * p.dot(_m), _o);
   }
 };
@@ -106,7 +106,7 @@ public:
  * @return (a/b) / (c/d)
  */
 template <typename K>
-auto ratio_ratio(const K &a, const K &b, const K &c, const K &d) {
+constexpr auto ratio_ratio(const K &a, const K &b, const K &c, const K &d) {
   if constexpr (std::is_integral<K>::value) {
     return Fraction<K>(a, b) / Fraction<K>(c, d);
   } else {
@@ -128,7 +128,7 @@ auto ratio_ratio(const K &a, const K &b, const K &c, const K &d) {
  * @todo rewrite by projecting to the y-axis first [:2]
  */
 Projective_plane { P, L }
-auto x_ratio(const P &A, const P &B, const L &l, const L &m) {
+constexpr auto x_ratio(const P &A, const P &B, const L &l, const L &m) {
   auto dAl = A.dot(l);
   auto dAm = A.dot(m);
   auto dBl = B.dot(l);

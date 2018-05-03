@@ -1,21 +1,15 @@
 /*
  *  Distributed under the MIT License (See accompanying file /LICENSE )
  */
-#include "ck_plane.hpp"
+#include "persp_plane.hpp"
 #include "pg_line.hpp"
 #include "pg_point.hpp"
 #include <catch.hpp>
+#include <iostream>
 
 using namespace fun;
 
-Projective_plane { P, L }
-class myck : public ck<P, L> {
-public:
-  virtual L _perp(const P &v) const final { return L(-2 * v[0], v[1], -2 * v[2]); }
-  virtual P _perp(const L &v) const final { return P(-v[0], 2 * v[1], -v[2]); }
-};
-
-TEST_CASE("CK plane", "[ck_plane]") {
+TEST_CASE("Perspective Euclid plane", "[persp_plane]") {
 
   // using P = pg_point<int>;
   // using L = pg_line<int>;
@@ -32,7 +26,11 @@ TEST_CASE("CK plane", "[ck_plane]") {
 
   using P = decltype(a1);
   using L = decltype(l1);
-  auto geometry = myck<P, L>{};
+
+  auto Ire = pg_point(0, 1, 1);
+  auto Iim = pg_point(1, 0, 0);
+  auto l_inf = pg_line(0, -1, 1);
+  auto geometry = persp_euclid_plane<P, L>{Ire, Iim, l_inf};
 
   auto t1 = geometry.altitude(a1, l1);
   auto t2 = geometry.altitude(a2, l2);

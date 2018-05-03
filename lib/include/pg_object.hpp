@@ -36,16 +36,6 @@ public:
    */
   constexpr explicit pg_object(const _Base &a) : _Base{a} {}
 
-  /**
-   * @brief Construct a new pg_object object
-   *
-   * @param x
-   * @param y
-   * @param z
-   */
-  constexpr pg_object(const _K &x, const _K &y, const _K &z)
-      : _Base{x, y, z} {}
-
   // Operators:
 
   /**
@@ -57,7 +47,7 @@ public:
    */
   constexpr bool operator==(const _Self &rhs) const {
     if (this == &rhs) return true;
-    return cross(*this, rhs) == _Base({_K(0), _K(0), _K(0)});
+    return cross(*this, rhs) == _Base{_K(0), _K(0), _K(0)};
   }
 
   /**

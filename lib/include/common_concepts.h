@@ -32,10 +32,10 @@ template <typename P, typename... Args> concept bool Predicate() {
 }
 
 template <typename T>
-concept bool Equality_comparable = requires(T a, T b){
+concept bool Equality_comparable = requires(T a, T b) {
   {a == b} -> bool;
   {a != b} -> bool;
-  };
+};
 // ( T, == ) must be reflective, symmetric, and transitive.
 
 } // namespace fun

@@ -89,6 +89,8 @@ public:
   constexpr bool operator==(const Z &c) const { return this->cmp(c) == 0; }
 
   constexpr bool operator<(const Z &c) const { return this->cmp(c) < 0; }
+
+  operator double() { return double(_numerator) / _denominator; }
 };
 
 Integer { Z }

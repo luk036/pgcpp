@@ -54,7 +54,7 @@ constexpr bool coincident(const L &l, const Sequence &seq) {
 template <typename P> using Triple = std::tuple<P, P, P>;
 
 Projective_plane2 { P }
-auto tri(const Triple<P>& T) {
+auto tri(const Triple<P> &T) {
   auto [a1, a2, a3] = T;
   auto l1 = a2 * a3;
   auto l2 = a1 * a3;

@@ -20,9 +20,9 @@ public:
   persp_euclid_plane(const P &Ire, const P &Iim, const L &l_infty)
       : _Ire{Ire}, _Iim{Iim}, _l_infty{l_infty} {}
 
-  virtual L _perp(const P &x) const final { return _l_infty; }
+  L _perp(const P &x) const final { return _l_infty; }
 
-  virtual P _perp(const L &x) const final {
+  P _perp(const L &x) const final {
     return plucker(x.dot(_Ire), _Ire, x.dot(_Iim), _Iim);
   }
 

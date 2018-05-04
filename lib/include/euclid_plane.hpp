@@ -119,8 +119,8 @@ constexpr auto cross(const L &l1, const L &l2) {
 }
 
 Projective_plane2 { P }
-constexpr auto uc_point(const typename P::value_type &lambda1,
-                        const typename P::value_type &mu1) {
+constexpr auto uc_point(const Value_type<P> &lambda1,
+                        const Value_type<P> &mu1) {
   auto lambda2 = lambda1 * lambda1;
   auto mu2 = mu1 * mu1;
   return P(lambda2 - mu2, 2 * lambda1 * mu1, lambda2 + mu2);

@@ -69,15 +69,15 @@ bool check_sine_law(const _Q &s1, const _Q &q1, const _Q &s2, const _Q &q2) {
 Projective_plane { P, L }
 class ellck : public ck<P, L> {
 public:
-  virtual L _perp(const P &v) const final { return L(v); }
-  virtual P _perp(const L &v) const final { return P(v); }
+  L _perp(const P &v) const final { return L(v); }
+  P _perp(const L &v) const final { return P(v); }
 };
 
 Projective_plane { P, L }
 class hyck : public ck<P, L> {
 public:
-  virtual L _perp(const P &v) const final { return L(v[0], v[1], -v[2]); }
-  virtual P _perp(const L &v) const final { return P(v[0], v[1], -v[2]); }
+  L _perp(const P &v) const final { return L(v[0], v[1], -v[2]); }
+  P _perp(const L &v) const final { return P(v[0], v[1], -v[2]); }
 };
 
 template <typename _Q>

@@ -57,6 +57,14 @@ public:
     return this->measure(l1, l2);
   }
 
+  auto tri_quadrance(const P &a1, const P &a2, const P &a3) {
+    return tri_func(this->quadrance, std::tuple{a1, a2, a3});
+  }
+
+  auto tri_spread(const L &l1, const L &l2, const L &l3) {
+    return tri_func(this->spread, std::tuple{l1, l2, l3});
+  }
+
   auto cross(const L &l1, const L &l2) const {
     return 1 - this->spread(l1, l2); // ???
   }

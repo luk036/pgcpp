@@ -43,9 +43,22 @@ public:
     return K(1) - x_ratio(a1, a2, _perp(a2), _perp(a1));
   }
 
+  Projective_plane2 { P }
+  auto tri_measure(const Triple<P> &triangle) {
+    return tri_func(this->measure, triangle);
+  }
+
   auto quadrance(const _P &p, const _P &q) const { return measure(p, q); }
 
   auto spread(const _L &l, const _L &m) const { return measure(l, m); }
+
+  auto tri_quadrance(const _P &a1, const _P &a2, const _P &a3) {
+    return this->tri_measure(std::tuple{a1, a2, a3});
+  }
+
+  auto tri_spread(const _L &l1, const _L &l2, const _L &l3) {
+    return this->tri_measure(std::tuple{l1, l2, l3});
+  }
 };
 
 template <typename _K>

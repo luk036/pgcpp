@@ -103,21 +103,15 @@ constexpr auto spread(const L &l1, const L &l2) {
   return sbase(l1, l2, det(l1, l2));
 }
 
-// Projective_plane { P, L }
-// constexpr auto tri_quadrance(const P &a1, const P &a2, const P &a3) {
-//   auto q1 = quadrance(a2, a3);
-//   auto q2 = quadrance(a1, a3);
-//   auto q3 = quadrance(a1, a2);
-//   return std::tuple{q1, q2, q3};
-// }
+Projective_plane2 { P }
+constexpr auto tri_quadrance(const P &a1, const P &a2, const P &a3) {
+  return tri_func(quadrance, std::tuple{a1, a2, a3});
+}
 
-// Projective_plane { P, L }
-// constexpr auto tri_spread(const L &l1, const L &l2, const L &l3) {
-//   auto s1 = spread(l2, l3);
-//   auto s2 = spread(l1, l3);
-//   auto s3 = spread(l1, l2);
-//   return s1, s2, s3;
-// }
+Projective_plane2 { L }
+constexpr auto tri_spread(const L &l1, const L &l2, const L &l3) {
+  return tri_func(spread, std::tuple{l1, l2, l3});
+}
 
 Projective_plane { P, L }
 constexpr auto cross(const L &l1, const L &l2) {

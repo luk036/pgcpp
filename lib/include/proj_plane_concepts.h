@@ -24,14 +24,14 @@ template <typename T> using Value_type = typename T::value_type;
  */
 template <class P, class L>
 concept bool Projective_plane_h =
-  Equality_comparable<P> && requires(P p, P q, L l) {
+  Equality_comparable<P> && requires(P p, P q, L l, Value_type<P> a) {
     typename Value_type<P>;
     { P(p) } -> P; // copyable
     { p.incident(l) } -> bool; // incidence
     { p * q } -> L; // join or meet
     { p.aux() } -> L; // line not incident with p
-    { p.dot(l) } -> Value_type<P>;
-    // plucker
+    { p.dot(l) } -> Value_type<P>; // for measurement
+    { plucker(a, p, a, q) } -> P; // vector computation
 };
 
 /**

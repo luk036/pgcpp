@@ -59,7 +59,16 @@ constexpr auto tri(const Triple<P> &T) {
   auto l1 = a2 * a3;
   auto l2 = a1 * a3;
   auto l3 = a1 * a2;
-  return Triple<typename P::dual>(l1, l2, l3);
+  return std::tuple{l1, l2, l3};
+}
+
+Projective_plane2 { P }
+constexpr auto tri_func(const auto& func, const Triple<P> &T) {
+  auto [a1, a2, a3] = T;
+  auto m1 = func(a2, a3);
+  auto m2 = func(a1, a3);
+  auto m3 = func(a1, a2);
+  return std::tuple{m1, m2, m3};
 }
 
 Projective_plane2 { P }

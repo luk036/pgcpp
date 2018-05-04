@@ -44,11 +44,14 @@ concept bool Equality_comparable = requires(T a, T b) {
 // ( T, == ) must be reflective, symmetric, and transitive.
 
 template <typename K> 
-concept bool CommutativeRing = requires(K a, K b) {
+concept bool CommutativeRing = 
+  Equality_comparable<K> && requires(K a, K b) {
     { a + b } -> K;
     { a - b } -> K;
     { a * b } -> K;
-    { -a } -> K;
+    { -a    } -> K;
+    { K(a)  } -> K;
+    { K(0)  } -> K;
 };
 
 } // namespace fun

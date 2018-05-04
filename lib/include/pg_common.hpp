@@ -5,6 +5,7 @@
 #ifndef _HOME_UBUNTU_GITHUB_PGCPP_PG_COMMON_HPP
 #define _HOME_UBUNTU_GITHUB_PGCPP_PG_COMMON_HPP 1
 
+#include "common_concepts.h"
 #include <array>
 #include <tuple>
 
@@ -18,8 +19,8 @@ namespace fun {
  * @param w
  * @return 1st term of Cross product
  */
-template <typename _K>
-auto cross0 (const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
+CommutativeRing { _K }
+auto cross0(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
   return v[1] * w[2] - w[1] * v[2];
 }
 
@@ -31,7 +32,7 @@ auto cross0 (const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
  * @param w
  * @return 2nd term of Cross product
  */
-template <typename _K>
+CommutativeRing { _K }
 auto cross1(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
   return v[0] * w[2] - w[0] * v[2];
 }
@@ -44,7 +45,7 @@ auto cross1(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
  * @param w
  * @return 3rd term of Cross product
  */
-template <typename _K>
+CommutativeRing { _K }
 auto cross2(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
   return v[0] * w[1] - w[0] * v[1];
 }
@@ -57,9 +58,9 @@ auto cross2(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
  * @param w
  * @return Cross product
  */
-template <typename _K>
+CommutativeRing { _K }
 auto cross(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
-  return std::array<_K, 3>({cross0(v,w), -cross1(v,w), cross2(v,w)});
+  return std::array<_K, 3>({cross0(v, w), -cross1(v, w), cross2(v, w)});
 }
 
 /**
@@ -70,11 +71,11 @@ auto cross(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
  * @param w
  * @return auto
  */
-template <typename _K>
+CommutativeRing { _K }
 auto dot_c(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
   auto [x1, y1, z1] = v;
   auto [x2, y2, z2] = w;
-  return x1*x2 + y1*y2 + z1*z2;
+  return x1 * x2 + y1 * y2 + z1 * z2;
 }
 
 /**
@@ -87,7 +88,7 @@ auto dot_c(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
  * @param w
  * @return lamda*v + mu*w
  */
-template <typename _K>
+CommutativeRing { _K }
 auto plucker_c(const _K &ld, const std::array<_K, 3> &v1, const _K &mu,
                const std::array<_K, 3> &v2) {
   auto [x1, y1, z1] = v1;
@@ -104,7 +105,7 @@ auto plucker_c(const _K &ld, const std::array<_K, 3> &v1, const _K &mu,
  * @param w
  * @return auto
  */
-template <typename _K>
+CommutativeRing { _K }
 auto dot1(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
   return v[0] * w[0] + v[1] * w[1];
 }
@@ -117,7 +118,7 @@ auto dot1(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
  * @param w
  * @return auto
  */
-template <typename _K>
+CommutativeRing { _K }
 auto dot2(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
   return v[0] * w[0] + v[2] * w[2];
 }
@@ -129,8 +130,7 @@ auto dot2(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
  * @param a input value
  * @return a^2
  */
-template <typename T>
-constexpr auto sq(T&& a) { return a*a; }
+constexpr auto sq(auto &&a) { return a * a; }
 
 } // namespace fun
 

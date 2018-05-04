@@ -73,13 +73,14 @@ constexpr auto midpoint(const P &a, const P &b) {
   return plucker(b[2], a, a[2], b);
 }
 
+Integer { K }
+constexpr auto quad1(const K &x1, const K &z1, const K &x2, const K &z2) {
+  return sq(Fraction(x1, z1) - Fraction(x2, z2));
+}
+
 template <typename K>
 constexpr auto quad1(const K &x1, const K &z1, const K &x2, const K &z2) {
-  if constexpr (std::is_integral<K>::value) {
-    return sq(Fraction(x1, z1) - Fraction(x2, z2));
-  } else {
-    return sq(x1 / z1 - x2 / z2);
-  }
+  return sq(x1 / z1 - x2 / z2);
 }
 
 Projective_plane2 { P }
@@ -88,14 +89,13 @@ constexpr auto quadrance(const P &a1, const P &a2) {
 }
 
 Projective_plane2 { L }
-constexpr auto sbase(const L &l1, const L &l2,
-                     const typename L::value_type &d) {
-  using K = typename L::value_type;
-  if constexpr (std::is_integral<K>::value) {
-    return Fraction(d, omgB(l1, l1)) * Fraction(d, omgB(l2, l2));
-  } else {
-    return (d * d) / (omgB(l1, l1) * omgB(l2, l2));
-  }
+constexpr auto sbase(const L &l1, const L &l2, const Integer &d) {
+  return Fraction(d, omgB(l1, l1)) * Fraction(d, omgB(l2, l2));
+}
+
+Projective_plane2 { L }
+constexpr auto sbase(const L &l1, const L &l2, const auto &d) {
+  return (d * d) / (omgB(l1, l1) * omgB(l2, l2));
 }
 
 Projective_plane2 { L }
@@ -127,13 +127,14 @@ constexpr auto uc_point(const typename P::value_type &lambda1,
 }
 
 /// Archimedes's function
-template <typename K> constexpr auto Ar(const K &a, const K &b, const K &c) {
+template <typename _Q>
+constexpr auto Ar(const _Q &a, const _Q &b, const _Q &c) {
   return (4 * a * b) - sq(a + b - c);
 }
 
 /// Cyclic quadrilateral quadrea theorem
-template <typename K>
-constexpr auto cqq(const K &a, const K &b, const K &c, const K &d) {
+template <typename _Q>
+constexpr auto cqq(const _Q &a, const _Q &b, const _Q &c, const _Q &d) {
   auto t1 = 4 * a * b;
   auto t2 = 4 * c * d;
   auto m = (t1 + t2) - sq(a + b - c - d);
@@ -141,9 +142,9 @@ constexpr auto cqq(const K &a, const K &b, const K &c, const K &d) {
   return std::tuple{m, p};
 }
 
-template <typename K>
-constexpr auto Ptolemy(const K &Q12, const K &Q23, const K &Q34, const K &Q14,
-                       const K &Q13, const K &Q24) {
+template <typename _Q>
+constexpr auto Ptolemy(const _Q &Q12, const _Q &Q23, const _Q &Q34,
+                       const _Q &Q14, const _Q &Q13, const _Q &Q24) {
   return Ar(Q12 * Q34, Q23 * Q14, Q13 * Q24) == 0;
 }
 

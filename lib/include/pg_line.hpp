@@ -16,14 +16,16 @@ namespace fun {
 
 // Forward declarations.
 
-template <typename _K> class pg_point;
+CommutativeRing { _K }
+class pg_point;
 
 /**
  * @brief Projective line: two dimensional subspace of K^3
  *
  * @tparam  _K  Type of line elements
  */
-template <typename _K> class pg_line : public pg_object<_K, pg_point<_K>> {
+CommutativeRing { _K }
+class pg_line : public pg_object<_K, pg_point<_K>> {
   /// Value typedef.
   using _Base = pg_object<_K, pg_point<_K>>;
   using _Base2 = std::array<_K, 3>;
@@ -49,14 +51,17 @@ public:
 };
 
 /// Return meet of two lines.
-template <typename _K> auto meet(const pg_line<_K> &l, const pg_line<_K> &m) {
+CommutativeRing { _K }
+auto meet(const pg_line<_K> &l, const pg_line<_K> &m) {
   return l * m;
 }
 
 // template deduction guides (C++17)
-template <typename _K> pg_line(const std::array<_K, 3>)->pg_line<_K>;
+CommutativeRing { _K }
+pg_line(const std::array<_K, 3>)->pg_line<_K>;
 
-template <typename _K> pg_line(const _K &, const _K &, const _K &)->pg_line<_K>;
+CommutativeRing { _K }
+pg_line(const _K &, const _K &, const _K &)->pg_line<_K>;
 
 } // namespace fun
 

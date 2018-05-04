@@ -63,7 +63,7 @@ constexpr auto tri(const Triple<P> &T) {
 }
 
 Projective_plane2 { P }
-constexpr auto tri_func(const auto& func, const Triple<P> &T) {
+constexpr auto tri_func(const auto &func, const Triple<P> &T) {
   auto [a1, a2, a3] = T;
   auto m1 = func(a2, a3);
   auto m2 = func(a1, a3);
@@ -114,13 +114,14 @@ public:
  * @param d
  * @return (a/b) / (c/d)
  */
+Integer { K }
+constexpr auto ratio_ratio(const K &a, const K &b, const K &c, const K &d) {
+  return Fraction<K>(a, b) / Fraction<K>(c, d);
+}
+
 template <typename K>
 constexpr auto ratio_ratio(const K &a, const K &b, const K &c, const K &d) {
-  if constexpr (std::is_integral<K>::value) {
-    return Fraction<K>(a, b) / Fraction<K>(c, d);
-  } else {
-    return (a * d) / (b * c);
-  }
+  return (a * d) / (b * c);
 }
 
 /**

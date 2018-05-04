@@ -15,10 +15,11 @@
 namespace fun {
 
 // Forward declarations.
+CommutativeRing { _K }
+class pg_line;
 
-template <typename _K> class pg_line;
-
-template <typename _K> class pg_point : public pg_object<_K, pg_line<_K>> {
+CommutativeRing { _K }
+class pg_point : public pg_object<_K, pg_line<_K>> {
   /// Value typedef.
   using _Base = pg_object<_K, pg_line<_K>>;
   using _Base2 = std::array<_K, 3>;
@@ -40,18 +41,19 @@ public:
    * @param y
    * @param z
    */
-  constexpr pg_point(const _K &x, const _K &y, const _K &z) : _Base{_Base2{x, y, z}} {}
+  constexpr pg_point(const _K &x, const _K &y, const _K &z)
+      : _Base{_Base2{x, y, z}} {}
 };
 
 /// Return join of two points.
-template <typename _K> auto join(const pg_point<_K> &p, const pg_point<_K> &q) {
-  return p * q;
-}
+CommutativeRing { _K }
+auto join(const pg_point<_K> &p, const pg_point<_K> &q) { return p * q; }
 
 // template deduction guides (C++17)
-template <typename _K> pg_point(const std::array<_K, 3> &)->pg_point<_K>;
+CommutativeRing { _K }
+pg_point(const std::array<_K, 3> &)->pg_point<_K>;
 
-template <typename _K>
+CommutativeRing { _K }
 pg_point(const _K &, const _K &, const _K &)->pg_point<_K>;
 
 } // namespace fun

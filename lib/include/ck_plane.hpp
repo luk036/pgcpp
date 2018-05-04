@@ -39,7 +39,7 @@ public:
 
   Projective_plane2 { P }
   auto measure(const P &a1, const P &a2) const {
-    using K = typename P::value_type;
+    using K = Value_type<P>;
     return K(1) - x_ratio(a1, a2, _perp(a2), _perp(a1));
   }
 
@@ -61,8 +61,8 @@ public:
   }
 };
 
-template <typename _K>
-bool check_sine_law(const _K &s1, const _K &q1, const _K &s2, const _K &q2) {
+template <typename _Q>
+bool check_sine_law(const _Q &s1, const _Q &q1, const _Q &s2, const _Q &q2) {
   return s1 * q2 == s2 * q1;
 }
 
@@ -80,14 +80,14 @@ public:
   virtual P _perp(const L &v) const final { return P(v[0], v[1], -v[2]); }
 };
 
-template <typename _K>
-auto check_cross_TQF(const _K &q1, const _K &q2, const _K &q3) {
+template <typename _Q>
+auto check_cross_TQF(const _Q &q1, const _Q &q2, const _Q &q3) {
   return sq(q1 + q2 + q3) - 2 * (q1 * q1 + q2 * q2 + q3 * q3) -
          4 * q1 * q2 * q3;
 }
 
-template <typename _K>
-bool check_cross_law(const _K &s1, const _K &s2, const _K &s3, const _K &q3) {
+template <typename _Q>
+bool check_cross_law(const _Q &s1, const _Q &s2, const _Q &s3, const _Q &q3) {
   return sq(s1 * s2 * q3 - (s1 + s2 + s3) + 2) ==
          4 * (1 - s1) * (1 - s2) * (1 - s3);
 }

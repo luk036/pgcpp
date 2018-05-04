@@ -70,7 +70,7 @@ public:
   }
 };
 
-template <typename _K> auto Ar(const _K &a, const _K &b, const _K &c) {
+template <typename _Q> auto Ar(const _Q &a, const _Q &b, const _Q &c) {
   return (4 * a * b) - sq(a + b - c);
 }
 

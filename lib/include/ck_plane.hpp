@@ -23,6 +23,15 @@ public:
   auto altitude(const P &p, const L &l) const { return p * _perp(l); }
 
   Projective_plane2 { P }
+  constexpr auto tri_altitude(const P &a1, const P &a2, const P &a3) {
+    auto [l1, l2, l3] = tri(std::tuple{a1, a2, a3});
+    auto t1 = altitude(a1, l1);
+    auto t2 = altitude(a2, l2);
+    auto t3 = altitude(a3, l3);
+    return std::tuple{t1, t2, t3};
+  }
+
+  Projective_plane2 { P }
   auto orthocenter(const P &a1, const P &a2, const P &a3) const {
     auto t1 = altitude(a1, a2 * a3);
     auto t2 = altitude(a2, a1 * a3);

@@ -39,7 +39,7 @@ constexpr auto is_parallel(const L &l, const L &m) {
 }
 
 Projective_plane { P, L }
-constexpr auto altitude(const P &a, const L &l) { return join(a, fB(l)); }
+constexpr L altitude(const P &a, const L &l) { return a * fB(l); }
 
 Projective_plane2 { P }
 constexpr auto tri_altitude(const P &a1, const P &a2, const P &a3) {
@@ -51,7 +51,7 @@ constexpr auto tri_altitude(const P &a1, const P &a2, const P &a3) {
 }
 
 Projective_plane2 { P }
-constexpr auto orthocenter(const P &a1, const P &a2, const P &a3) {
+constexpr P orthocenter(const P &a1, const P &a2, const P &a3) {
   auto t1 = altitude(a1, a2 * a3);
   auto t2 = altitude(a2, a1 * a3);
   return t1 * t2;
@@ -69,7 +69,7 @@ Projective_plane2 { P }
 constexpr auto det(const P &x, const P &y) { return x[0] * y[1] - x[1] * y[0]; }
 
 Projective_plane2 { P }
-constexpr auto midpoint(const P &a, const P &b) {
+constexpr P midpoint(const P &a, const P &b) {
   return plucker(b[2], a, a[2], b);
 }
 
@@ -119,7 +119,7 @@ constexpr auto cross(const L &l1, const L &l2) {
 }
 
 Projective_plane2 { P }
-constexpr auto uc_point(const Value_type<P> &lambda1,
+constexpr P uc_point(const Value_type<P> &lambda1,
                         const Value_type<P> &mu1) {
   auto lambda2 = lambda1 * lambda1;
   auto mu2 = mu1 * mu1;

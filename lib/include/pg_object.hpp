@@ -93,7 +93,7 @@ public:
 //   return pg_object<_K, _dual>{plucker_c(l, p1, m, p2)};
 // }
 template <typename P, typename _K = typename P::value_type>
-auto plucker(const _K &lambda1, const P &p, const _K &mu1, const P &q) {
+P plucker(const _K &lambda1, const P &p, const _K &mu1, const P &q) {
   return P(plucker_c(lambda1, p, mu1, q));
 }
 

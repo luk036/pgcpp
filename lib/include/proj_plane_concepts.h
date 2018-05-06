@@ -32,7 +32,7 @@ concept bool Projective_plane_h =
     { p.aux() } -> L; // line not incident with p
     { p.dot(l) } -> Value_type<P>; // for measurement
     { plucker(a, p, a, q) } -> P; // vector computation
-};
+  };
 
 /**
  * @brief Projective plane Concept (full)

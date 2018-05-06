@@ -15,19 +15,21 @@ template <typename T>
 using Iterator_type = decltype(begin(std::declval<T>()));
 
 template <typename T>
-concept bool Sequence = requires(T t, Element_type<T> x) {
+concept bool Sequence = 
+  requires(T t, Element_type<T> x) {
     { t.size() } -> int;
     { t.empty() } -> bool;
     { t.back() } -> Element_type<T>;
     { t.push_back(x) }
-};
+  };
 
 template <typename T>
-concept bool Range = requires(T range) {
-  typename Iterator_type<T>;
-  { std::begin(range) } -> Iterator_type<T>;
-  { std::end(range) } -> Iterator_type<T>;
-};
+concept bool Range = 
+  requires(T range) {
+    typename Iterator_type<T>;
+    { std::begin(range) } -> Iterator_type<T>;
+    { std::end(range) } -> Iterator_type<T>;
+  };
 
 template <typename P, typename... Args>
 concept bool Predicate() {
@@ -37,10 +39,11 @@ concept bool Predicate() {
 }
 
 template <typename T>
-concept bool Equality_comparable = requires(T a, T b) {
-  {a == b} -> bool;
-  {a != b} -> bool;
-};
+concept bool Equality_comparable = 
+  requires(T a, T b) {
+    {a == b} -> bool;
+    {a != b} -> bool;
+  };
 // ( T, == ) must be reflective, symmetric, and transitive.
 
 template <typename K>
@@ -52,7 +55,7 @@ concept bool CommutativeRing =
     { -a    } -> K;
     { K(a)  } -> K;
     { K(0)  } -> K;
-};
+  };
 
 } // namespace fun
 

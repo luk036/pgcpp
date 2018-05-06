@@ -15,7 +15,7 @@ template <typename T>
 using Iterator_type = decltype(begin(std::declval<T>()));
 
 template <typename T>
-concept bool Sequence = 
+concept bool Sequence =
   requires(T t, Element_type<T> x) {
     { t.size() } -> int;
     { t.empty() } -> bool;
@@ -24,7 +24,7 @@ concept bool Sequence =
   };
 
 template <typename T>
-concept bool Range = 
+concept bool Range =
   requires(T range) {
     typename Iterator_type<T>;
     { std::begin(range) } -> Iterator_type<T>;
@@ -39,7 +39,7 @@ concept bool Predicate() {
 }
 
 template <typename T>
-concept bool Equality_comparable = 
+concept bool Equality_comparable =
   requires(T a, T b) {
     {a == b} -> bool;
     {a != b} -> bool;

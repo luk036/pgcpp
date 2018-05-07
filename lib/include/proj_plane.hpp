@@ -27,9 +27,9 @@ namespace fun {
  * @return true if three points are conincident
  * @return false otherwise
  */
-Projective_plane { P, L }
+Projective_plane_prim { P, L }
 constexpr bool coincident(const P &p, const P &q, const P &r) {
-  return r.incident(p * q);
+  return incident(r, p * q);
 }
 
 /**
@@ -42,10 +42,10 @@ constexpr bool coincident(const P &p, const P &q, const P &r) {
  * @return true if all points are incident with l
  * @return false otherwise
  */
-Projective_plane { P, L }
+Projective_plane_prim { P, L }
 constexpr bool coincident(const L &l, const Sequence &seq) {
   for (const P &p : seq) {
-    if (!l.incident(p))
+    if (!incident(l, p))
       return false;
   }
   return true;
@@ -53,7 +53,7 @@ constexpr bool coincident(const L &l, const Sequence &seq) {
 
 template <typename P> using Triple = std::tuple<P, P, P>;
 
-Projective_plane2 { P }
+Projective_plane_prim2 { P }
 constexpr auto tri(const Triple<P> &T) {
   auto [a1, a2, a3] = T;
   auto l1 = a2 * a3;
@@ -62,7 +62,7 @@ constexpr auto tri(const Triple<P> &T) {
   return std::tuple{l1, l2, l3};
 }
 
-Projective_plane2 { P }
+Projective_plane_prim2 { P }
 constexpr auto tri_func(const auto &func, const Triple<P> &T) {
   auto [a1, a2, a3] = T;
   auto m1 = func(a2, a3);
@@ -71,13 +71,21 @@ constexpr auto tri_func(const auto &func, const Triple<P> &T) {
   return std::tuple{m1, m2, m3};
 }
 
-Projective_plane2 { P }
+Projective_plane_prim2 { P }
 constexpr bool persp(const Triple<P> &tp1, const Triple<P> &tp2) {
   auto [A, B, C] = tp1;
   auto [D, E, F] = tp2;
   auto O = (A * D) * (B * E);
-  return O.incident(C * F);
+  return incident(O, C * F);
 }
+
+Projective_plane { P, L }
+constexpr bool incident(const P &p, const L &l) {
+  using K = typename P::value_type;
+  return p.dot(l) == K(0);
+}
+
+
 
 Projective_plane2 { P }
 constexpr auto harm_conj(const P &A, const P &B, const P &C) {
@@ -171,7 +179,7 @@ def isharmonic(A, B, C, D):
  * @param co1
  * @param co2
  */
-Projective_plane2 { P }
+Projective_plane_prim2 { P }
 void check_pappus(const Triple<P> &co1, const Triple<P> &co2) {
   auto [A, B, C] = co1;
   auto [D, E, F] = co2;
@@ -183,7 +191,7 @@ void check_pappus(const Triple<P> &co1, const Triple<P> &co2) {
 
 // template <class P, class L = typename P::dual>
 // requires Projective_plane<P, L>
-Projective_plane2 { P }
+Projective_plane_prim2 { P }
 void check_desargue(const Triple<P> &tri1, const Triple<P> &tri2) {
   auto trid1 = tri(tri1);
   auto trid2 = tri(tri2);

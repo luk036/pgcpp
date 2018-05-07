@@ -23,16 +23,50 @@ template <typename T> using Value_type = typename T::value_type;
  * @tparam L Line
  */
 template <class P, class L>
+concept bool Projective_plane_prim_h =
+  Equality_comparable<P> && requires(P p, P q, L l) {
+    { P(p) } -> P; // copyable
+    { incident(p, l) } -> bool; // incidence
+    { p * q } -> L; // join or meet
+    { p.aux() } -> L; // line not incident with p
+};
+
+/**
+ * @brief Projective plane Concept (full)
+ *
+ * @tparam P Point
+ * @tparam L Line
+ */
+template <class P, class L = typename P::dual>
+concept bool Projective_plane_prim =
+  Projective_plane_prim_h<P, L> && Projective_plane_prim_h<L, P>;
+
+/**
+ * @brief Projective plane Concept (half)
+ *
+ * @tparam P Point
+ * @tparam L Line
+ */
+template <class P, class L>
 concept bool Projective_plane_h =
   Equality_comparable<P> && requires(P p, P q, L l, Value_type<P> a) {
     typename Value_type<P>;
     { P(p) } -> P; // copyable
-    { p.incident(l) } -> bool; // incidence
+    // { incident(p, l) } -> bool; // incidence
     { p * q } -> L; // join or meet
     { p.aux() } -> L; // line not incident with p
     { p.dot(l) } -> Value_type<P>; // for measurement
     { plucker(a, p, a, q) } -> P; // vector computation
 };
+
+/**
+ * @brief Shorthand Notation of Projective_plane
+ *
+ * @tparam P Point
+ */
+template <class P>
+concept bool Projective_plane_prim2 = Projective_plane_prim<P>; // Make the compiler happy
+
 
 /**
  * @brief Projective plane Concept (full)

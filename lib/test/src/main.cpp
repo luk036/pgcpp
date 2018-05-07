@@ -16,11 +16,11 @@ TEST_CASE("Projective Point", "[proj_plane]") {
   auto l = p * q;
 
   REQUIRE(l == q * p);
-  REQUIRE(l.incident(p));
-  REQUIRE(l.incident(q));
+  REQUIRE(incident(l, p));
+  REQUIRE(incident(l, q));
 
   auto pq = plucker(2 + 1j, p, 3 + 0j, q);
-  REQUIRE(l.incident(pq));
+  REQUIRE(incident(l, pq));
 
   auto r = pg_point(2 - 1j, -2 + 1j, 1 + 1j);
   auto s = pg_point(2j, 2 - 2j, 3 + 0j);
@@ -36,11 +36,11 @@ TEST_CASE("Projective Line", "[proj_plane]") {
   auto m = pg_line(-2 + 1j, 1 - 3j, -1 - 1j);
   auto A = l * m;
   REQUIRE(A == m * l);
-  REQUIRE(A.incident(l));
-  REQUIRE(A.incident(m));
+  REQUIRE(incident(A, l));
+  REQUIRE(incident(A, m));
 
   auto lm = plucker(2 + 3j, l, 3 - 4j, m);
-  REQUIRE(A.incident(lm));
+  REQUIRE(incident(A, lm));
 
   // assert coI([l, m, plucker(1, l, 1, m), plucker(1, l, -1, m)])
 

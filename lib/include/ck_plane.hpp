@@ -7,22 +7,22 @@
 
 namespace fun {
 
-Projective_plane { _P, _L }
+Projective_plane_prim { _P, _L }
 class ck {
 public:
   virtual _L _perp(const _P &) const = 0; // virtual
 
   virtual _P _perp(const _L &) const = 0; // virtual
 
-  Projective_plane2 { L }
+  Projective_plane_prim2 { L }
   bool is_perpendicular(const L &l, const L &m) const {
-    return m.incident(_perp(l));
+    return incident(m, _perp(l));
   }
 
-  Projective_plane { P, L }
+  Projective_plane_prim { P, L }
   auto altitude(const P &p, const L &l) const { return p * _perp(l); }
 
-  Projective_plane2 { P }
+  Projective_plane_prim2 { P }
   constexpr auto tri_altitude(const P &a1, const P &a2, const P &a3) {
     auto [l1, l2, l3] = tri(std::tuple{a1, a2, a3});
     auto t1 = altitude(a1, l1);
@@ -31,7 +31,7 @@ public:
     return std::tuple{t1, t2, t3};
   }
 
-  Projective_plane2 { P }
+  Projective_plane_prim2 { P }
   auto orthocenter(const P &a1, const P &a2, const P &a3) const {
     auto t1 = altitude(a1, a2 * a3);
     auto t2 = altitude(a2, a1 * a3);
@@ -75,14 +75,14 @@ bool check_sine_law(const _Q &s1, const _Q &q1, const _Q &s2, const _Q &q2) {
   return s1 * q2 == s2 * q1;
 }
 
-Projective_plane { P, L }
+Projective_plane_prim { P, L } // and requires vector computations
 class ellck : public ck<P, L> {
 public:
   L _perp(const P &v) const final { return L(v); }
   P _perp(const L &v) const final { return P(v); }
 };
 
-Projective_plane { P, L }
+Projective_plane_prim { P, L } // and requires vector computations
 class hyck : public ck<P, L> {
 public:
   L _perp(const P &v) const final { return L(v[0], v[1], -v[2]); }

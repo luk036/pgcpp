@@ -10,7 +10,7 @@
 
 namespace fun {
 
-Projective_plane2 { L }
+Projective_plane_prim2 { L } // and requires p[i]
 constexpr auto dot1(const L &x, const L &y) {
   return x[0] * y[0] + x[1] * y[1];
 }
@@ -20,7 +20,7 @@ constexpr auto dot1(const L &x, const L &y) {
 //   return x[0] * y[1] - x[1] * y[0];
 // }
 
-Projective_plane2 { L }
+Projective_plane2 { L } // // and requires p[i]
 constexpr auto fB(const L &l) {
   using P = typename L::dual;
   using K = typename L::value_type;
@@ -39,7 +39,7 @@ constexpr auto is_parallel(const L &l, const L &m) {
 }
 
 Projective_plane { P, L }
-constexpr auto altitude(const P &a, const L &l) { return join(a, fB(l)); }
+constexpr auto altitude(const P &a, const L &l) { return a * fB(l); }
 
 Projective_plane2 { P }
 constexpr auto tri_altitude(const P &a1, const P &a2, const P &a3) {

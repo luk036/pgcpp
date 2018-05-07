@@ -27,7 +27,7 @@ public:
   }
 
   auto is_parallel(const L &l, const L &m) const {
-    return _l_infty.incident(l * m);
+    return incident(_l_infty, l * m);
   }
 
   auto midpoint(const P &a, const P &b) const {
@@ -53,9 +53,7 @@ public:
     return this->measure(a1, a2);
   }
 
-  auto spread(const L &l1, const L &l2) const {
-    return this->measure(l1, l2);
-  }
+  auto spread(const L &l1, const L &l2) const { return this->measure(l1, l2); }
 
   auto tri_quadrance(const P &a1, const P &a2, const P &a3) {
     return tri_func(this->quadrance, std::tuple{a1, a2, a3});

@@ -67,9 +67,9 @@ public:
   }
 
   /// Return true if a line @a l incident with object @a p
-  constexpr bool incident(const dual &l) const {
-    return this->dot(l) == _K(0);
-  }
+  // constexpr bool incident(const dual &l) const {
+  //   return this->dot(l) == _K(0);
+  // }
 
   /**
    * @brief Join or meet

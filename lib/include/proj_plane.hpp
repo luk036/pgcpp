@@ -85,10 +85,8 @@ constexpr bool incident(const P &p, const L &l) {
   return p.dot(l) == K(0);
 }
 
-
-
 Projective_plane2 { P }
-constexpr auto harm_conj(const P &A, const P &B, const P &C) {
+constexpr P harm_conj(const P &A, const P &B, const P &C) {
   auto lC = C * (A * B).aux();
   return plucker(B.dot(lC), A, A.dot(lC), B);
 }
@@ -107,7 +105,7 @@ public:
       : // input mirror and center
         _m{m}, _o{o}, _c{m.dot(o)} {}
 
-  constexpr auto operator()(const P &p) const {
+  constexpr P operator()(const P &p) const {
     return plucker(_c, p, -K(2) * p.dot(_m), _o);
   }
 };

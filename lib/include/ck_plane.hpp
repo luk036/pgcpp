@@ -20,7 +20,7 @@ public:
   }
 
   Projective_plane_prim { P, L }
-  auto altitude(const P &p, const L &l) const { return p * _perp(l); }
+  L altitude(const P &p, const L &l) const { return p * _perp(l); }
 
   Projective_plane_prim2 { P }
   constexpr auto tri_altitude(const P &a1, const P &a2, const P &a3) {

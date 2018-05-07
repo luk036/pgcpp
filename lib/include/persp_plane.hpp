@@ -26,11 +26,11 @@ public:
     return plucker(x.dot(_Ire), _Ire, x.dot(_Iim), _Iim);
   }
 
-  auto is_parallel(const L &l, const L &m) const {
+  bool is_parallel(const L &l, const L &m) const {
     return incident(_l_infty, l * m);
   }
 
-  auto midpoint(const P &a, const P &b) const {
+  P midpoint(const P &a, const P &b) const {
     return plucker(b.dot(_l_infty), a, a.dot(_l_infty), b);
   }
 

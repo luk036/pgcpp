@@ -47,21 +47,18 @@ public:
    * @param y
    * @param z
    */
-  constexpr pg_line(const _K &x, const _K &y, const _K &z) : _Base{_Base2{x, y, z}} {}
+  constexpr pg_line(const _K &x, const _K &y, const _K &z)
+      : _Base{_Base2{x, y, z}} {}
 };
 
 /// Return meet of two lines.
 CommutativeRing { _K }
-auto meet(const pg_line<_K> &l, const pg_line<_K> &m) {
-  return l * m;
-}
+auto meet(const pg_line<_K> &l, const pg_line<_K> &m) { return l * m; }
 
 // template deduction guides (C++17)
-CommutativeRing { _K }
-pg_line(const std::array<_K, 3>)->pg_line<_K>;
+CommutativeRing{_K} pg_line(const std::array<_K, 3>)->pg_line<_K>;
 
-CommutativeRing { _K }
-pg_line(const _K &, const _K &, const _K &)->pg_line<_K>;
+CommutativeRing{_K} pg_line(const _K &, const _K &, const _K &)->pg_line<_K>;
 
 } // namespace fun
 

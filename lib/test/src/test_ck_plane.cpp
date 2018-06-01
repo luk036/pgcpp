@@ -28,7 +28,7 @@ TEST_CASE("CK plane", "[ck_plane]") {
 
   REQUIRE(geometry._perp(geometry._perp(a1)) == a1);
   REQUIRE(geometry._perp(geometry._perp(l1)) == l1);
-  
+
   auto [t1, t2, t3] = geometry.tri_altitude(a1, a2, a3);
   CHECK(geometry.is_perpendicular(t1, l1));
 

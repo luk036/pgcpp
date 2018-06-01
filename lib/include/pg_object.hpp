@@ -15,9 +15,9 @@ namespace fun {
 
 /**
  * @brief Projective object
- * 
+ *
  * @tparam _K Type of object elements
- * @tparam _dual 
+ * @tparam _dual
  */
 template <typename _K, typename _dual>
 class pg_object : public std::array<_K, 3> {
@@ -46,7 +46,8 @@ public:
    * @return false otherwise
    */
   constexpr bool operator==(const _Self &rhs) const {
-    if (this == &rhs) return true;
+    if (this == &rhs)
+      return true;
     return cross(*this, rhs) == _Base{_K(0), _K(0), _K(0)};
   }
 
@@ -57,14 +58,10 @@ public:
    * @return true if this object is not equivalent to the rhs
    * @return false otherwise
    */
-  constexpr bool operator!=(const _Self &rhs) const {
-    return !(*this == rhs);
-  }
+  constexpr bool operator!=(const _Self &rhs) const { return !(*this == rhs); }
 
   /// Return the dot product
-  constexpr auto dot(const dual &l) const {
-    return fun::dot_c(*this, l);
-  }
+  constexpr auto dot(const dual &l) const { return fun::dot_c(*this, l); }
 
   /// Return true if a line @a l incident with object @a p
   // constexpr bool incident(const dual &l) const {
@@ -86,7 +83,6 @@ public:
   constexpr dual aux() { return dual(*this); }
 };
 
-
 // template <typename _K, typename _dual>
 // auto plucker(const _K &l, const pg_object<_K, _dual> &p1, const _K &m,
 //              const pg_object<_K, _dual> &p2) {
@@ -97,14 +93,12 @@ P plucker(const _K &lambda1, const P &p, const _K &mu1, const P &q) {
   return P(plucker_c(lambda1, p, mu1, q));
 }
 
-
 ///  Insertion operator for object values.
 template <typename _K, typename _dual, class _Stream>
 _Stream &operator<<(_Stream &os, const pg_object<_K, _dual> &p) {
   os << '(' << p[0] << ':' << p[1] << ':' << p[2] << ')';
   return os;
 }
-
 
 } // namespace fun
 

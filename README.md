@@ -1,5 +1,6 @@
 # Projective Geometry
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2791a40d6cd94011b8c36d7ad6b9b8f0)](https://app.codacy.com/app/luk036/pgcpp?utm_source=github.com&utm_medium=referral&utm_content=luk036/pgcpp&utm_campaign=badger)
 [![Build Status](https://travis-ci.org/luk036/pgcpp.svg?branch=master)](https://travis-ci.org/luk036/pgcpp)
 [![CodeFactor](https://www.codefactor.io/repository/github/luk036/pgcpp/badge)](https://www.codefactor.io/repository/github/luk036/pgcpp)
 [![BCH compliance](https://bettercodehub.com/edge/badge/luk036/pgcpp?branch=master)](https://bettercodehub.com/)

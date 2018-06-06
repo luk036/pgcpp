@@ -9,10 +9,10 @@
 using namespace fun;
 
 Projective_plane { P, L }
-class myck : public ck<P, L> {
+class myck : public ck<P, L, myck> {
 public:
-  L _perp(const P &v) const final { return L(-2 * v[0], v[1], -2 * v[2]); }
-  P _perp(const L &v) const final { return P(-v[0], 2 * v[1], -v[2]); }
+  L _perp(const P &v) const { return L(-2 * v[0], v[1], -2 * v[2]); }
+  P _perp(const L &v) const { return P(-v[0], 2 * v[1], -v[2]); }
 };
 
 TEST_CASE("CK plane", "[ck_plane]") {

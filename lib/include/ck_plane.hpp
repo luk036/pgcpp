@@ -7,20 +7,20 @@
 
 namespace fun {
 
-Projective_plane_prim { _P, _L }
-class ck {
-public:
-  virtual _L _perp(const _P &) const = 0; // virtual
-
-  virtual _P _perp(const _L &) const = 0; // virtual
+template <typename _P, typename _L,
+          template <typename P, typename L> class Derived>
+  requires Projective_plane_prim<_P, _L>
+struct ck {
+  using cDer = const Derived<_P, _L>;
 
   Projective_plane_prim2 { L }
   bool is_perpendicular(const L &l, const L &m) const {
-    return incident(m, _perp(l));
+    return incident(m, static_cast<cDer*>(this)->_perp(l));
   }
 
-  Projective_plane_prim { P, L }
-  L altitude(const P &p, const L &l) const { return p * _perp(l); }
+  Projective_plane_prim{P, L} L altitude(const P &p, const L &l) const {
+    return p * static_cast<cDer*>(this)->_perp(l);
+  }
 
   Projective_plane_prim2 { P }
   constexpr auto tri_altitude(const P &a1, const P &a2, const P &a3) {
@@ -39,7 +39,9 @@ public:
   }
 
   Projective_plane2 { L }
-  auto reflect(const L &m) const { return involution(m, _perp(m)); }
+  auto reflect(const L &m) const {
+    return involution(m, static_cast<cDer*>(this)->_perp(m));
+  }
 
   // Projective_plane2{P}
   // auto omega(const P & x) {
@@ -49,7 +51,8 @@ public:
   Projective_plane2 { P }
   auto measure(const P &a1, const P &a2) const {
     using K = Value_type<P>;
-    return K(1) - x_ratio(a1, a2, _perp(a2), _perp(a1));
+    return K(1) - x_ratio(a1, a2, static_cast<cDer*>(this)->_perp(a2),
+                          static_cast<cDer*>(this)->_perp(a1));
   }
 
   Projective_plane2 { P }
@@ -76,17 +79,15 @@ bool check_sine_law(const _Q &s1, const _Q &q1, const _Q &s2, const _Q &q2) {
 }
 
 Projective_plane_prim { P, L } // and requires vector computations
-class ellck : public ck<P, L> {
-public:
-  L _perp(const P &v) const final { return L(v); }
-  P _perp(const L &v) const final { return P(v); }
+struct ellck : public ck<P, L, ellck> {
+  L _perp(const P &v) const { return L(v); }
+  P _perp(const L &v) const { return P(v); }
 };
 
 Projective_plane_prim { P, L } // and requires vector computations
-class hyck : public ck<P, L> {
-public:
-  L _perp(const P &v) const final { return L(v[0], v[1], -v[2]); }
-  P _perp(const L &v) const final { return P(v[0], v[1], -v[2]); }
+struct hyck : public ck<P, L, hyck> {
+  L _perp(const P &v) const { return L(v[0], v[1], -v[2]); }
+  P _perp(const L &v) const { return P(v[0], v[1], -v[2]); }
 };
 
 template <typename _Q>

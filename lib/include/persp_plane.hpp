@@ -8,7 +8,7 @@
 namespace fun {
 
 Projective_plane { P, L }
-class persp_euclid_plane : public ck<P, L> {
+class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
   using K = typename P::value_type;
 
 private:
@@ -20,9 +20,9 @@ public:
   persp_euclid_plane(const P &Ire, const P &Iim, const L &l_infty)
       : _Ire{Ire}, _Iim{Iim}, _l_infty{l_infty} {}
 
-  L _perp(const P &x) const final { return _l_infty; }
+  L _perp(const P &x) const { return _l_infty; }
 
-  P _perp(const L &x) const final {
+  P _perp(const L &x) const {
     return plucker(x.dot(_Ire), _Ire, x.dot(_Iim), _Iim);
   }
 

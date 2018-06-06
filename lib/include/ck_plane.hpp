@@ -12,14 +12,16 @@ template <typename _P, typename _L,
   requires Projective_plane_prim<_P, _L>
 struct ck {
   using cDer = const Derived<_P, _L>;
+  cDer* _self = static_cast<cDer*>(this);
 
   Projective_plane_prim2 { L }
   bool is_perpendicular(const L &l, const L &m) const {
-    return incident(m, static_cast<cDer*>(this)->_perp(l));
+    return incident(m, _self->_perp(l));
   }
 
-  Projective_plane_prim{P, L} L altitude(const P &p, const L &l) const {
-    return p * static_cast<cDer*>(this)->_perp(l);
+  Projective_plane_prim{P, L} 
+  L altitude(const P &p, const L &l) const {
+    return p * _self->_perp(l);
   }
 
   Projective_plane_prim2 { P }
@@ -40,7 +42,7 @@ struct ck {
 
   Projective_plane2 { L }
   auto reflect(const L &m) const {
-    return involution(m, static_cast<cDer*>(this)->_perp(m));
+    return involution(m, _self->_perp(m));
   }
 
   // Projective_plane2{P}
@@ -51,8 +53,8 @@ struct ck {
   Projective_plane2 { P }
   auto measure(const P &a1, const P &a2) const {
     using K = Value_type<P>;
-    return K(1) - x_ratio(a1, a2, static_cast<cDer*>(this)->_perp(a2),
-                          static_cast<cDer*>(this)->_perp(a1));
+    return K(1) - x_ratio(a1, a2, _self->_perp(a2),
+                          _self->_perp(a1));
   }
 
   Projective_plane2 { P }

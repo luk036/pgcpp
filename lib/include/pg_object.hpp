@@ -21,66 +21,68 @@ namespace fun {
  */
 template <typename _K, typename _dual>
 class pg_object : public std::array<_K, 3> {
-  /// Value typedef.
-  using _Base = std::array<_K, 3>;
-  using _Self = pg_object<_K, _dual>;
+    /// Value typedef.
+    using _Base = std::array<_K, 3>;
+    using _Self = pg_object<_K, _dual>;
 
-public:
-  using value_type = _K;
-  using dual = _dual;
+  public:
+    using value_type = _K;
+    using dual = _dual;
 
-  /**
-   * @brief Construct a new pg object object
-   *
-   * @param a array of coordinates
-   */
-  constexpr explicit pg_object(const _Base &a) : _Base{a} {}
+    /**
+     * @brief Construct a new pg object object
+     *
+     * @param a array of coordinates
+     */
+    constexpr explicit pg_object(const _Base &a) : _Base{a} {}
 
-  // Operators:
+    // Operators:
 
-  /**
-   * @brief Equal to
-   *
-   * @param rhs
-   * @return true if this object is equivalent to the rhs
-   * @return false otherwise
-   */
-  constexpr bool operator==(const _Self &rhs) const {
-    if (this == &rhs)
-      return true;
-    return cross(*this, rhs) == _Base{_K(0), _K(0), _K(0)};
-  }
+    /**
+     * @brief Equal to
+     *
+     * @param rhs
+     * @return true if this object is equivalent to the rhs
+     * @return false otherwise
+     */
+    constexpr bool operator==(const _Self &rhs) const {
+        if (this == &rhs)
+            return true;
+        return cross(*this, rhs) == _Base{_K(0), _K(0), _K(0)};
+    }
 
-  /**
-   * @brief Not equal to
-   *
-   * @param rhs
-   * @return true if this object is not equivalent to the rhs
-   * @return false otherwise
-   */
-  constexpr bool operator!=(const _Self &rhs) const { return !(*this == rhs); }
+    /**
+     * @brief Not equal to
+     *
+     * @param rhs
+     * @return true if this object is not equivalent to the rhs
+     * @return false otherwise
+     */
+    constexpr bool operator!=(const _Self &rhs) const {
+        return !(*this == rhs);
+    }
 
-  /// Return the dot product
-  constexpr auto dot(const dual &l) const { return fun::dot_c(*this, l); }
+    /// Return the dot product
+    constexpr auto dot(const dual &l) const { return fun::dot_c(*this, l); }
 
-  /// Return true if a line @a l incident with object @a p
-  // constexpr bool incident(const dual &l) const {
-  //   return this->dot(l) == _K(0);
-  // }
+    /// Return true if a line @a l incident with object @a p
+    // constexpr bool incident(const dual &l) const {
+    //   return this->dot(l) == _K(0);
+    // }
 
-  /**
-   * @brief Join or meet
-   *
-   * @param rhs
-   * @return true if this point is equivalent to the rhs
-   * @return false otherwise
-   */
-  constexpr dual operator*(const _Self &rhs) const {
-    return dual(cross(*this, rhs));
-  }
+    /**
+     * @brief Join or meet
+     *
+     * @param rhs
+     * @return true if this point is equivalent to the rhs
+     * @return false otherwise
+     */
+    constexpr dual operator*(const _Self &rhs) const {
+        return dual(cross(*this, rhs));
+    }
 
-  ///  Return new line not incident with p
-  constexpr dual aux() { return dual(*this); }
+    ///  Return new line not incident with p
+    constexpr dual aux() { return dual(*this); }
 };
 
 // template <typename _K, typename _dual>
@@ -90,14 +92,14 @@ public:
 // }
 template <typename P, typename _K = typename P::value_type>
 P plucker(const _K &lambda1, const P &p, const _K &mu1, const P &q) {
-  return P(plucker_c(lambda1, p, mu1, q));
+    return P(plucker_c(lambda1, p, mu1, q));
 }
 
 ///  Insertion operator for object values.
 template <typename _K, typename _dual, class _Stream>
 _Stream &operator<<(_Stream &os, const pg_object<_K, _dual> &p) {
-  os << '(' << p[0] << ':' << p[1] << ':' << p[2] << ')';
-  return os;
+    os << '(' << p[0] << ':' << p[1] << ':' << p[2] << ')';
+    return os;
 }
 
 } // namespace fun

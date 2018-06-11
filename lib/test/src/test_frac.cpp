@@ -7,8 +7,8 @@
 using namespace fun;
 
 TEST_CASE("Fraction", "[fraction]") {
-  auto p = Fraction(3, 4);
-  auto q = Fraction(5, 6);
+    auto p = Fraction(3, 4);
+    auto q = Fraction(5, 6);
 
-  REQUIRE(p == Fraction(30, 40));
+    CHECK(p == Fraction(30, 40));
 }

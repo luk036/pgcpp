@@ -4,23 +4,28 @@
 #include "proj_plane.hpp"
 #include "proj_plane_concepts.h"
 #include <cassert>
+#include <type_traits>
 
 namespace fun {
 
 template <typename _P, typename _L,
           template <typename P, typename L> class Derived>
-    requires Projective_plane_prim<_P, _L> 
+    requires Projective_plane_prim<_P, _L>
 struct ck {
     using cDer = const Derived<_P, _L>;
     cDer &self = *static_cast<cDer *>(this);
+
+    explicit ck() {
+        static_assert(
+            std::is_base_of<ck<_P, _L, Derived>, Derived<_P, _L>>::value);
+    }
 
     Projective_plane_prim2 { L }
     bool is_perpendicular(const L &l, const L &m) const {
         return incident(m, self._perp(l));
     }
 
-    Projective_plane_prim{P, L}
-    L altitude(const P &p, const L &l) const {
+    Projective_plane_prim{P, L} L altitude(const P &p, const L &l) const {
         return p * self._perp(l);
     }
 
@@ -41,7 +46,11 @@ struct ck {
     }
 
     Projective_plane2 { L }
-    auto reflect(const L &m) const { return involution(m, self._perp(m)); }
+    auto reflect(const L &m) const {
+        static_assert(
+            std::is_base_of<ck<_P, _L, Derived>, Derived<_P, _L>>::value);
+        return involution(m, self._perp(m));
+    }
 
     // Projective_plane2{P}
     // auto omega(const P & x) {

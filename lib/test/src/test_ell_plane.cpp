@@ -26,7 +26,7 @@ TEST_CASE("Elliptic plane", "[ell_plane]") {
 
     using P = decltype(a1);
     using L = decltype(l1);
-    auto geometry = ellck<P, L>{};
+    auto geometry = ellck<P, L>();
 
     auto t1 = geometry.altitude(a1, l1);
     auto t2 = geometry.altitude(a2, l2);

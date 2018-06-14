@@ -23,7 +23,7 @@ TEST_CASE("CK plane", "[ck_plane]") {
 
     using P = decltype(a1);
     using L = decltype(l1);
-    auto geometry = myck<P, L>{};
+    auto geometry = myck<P, L>();
 
     CHECK(geometry._perp(geometry._perp(a1)) == a1);
     CHECK(geometry._perp(geometry._perp(l1)) == l1);

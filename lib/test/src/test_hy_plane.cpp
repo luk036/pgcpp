@@ -26,7 +26,7 @@ TEST_CASE("Hyperbolic plane", "[hy_plane]") {
 
     using P = decltype(a1);
     using L = decltype(l1);
-    auto geometry = hyck<P, L>{};
+    auto geometry = hyck<P, L>();
 
     auto t1 = geometry.altitude(a1, l1);
     auto t2 = geometry.altitude(a2, l2);

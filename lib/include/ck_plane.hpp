@@ -25,7 +25,8 @@ struct ck {
         return incident(m, self._perp(l));
     }
 
-    Projective_plane_prim{P, L} L altitude(const P &p, const L &l) const {
+    Projective_plane_prim{P, L}
+    L altitude(const P &p, const L &l) const {
         return p * self._perp(l);
     }
 

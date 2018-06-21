@@ -4,6 +4,7 @@
 #include <cassert>
 #include <cmath>
 #include <type_traits>
+#include <numeric>
 
 template <typename Z> bool concept Integer = requires {
     std::is_integral<Z>::value;
@@ -11,15 +12,15 @@ template <typename Z> bool concept Integer = requires {
 
 namespace fun {
 
-Integer { Z }
-inline constexpr Z gcd(const Z &a, const Z &b) noexcept {
-    return b == Z(0) ? std::abs(a) : gcd(b, a % b);
-}
+// Integer { Z }
+// inline constexpr Z std::gcd(const Z &a, const Z &b) noexcept {
+//     return b == Z(0) ? std::abs(a) : std::gcd(b, a % b);
+// }
 
-Integer { Z }
-inline constexpr Z lcm(const Z &a, const Z &b) noexcept {
-    return a / gcd(a, b) * b;
-}
+// Integer { Z }
+// inline constexpr Z std::lcm(const Z &a, const Z &b) noexcept {
+//     return a / std::gcd(a, b) * b;
+// }
 
 Integer { Z }
 class Fraction {
@@ -31,7 +32,7 @@ class Fraction {
 
   public:
     constexpr Fraction(const Z &numerator, const Z &denominator) {
-        auto common = gcd(numerator, denominator);
+        auto common = std::gcd(numerator, denominator);
         _numerator = numerator / common;
         _denominator = denominator / common;
     }
@@ -41,7 +42,7 @@ class Fraction {
     constexpr const Z &denominator() const { return _denominator; }
 
     constexpr auto operator+(const _Self &frac) const {
-        auto common = lcm(_denominator, frac._denominator);
+        auto common = std::lcm(_denominator, frac._denominator);
         auto n = common / _denominator * _numerator +
                  common / frac._denominator * frac._numerator;
         return _Self(n, common);
@@ -79,7 +80,8 @@ class Fraction {
      * @return constexpr auto
      */
     constexpr auto cmp(const _Self &frac) const {
-        return _numerator * frac._denominator - _denominator * frac._numerator;
+        return _numerator * frac._denominator - 
+               _denominator * frac._numerator;
     }
 
     constexpr bool operator==(const _Self &frac) const {
@@ -114,7 +116,7 @@ _Stream &operator<<(_Stream &os, const Fraction<Z> &frac) {
 }
 
 // For template deduction
-template <typename Z> Fraction(const Z &, const Z &)->Fraction<Z>;
+Integer { Z } Fraction(const Z &, const Z &)->Fraction<Z>;
 
 } // namespace fun
 

@@ -32,9 +32,10 @@ TEST_CASE("Euclid plane", "[persp_plane]") {
     auto t3 = altitude(a3, l3);
     CHECK(is_perpendicular(t1, l1));
 
-    auto o = orthocenter(a1, a2, a3);
+    auto triangle = std::tuple{a1, a2, a3};
+    auto o = orthocenter(triangle);
     CHECK(o == meet(t2, t3));
-    CHECK(a1 == orthocenter(o, a2, a3));
+    CHECK(a1 == orthocenter(std::tuple{o, a2, a3}));
 
     auto tau = reflect(l1);
     CHECK(tau(tau(a1)) == a1);

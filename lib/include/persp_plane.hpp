@@ -59,12 +59,12 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
         return this->measure(l1, l2);
     }
 
-    constexpr auto tri_quadrance(const P &a1, const P &a2, const P &a3) const {
-        return tri_func(this->quadrance, std::tuple{a1, a2, a3});
+    constexpr auto tri_quadrance(const Triple<P> &triangle) const {
+        return tri_func(this->quadrance, triangle);
     }
 
-    constexpr auto tri_spread(const L &l1, const L &l2, const L &l3) const {
-        return tri_func(this->spread, std::tuple{l1, l2, l3});
+    constexpr auto tri_spread(const Triple<L> &trilateral) const {
+        return tri_func(this->spread, trilateral);
     }
 
     constexpr auto cross(const L &l1, const L &l2) const {

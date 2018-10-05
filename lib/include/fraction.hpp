@@ -51,7 +51,7 @@ class Fraction {
     constexpr auto operator+(const _Self &frac) const {
         auto &&common = std::lcm(_denominator, frac._denominator);
         auto &&n = common / _denominator * _numerator +
-                 common / frac._denominator * frac._numerator;
+                   common / frac._denominator * frac._numerator;
         return _Self(n, common);
     }
 

@@ -54,8 +54,8 @@ constexpr bool coincident(const L &l, const Sequence &seq) {
 template <typename P> using Triple = std::tuple<P, P, P>;
 
 Projective_plane_prim2 { P }
-constexpr auto tri(const Triple<P> &T) {
-    auto &&[a1, a2, a3] = T;
+constexpr auto tri_dual(const Triple<P> &tri) {
+    auto &&[a1, a2, a3] = tri;
     using Line = typename P::dual;
     Line &&l1 = a2 * a3;
     Line &&l2 = a1 * a3;
@@ -64,8 +64,8 @@ constexpr auto tri(const Triple<P> &T) {
 }
 
 Projective_plane_prim2 { P }
-constexpr auto tri_func(const auto &func, const Triple<P> &T) {
-    auto &&[a1, a2, a3] = T;
+constexpr auto tri_func(const auto &func, const Triple<P> &tri) {
+    auto &&[a1, a2, a3] = tri;
     using ret_t = decltype(func(a1, a2));
     ret_t &&m1 = func(a2, a3);
     ret_t &&m2 = func(a1, a3);
@@ -74,9 +74,9 @@ constexpr auto tri_func(const auto &func, const Triple<P> &T) {
 }
 
 Projective_plane_prim2 { Point }
-constexpr bool persp(const Triple<Point> &tp1, const Triple<Point> &tp2) {
-    auto &&[A, B, C] = tp1;
-    auto &&[D, E, F] = tp2;
+constexpr bool persp(const Triple<Point> &tri1, const Triple<Point> &tri2) {
+    auto &&[A, B, C] = tri1;
+    auto &&[D, E, F] = tri2;
     Point &&O = (A * D) * (B * E);
     return incident(O, C * F);
 }
@@ -150,10 +150,10 @@ constexpr auto ratio_ratio(const K &a, const K &b, const K &c, const K &d) {
 Projective_plane { P, L }
 constexpr auto x_ratio(const P &A, const P &B, const L &l, const L &m) {
     using ret_t = decltype(A.dot(l));
-    ret_t&& dAl = A.dot(l);
-    ret_t&& dAm = A.dot(m);
-    ret_t&& dBl = B.dot(l);
-    ret_t&& dBm = B.dot(m);
+    ret_t &&dAl = A.dot(l);
+    ret_t &&dAm = A.dot(m);
+    ret_t &&dBl = B.dot(l);
+    ret_t &&dBm = B.dot(m);
     return ratio_ratio(dAl, dAm, dBl, dBm);
 }
 
@@ -196,8 +196,8 @@ void check_pappus(const Triple<Point> &co1, const Triple<Point> &co2) {
 // requires Projective_plane<P, L>
 Projective_plane_prim2 { P }
 void check_desargue(const Triple<P> &tri1, const Triple<P> &tri2) {
-    auto &&trid1 = tri(tri1);
-    auto &&trid2 = tri(tri2);
+    auto &&trid1 = tri_dual(tri1);
+    auto &&trid2 = tri_dual(tri2);
     bool b1 = persp(tri1, tri2);
     bool b2 = persp(trid1, trid2);
     assert((b1 && b2) || (!b1 && !b2));

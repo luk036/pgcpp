@@ -19,7 +19,8 @@ TEST_CASE("CK plane", "[ck_plane]") {
     auto a2 = pg_point(4, -5, 6);
     auto a3 = pg_point(-7, 8, 9);
 
-    auto [l1, l2, l3] = tri(std::tuple{a1, a2, a3});
+    auto triangle = std::tuple{a1, a2, a3};
+    auto [l1, l2, l3] = tri_dual(triangle);
 
     using P = decltype(a1);
     using L = decltype(l1);
@@ -28,12 +29,12 @@ TEST_CASE("CK plane", "[ck_plane]") {
     CHECK(geometry._perp(geometry._perp(a1)) == a1);
     CHECK(geometry._perp(geometry._perp(l1)) == l1);
 
-    auto [t1, t2, t3] = geometry.tri_altitude(a1, a2, a3);
+    auto [t1, t2, t3] = geometry.tri_altitude(triangle);
     CHECK(geometry.is_perpendicular(t1, l1));
 
-    auto o = geometry.orthocenter(a1, a2, a3);
+    auto o = geometry.orthocenter(triangle);
     CHECK(o == t2 * t3);
-    CHECK(a1 == geometry.orthocenter(o, a2, a3));
+    CHECK(a1 == geometry.orthocenter(std::tuple{o, a2, a3}));
 
     auto tau = geometry.reflect(l1);
     CHECK(tau(tau(a1)) == a1);

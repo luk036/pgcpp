@@ -42,9 +42,10 @@ Projective_plane { P, L }
 constexpr L altitude(const P &a, const L &l) { return a * fB(l); }
 
 Projective_plane2 { P }
-constexpr auto tri_altitude(const P &a1, const P &a2, const P &a3) {
-    using Line = typename P::dual; 
-    auto &&[l1, l2, l3] = tri(std::tuple{a1, a2, a3});
+constexpr auto tri_altitude(const Triple<P> &tri) {
+    using Line = typename P::dual;
+    auto &&[l1, l2, l3] = tri_dual(tri);
+    auto &&[a1, a2, a3] = tri;
     Line &&t1 = altitude(a1, l1);
     Line &&t2 = altitude(a2, l2);
     Line &&t3 = altitude(a3, l3);
@@ -52,8 +53,9 @@ constexpr auto tri_altitude(const P &a1, const P &a2, const P &a3) {
 }
 
 Projective_plane2 { P }
-constexpr P orthocenter(const P &a1, const P &a2, const P &a3) {
-    using Line = typename P::dual; 
+constexpr P orthocenter(const Triple<P> &tri) {
+    using Line = typename P::dual;
+    auto &&[a1, a2, a3] = tri;
     Line &&t1 = altitude(a1, a2 * a3);
     Line &&t2 = altitude(a2, a1 * a3);
     return t1 * t2;
@@ -107,13 +109,13 @@ constexpr auto spread(const L &l1, const L &l2) {
 }
 
 Projective_plane2 { P }
-constexpr auto tri_quadrance(const P &a1, const P &a2, const P &a3) {
-    return tri_func(quadrance, std::tuple{a1, a2, a3});
+constexpr auto tri_quadrance(const Triple<P> &triangle) {
+    return tri_func(quadrance, triangle);
 }
 
 Projective_plane2 { L }
-constexpr auto tri_spread(const L &l1, const L &l2, const L &l3) {
-    return tri_func(spread, std::tuple{l1, l2, l3});
+constexpr auto tri_spread(const Triple<L> &trilateral) {
+    return tri_func(spread, trilateral);
 }
 
 Projective_plane { P, L }

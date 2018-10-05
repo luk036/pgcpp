@@ -30,8 +30,9 @@ requires Projective_plane_prim<_P, _L> struct ck {
     }
 
     Projective_plane_prim2 { P }
-    constexpr auto tri_altitude(const P &a1, const P &a2, const P &a3) {
-        auto &&[l1, l2, l3] = tri(std::tuple{a1, a2, a3});
+    constexpr auto tri_altitude(const Triple<P> &tri) const {
+        auto &&[l1, l2, l3] = tri_dual(tri);
+        auto &&[a1, a2, a3] = tri;
         using L = typename P::dual;
         L &&t1 = altitude(a1, l1);
         L &&t2 = altitude(a2, l2);
@@ -40,7 +41,8 @@ requires Projective_plane_prim<_P, _L> struct ck {
     }
 
     Projective_plane_prim2 { P }
-    constexpr P orthocenter(const P &a1, const P &a2, const P &a3) const {
+    constexpr P orthocenter(const Triple<P> &tri) const {
+        auto &&[a1, a2, a3] = tri;
         using L = typename P::dual;
         L &&t1 = altitude(a1, a2 * a3);
         L &&t2 = altitude(a2, a1 * a3);
@@ -66,8 +68,8 @@ requires Projective_plane_prim<_P, _L> struct ck {
     }
 
     Projective_plane2 { P }
-    constexpr auto tri_measure(const Triple<P> &triangle) const {
-        return tri_func(this->measure, triangle);
+    constexpr auto tri_measure(const Triple<P> &tri) const {
+        return tri_func(this->measure, tri);
     }
 
     constexpr auto quadrance(const _P &p, const _P &q) const {
@@ -78,13 +80,12 @@ requires Projective_plane_prim<_P, _L> struct ck {
         return measure(l, m);
     }
 
-    constexpr auto tri_quadrance(const _P &a1, const _P &a2,
-                                 const _P &a3) const {
-        return this->tri_measure(std::tuple{a1, a2, a3});
+    constexpr auto tri_quadrance(const Triple<_P> &triangle) const {
+        return this->tri_measure(triangle);
     }
 
-    constexpr auto tri_spread(const _L &l1, const _L &l2, const _L &l3) const {
-        return this->tri_measure(std::tuple{l1, l2, l3});
+    constexpr auto tri_spread(const Triple<_L> &trilateral) const {
+        return this->tri_measure(trilateral);
     }
 };
 

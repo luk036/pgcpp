@@ -37,9 +37,10 @@ TEST_CASE("Perspective Euclid plane", "[persp_plane]") {
     auto t3 = geometry.altitude(a3, l3);
     CHECK(geometry.is_perpendicular(t1, l1));
 
-    auto o = geometry.orthocenter(a1, a2, a3);
+    auto triangle = std::tuple{a1, a2, a3};
+    auto o = geometry.orthocenter(triangle);
     CHECK(o == meet(t2, t3));
-    CHECK(a1 == geometry.orthocenter(o, a2, a3));
+    CHECK(a1 == geometry.orthocenter(std::tuple{o, a2, a3}));
 
     auto tau = geometry.reflect(l1);
     CHECK(tau(tau(a1)) == a1);

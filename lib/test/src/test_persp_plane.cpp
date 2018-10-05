@@ -10,12 +10,6 @@
 using namespace fun;
 
 TEST_CASE("Perspective Euclid plane", "[persp_plane]") {
-
-    // using P = pg_point<int>;
-    // using L = pg_line<int>;
-    // using dP = decltype(dualP);
-    // using dL = decltype(dualL);
-
     auto a1 = pg_point(1, 2, 3);
     auto a2 = pg_point(4, -5, 6);
     auto a3 = pg_point(-7, 8, 9);

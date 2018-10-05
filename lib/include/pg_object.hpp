@@ -66,11 +66,6 @@ class pg_object : public std::array<_K, 3> {
     /// Return the dot product
     constexpr auto dot(const dual &l) const { return fun::dot_c(*this, l); }
 
-    /// Return true if a line @a l incident with object @a p
-    // constexpr bool incident(const dual &l) const {
-    //   return this->dot(l) == _K(0);
-    // }
-
     /**
      * @brief Join or meet
      *
@@ -86,11 +81,6 @@ class pg_object : public std::array<_K, 3> {
     constexpr dual aux() const { return dual(*this); }
 };
 
-// template <typename _K, typename _dual>
-// auto plucker(const _K &l, const pg_object<_K, _dual> &p1, const _K &m,
-//              const pg_object<_K, _dual> &p2) {
-//   return pg_object<_K, _dual>{plucker_c(l, p1, m, p2)};
-// }
 template <typename P, typename _K = typename P::value_type>
 constexpr P plucker(const _K &lambda1, const P &p, const _K &mu1, const P &q) {
     return P(plucker_c(lambda1, p, mu1, q));

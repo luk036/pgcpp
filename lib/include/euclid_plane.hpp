@@ -15,11 +15,6 @@ constexpr auto dot1(const L &x, const L &y) {
     return x[0] * y[0] + x[1] * y[1];
 }
 
-// Projective_plane2 { P }
-// constexpr auto cross1(const P &x, const P &y) {
-//   return x[0] * y[1] - x[1] * y[0];
-// }
-
 Projective_plane2 { L } // // and requires p[i]
 constexpr auto fB(const L &l) {
     using P = typename L::dual;

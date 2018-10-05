@@ -56,11 +56,6 @@ requires Projective_plane_prim<_P, _L> struct ck {
         return involution(m, self._perp(m));
     }
 
-    // Projective_plane2{P}
-    // auto omega(const P & x) {
-    //   return x.dot(~x);
-    // }
-
     Projective_plane2 { P }
     constexpr auto measure(const P &a1, const P &a2) const {
         using K = Value_type<P>;

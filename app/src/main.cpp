@@ -17,13 +17,13 @@
 int main(int argc, char *argv[]) {
   using namespace fun;
 
-  auto a1 = pg_point{1., 3., 1.};
-  auto a2 = pg_point{4., 2., 1.};
-  auto a3 = pg_point{1., 1., -1.};
+  pg_point a1{1., 3., 1.};
+  pg_point a2{4., 2., 1.};
+  pg_point a3{1., 1., -1.};
 
-  auto l1 = pg_line(a2 * a3);
-  auto l2 = pg_line(a1 * a3);
-  auto l3 = pg_line(a1 * a2);
+  pg_line l1{a2 * a3};
+  pg_line l2{a1 * a3};
+  pg_line l3{a1 * a2};
 
   return 0;
 }

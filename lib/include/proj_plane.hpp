@@ -44,7 +44,7 @@ constexpr bool coincident(const P &p, const P &q, const P &r) {
  */
 Projective_plane_prim { P, L }
 constexpr bool coincident(const L &l, const Sequence &seq) {
-    for (const P &p : seq) {
+    for (P &&p : seq) {
         if (!incident(l, p))
             return false;
     }
@@ -55,27 +55,29 @@ template <typename P> using Triple = std::tuple<P, P, P>;
 
 Projective_plane_prim2 { P }
 constexpr auto tri(const Triple<P> &T) {
-    auto [a1, a2, a3] = T;
-    auto l1 = a2 * a3;
-    auto l2 = a1 * a3;
-    auto l3 = a1 * a2;
-    return std::tuple{l1, l2, l3};
+    auto &&[a1, a2, a3] = T;
+    using Line = typename P::dual;
+    Line &&l1 = a2 * a3;
+    Line &&l2 = a1 * a3;
+    Line &&l3 = a1 * a2;
+    return Triple<Line>{l1, l2, l3};
 }
 
 Projective_plane_prim2 { P }
 constexpr auto tri_func(const auto &func, const Triple<P> &T) {
-    auto [a1, a2, a3] = T;
-    auto m1 = func(a2, a3);
-    auto m2 = func(a1, a3);
-    auto m3 = func(a1, a2);
-    return std::tuple{m1, m2, m3};
+    auto &&[a1, a2, a3] = T;
+    using ret_t = decltype(func(a1, a2));
+    ret_t &&m1 = func(a2, a3);
+    ret_t &&m2 = func(a1, a3);
+    ret_t &&m3 = func(a1, a2);
+    return Triple<ret_t>{m1, m2, m3};
 }
 
-Projective_plane_prim2 { P }
-constexpr bool persp(const Triple<P> &tp1, const Triple<P> &tp2) {
-    auto [A, B, C] = tp1;
-    auto [D, E, F] = tp2;
-    auto O = (A * D) * (B * E);
+Projective_plane_prim2 { Point }
+constexpr bool persp(const Triple<Point> &tp1, const Triple<Point> &tp2) {
+    auto &&[A, B, C] = tp1;
+    auto &&[D, E, F] = tp2;
+    Point &&O = (A * D) * (B * E);
     return incident(O, C * F);
 }
 
@@ -87,7 +89,8 @@ constexpr bool incident(const P &p, const L &l) {
 
 Projective_plane2 { P }
 constexpr P harm_conj(const P &A, const P &B, const P &C) {
-    auto lC = C * (A * B).aux();
+    using Line = typename P::dual;
+    Line &&lC = C * (A * B).aux();
     return plucker(B.dot(lC), A, A.dot(lC), B);
 }
 
@@ -101,7 +104,7 @@ class involution {
     K _c;
 
   public:
-    constexpr explicit involution(const L &m, const P &o)
+    constexpr involution(const L &m, const P &o)
         : // input mirror and center
           _m{m}, _o{o}, _c{m.dot(o)} {}
 
@@ -121,7 +124,8 @@ class involution {
  * @return (a/b) / (c/d)
  */
 Integer { K }
-constexpr auto ratio_ratio(const K &a, const K &b, const K &c, const K &d) {
+constexpr Fraction<K> ratio_ratio(const K &a, const K &b, const K &c,
+                                  const K &d) {
     return Fraction<K>(a, b) / Fraction<K>(c, d);
 }
 
@@ -145,10 +149,11 @@ constexpr auto ratio_ratio(const K &a, const K &b, const K &c, const K &d) {
  */
 Projective_plane { P, L }
 constexpr auto x_ratio(const P &A, const P &B, const L &l, const L &m) {
-    auto dAl = A.dot(l);
-    auto dAm = A.dot(m);
-    auto dBl = B.dot(l);
-    auto dBm = B.dot(m);
+    using ret_t = decltype(A.dot(l));
+    ret_t&& dAl = A.dot(l);
+    ret_t&& dAm = A.dot(m);
+    ret_t&& dBl = B.dot(l);
+    ret_t&& dBm = B.dot(m);
     return ratio_ratio(dAl, dAm, dBl, dBm);
 }
 
@@ -177,13 +182,13 @@ def isharmonic(A, B, C, D):
  * @param co1
  * @param co2
  */
-Projective_plane_prim2 { P }
-void check_pappus(const Triple<P> &co1, const Triple<P> &co2) {
-    auto [A, B, C] = co1;
-    auto [D, E, F] = co2;
-    auto G = (A * E) * (B * D);
-    auto H = (A * F) * (C * D);
-    auto I = (B * F) * (C * E);
+Projective_plane_prim2 { Point }
+void check_pappus(const Triple<Point> &co1, const Triple<Point> &co2) {
+    auto &&[A, B, C] = co1;
+    auto &&[D, E, F] = co2;
+    Point &&G = (A * E) * (B * D);
+    Point &&H = (A * F) * (C * D);
+    Point &&I = (B * F) * (C * E);
     assert(coincident(G, H, I));
 }
 
@@ -191,10 +196,10 @@ void check_pappus(const Triple<P> &co1, const Triple<P> &co2) {
 // requires Projective_plane<P, L>
 Projective_plane_prim2 { P }
 void check_desargue(const Triple<P> &tri1, const Triple<P> &tri2) {
-    auto trid1 = tri(tri1);
-    auto trid2 = tri(tri2);
-    auto b1 = persp(tri1, tri2);
-    auto b2 = persp(trid1, trid2);
+    auto &&trid1 = tri(tri1);
+    auto &&trid2 = tri(tri2);
+    bool b1 = persp(tri1, tri2);
+    bool b2 = persp(trid1, trid2);
     assert((b1 && b2) || (!b1 && !b2));
 }
 

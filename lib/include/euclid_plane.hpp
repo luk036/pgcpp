@@ -43,17 +43,19 @@ constexpr L altitude(const P &a, const L &l) { return a * fB(l); }
 
 Projective_plane2 { P }
 constexpr auto tri_altitude(const P &a1, const P &a2, const P &a3) {
-    auto [l1, l2, l3] = tri(std::tuple{a1, a2, a3});
-    auto t1 = altitude(a1, l1);
-    auto t2 = altitude(a2, l2);
-    auto t3 = altitude(a3, l3);
+    using Line = typename P::dual; 
+    auto &&[l1, l2, l3] = tri(std::tuple{a1, a2, a3});
+    Line &&t1 = altitude(a1, l1);
+    Line &&t2 = altitude(a2, l2);
+    Line &&t3 = altitude(a3, l3);
     return std::tuple{t1, t2, t3};
 }
 
 Projective_plane2 { P }
 constexpr P orthocenter(const P &a1, const P &a2, const P &a3) {
-    auto t1 = altitude(a1, a2 * a3);
-    auto t2 = altitude(a2, a1 * a3);
+    using Line = typename P::dual; 
+    Line &&t1 = altitude(a1, a2 * a3);
+    Line &&t2 = altitude(a2, a1 * a3);
     return t1 * t2;
 }
 

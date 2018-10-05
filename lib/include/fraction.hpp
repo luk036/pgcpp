@@ -12,16 +12,6 @@ template <typename Z> bool concept Integer = requires {
 
 namespace fun {
 
-// Integer { Z }
-// inline constexpr Z std::gcd(const Z &a, const Z &b) noexcept {
-//     return b == Z(0) ? std::abs(a) : std::gcd(b, a % b);
-// }
-
-// Integer { Z }
-// inline constexpr Z std::lcm(const Z &a, const Z &b) noexcept {
-//     return a / std::gcd(a, b) * b;
-// }
-
 Integer { Z }
 class Fraction {
     using _Self = Fraction<Z>;
@@ -32,7 +22,7 @@ class Fraction {
 
   public:
     constexpr Fraction(const Z &numerator, const Z &denominator) {
-        auto common = std::gcd(numerator, denominator);
+        auto &&common = std::gcd(numerator, denominator);
         _numerator = numerator / common;
         _denominator = denominator / common;
     }
@@ -59,8 +49,8 @@ class Fraction {
     }
 
     constexpr auto operator+(const _Self &frac) const {
-        auto common = std::lcm(_denominator, frac._denominator);
-        auto n = common / _denominator * _numerator +
+        auto &&common = std::lcm(_denominator, frac._denominator);
+        auto &&n = common / _denominator * _numerator +
                  common / frac._denominator * frac._numerator;
         return _Self(n, common);
     }
@@ -79,9 +69,8 @@ class Fraction {
     }
 
     constexpr auto operator+(const Z &i) const {
-        auto common = _denominator;
-        auto n = _numerator + _denominator * i;
-        return _Self(n, common);
+        auto &&n = _numerator + _denominator * i;
+        return _Self(n, _denominator);
     }
 
     constexpr auto operator-(const Z &i) const { return *this + (-i); }

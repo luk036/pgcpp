@@ -51,7 +51,9 @@ struct pg_line : pg_object<_K, pg_point<_K>> {
 
 /// Return meet of two lines.
 CommutativeRing { _K }
-auto meet(const pg_line<_K> &l, const pg_line<_K> &m) { return l * m; }
+constexpr auto meet(const pg_line<_K> &l, const pg_line<_K> &m) {
+    return l * m;
+}
 
 // template deduction guides (C++17)
 CommutativeRing{_K} pg_line(const std::array<_K, 3>)->pg_line<_K>;

@@ -45,14 +45,14 @@ struct pg_point : pg_object<_K, pg_line<_K>> {
 
 /// Return join of two points.
 CommutativeRing { _K }
-auto join(const pg_point<_K> &p, const pg_point<_K> &q) { return p * q; }
+constexpr auto join(const pg_point<_K> &p, const pg_point<_K> &q) {
+    return p * q;
+}
 
 // template deduction guides (C++17)
-CommutativeRing{_K}
-pg_point(const std::array<_K, 3> &)->pg_point<_K>;
+CommutativeRing{_K} pg_point(const std::array<_K, 3> &)->pg_point<_K>;
 
-CommutativeRing{_K}
-pg_point(const _K &, const _K &, const _K &)->pg_point<_K>;
+CommutativeRing{_K} pg_point(const _K &, const _K &, const _K &)->pg_point<_K>;
 
 } // namespace fun
 

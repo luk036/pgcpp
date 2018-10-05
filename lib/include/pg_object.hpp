@@ -46,8 +46,9 @@ class pg_object : public std::array<_K, 3> {
      * @return false otherwise
      */
     constexpr bool operator==(const _Self &rhs) const {
-        if (this == &rhs)
+        if (this == &rhs) {
             return true;
+        }
         return cross(*this, rhs) == _Base{_K(0), _K(0), _K(0)};
     }
 
@@ -82,7 +83,7 @@ class pg_object : public std::array<_K, 3> {
     }
 
     ///  Return new line not incident with p
-    constexpr dual aux() { return dual(*this); }
+    constexpr dual aux() const { return dual(*this); }
 };
 
 // template <typename _K, typename _dual>
@@ -91,7 +92,7 @@ class pg_object : public std::array<_K, 3> {
 //   return pg_object<_K, _dual>{plucker_c(l, p1, m, p2)};
 // }
 template <typename P, typename _K = typename P::value_type>
-P plucker(const _K &lambda1, const P &p, const _K &mu1, const P &q) {
+constexpr P plucker(const _K &lambda1, const P &p, const _K &mu1, const P &q) {
     return P(plucker_c(lambda1, p, mu1, q));
 }
 

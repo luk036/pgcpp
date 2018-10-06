@@ -10,8 +10,15 @@ using namespace fun;
 
 Projective_plane { P, L }
 struct myck : ck<P, L, myck> {
-    L _perp(const P &v) const { return L(-2 * v[0], v[1], -2 * v[2]); }
-    P _perp(const L &v) const { return P(-v[0], 2 * v[1], -v[2]); }
+    constexpr L _perp(const P &v) const { return L(-2*v[0], v[1], -2*v[2]); }
+
+    constexpr P _perp(const L &v) const { return P(-v[0], 2*v[1], -v[2]); }
+
+    Projective_plane2 { _P }
+    constexpr auto measure(const _P &a1, const _P &a2) const {
+        using K = Value_type<_P>;
+        return K(1) - x_ratio(a1, a2, this->_perp(a2), this->_perp(a1));
+    }
 };
 
 TEST_CASE("CK plane", "[ck_plane]") {

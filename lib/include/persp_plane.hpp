@@ -51,21 +51,21 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
         }
     }
 
-    constexpr auto quadrance(const P &a1, const P &a2) const {
-        return this->measure(a1, a2);
-    }
+    // constexpr auto quadrance(const P &a1, const P &a2) const {
+    //     return this->measure(a1, a2);
+    // }
 
-    constexpr auto spread(const L &l1, const L &l2) const {
-        return this->measure(l1, l2);
-    }
+    // constexpr auto spread(const L &l1, const L &l2) const {
+    //     return this->measure(l1, l2);
+    // }
 
-    constexpr auto tri_quadrance(const Triple<P> &triangle) const {
-        return tri_func(this->quadrance, triangle);
-    }
+    // constexpr auto tri_quadrance(const Triple<P> &triangle) const {
+    //     return tri_func(this->quadrance, triangle);
+    // }
 
-    constexpr auto tri_spread(const Triple<L> &trilateral) const {
-        return tri_func(this->spread, trilateral);
-    }
+    // constexpr auto tri_spread(const Triple<L> &trilateral) const {
+    //     return tri_func(this->spread, trilateral);
+    // }
 
     constexpr auto cross(const L &l1, const L &l2) const {
         return 1 - this->spread(l1, l2); // ???

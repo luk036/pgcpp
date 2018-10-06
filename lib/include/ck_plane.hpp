@@ -10,7 +10,8 @@ namespace fun {
 
 template <typename _P, typename _L,
           template <typename P, typename L> class Derived>
-requires Projective_plane_prim<_P, _L> struct ck {
+  requires Projective_plane_prim<_P, _L> // c++20 concept
+struct ck {
     using cDer = const Derived<_P, _L>;
     cDer &self = *static_cast<cDer *>(this);
 
@@ -57,22 +58,16 @@ requires Projective_plane_prim<_P, _L> struct ck {
     }
 
     Projective_plane2 { P }
-    constexpr auto measure(const P &a1, const P &a2) const {
-        using K = Value_type<P>;
-        return K(1) - x_ratio(a1, a2, self._perp(a2), self._perp(a1));
-    }
-
-    Projective_plane2 { P }
     constexpr auto tri_measure(const Triple<P> &tri) const {
-        return tri_func(this->measure, tri);
+        return tri_func(self.measure, tri);
     }
 
     constexpr auto quadrance(const _P &p, const _P &q) const {
-        return measure(p, q);
+        return self.measure(p, q);
     }
 
     constexpr auto spread(const _L &l, const _L &m) const {
-        return measure(l, m);
+        return self.measure(l, m);
     }
 
     constexpr auto tri_quadrance(const Triple<_P> &triangle) const {
@@ -93,13 +88,27 @@ constexpr bool check_sine_law(const _Q &s1, const _Q &q1, const _Q &s2,
 Projective_plane_prim { P, L } // and requires vector computations
 struct ellck : ck<P, L, ellck> {
     constexpr L _perp(const P &v) const { return L(v); }
+
     constexpr P _perp(const L &v) const { return P(v); }
+
+    Projective_plane2 { _P }
+    constexpr auto measure(const _P &a1, const _P &a2) const {
+        using K = Value_type<_P>;
+        return K(1) - x_ratio(a1, a2, this->_perp(a2), this->_perp(a1));
+    }
 };
 
 Projective_plane_prim { P, L } // and requires vector computations
 struct hyck : ck<P, L, hyck> {
     constexpr L _perp(const P &v) const { return L(v[0], v[1], -v[2]); }
+
     constexpr P _perp(const L &v) const { return P(v[0], v[1], -v[2]); }
+
+    Projective_plane2 { _P }
+    constexpr auto measure(const _P &a1, const _P &a2) const {
+        using K = Value_type<_P>;
+        return K(1) - x_ratio(a1, a2, this->_perp(a2), this->_perp(a1));
+    }
 };
 
 template <typename _Q>

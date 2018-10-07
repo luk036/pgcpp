@@ -9,14 +9,19 @@
 
 using namespace fun;
 
-TEST_CASE("Euclid plane", "[persp_plane]") {
+TEST_CASE("Euclid plane", "[euclid_plane]") {
     auto a1 = pg_point(1, 3, 1);
     auto a2 = pg_point(4, 2, 1);
     auto a3 = pg_point(4, -3, 1);
 
+    using P = decltype(a1);
+
     auto triangle = std::tuple{a1, a2, a3};
     auto trilateral = tri_dual(triangle);
     auto [l1, l2, l3] = trilateral;
+
+    using P = decltype(a1);
+    using L = decltype(l1);
 
     CHECK(!is_parallel(l1, l2));
     CHECK(!is_parallel(l2, l3));
@@ -49,7 +54,39 @@ TEST_CASE("Euclid plane", "[persp_plane]") {
     t3 = a3 * m12;
     CHECK(coincident(t1, t2, t3));
 
-    // auto [q1, q2, q3] = Q;
-    // auto tqf = sq(q1 + q2 + q3) - 2*(q1*q1 + q2*q2 + q3*q3);
-    // CHECK(tqf == Ar(q1, q2, q3));
+    auto [q1, q2, q3] = Q;
+    auto [s1, s2, s3] = S;
+
+    auto tqf = sq(q1 + q2 + q3) - 2*(q1*q1 + q2*q2 + q3*q3);
+    CHECK(tqf == Ar(q1, q2, q3));
+
+    auto c3 = sq(q1 + q2 - q3) / (4*q1*q2);
+    CHECK( c3 + s3 == 1 ); // get the same
+
+    auto tsf = sq(s1 + s2 + s3) - 2*(s1*s1 + s2*s2 + s3*s3) - 4*s1*s2*s3;
+    CHECK( tsf == 0 );
+
+    a3 = plucker(3, a1, 4, a2);
+    q1 = quadrance(a2, a3);
+    q2 = quadrance(a1, a3);
+    q3 = quadrance(a1, a2);
+    tqf = sq(q1 + q2 + q3) - 2*(q1*q1 + q2*q2 + q3*q3);  // get 0
+    CHECK( tqf == 0 );
+
+    a1 = uc_point<P>(1, 0);
+    a2 = uc_point<P>(3, 4);
+    a3 = uc_point<P>(-1, 2);
+    auto a4 = uc_point<P>(0, 1);
+    auto q12 = quadrance(a1, a2);
+    auto q23 = quadrance(a2, a3);
+    auto q34 = quadrance(a3, a4);
+    auto q14 = quadrance(a1, a4);
+    auto q24 = quadrance(a2, a4);
+    auto q13 = quadrance(a1, a3);
+    // print(q12, q23, q34, q14, q24, q13)
+    auto t = Ar(q12*q34, q23*q14, q13*q24);
+    // t = sympy.simplify(t)
+    CHECK( t == 0 );
+    bool b = Ptolemy(q12, q23, q34, q14, q24, q13);
+    CHECK( b == true );
 }

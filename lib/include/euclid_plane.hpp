@@ -105,12 +105,22 @@ constexpr auto spread(const L &l1, const L &l2) {
 
 Projective_plane2 { P }
 constexpr auto tri_quadrance(const Triple<P> &triangle) {
-    return tri_func(quadrance, triangle);
+    auto &&[a1, a2, a3] = triangle;
+    using ret_t = decltype(quadrance(a1, a2));
+    ret_t &&m1 = quadrance(a2, a3);
+    ret_t &&m2 = quadrance(a1, a3);
+    ret_t &&m3 = quadrance(a1, a2);
+    return Triple<ret_t>{m1, m2, m3};
 }
 
 Projective_plane2 { L }
 constexpr auto tri_spread(const Triple<L> &trilateral) {
-    return tri_func(spread, trilateral);
+    auto &&[a1, a2, a3] = trilateral;
+    using ret_t = decltype(spread(a1, a2));
+    ret_t &&m1 = spread(a2, a3);
+    ret_t &&m2 = spread(a1, a3);
+    ret_t &&m3 = spread(a1, a2);
+    return Triple<ret_t>{m1, m2, m3};
 }
 
 Projective_plane { P, L }

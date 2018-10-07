@@ -10,8 +10,11 @@ namespace fun {
 
 template <typename _P, typename _L,
           template <typename P, typename L> class Derived>
-  requires Projective_plane_prim<_P, _L> // c++20 concept
-struct ck {
+requires Projective_plane_prim<_P, _L> // c++20 concept
+    struct ck {
+    using point_t = _P;
+    using line_t = _L;
+
     using cDer = const Derived<_P, _L>;
     cDer &self = *static_cast<cDer *>(this);
 
@@ -59,7 +62,12 @@ struct ck {
 
     Projective_plane2 { P }
     constexpr auto tri_measure(const Triple<P> &tri) const {
-        return tri_func(self.measure, tri);
+        auto &&[a1, a2, a3] = tri;
+        using ret_t = decltype(self.measure(a1, a2));
+        ret_t &&m1 = self.measure(a2, a3);
+        ret_t &&m2 = self.measure(a1, a3);
+        ret_t &&m3 = self.measure(a1, a2);
+        return Triple<ret_t>{m1, m2, m3};
     }
 
     constexpr auto quadrance(const _P &p, const _P &q) const {
@@ -79,10 +87,17 @@ struct ck {
     }
 };
 
-template <typename _Q>
-constexpr bool check_sine_law(const _Q &s1, const _Q &q1, const _Q &s2,
-                              const _Q &q2) {
-    return s1 * q2 == s2 * q1;
+template <typename Q_t, typename S_t>
+constexpr bool check_sine_law(const Q_t &Q, const S_t &S) {
+    auto &&[q1, q2, q3] = Q;
+    auto &&[s1, s2, s3] = S;
+    if (s1 * q2 != s2 * q1) {
+        return false;
+    }
+    if (s2 * q3 != s3 * q2) {
+        return false;
+    }
+    return true;
 }
 
 Projective_plane_prim { P, L } // and requires vector computations
@@ -111,15 +126,15 @@ struct hyck : ck<P, L, hyck> {
     }
 };
 
-template <typename _Q>
-constexpr auto check_cross_TQF(const _Q &q1, const _Q &q2, const _Q &q3) {
+template <typename Q_t> constexpr auto check_cross_TQF(const Q_t &Q) {
+    auto &&[q1, q2, q3] = Q;
     return sq(q1 + q2 + q3) - 2 * (q1 * q1 + q2 * q2 + q3 * q3) -
            4 * q1 * q2 * q3;
 }
 
-template <typename _Q>
-constexpr bool check_cross_law(const _Q &s1, const _Q &s2, const _Q &s3,
-                               const _Q &q3) {
+template <typename S_t, typename K>
+constexpr bool check_cross_law(const S_t &S, const K &q3) {
+    auto &&[s1, s2, s3] = S;
     return sq(s1 * s2 * q3 - (s1 + s2 + s3) + 2) ==
            4 * (1 - s1) * (1 - s2) * (1 - s3);
 }

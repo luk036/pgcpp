@@ -27,7 +27,7 @@ namespace fun {
  * @return true if three points are conincident
  * @return false otherwise
  */
-Projective_plane_prim { P, L }
+Projective_plane_prim2 { P }
 constexpr bool coincident(const P &p, const P &q, const P &r) {
     return incident(r, p * q);
 }
@@ -64,7 +64,7 @@ constexpr auto tri_dual(const Triple<P> &tri) {
 }
 
 Projective_plane_prim2 { P }
-constexpr auto tri_func(const auto &func, const Triple<P> &tri) {
+constexpr auto tri_func(auto func, const Triple<P> &tri) {
     auto &&[a1, a2, a3] = tri;
     using ret_t = decltype(func(a1, a2));
     ret_t &&m1 = func(a2, a3);

@@ -72,10 +72,8 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
     }
 };
 
-template <typename _Q>
-constexpr auto Ar(const _Q &a, const _Q &b, const _Q &c) {
-    return (4 * a * b) - sq(a + b - c);
-}
+Projective_plane{P, L} persp_euclid_plane(const P &, const P &, const L &)
+    ->persp_euclid_plane<P, L>;
 
 } // namespace fun
 

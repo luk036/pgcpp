@@ -121,6 +121,10 @@ class Fraction {
         return this->cmp(frac) == 0;
     }
 
+    constexpr bool operator!=(const _Self &frac) const {
+        return this->cmp(frac) != 0;
+    }
+
     constexpr bool operator<(const _Self &frac) const {
         return this->cmp(frac) < 0;
     }
@@ -143,6 +147,8 @@ class Fraction {
 
     constexpr bool operator==(const Z &c) const { return this->cmp(c) == 0; }
 
+    constexpr bool operator!=(const Z &c) const { return this->cmp(c) != 0; }
+
     constexpr bool operator<(const Z &c) const { return this->cmp(c) < 0; }
 
     constexpr bool operator>(const Z &c) const { return this->cmp(c) > 0; }
@@ -155,9 +161,19 @@ class Fraction {
 };
 
 Integer { Z }
+constexpr auto operator+(const Z &c, const Fraction<Z> &frac) {
+    return frac + c;
+}
+
+Integer { Z }
 constexpr auto operator-(const Z &c, const Fraction<Z> &frac) {
     return Fraction<Z>(frac.denominator() * c - frac.numerator(),
                        frac.denominator());
+}
+
+Integer { Z }
+constexpr auto operator*(const Z &c, const Fraction<Z> &frac) {
+    return frac * c;
 }
 
 template <typename _Stream, Integer Z>

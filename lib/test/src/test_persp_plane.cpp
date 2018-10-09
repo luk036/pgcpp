@@ -15,9 +15,9 @@ template <typename PG> void chk_degenerate(const PG &myck) {
     using Point = typename PG::point_t;
     using Line = typename PG::line_t;
 
-    auto a1 = Point(-10, 7, 3);
-    auto a2 = Point(4, -5, 1);
-    auto a3 = Point(6, -11, 8);
+    auto a1 = Point(-1, 0, 3);
+    auto a2 = Point(4, -2, 1);
+    auto a3 = Point(3, -1, 1);
 
     auto triangle = std::tuple{a1, a2, a3};
     auto trilateral = tri_dual(triangle);

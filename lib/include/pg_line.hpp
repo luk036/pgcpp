@@ -51,7 +51,7 @@ struct pg_line : pg_object<_K, pg_point<_K>> {
 
 /// Return meet of two lines.
 CommutativeRing { _K }
-constexpr auto meet(const pg_line<_K> &l, const pg_line<_K> &m) {
+constexpr pg_point<_K> meet(const pg_line<_K> &l, const pg_line<_K> &m) {
     return l * m;
 }
 

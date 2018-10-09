@@ -12,7 +12,6 @@ matrix:
           packages:
             - g++-7
             - catch
-            - libboost-dev
       env: COMPILER='g++-7' BUILD_TYPE='Release'
 
     - os: linux
@@ -23,6 +22,7 @@ matrix:
 install:
   - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
   - mkdir -p ${DEPS_DIR} && cd ${DEPS_DIR}
+  - sudo apt install libboost1.62-dev
 
 before_script:
   - export CXX=${COMPILER}

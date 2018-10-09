@@ -7,7 +7,7 @@
 #include "pg_point.hpp"
 #include <catch.hpp>
 #include <iostream>
-// #include <boost/multiprecision/cpp_int.hpp>
+#include <boost/multiprecision/cpp_int.hpp>
 
 using namespace fun;
 
@@ -72,7 +72,7 @@ TEST_CASE("CK plane chk_int", "[ck_plane]") {
     chk_int(hyck<pg_point<int>, pg_line<int>>());
     chk_int(hyck<pg_line<int>, pg_point<int>>());
 
-    // namespace mp = boost::multiprecision;
+    namespace mp = boost::multiprecision;
 
     auto Ire = pg_point(0, 1, 1);
     auto Iim = pg_point(1, 0, 0);

@@ -7,6 +7,7 @@
 #include "pg_point.hpp"
 #include <catch.hpp>
 #include <iostream>
+#include <boost/multiprecision/cpp_int.hpp>
 
 using namespace fun;
 
@@ -14,9 +15,9 @@ template <typename PG> void chk_degenerate(const PG &myck) {
     using Point = typename PG::point_t;
     using Line = typename PG::line_t;
 
-    auto a1 = Point(-1, 2, 3);
-    auto a2 = Point(4, -1, 1);
-    auto a3 = Point(0, -1, 1);
+    auto a1 = Point(-10, 7, 3);
+    auto a2 = Point(4, -5, 1);
+    auto a3 = Point(6, -11, 8);
 
     auto triangle = std::tuple{a1, a2, a3};
     auto trilateral = tri_dual(triangle);
@@ -40,9 +41,12 @@ template <typename PG> void chk_degenerate(const PG &myck) {
 }
 
 TEST_CASE("Perspective Euclid plane", "[persp_plane]") {
-    auto Ire = pg_point(0, 1, 1);
-    auto Iim = pg_point(1, 0, 0);
-    auto l_inf = pg_line(0, -1, 1);
+    // using boost::multiprecision::cpp_int;
+    namespace mp = boost::multiprecision;
+
+    auto Ire = pg_point<mp::int128_t>(0, 1, 1);
+    auto Iim = pg_point<mp::int128_t>(1, 0, 0);
+    auto l_inf = pg_line<mp::int128_t>(0, -1, 1);
     auto P = persp_euclid_plane{Ire, Iim, l_inf};
     chk_degenerate(P);
 }

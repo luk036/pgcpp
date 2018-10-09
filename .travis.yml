@@ -22,7 +22,8 @@ matrix:
 install:
   - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
   - mkdir -p ${DEPS_DIR} && cd ${DEPS_DIR}
-  - sudo apt install libboost1.62-dev
+  - sudo apt search libboost
+  - sudo apt install libboost1.60-dev
 
 before_script:
   - export CXX=${COMPILER}

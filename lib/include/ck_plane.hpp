@@ -25,12 +25,12 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
 
     Projective_plane_prim2 { L }
     constexpr bool is_perpendicular(const L &l, const L &m) const {
-        return incident(m, self._perp(l));
+        return incident(m, self.perp(l));
     }
 
     Projective_plane_prim { P, L }
     constexpr L altitude(const P &p, const L &l) const {
-        return p * self._perp(l);
+        return p * self.perp(l);
     }
 
     Projective_plane_prim2 { P }
@@ -57,7 +57,7 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
     auto reflect(const L &m) const {
         static_assert(
             std::is_base_of<ck<_P, _L, Derived>, Derived<_P, _L>>::value);
-        return involution(m, self._perp(m));
+        return involution(m, self.perp(m));
     }
 
     Projective_plane2 { P }
@@ -102,41 +102,43 @@ constexpr bool check_sine_law(const Q_t &Q, const S_t &S) {
 
 Projective_plane_prim { P, L } // and requires vector computations
 struct ellck : ck<P, L, ellck> {
-    constexpr L _perp(const P &v) const { return L(v); }
+    constexpr L perp(const P &v) const { return L(v); }
 
-    constexpr P _perp(const L &v) const { return P(v); }
+    constexpr P perp(const L &v) const { return P(v); }
 
     Projective_plane2 { _P }
     constexpr auto measure(const _P &a1, const _P &a2) const {
         using K = Value_type<_P>;
-        return K(1) - x_ratio(a1, a2, this->_perp(a2), this->_perp(a1));
+        return K(1) - x_ratio(a1, a2, this->perp(a2), this->perp(a1));
     }
 };
 
 Projective_plane_prim { P, L } // and requires vector computations
 struct hyck : ck<P, L, hyck> {
-    constexpr L _perp(const P &v) const { return L(v[0], v[1], -v[2]); }
+    constexpr L perp(const P &v) const { return L(v[0], v[1], -v[2]); }
 
-    constexpr P _perp(const L &v) const { return P(v[0], v[1], -v[2]); }
+    constexpr P perp(const L &v) const { return P(v[0], v[1], -v[2]); }
 
     Projective_plane2 { _P }
     constexpr auto measure(const _P &a1, const _P &a2) const {
         using K = Value_type<_P>;
-        return K(1) - x_ratio(a1, a2, this->_perp(a2), this->_perp(a1));
+        return K(1) - x_ratio(a1, a2, this->perp(a2), this->perp(a1));
     }
 };
 
+
 template <typename Q_t> constexpr auto check_cross_TQF(const Q_t &Q) {
     auto &&[q1, q2, q3] = Q;
-    return sq(q1 + q2 + q3) - 2 * (q1 * q1 + q2 * q2 + q3 * q3) -
+    auto &&sum = q1 + q2 + q3;
+    return sum*sum - 2 * (q1 * q1 + q2 * q2 + q3 * q3) -
            4 * q1 * q2 * q3;
 }
 
 template <typename S_t, typename K>
-constexpr bool check_cross_law(const S_t &S, const K &q3) {
+constexpr auto check_cross_law(const S_t &S, const K &q3) {
     auto &&[s1, s2, s3] = S;
-    return sq(s1 * s2 * q3 - (s1 + s2 + s3) + 2) ==
-           4 * (1 - s1) * (1 - s2) * (1 - s3);
+    auto &&temp = s1 * s2 * q3 - (s1 + s2 + s3) + 2;
+    return temp * temp - 4 * (1 - s1) * (1 - s2) * (1 - s3);
 }
 
 } // namespace fun

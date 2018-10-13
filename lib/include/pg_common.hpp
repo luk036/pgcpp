@@ -130,7 +130,7 @@ auto dot2(const std::array<_K, 3> &v, const std::array<_K, 3> &w) {
  * @param a input value
  * @return a^2
  */
-constexpr auto sq(auto &&a) { return a * a; }
+constexpr inline auto sq(auto &&a) { return a * a; }
 
 } // namespace fun
 

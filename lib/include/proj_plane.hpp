@@ -123,15 +123,20 @@ class involution {
  * @param d
  * @return (a/b) / (c/d)
  */
-Integer { K }
-constexpr Fraction<K> ratio_ratio(const K &a, const K &b, const K &c,
-                                  const K &d) {
-    return Fraction<K>(a, b) / Fraction<K>(c, d);
-}
+// Integer { K }
+// constexpr Fraction<K> ratio_ratio(const K &a, const K &b, const K &c,
+//                                   const K &d) {
+//     return Fraction<K>(a, b) / Fraction<K>(c, d);
+// }
 
 template <typename K>
 constexpr auto ratio_ratio(const K &a, const K &b, const K &c, const K &d) {
-    return (a * d) / (b * c);
+    if constexpr (std::is_integral<K>::value) {
+        return Fraction<K>(a, b) / Fraction<K>(c, d);
+    }
+    else {
+        return (a * d) / (b * c);
+    }
 }
 
 /**

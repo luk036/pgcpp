@@ -20,9 +20,11 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
     constexpr persp_euclid_plane(const P &Ire, const P &Iim, const L &l_infty)
         : _Ire{Ire}, _Iim{Iim}, _l_infty{l_infty} {}
 
-    constexpr L _perp(const P &x) const { return _l_infty; }
+    constexpr L perp(const P &x) const { return _l_infty; }
 
-    constexpr P _perp(const L &x) const {
+    constexpr L l_infty() const { return _l_infty; }
+
+    constexpr P perp(const L &x) const {
         return plucker(x.dot(_Ire), _Ire, x.dot(_Iim), _Iim);
     }
 

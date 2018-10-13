@@ -72,14 +72,19 @@ constexpr P midpoint(const P &a, const P &b) {
     return plucker(b[2], a, a[2], b);
 }
 
-Integer { K }
-constexpr auto quad1(const K &x1, const K &z1, const K &x2, const K &z2) {
-    return sq(Fraction(x1, z1) - Fraction(x2, z2));
-}
+// Integer { K }
+// constexpr auto quad1(const K &x1, const K &z1, const K &x2, const K &z2) {
+//     return sq(Fraction(x1, z1) - Fraction(x2, z2));
+// }
 
 template <typename K>
 constexpr auto quad1(const K &x1, const K &z1, const K &x2, const K &z2) {
-    return sq(x1 / z1 - x2 / z2);
+    if constexpr (std::is_integral<K>::value) {
+        return sq(Fraction(x1, z1) - Fraction(x2, z2));
+    }
+    else {
+        return sq(x1 / z1 - x2 / z2);
+    }
 }
 
 Projective_plane2 { P }
@@ -88,14 +93,20 @@ constexpr auto quadrance(const P &a1, const P &a2) {
            quad1(a1[1], a1[2], a2[1], a2[2]);
 }
 
-Projective_plane2 { L }
-constexpr auto sbase(const L &l1, const L &l2, const Integer &d) {
-    return Fraction(d, omgB(l1, l1)) * Fraction(d, omgB(l2, l2));
-}
+// Projective_plane2 { L }
+// constexpr auto sbase(const L &l1, const L &l2, const Integer &d) {
+//     return Fraction(d, omgB(l1, l1)) * Fraction(d, omgB(l2, l2));
+// }
 
 Projective_plane2 { L }
 constexpr auto sbase(const L &l1, const L &l2, const auto &d) {
-    return (d * d) / (omgB(l1, l1) * omgB(l2, l2));
+    using K = decltype(d);
+    if constexpr (std::is_integral<K>::value) {
+        return Fraction(d, omgB(l1, l1)) * Fraction(d, omgB(l2, l2));
+    }
+    else {
+        return (d * d) / (omgB(l1, l1) * omgB(l2, l2));
+    }
 }
 
 Projective_plane2 { L }
@@ -124,7 +135,7 @@ constexpr auto tri_spread(const Triple<L> &trilateral) {
 }
 
 Projective_plane { P, L }
-constexpr auto cross(const L &l1, const L &l2) {
+constexpr auto cross_s(const L &l1, const L &l2) {
     return sbase(l1, l2, omgB(l1, l2));
 }
 

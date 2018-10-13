@@ -44,9 +44,9 @@ TEST_CASE("Perspective Euclid plane", "[persp_plane]") {
     using boost::multiprecision::cpp_int;
     namespace mp = boost::multiprecision;
 
-    auto Ire = pg_point<mp::int256_t>(0, 1, 1);
-    auto Iim = pg_point<mp::int256_t>(1, 0, 0);
-    auto l_inf = pg_line<mp::int256_t>(0, -1, 1);
+    auto Ire = pg_point<int>(0, 1, 1);
+    auto Iim = pg_point<int>(1, 0, 0);
+    auto l_inf = pg_line<int>(0, -1, 1);
     auto P = persp_euclid_plane{Ire, Iim, l_inf};
     chk_degenerate_int(P);
 }

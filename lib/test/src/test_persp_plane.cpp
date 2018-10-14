@@ -36,17 +36,16 @@ template <typename PG> void chk_degenerate_int(const PG &myck) {
     CHECK(coincident(t1, t2, t3));
 
     auto [q1, q2, q3] = myck.tri_quadrance(triangle);
-    auto tqf = sq(q1 + q2 + q3) - 2 * (q1 * q1 + q2 * q2 + q3 * q3);
+    auto tqf = sq(q1 + q2 + q3) - (q1 * q1 + q2 * q2 + q3 * q3) * 2;
     CHECK(tqf == Ar(q1, q2, q3));
 }
 
 TEST_CASE("Perspective Euclid plane", "[persp_plane]") {
     using boost::multiprecision::cpp_int;
-    namespace mp = boost::multiprecision;
 
-    auto Ire = pg_point<int>(0, 1, 1);
-    auto Iim = pg_point<int>(1, 0, 0);
-    auto l_inf = pg_line<int>(0, -1, 1);
+    auto Ire = pg_point<cpp_int>(0, 1, 1);
+    auto Iim = pg_point<cpp_int>(1, 0, 0);
+    auto l_inf = pg_line<cpp_int>(0, -1, 1);
     auto P = persp_euclid_plane{Ire, Iim, l_inf};
     chk_degenerate_int(P);
 }

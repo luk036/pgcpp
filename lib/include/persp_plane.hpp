@@ -36,18 +36,19 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
         return plucker(b.dot(_l_infty), a, a.dot(_l_infty), b);
     }
 
-    constexpr auto omega(const P &x) const { return sq(x.dot(_l_infty)); }
+    constexpr K omega(const P &x) const { return sq(x.dot(_l_infty)); }
 
-    constexpr auto omega(const L &x) const {
+    constexpr K omega(const L &x) const {
         return sq(x.dot(_Ire)) + sq(x.dot(_Iim));
     }
 
     Projective_plane2 { _P }
     constexpr auto measure(const _P &a1, const _P &a2) const {
-        auto &&omg = this->omega(a1 * a2);
-        auto &&den = this->omega(a1) * this->omega(a2);
+        K omg = this->omega(a1 * a2);
+        K den = this->omega(a1) * this->omega(a2);
         if constexpr (Integral<K>) {
-            return Fraction<K>(omg, den);
+            Fraction<K> res(omg, den);
+            return res;
         } else {
             return omg / den;
         }
@@ -69,7 +70,7 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
     //     return tri_func(this->spread, trilateral);
     // }
 
-    constexpr auto cross(const L &l1, const L &l2) const {
+    constexpr auto cross_s(const L &l1, const L &l2) const {
         return 1 - this->spread(l1, l2); // ???
     }
 };

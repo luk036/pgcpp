@@ -145,7 +145,7 @@ constexpr P uc_point(const Value_type<P> &lambda1, const Value_type<P> &mu1) {
     using K = Value_type<P>;
     K lambda2 = lambda1 * lambda1;
     K mu2 = mu1 * mu1;
-    return P(lambda2 - mu2, K(2) * lambda1 * mu1, lambda2 + mu2);
+    return P(lambda2 - mu2, lambda1 * mu1 * 2, lambda2 + mu2);
 }
 
 /// Archimedes's function
@@ -157,10 +157,10 @@ constexpr auto Ar(const _Q &a, const _Q &b, const _Q &c) {
 /// Cyclic quadrilateral quadrea theorem
 template <typename _Q>
 constexpr auto cqq(const _Q &a, const _Q &b, const _Q &c, const _Q &d) {
-    auto t1 = 4 * a * b;
-    auto t2 = 4 * c * d;
+    auto t1 = _Q(4) * a * b;
+    auto t2 = _Q(4) * c * d;
     auto m = (t1 + t2) - sq(a + b - c - d);
-    auto p = m * m - 4 * t1 * t2;
+    auto p = m * m - _Q(4) * t1 * t2;
     return std::tuple{m, p};
 }
 

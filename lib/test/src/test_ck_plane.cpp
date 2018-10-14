@@ -8,7 +8,6 @@
 #include <catch.hpp>
 #include <iostream>
 #include "pg_common.hpp"
-#include <boost/multiprecision/cpp_int.hpp>
 
 using namespace fun;
 
@@ -71,8 +70,8 @@ struct myck : ck<P, L, myck> {
 };
 
 TEST_CASE("CK plane chk_int", "[ck_plane]") {
-    using boost::multiprecision::cpp_int;
-    namespace mp = boost::multiprecision;
+    // using boost::multiprecision::cpp_int;
+    // namespace mp = boost::multiprecision;
 
     chk_int(myck<pg_point<int>, pg_line<int>>());
     chk_int(myck<pg_line<int>, pg_point<int>>());
@@ -80,8 +79,6 @@ TEST_CASE("CK plane chk_int", "[ck_plane]") {
     chk_int(ellck<pg_line<int>, pg_point<int>>());
     chk_int(hyck<pg_point<int>, pg_line<int>>());
     chk_int(hyck<pg_line<int>, pg_point<int>>());
-
-    namespace mp = boost::multiprecision;
 
     auto Ire = pg_point<int>(0, 1, 1);
     auto Iim = pg_point<int>(1, 0, 0);
@@ -143,7 +140,7 @@ TEST_CASE("CK plane chk_float", "[ck_plane]") {
     chk_float(hyck<pg_point<double>, pg_line<double>>());
     chk_float(hyck<pg_line<double>, pg_point<double>>());
 
-    namespace mp = boost::multiprecision;
+    // namespace mp = boost::multiprecision;
 
     auto Ire = pg_point(0., 1., 1.);
     auto Iim = pg_point(1., 0., 0.);

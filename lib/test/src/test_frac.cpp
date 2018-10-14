@@ -1,14 +1,24 @@
 /*
  *  Distributed under the MIT License (See accompanying file /LICENSE )
  */
+#include <boost/multiprecision/cpp_int.hpp>
 #include "fraction.hpp"
 #include <catch.hpp>
+#include <iostream>
 
 using namespace fun;
 
-TEST_CASE("Fraction", "[fraction]") {
-    auto p = Fraction(3, 4);
-    auto q = Fraction(5, 6);
+TEST_CASE("Fraction", "[Fraction]") {
+    using boost::multiprecision::cpp_int;
+    static_assert(Integral<cpp_int>);
+
+    cpp_int a = 3, b = 4, c = 5, d = 6;
+    cpp_int f = -30, g = 40;
+    cpp_int z = 0;
+    cpp_int h = -g;
+
+    auto p = Fraction<cpp_int>(-a, -b);
 
     CHECK(p == Fraction(30, 40));
+    CHECK(p != 0);
 }

@@ -76,7 +76,7 @@ template <typename PG> void chk_tri_float(const PG &myck) {
     CHECK(check_cross_law(S, std::get<2>(Q)) == Approx(0));
     CHECK(check_cross_law(Q, std::get<2>(S)) == Approx(0));
 
-    a3 = plucker(2., a1, 3., a2);
+    a3 = plucker(2, a1, 3, a2);
     auto collin = std::tuple{a1, a2, a3};
     Q = myck.tri_quadrance(collin);
     CHECK(check_cross_TQF(Q) == Approx(0));

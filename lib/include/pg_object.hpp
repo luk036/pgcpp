@@ -64,7 +64,7 @@ class pg_object : public std::array<_K, 3> {
     }
 
     /// Return the dot product
-    constexpr auto dot(const dual &l) const { return fun::dot_c(*this, l); }
+    constexpr _K dot(const dual &l) const { return fun::dot_c(*this, l); }
 
     /**
      * @brief Join or meet

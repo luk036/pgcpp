@@ -46,7 +46,7 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
     constexpr auto measure(const _P &a1, const _P &a2) const {
         auto &&omg = this->omega(a1 * a2);
         auto &&den = this->omega(a1) * this->omega(a2);
-        if constexpr (std::is_integral<K>::value) {
+        if constexpr (Integral<K>) {
             return Fraction<K>(omg, den);
         } else {
             return omg / den;

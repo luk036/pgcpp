@@ -6,13 +6,18 @@
 #include "pg_point.hpp"
 #include <catch.hpp>
 #include <iostream>
+#include <boost/multiprecision/cpp_int.hpp>
 
 using namespace fun;
 
+
 TEST_CASE("Euclid plane", "[euclid_plane]") {
-    auto a1 = pg_point(1, 3, 1);
-    auto a2 = pg_point(4, 2, 1);
-    auto a3 = pg_point(4, -3, 1);
+    using boost::multiprecision::cpp_int;
+    using K = cpp_int;
+
+    auto a1 = pg_point<cpp_int>(1, 3, 1);
+    auto a2 = pg_point<cpp_int>(4, 2, 1);
+    auto a3 = pg_point<cpp_int>(4, -3, 1);
 
     using P = decltype(a1);
 
@@ -57,7 +62,7 @@ TEST_CASE("Euclid plane", "[euclid_plane]") {
     auto [q1, q2, q3] = Q;
     auto [s1, s2, s3] = S;
 
-    auto tqf = sq(q1 + q2 + q3) - 2*(q1*q1 + q2*q2 + q3*q3);
+    auto tqf = sq(q1 + q2 + q3) - K(2)*(q1*q1 + q2*q2 + q3*q3);
     CHECK(tqf == Ar(q1, q2, q3));
 
     // auto c3 = sq(q1 + q2 - q3) / (4*q1*q2);

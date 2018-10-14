@@ -18,18 +18,17 @@ constexpr auto dot1(const L &x, const L &y) {
 Projective_plane2 { L } // // and requires p[i]
 constexpr auto fB(const L &l) {
     using P = typename L::dual;
-    using K = typename L::value_type;
+    using K = typename P::value_type;
     return P(l[0], l[1], K(0));
 }
 
 Projective_plane2 { L }
-constexpr auto is_perpendicular(const L &l, const L &m) {
-    using K = typename L::value_type;
-    return dot1(l, m) == K(0);
+constexpr bool is_perpendicular(const L &l, const L &m) {
+    return dot1(l, m) == 0;
 }
 
 Projective_plane2 { L }
-constexpr auto is_parallel(const L &l, const L &m) {
+constexpr bool is_parallel(const L &l, const L &m) {
     return l[0] * m[1] == l[1] * m[0];
 }
 
@@ -39,8 +38,8 @@ constexpr L altitude(const P &a, const L &l) { return a * fB(l); }
 Projective_plane2 { P }
 constexpr auto tri_altitude(const Triple<P> &tri) {
     using Line = typename P::dual;
-    auto &&[l1, l2, l3] = tri_dual(tri);
-    auto &&[a1, a2, a3] = tri;
+    auto [l1, l2, l3] = tri_dual(tri);
+    auto [a1, a2, a3] = tri;
     Line &&t1 = altitude(a1, l1);
     Line &&t2 = altitude(a2, l2);
     Line &&t3 = altitude(a3, l3);
@@ -50,7 +49,7 @@ constexpr auto tri_altitude(const Triple<P> &tri) {
 Projective_plane2 { P }
 constexpr P orthocenter(const Triple<P> &tri) {
     using Line = typename P::dual;
-    auto &&[a1, a2, a3] = tri;
+    auto [a1, a2, a3] = tri;
     Line &&t1 = altitude(a1, a2 * a3);
     Line &&t2 = altitude(a2, a1 * a3);
     return t1 * t2;
@@ -79,8 +78,9 @@ constexpr P midpoint(const P &a, const P &b) {
 
 template <typename K>
 constexpr auto quad1(const K &x1, const K &z1, const K &x2, const K &z2) {
-    if constexpr (std::is_integral<K>::value) {
-        return sq(Fraction(x1, z1) - Fraction(x2, z2));
+    if constexpr (Integral<K>) {
+        Fraction<K> res = sq(Fraction<K>(x1, z1) - Fraction<K>(x2, z2));
+        return res;
     }
     else {
         return sq(x1 / z1 - x2 / z2);
@@ -100,9 +100,10 @@ constexpr auto quadrance(const P &a1, const P &a2) {
 
 Projective_plane2 { L }
 constexpr auto sbase(const L &l1, const L &l2, const auto &d) {
-    using K = decltype(d);
-    if constexpr (std::is_integral<K>::value) {
-        return Fraction(d, omgB(l1, l1)) * Fraction(d, omgB(l2, l2));
+    using K = typename L::value_type;
+    if constexpr (Integral<K>) {
+        Fraction<K> res = Fraction<K>(d, omgB(l1, l1)) * Fraction<K>(d, omgB(l2, l2));
+        return res;
     }
     else {
         return (d * d) / (omgB(l1, l1) * omgB(l2, l2));
@@ -116,7 +117,7 @@ constexpr auto spread(const L &l1, const L &l2) {
 
 Projective_plane2 { P }
 constexpr auto tri_quadrance(const Triple<P> &triangle) {
-    auto &&[a1, a2, a3] = triangle;
+    auto [a1, a2, a3] = triangle;
     using ret_t = decltype(quadrance(a1, a2));
     ret_t &&m1 = quadrance(a2, a3);
     ret_t &&m2 = quadrance(a1, a3);
@@ -126,7 +127,7 @@ constexpr auto tri_quadrance(const Triple<P> &triangle) {
 
 Projective_plane2 { L }
 constexpr auto tri_spread(const Triple<L> &trilateral) {
-    auto &&[a1, a2, a3] = trilateral;
+    auto [a1, a2, a3] = trilateral;
     using ret_t = decltype(spread(a1, a2));
     ret_t &&m1 = spread(a2, a3);
     ret_t &&m2 = spread(a1, a3);
@@ -141,15 +142,16 @@ constexpr auto cross_s(const L &l1, const L &l2) {
 
 Projective_plane2 { P }
 constexpr P uc_point(const Value_type<P> &lambda1, const Value_type<P> &mu1) {
-    auto lambda2 = lambda1 * lambda1;
-    auto mu2 = mu1 * mu1;
-    return P(lambda2 - mu2, 2 * lambda1 * mu1, lambda2 + mu2);
+    using K = Value_type<P>;
+    K lambda2 = lambda1 * lambda1;
+    K mu2 = mu1 * mu1;
+    return P(lambda2 - mu2, K(2) * lambda1 * mu1, lambda2 + mu2);
 }
 
 /// Archimedes's function
 template <typename _Q>
 constexpr auto Ar(const _Q &a, const _Q &b, const _Q &c) {
-    return (4 * a * b) - sq(a + b - c);
+    return (_Q(4) * a * b) - sq(a + b - c);
 }
 
 /// Cyclic quadrilateral quadrea theorem

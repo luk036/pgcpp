@@ -57,6 +57,13 @@ concept bool CommutativeRing =
     { K(0)  } -> K;
   };
 
+template <typename Z>
+concept bool Integral =
+  CommutativeRing<Z> && requires(Z a, Z b) {
+    { a % b } -> Z;
+    { a / b } -> Z;
+  };
+
 } // namespace fun
 
 #endif

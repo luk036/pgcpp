@@ -1,6 +1,7 @@
 #ifndef _HOME_UBUNTU_GITHUB_PGCPP_CK_PLANE_HPP
 #define _HOME_UBUNTU_GITHUB_PGCPP_CK_PLANE_HPP 1
 
+#include "pg_common.hpp"
 #include "proj_plane.hpp"
 #include "proj_plane_concepts.h"
 #include <cassert>
@@ -11,7 +12,7 @@ namespace fun {
 template <typename _P, typename _L,
           template <typename P, typename L> class Derived>
 requires Projective_plane_prim<_P, _L> // c++20 concept
-    struct ck {
+struct ck {
     using point_t = _P;
     using line_t = _L;
 
@@ -47,10 +48,7 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
     Projective_plane_prim2 { P }
     constexpr P orthocenter(const Triple<P> &tri) const {
         auto [a1, a2, a3] = tri;
-        using L = typename P::dual;
-        L &&t1 = altitude(a1, a2 * a3);
-        L &&t2 = altitude(a2, a1 * a3);
-        return t1 * t2;
+        return altitude(a1, a2 * a3) * altitude(a2, a1 * a3);
     }
 
     Projective_plane2 { L }
@@ -91,19 +89,11 @@ template <typename Q_t, typename S_t>
 constexpr bool check_sine_law(const Q_t &Q, const S_t &S) {
     auto [q1, q2, q3] = Q;
     auto [s1, s2, s3] = S;
-    using R = decltype(q1);
-    R check1 = s1 * q2 - s2 * q1;
-    if (check1 != 0) {
-        return false;
-    }
-    R check2 = s2 * q3 - s3 * q2;
-    if (check2 != 0) {
-        return false;
-    }
-    return true;
+    return (s1 * q2 == s2 * q1) && (s2 * q3 == s3 * q2);
 }
 
-Projective_plane_prim { P, L } // and requires vector computations
+template <typename P, typename L = typename P::dual>
+requires Projective_plane_prim<P, L> // c++20 concept
 struct ellck : ck<P, L, ellck> {
     constexpr L perp(const P &v) const { return L(v); }
 
@@ -111,12 +101,12 @@ struct ellck : ck<P, L, ellck> {
 
     Projective_plane2 { _P }
     constexpr auto measure(const _P &a1, const _P &a2) const {
-        using K = Value_type<_P>;
-        return K(1) - x_ratio(a1, a2, this->perp(a2), this->perp(a1));
+        return 1 - x_ratio(a1, a2, this->perp(a2), this->perp(a1));
     }
 };
 
-Projective_plane_prim { P, L } // and requires vector computations
+template <typename P, typename L = typename P::dual>
+requires Projective_plane_prim<P, L> // c++20 concept
 struct hyck : ck<P, L, hyck> {
     constexpr L perp(const P &v) const { return L(v[0], v[1], -v[2]); }
 
@@ -124,24 +114,21 @@ struct hyck : ck<P, L, hyck> {
 
     Projective_plane2 { _P }
     constexpr auto measure(const _P &a1, const _P &a2) const {
-        using K = Value_type<_P>;
-        return K(1) - x_ratio(a1, a2, this->perp(a2), this->perp(a1));
+        return 1 - x_ratio(a1, a2, this->perp(a2), this->perp(a1));
     }
 };
 
-
 template <typename Q_t> constexpr auto check_cross_TQF(const Q_t &Q) {
     auto [q1, q2, q3] = Q;
-    auto &&sum = q1 + q2 + q3;
-    return sum*sum - 2 * (q1 * q1 + q2 * q2 + q3 * q3) -
+    return sq(q1 + q2 + q3) - 2 * (q1 * q1 + q2 * q2 + q3 * q3) -
            4 * q1 * q2 * q3;
 }
 
 template <typename S_t, typename K>
 constexpr auto check_cross_law(const S_t &S, const K &q3) {
     auto [s1, s2, s3] = S;
-    auto &&temp = s1 * s2 * q3 - (s1 + s2 + s3) + 2;
-    return temp * temp - 4 * (1 - s1) * (1 - s2) * (1 - s3);
+    return sq(s1 * s2 * q3 - (s1 + s2 + s3) + 2) -
+           4 * (1 - s1) * (1 - s2) * (1 - s3);
 }
 
 } // namespace fun

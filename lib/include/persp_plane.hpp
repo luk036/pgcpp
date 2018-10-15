@@ -7,8 +7,9 @@
 
 namespace fun {
 
-Projective_plane { P, L }
-class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
+template <typename P, typename L = typename P::dual>
+requires Projective_plane_prim<P, L> // c++20 concept
+    class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
     using K = typename P::value_type;
 
   private:

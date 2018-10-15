@@ -81,8 +81,7 @@ constexpr auto quad1(const K &x1, const K &z1, const K &x2, const K &z2) {
     if constexpr (Integral<K>) {
         Fraction<K> res = sq(Fraction<K>(x1, z1) - Fraction<K>(x2, z2));
         return res;
-    }
-    else {
+    } else {
         return sq(x1 / z1 - x2 / z2);
     }
 }
@@ -102,10 +101,10 @@ Projective_plane2 { L }
 constexpr auto sbase(const L &l1, const L &l2, const auto &d) {
     using K = typename L::value_type;
     if constexpr (Integral<K>) {
-        Fraction<K> res = Fraction<K>(d, omgB(l1, l1)) * Fraction<K>(d, omgB(l2, l2));
+        Fraction<K> res =
+            Fraction<K>(d, omgB(l1, l1)) * Fraction<K>(d, omgB(l2, l2));
         return res;
-    }
-    else {
+    } else {
         return (d * d) / (omgB(l1, l1) * omgB(l2, l2));
     }
 }

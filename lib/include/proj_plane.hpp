@@ -56,11 +56,7 @@ template <typename P> using Triple = std::tuple<P, P, P>;
 Projective_plane_prim2 { P }
 constexpr auto tri_dual(const Triple<P> &tri) {
     auto [a1, a2, a3] = tri;
-    using Line = typename P::dual;
-    Line l1 = a2 * a3;
-    Line l2 = a1 * a3;
-    Line l3 = a1 * a2;
-    return Triple<Line>{l1, l2, l3};
+    return std::tuple{a2 * a3, a1 * a3, a1 * a2};
 }
 
 Projective_plane_prim2 { P }
@@ -70,7 +66,7 @@ constexpr auto tri_func(auto func, const Triple<P> &tri) {
     ret_t &&m1 = func(a2, a3);
     ret_t &&m2 = func(a1, a3);
     ret_t &&m3 = func(a1, a2);
-    return Triple<ret_t>{m1, m2, m3};
+    return std::tuple{m1, m2, m3};
 }
 
 Projective_plane_prim2 { Point }
@@ -83,8 +79,7 @@ constexpr bool persp(const Triple<Point> &tri1, const Triple<Point> &tri2) {
 
 Projective_plane { P, L }
 constexpr bool incident(const P &p, const L &l) {
-    using K = typename P::value_type;
-    return p.dot(l) == K(0);
+    return p.dot(l) == 0;
 }
 
 Projective_plane2 { P }
@@ -109,7 +104,8 @@ class involution {
           _m{m}, _o{o}, _c{m.dot(o)} {}
 
     constexpr P operator()(const P &p) const {
-        return plucker(_c, p, K(-2 * p.dot(_m)), _o);
+        K&& temp = -2 * p.dot(_m);
+        return plucker(_c, p, temp, _o);
     }
 };
 
@@ -132,9 +128,8 @@ class involution {
 template <typename K>
 constexpr auto ratio_ratio(const K &a, const K &b, const K &c, const K &d) {
     if constexpr (Integral<K>) {
-        return Fraction<K>(a, b) / Fraction<K>(c, d);
-    }
-    else {
+        return Fraction(a, b) / Fraction(c, d);
+    } else {
         return (a * d) / (b * c);
     }
 }

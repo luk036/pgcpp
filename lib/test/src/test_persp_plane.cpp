@@ -5,9 +5,9 @@
 #include "persp_plane.hpp"
 #include "pg_line.hpp"
 #include "pg_point.hpp"
+#include <boost/multiprecision/cpp_int.hpp>
 #include <catch.hpp>
 #include <iostream>
-#include <boost/multiprecision/cpp_int.hpp>
 
 using namespace fun;
 
@@ -82,7 +82,7 @@ template <typename PG> void chk_degenerate_float(const PG &myck) {
 TEST_CASE("Perspective Euclid plane (floating point)", "[persp_plane]") {
     auto Ire = pg_point(0., 1., 1.);
     auto Iim = pg_point(1., 0., 0.);
-    auto l_inf =pg_line(0., -1., 1.);
+    auto l_inf = pg_line(0., -1., 1.);
     auto P = persp_euclid_plane{Ire, Iim, l_inf};
     chk_degenerate_float(P);
 }

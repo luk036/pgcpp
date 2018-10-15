@@ -4,12 +4,11 @@
 #include "euclid_plane.hpp"
 #include "pg_line.hpp"
 #include "pg_point.hpp"
+#include <boost/multiprecision/cpp_int.hpp>
 #include <catch.hpp>
 #include <iostream>
-#include <boost/multiprecision/cpp_int.hpp>
 
 using namespace fun;
-
 
 TEST_CASE("Euclid plane", "[euclid_plane]") {
     using boost::multiprecision::cpp_int;
@@ -62,21 +61,22 @@ TEST_CASE("Euclid plane", "[euclid_plane]") {
     auto [q1, q2, q3] = Q;
     auto [s1, s2, s3] = S;
 
-    auto tqf = sq(q1 + q2 + q3) - (q1*q1 + q2*q2 + q3*q3)*2;
+    auto tqf = sq(q1 + q2 + q3) - (q1 * q1 + q2 * q2 + q3 * q3) * 2;
     CHECK(tqf == Ar(q1, q2, q3));
 
     // auto c3 = sq(q1 + q2 - q3) / (4*q1*q2);
     // CHECK( c3 + s3 == 1 ); // get the same
 
-    auto tsf = sq(s1 + s2 + s3) - (s1*s1 + s2*s2 + s3*s3)*2 - s1*s2*s3*4;
-    CHECK( tsf == 0 );
+    auto tsf =
+        sq(s1 + s2 + s3) - 2 * (s1 * s1 + s2 * s2 + s3 * s3) - 4 * s1 * s2 * s3;
+    CHECK(tsf == 0);
 
     a3 = plucker(3, a1, 4, a2);
     q1 = quadrance(a2, a3);
     q2 = quadrance(a1, a3);
     q3 = quadrance(a1, a2);
-    tqf = sq(q1 + q2 + q3) - (q1*q1 + q2*q2 + q3*q3)*2;  // get 0
-    CHECK( tqf == 0 );
+    tqf = sq(q1 + q2 + q3) - 2 * (q1 * q1 + q2 * q2 + q3 * q3); // get 0
+    CHECK(tqf == 0);
 
     a1 = uc_point<P>(1, 0);
     a2 = uc_point<P>(3, 4);
@@ -89,9 +89,9 @@ TEST_CASE("Euclid plane", "[euclid_plane]") {
     auto q24 = quadrance(a2, a4);
     auto q13 = quadrance(a1, a3);
     // print(q12, q23, q34, q14, q24, q13)
-    auto t = Ar(q12*q34, q23*q14, q13*q24);
+    auto t = Ar(q12 * q34, q23 * q14, q13 * q24);
     // t = sympy.simplify(t)
-    CHECK( t == 0 );
+    CHECK(t == 0);
     bool b = Ptolemy(q12, q23, q34, q14, q24, q13);
-    CHECK( b == true );
+    CHECK(b == true);
 }

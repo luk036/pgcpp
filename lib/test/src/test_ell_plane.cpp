@@ -4,6 +4,7 @@
 #include "ck_plane.hpp"
 #include "pg_line.hpp"
 #include "pg_point.hpp"
+#include <boost/multiprecision/cpp_int.hpp>
 #include <catch.hpp>
 #include <iostream>
 
@@ -11,9 +12,7 @@ using namespace fun;
 
 template <typename T, typename U>
 inline bool ApproxEqual(const T &a, const U &b) {
-    return a[0] == Approx(b[0])
-        && a[1] == Approx(b[1])
-        && a[2] == Approx(b[2]); 
+    return a[0] == Approx(b[0]) && a[1] == Approx(b[1]) && a[2] == Approx(b[2]);
 }
 
 template <typename PG> void chk_tri_int(const PG &myck) {
@@ -45,12 +44,13 @@ template <typename PG> void chk_tri_int(const PG &myck) {
 }
 
 TEST_CASE("Elliptic/Hyperbolic plane", "[ell_plane]") {
-    chk_tri_int(ellck<pg_point<int>, pg_line<int>>());
-    chk_tri_int(ellck<pg_line<int>, pg_point<int>>());
-    chk_tri_int(hyck<pg_point<int>, pg_line<int>>());
-    chk_tri_int(hyck<pg_line<int>, pg_point<int>>());
-}
+    using boost::multiprecision::cpp_int;
 
+    chk_tri_int(ellck<pg_point<cpp_int>>());
+    chk_tri_int(ellck<pg_line<cpp_int>>());
+    chk_tri_int(hyck<pg_point<cpp_int>>());
+    chk_tri_int(hyck<pg_line<cpp_int>>());
+}
 
 template <typename PG> void chk_tri_float(const PG &myck) {
     using Point = typename PG::point_t;
@@ -83,8 +83,8 @@ template <typename PG> void chk_tri_float(const PG &myck) {
 }
 
 TEST_CASE("Elliptic/Hyperbolic plane (double)", "[ell_plane]") {
-    chk_tri_float(ellck<pg_point<double>, pg_line<double>>());
-    chk_tri_float(ellck<pg_line<double>, pg_point<double>>());
-    chk_tri_float(hyck<pg_point<double>, pg_line<double>>());
-    chk_tri_float(hyck<pg_line<double>, pg_point<double>>());
+    chk_tri_float(ellck<pg_point<double>>());
+    chk_tri_float(ellck<pg_line<double>>());
+    chk_tri_float(hyck<pg_point<double>>());
+    chk_tri_float(hyck<pg_line<double>>());
 }

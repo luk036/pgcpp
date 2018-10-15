@@ -1,32 +1,22 @@
 #ifndef _HOME_UBUNTU_GITHUB_PGCPP_FRACTION_HPP
 #define _HOME_UBUNTU_GITHUB_PGCPP_FRACTION_HPP 1
 
+#include "common_concepts.h"
 #include <cassert>
 #include <cmath>
 #include <numeric>
 #include <type_traits>
-#include "common_concepts.h"
 
 namespace fun {
 
-  template<typename _Mn>
-    constexpr _Mn
-    gcd(_Mn __m, _Mn __n)
-    {
-      return __m == 0 ? abs(__n)
-        : __n == 0 ? abs(__m)
-        : gcd(__n, __m % __n);
-    }
+template <typename _Mn> constexpr _Mn gcd(_Mn __m, _Mn __n) {
+    return __m == 0 ? abs(__n) : __n == 0 ? abs(__m) : gcd(__n, __m % __n);
+}
 
-  /// Least common multiple
-  template<typename _Mn>
-    constexpr _Mn
-    lcm(_Mn __m, _Mn __n)
-    {
-      return (__m != 0 && __n != 0)
-        ? (abs(__m) / gcd(__m, __n)) * abs(__n) : 0;
-    }
-
+/// Least common multiple
+template <typename _Mn> constexpr _Mn lcm(_Mn __m, _Mn __n) {
+    return (__m != 0 && __n != 0) ? (abs(__m) / gcd(__m, __n)) * abs(__n) : 0;
+}
 
 Integral { Z }
 struct Fraction {
@@ -66,7 +56,7 @@ struct Fraction {
     constexpr _Self operator+(const _Self &frac) const {
         auto common = lcm(_denominator, frac._denominator);
         auto n = common / _denominator * _numerator +
-                   common / frac._denominator * frac._numerator;
+                 common / frac._denominator * frac._numerator;
         return _Self(n, common);
     }
 
@@ -131,8 +121,7 @@ struct Fraction {
      * @param frac
      * @return constexpr auto
      */
-    template <typename U>
-    constexpr auto cmp(const Fraction<U> &frac) const {
+    template <typename U> constexpr auto cmp(const Fraction<U> &frac) const {
         return _numerator * frac._denominator - _denominator * frac._numerator;
     }
 
@@ -185,7 +174,6 @@ struct Fraction {
     explicit operator double() { return double(_numerator) / _denominator; }
 };
 
-
 Integral { Z }
 constexpr Fraction<Z> operator+(const Z &c, const Fraction<Z> &frac) {
     return frac + c;
@@ -201,6 +189,21 @@ constexpr Fraction<Z> operator*(const Z &c, const Fraction<Z> &frac) {
     return frac * c;
 }
 
+Integral { Z }
+constexpr Fraction<Z> operator+(int c, const Fraction<Z> &frac) {
+    return frac + c;
+}
+
+Integral { Z }
+constexpr Fraction<Z> operator-(int c, const Fraction<Z> &frac) {
+    return c + (-frac);
+}
+
+Integral { Z }
+constexpr Fraction<Z> operator*(int c, const Fraction<Z> &frac) {
+    return frac * c;
+}
+
 template <typename _Stream, Integral Z>
 _Stream &operator<<(_Stream &os, const Fraction<Z> &frac) {
     os << frac.numerator() << "/" << frac.denominator();
@@ -208,8 +211,7 @@ _Stream &operator<<(_Stream &os, const Fraction<Z> &frac) {
 }
 
 // For template deduction
-Integral { Z }
-Fraction(const Z &, const Z &)->Fraction<Z>;
+Integral{Z} Fraction(const Z &, const Z &)->Fraction<Z>;
 
 } // namespace fun
 

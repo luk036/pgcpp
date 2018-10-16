@@ -126,14 +126,14 @@ template <typename PG> void chk_float(const PG &myck) {
 }
 
 TEST_CASE("CK plane chk_float", "[ck_plane]") {
-    chk_float(myck<pg_point<double>, pg_line<double>>());
-    chk_float(myck<pg_line<double>, pg_point<double>>());
+    chk_float(myck<pg_point<double>>());
+    chk_float(myck<pg_line<double>>());
 
-    chk_float(ellck<pg_point<double>, pg_line<double>>());
-    chk_float(ellck<pg_line<double>, pg_point<double>>());
+    chk_float(ellck<pg_point<double>>());
+    chk_float(ellck<pg_line<double>>());
 
-    chk_float(hyck<pg_point<double>, pg_line<double>>());
-    chk_float(hyck<pg_line<double>, pg_point<double>>());
+    chk_float(hyck<pg_point<double>>());
+    chk_float(hyck<pg_line<double>>());
 
     // namespace mp = boost::multiprecision;
 

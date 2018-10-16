@@ -76,8 +76,8 @@ requires Projective_plane_prim<P, L> // c++20 concept
     }
 };
 
-Projective_plane{P, L} persp_euclid_plane(const P &, const P &, const L &)
-    ->persp_euclid_plane<P, L>;
+// Projective_plane{P, L} persp_euclid_plane(const P &, const P &, const L &)
+//     ->persp_euclid_plane<P, L>;
 
 } // namespace fun
 

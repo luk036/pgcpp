@@ -1,6 +1,7 @@
 /*
  *  Distributed under the MIT License (See accompanying file /LICENSE )
  */
+#include "ck_plane.hpp"
 #include "euclid_plane.hpp"
 #include "pg_line.hpp"
 #include "pg_point.hpp"
@@ -92,6 +93,6 @@ TEST_CASE("Euclid plane", "[euclid_plane]") {
     auto t = Ar(q12 * q34, q23 * q14, q13 * q24);
     // t = sympy.simplify(t)
     CHECK(t == 0);
-    bool b = Ptolemy(q12, q23, q34, q14, q24, q13);
+    bool b = Ptolemy(std::tuple{q12, q23, q34, q14, q24, q13});
     CHECK(b == true);
 }

@@ -2,11 +2,12 @@
 #define _HOME_UBUNTU_CUBSTORE_PROJ_GEOM_PGCPP_EUCLID_PLANE_HPP 1
 
 //#include "proj_plane_concepts.h"
-#include "ck_plane.hpp"
-#include "pg_line.hpp"
-#include "pg_point.hpp"
+#include "pg_common.hpp"
+#include "proj_plane.hpp"
+#include "proj_plane_concepts.h"
 #include <cassert>
 #include <cmath>
+#include <type_traits>
 
 namespace fun {
 
@@ -156,16 +157,16 @@ constexpr auto Ar(const _Q &a, const _Q &b, const _Q &c) {
 /// Cyclic quadrilateral quadrea theorem
 template <typename _Q>
 constexpr auto cqq(const _Q &a, const _Q &b, const _Q &c, const _Q &d) {
-    auto t1 = _Q(4) * a * b;
-    auto t2 = _Q(4) * c * d;
+    auto t1 = 4 * a * b;
+    auto t2 = 4 * c * d;
     auto m = (t1 + t2) - sq(a + b - c - d);
-    auto p = m * m - _Q(4) * t1 * t2;
+    auto p = m * m - 4 * t1 * t2;
     return std::tuple{m, p};
 }
 
 template <typename _Q>
-constexpr auto Ptolemy(const _Q &Q12, const _Q &Q23, const _Q &Q34,
-                       const _Q &Q14, const _Q &Q13, const _Q &Q24) {
+constexpr auto Ptolemy(const std::tuple<_Q, _Q, _Q, _Q, _Q, _Q>& quad) {
+    auto [Q12, Q23, Q34, Q14, Q13, Q24] = quad;
     return Ar(Q12 * Q34, Q23 * Q14, Q13 * Q24) == 0;
 }
 

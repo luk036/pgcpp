@@ -21,7 +21,7 @@ struct ck {
 
     constexpr explicit ck() {
         static_assert(
-            std::is_base_of<ck<_P, _L, Derived>, Derived<_P, _L>>::value);
+            std::is_base_of_v<ck<_P, _L, Derived>, Derived<_P, _L>>);
     }
 
     Projective_plane_prim2 { L }
@@ -54,7 +54,7 @@ struct ck {
     Projective_plane2 { L }
     auto reflect(const L &m) const {
         static_assert(
-            std::is_base_of<ck<_P, _L, Derived>, Derived<_P, _L>>::value);
+            std::is_base_of_v<ck<_P, _L, Derived>, Derived<_P, _L>>);
         return involution(m, self.perp(m));
     }
 

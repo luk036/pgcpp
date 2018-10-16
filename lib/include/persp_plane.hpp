@@ -10,7 +10,7 @@ namespace fun {
 template <typename P, typename L = typename P::dual>
 requires Projective_plane_prim<P, L> // c++20 concept
     class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
-    using K = typename P::value_type;
+    using K = Value_type<P>;
 
   private:
     P _Ire;

@@ -81,7 +81,7 @@ class pg_object : public std::array<_K, 3> {
     constexpr dual aux() const { return dual(*this); }
 };
 
-template <typename P, typename _K = typename P::value_type>
+template <typename P, typename _K = Value_type<P>>
 constexpr P plucker(const _K &lambda1, const P &p, const _K &mu1, const P &q) {
     return P(plucker_c(lambda1, p, mu1, q));
 }

@@ -14,8 +14,6 @@
 
 namespace fun {
 
-template <typename T> using Value_type = typename T::value_type;
-
 /**
  * @brief Projective plane Concept (half)
  *

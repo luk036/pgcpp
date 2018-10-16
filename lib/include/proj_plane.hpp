@@ -91,7 +91,7 @@ constexpr P harm_conj(const P &A, const P &B, const P &C) {
 
 Projective_plane { P, L }
 class involution {
-    using K = typename P::value_type;
+    using K = Value_type<P>;
 
   private:
     L _m;
@@ -149,7 +149,7 @@ constexpr auto ratio_ratio(const K &a, const K &b, const K &c, const K &d) {
  */
 Projective_plane { P, L }
 constexpr auto x_ratio(const P &A, const P &B, const L &l, const L &m) {
-    using ret_t = typename P::value_type;
+    using ret_t = Value_type<P>;
     ret_t &&dAl = A.dot(l);
     ret_t &&dAm = A.dot(m);
     ret_t &&dBl = B.dot(l);

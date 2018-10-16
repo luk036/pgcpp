@@ -9,6 +9,9 @@ template <typename I>
 concept bool Input_iter = requires(I iter) { ++iter; };
 
 template <typename T>
+using Value_type = typename T::value_type;
+
+template <typename T>
 using Element_type = decltype(back(std::declval<T>()));
 
 template <typename T>

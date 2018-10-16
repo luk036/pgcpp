@@ -18,7 +18,7 @@ constexpr auto dot1(const L &x, const L &y) {
 Projective_plane2 { L } // // and requires p[i]
 constexpr auto fB(const L &l) {
     using P = typename L::dual;
-    using K = typename P::value_type;
+    using K = Value_type<P>;
     return P(l[0], l[1], K(0));
 }
 
@@ -99,7 +99,7 @@ constexpr auto quadrance(const P &a1, const P &a2) {
 
 Projective_plane2 { L }
 constexpr auto sbase(const L &l1, const L &l2, const auto &d) {
-    using K = typename L::value_type;
+    using K = Value_type<L>;
     if constexpr (Integral<K>) {
         Fraction<K> res =
             Fraction<K>(d, omgB(l1, l1)) * Fraction<K>(d, omgB(l2, l2));

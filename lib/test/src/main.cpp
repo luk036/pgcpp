@@ -16,11 +16,14 @@ TEST_CASE("Projective Point", "[proj_plane]") {
     auto l = p * q;
 
     CHECK(l == q * p);
+    CHECK(!(l == q));
     CHECK(incident(l, p));
     CHECK(incident(l, q));
 
     auto pq = plucker(2 + 1j, p, 3 + 0j, q);
     CHECK(incident(l, pq));
+    auto h = harm_conj(p, q, pq);
+    CHECK(is_harmonic(p, q, pq, h));
 
     auto r = pg_point(2 - 1j, -2 + 1j, 1 + 1j);
     auto s = pg_point(2j, 2 - 2j, 3 + 0j);

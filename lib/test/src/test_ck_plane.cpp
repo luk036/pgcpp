@@ -89,7 +89,7 @@ template <typename PG> void chk_float(const PG &myck) {
     using Point = typename PG::point_t;
     using Line = typename PG::line_t;
 
-    Point a1(1., 2., 3.);
+    Point a1 = {1., 2., 3.};
     Point a2(4., 0., 6.);
     Point a3(-7., 1., 2.);
 
@@ -129,8 +129,8 @@ TEST_CASE("CK plane chk_float", "[ck_plane]") {
     chk_float(myck<pg_point<double>>());
     chk_float(myck<pg_line<double>>());
 
-    chk_float(ellck<pg_point<double>>());
-    chk_float(ellck<pg_line<double>>());
+    chk_float(ellck<pg_point<float>>());
+    chk_float(ellck<pg_line<float>>());
 
     chk_float(hyck<pg_point<double>>());
     chk_float(hyck<pg_line<double>>());

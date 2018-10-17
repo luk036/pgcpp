@@ -157,6 +157,49 @@ constexpr auto x_ratio(const P &A, const P &B, const L &l, const L &m) {
     return ratio_ratio(dAl, dAm, dBl, dBm);
 }
 
+
+Projective_plane2 { P }
+constexpr auto R(const P &A, const P &B, const P &C, const P &D) {
+    const P &O = (C*D).aux();
+    return x_ratio(A, B, O*C, O*D);
+}
+
+
+Projective_plane_coord2 { P }
+constexpr auto R0(const P &A, const P &B, const P &C, const P &D) {
+    using K = Value_type<P>;
+    K &&ac = cross0(A, C);
+    K &&ad = cross0(A, D);
+    K &&bc = cross0(B, C);
+    K &&bd = cross0(B, D);
+    return ratio_ratio(ac, ad, bc, bd);
+}
+
+Projective_plane_coord2 { P }
+constexpr auto R1(const P &A, const P &B, const P &C, const P &D) {
+    using K = Value_type<P>;
+    K &&ac = cross1(A, C);
+    K &&ad = cross1(A, D);
+    K &&bc = cross1(B, C);
+    K &&bd = cross1(B, D);
+    return ratio_ratio(ac, ad, bc, bd);
+}
+
+
+Projective_plane_coord2 { P }
+constexpr auto R(const P &A, const P &B, const P &C, const P &D) {
+    if (cross0(A, B) != 0) { // Project points to yz-plane
+        return R0(A, B, C, D);
+    }
+    // Project points to xz-plane
+    return R1(A, B, C, D);
+}
+
+Projective_plane2 { P }
+constexpr auto is_harmonic(const P &A, const P &B, const P &C, const P &D) {
+    return R(A, B, C, D) == -1;
+}
+
 /* @todo
 
 def R(A, B, C, D):

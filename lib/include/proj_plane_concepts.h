@@ -39,6 +39,15 @@ template <class P, class L = typename P::dual>
 concept bool Projective_plane_prim =
   Projective_plane_prim_h<P, L> && Projective_plane_prim_h<L, P>;
 
+
+/**
+ * @brief Shorthand Notation of Projective_plane
+ *
+ * @tparam P Point
+ */
+template <class P>
+concept bool Projective_plane_prim2 = Projective_plane_prim<P>; // Make the compiler happy
+
 /**
  * @brief Projective plane Concept (half)
  *
@@ -56,15 +65,6 @@ concept bool Projective_plane_h =
     { p.dot(l) } -> Value_type<P>; // for measurement
     { plucker(a, p, a, q) } -> P; // vector computation
   };
-
-/**
- * @brief Shorthand Notation of Projective_plane
- *
- * @tparam P Point
- */
-template <class P>
-concept bool Projective_plane_prim2 = Projective_plane_prim<P>; // Make the compiler happy
-
 
 /**
  * @brief Projective plane Concept (full)
@@ -91,6 +91,35 @@ axiom(P p, P q, P r, L l) {
 template <class P>
 concept bool Projective_plane2 = Projective_plane<P>; // Make the compiler happy
 
+/**
+ * @brief Projective plane Concept (half)
+ *
+ * @tparam P Point
+ * @tparam L Line
+ */
+template <class P, class L>
+concept bool Projective_plane_coord_h =
+  Projective_plane_h<P, L> && requires(P p, size_t idx) {
+    { p[idx] } -> Value_type<P>; // for coordinate acess
+  };
+
+/**
+ * @brief Projective plane Concept (full)
+ *
+ * @tparam P Point
+ * @tparam L Line
+ */
+template <class P, class L = typename P::dual>
+concept bool Projective_plane_coord =
+  Projective_plane_coord_h<P, L> && Projective_plane_coord_h<L, P>;
+
+/**
+ * @brief Shorthand Notation of Projective_plane
+ *
+ * @tparam P Point
+ */
+template <class P>
+concept bool Projective_plane_coord2 = Projective_plane_coord<P>; // Make the compiler happy
 
 } // namespace fun
 

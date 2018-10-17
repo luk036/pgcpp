@@ -50,7 +50,7 @@ constexpr pg_line<_K> join(const pg_point<_K> &p, const pg_point<_K> &q) {
 }
 
 // template deduction guides (C++17)
-CommutativeRing{_K} pg_point(const std::array<_K, 3> &)->pg_point<_K>;
+// CommutativeRing{_K} pg_point(const std::array<_K, 3> &)->pg_point<_K>;
 
 // CommutativeRing{_K} pg_point(const _K &, const _K &, const _K &)->pg_point<_K>;
 

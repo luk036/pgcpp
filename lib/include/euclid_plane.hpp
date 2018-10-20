@@ -72,6 +72,16 @@ constexpr P midpoint(const P &a, const P &b) {
     return plucker(b[2], a, a[2], b);
 }
 
+Projective_plane_coord2 { P }
+constexpr auto tri_midpoint(const Triple<P> &tri) {
+    auto [a1, a2, a3] = tri;
+    auto m12 = midpoint(a1, a2);
+    auto m23 = midpoint(a2, a3);
+    auto m13 = midpoint(a1, a3);
+    return Triple<P>{m12, m23, m13};
+}
+
+
 // Integer { K }
 // constexpr auto quad1(const K &x1, const K &z1, const K &x2, const K &z2) {
 //     return sq(Fraction(x1, z1) - Fraction(x2, z2));

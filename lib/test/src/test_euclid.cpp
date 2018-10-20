@@ -50,10 +50,10 @@ TEST_CASE("Euclid plane", "[euclid_plane]") {
     CHECK(check_sine_law(Q, S));
     CHECK(check_sine_law(S, Q));
 
-    auto m12 = midpoint(a1, a2);
-    auto m23 = midpoint(a2, a3);
-    auto m13 = midpoint(a1, a3);
-
+    //auto m12 = midpoint(a1, a2);
+    //auto m23 = midpoint(a2, a3);
+    //auto m13 = midpoint(a1, a3);
+    auto [m12, m23, m13] = tri_midpoint(triangle);
     t1 = a1 * m23;
     t2 = a2 * m13;
     t3 = a3 * m12;

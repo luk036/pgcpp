@@ -65,10 +65,10 @@ template <typename PG> void chk_degenerate_float(const PG &myck) {
     CHECK(myck.l_infty().dot(l1 * l2) != Approx(0.0));
     CHECK(myck.l_infty().dot(l2 * l3) != Approx(0.0));
 
-    auto m12 = myck.midpoint(a1, a2);
-    auto m23 = myck.midpoint(a2, a3);
-    auto m13 = myck.midpoint(a1, a3);
-
+    //auto m12 = myck.midpoint(a1, a2);
+    //auto m23 = myck.midpoint(a2, a3);
+    //auto m13 = myck.midpoint(a1, a3);
+    auto [m12, m23, m13] = myck.tri_midpoint(triangle);
     auto t1 = a1 * m23;
     auto t2 = a2 * m13;
     auto t3 = a3 * m12;

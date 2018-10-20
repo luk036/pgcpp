@@ -200,23 +200,6 @@ constexpr auto is_harmonic(const P &A, const P &B, const P &C, const P &D) {
     return R(A, B, C, D) == -1;
 }
 
-/* @todo
-
-def R(A, B, C, D):
-    # not sure???
-    if A[1]*B[2] != B[1]*A[2]:
-        # Project points to yz-plane
-        a, b, c, d = A[1:], B[1:], C[1:], D[1:]
-    else:
-        # Project points to xz-plane
-        a, b, c, d = A[(0, 2)], B[(0, 2)], C[(0, 2)], D[(0, 2)]
-    return R1(a, b, c, d)
-
-def isharmonic(A, B, C, D):
-    return R(A, B, C, D) == -1
-
-*/
-
 /**
  * @brief Check Pappus Theorem
  *

@@ -37,6 +37,14 @@ requires Projective_plane_prim<P, L> // c++20 concept
         return plucker(b.dot(_l_infty), a, a.dot(_l_infty), b);
     }
 
+    constexpr auto tri_midpoint(const Triple<P> &tri) const {
+        auto [a1, a2, a3] = tri;
+        auto m12 = this->midpoint(a1, a2);
+        auto m23 = this->midpoint(a2, a3);
+        auto m13 = this->midpoint(a1, a3);
+        return Triple<P>{m12, m23, m13};
+    }
+
     constexpr K omega(const P &x) const { return sq(x.dot(_l_infty)); }
 
     constexpr K omega(const L &x) const {
@@ -45,11 +53,10 @@ requires Projective_plane_prim<P, L> // c++20 concept
 
     Projective_plane2 { _P }
     constexpr auto measure(const _P &a1, const _P &a2) const {
-        K omg = this->omega(a1 * a2);
-        K den = this->omega(a1) * this->omega(a2);
+        auto omg = K(this->omega(a1 * a2));
+        auto den = K(this->omega(a1) * this->omega(a2));
         if constexpr (Integral<K>) {
-            Fraction<K> res(omg, den);
-            return res;
+            return Fraction<K>(omg, den);
         } else {
             return omg / den;
         }

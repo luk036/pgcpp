@@ -36,18 +36,18 @@ struct ck {
 
     Projective_plane_prim2 { P }
     constexpr auto tri_altitude(const Triple<P> &tri) const {
-        auto [l1, l2, l3] = tri_dual(tri);
-        auto [a1, a2, a3] = tri;
-        using L = typename P::dual;
-        L &&t1 = altitude(a1, l1);
-        L &&t2 = altitude(a2, l2);
-        L &&t3 = altitude(a3, l3);
-        return std::tuple{t1, t2, t3};
+        const auto& [l1, l2, l3] = tri_dual(tri);
+        const auto& [a1, a2, a3] = tri;
+        using L = typename std::remove_reference_t<P>::dual;
+        L t1 = altitude(a1, l1);
+        L t2 = altitude(a2, l2);
+        L t3 = altitude(a3, l3);
+        return std::tuple{std::move(t1), std::move(t2), std::move(t3)};
     }
 
     Projective_plane_prim2 { P }
     constexpr P orthocenter(const Triple<P> &tri) const {
-        auto [a1, a2, a3] = tri;
+        const auto& [a1, a2, a3] = tri;
         return altitude(a1, a2 * a3) * altitude(a2, a1 * a3);
     }
 
@@ -60,7 +60,7 @@ struct ck {
 
     Projective_plane2 { P }
     constexpr auto tri_measure(const Triple<P> &tri) const {
-        auto [a1, a2, a3] = tri;
+        const auto& [a1, a2, a3] = tri;
         using ret_t = decltype(self.measure(a1, a2));
         ret_t &&m1 = self.measure(a2, a3);
         ret_t &&m2 = self.measure(a1, a3);
@@ -87,8 +87,8 @@ struct ck {
 
 template <typename Q_t, typename S_t>
 constexpr bool check_sine_law(const Q_t &Q, const S_t &S) {
-    auto [q1, q2, q3] = Q;
-    auto [s1, s2, s3] = S;
+    const auto& [q1, q2, q3] = Q;
+    const auto& [s1, s2, s3] = S;
     return (s1 * q2 == s2 * q1) && (s2 * q3 == s3 * q2);
 }
 
@@ -101,7 +101,9 @@ struct ellck : ck<P, L, ellck> {
 
     Projective_plane2 { _P }
     constexpr auto measure(const _P &a1, const _P &a2) const {
-        return 1 - x_ratio(a1, a2, this->perp(a2), this->perp(a1));
+        auto x = x_ratio(a1, a2, this->perp(a2), this->perp(a1));
+        using Q_t = decltype(x);
+        return Q_t(1) - x;
     }
 };
 
@@ -114,21 +116,23 @@ struct hyck : ck<P, L, hyck> {
 
     Projective_plane2 { _P }
     constexpr auto measure(const _P &a1, const _P &a2) const {
-        return 1 - x_ratio(a1, a2, this->perp(a2), this->perp(a1));
+        auto x = x_ratio(a1, a2, this->perp(a2), this->perp(a1));
+        using Q_t = decltype(x);
+        return Q_t(1) - x;
     }
 };
 
 template <typename Q_t> constexpr auto check_cross_TQF(const Q_t &Q) {
-    auto [q1, q2, q3] = Q;
-    return sq(q1 + q2 + q3) - 2 * (q1 * q1 + q2 * q2 + q3 * q3) -
-           4 * q1 * q2 * q3;
+    const auto& [q1, q2, q3] = Q;
+    return sq(q1 + q2 + q3) - (q1 * q1 + q2 * q2 + q3 * q3) * 2 -
+           q1 * q2 * q3 * 4;
 }
 
 template <typename S_t, typename K>
 constexpr auto check_cross_law(const S_t &S, const K &q3) {
-    auto [s1, s2, s3] = S;
-    return sq(s1 * s2 * q3 - (s1 + s2 + s3) + 2) -
-           4 * (1 - s1) * (1 - s2) * (1 - s3);
+    const auto& [s1, s2, s3] = S;
+    return sq(s1 * s2 * q3 - (s1 + s2 + s3) + 2) +
+           (s1 - 1) * (s2 - 1) * (s3 - 1) * 4;
 }
 
 } // namespace fun

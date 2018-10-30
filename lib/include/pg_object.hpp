@@ -29,6 +29,8 @@ class pg_object : public std::array<_K, 3> {
     using value_type = _K;
     using dual = _dual;
 
+    // pg_object(_Self &&) = default;
+
     /**
      * @brief Construct a new pg object object
      *
@@ -83,7 +85,7 @@ class pg_object : public std::array<_K, 3> {
 
 template <typename P, typename _K = Value_type<P>>
 constexpr P plucker(const _K &lambda1, const P &p, const _K &mu1, const P &q) {
-    return P(plucker_c(lambda1, p, mu1, q));
+    return P{plucker_c(lambda1, p, mu1, q)};
 }
 
 ///  Insertion operator for object values.

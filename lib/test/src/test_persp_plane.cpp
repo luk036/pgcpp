@@ -19,9 +19,9 @@ template <typename PG> void chk_degenerate_int(const PG &myck) {
     auto a2 = Point(4, -2, 1);
     auto a3 = Point(3, -1, 1);
 
-    auto triangle = std::tuple{a1, a2, a3};
+    auto triangle = std::tuple{std::move(a1), std::move(a2), std::move(a3)};
     auto trilateral = tri_dual(triangle);
-    auto [l1, l2, l3] = trilateral;
+    const auto& [l1, l2, l3] = trilateral;
 
     CHECK(!myck.is_parallel(l1, l2));
     CHECK(!myck.is_parallel(l2, l3));
@@ -58,9 +58,9 @@ template <typename PG> void chk_degenerate_float(const PG &myck) {
     auto a2 = Point(4., -2., 1.);
     auto a3 = Point(3., -1., 1.);
 
-    auto triangle = std::tuple{a1, a2, a3};
+    auto triangle = std::tuple{std::move(a1), std::move(a2), std::move(a3)};
     auto trilateral = tri_dual(triangle);
-    auto [l1, l2, l3] = trilateral;
+    const auto& [l1, l2, l3] = trilateral;
 
     CHECK(myck.l_infty().dot(l1 * l2) != Approx(0.0));
     CHECK(myck.l_infty().dot(l2 * l3) != Approx(0.0));
@@ -75,7 +75,7 @@ template <typename PG> void chk_degenerate_float(const PG &myck) {
     CHECK(t1.dot(t2 * t3) == Approx(0.0));
 
     auto [q1, q2, q3] = myck.tri_quadrance(triangle);
-    auto tqf = sq(q1 + q2 + q3) - 2 * (q1 * q1 + q2 * q2 + q3 * q3);
+    auto tqf = sq(q1 + q2 + q3) - (q1 * q1 + q2 * q2 + q3 * q3) * 2;
     CHECK(Approx(tqf) == Ar(q1, q2, q3));
 }
 

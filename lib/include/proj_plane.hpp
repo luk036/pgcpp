@@ -55,8 +55,12 @@ template <typename P> using Triple = std::tuple<P, P, P>;
 
 Projective_plane_prim2 { P }
 constexpr auto tri_dual(const Triple<P> &tri) {
-    auto [a1, a2, a3] = tri;
-    return std::tuple{a2 * a3, a1 * a3, a1 * a2};
+    const auto& [a1, a2, a3] = tri;
+    using L = typename std::remove_reference_t<P>::dual;
+    L l1 = a2 * a3;
+    L l2 = a1 * a3;
+    L l3 = a1 * a2;
+    return Triple<L>{std::move(l1), std::move(l2), std::move(l3)};
 }
 
 Projective_plane_prim2 { P }
@@ -86,7 +90,8 @@ Projective_plane2 { P }
 constexpr P harm_conj(const P &A, const P &B, const P &C) {
     using Line = typename P::dual;
     Line &&lC = C * (A * B).aux();
-    return plucker(B.dot(lC), A, A.dot(lC), B);
+    P a = plucker(B.dot(lC), A, A.dot(lC), B);
+    return std::move(a);
 }
 
 Projective_plane { P, L }
@@ -104,7 +109,7 @@ class involution {
           _m{m}, _o{o}, _c{m.dot(o)} {}
 
     constexpr P operator()(const P &p) const {
-        K&& temp = -2 * p.dot(_m);
+        K temp = -p.dot(_m) * 2;
         return plucker(_c, p, temp, _o);
     }
 };

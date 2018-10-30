@@ -25,6 +25,9 @@ struct pg_point : pg_object<_K, pg_line<_K>> {
     using _Base2 = std::array<_K, 3>;
     using value_type = _K;
 
+    // pg_point(const pg_point<_K> &) = delete;
+    // pg_point(pg_point<_K> &&) = default;
+
     /**
      * @brief Construct a new pg object object
      *

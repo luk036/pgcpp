@@ -25,9 +25,9 @@ template <typename PG> void chk_tri_int(const PG &myck) {
 
     CHECK(myck.perp(myck.perp(a1)) == a1);
 
-    auto triangle = std::tuple{a1, a2, a3};
+    auto triangle = std::tuple{std::move(a1), std::move(a2), std::move(a3)};
     auto trilateral = tri_dual(triangle);
-    auto [l1, l2, l3] = trilateral;
+    const auto& [l1, l2, l3] = trilateral;
 
     CHECK(myck.perp(myck.perp(l1)) == l1);
 
@@ -37,8 +37,8 @@ template <typename PG> void chk_tri_int(const PG &myck) {
     CHECK(check_cross_law(S, std::get<2>(Q)) == 0);
     CHECK(check_cross_law(Q, std::get<2>(S)) == 0);
 
-    a3 = plucker(2, a1, 3, a2);
-    auto collin = std::tuple{a1, a2, a3};
+    auto a4 = plucker(2, a1, 3, a2);
+    auto collin = std::tuple{std::move(a1), std::move(a2), std::move(a4)};
     Q = myck.tri_quadrance(collin);
     CHECK(check_cross_TQF(Q) == 0);
 }
@@ -64,9 +64,9 @@ template <typename PG> void chk_tri_float(const PG &myck) {
 
     CHECK(ApproxEqual(cross(myck.perp(myck.perp(a1)), a1), zero));
 
-    auto triangle = std::tuple{a1, a2, a3};
+    auto triangle = std::tuple{std::move(a1), std::move(a2), std::move(a3)};
     auto trilateral = tri_dual(triangle);
-    auto [l1, l2, l3] = trilateral;
+    const auto& [l1, l2, l3] = trilateral;
 
     CHECK(ApproxEqual(cross(myck.perp(myck.perp(l1)), l1), zero));
 
@@ -76,8 +76,8 @@ template <typename PG> void chk_tri_float(const PG &myck) {
     CHECK(check_cross_law(S, std::get<2>(Q)) == Approx(0));
     CHECK(check_cross_law(Q, std::get<2>(S)) == Approx(0));
 
-    a3 = plucker(2, a1, 3, a2);
-    auto collin = std::tuple{a1, a2, a3};
+    auto a4 = plucker(2, a1, 3, a2);
+    auto collin = std::tuple{std::move(a1), std::move(a2), std::move(a4)};
     Q = myck.tri_quadrance(collin);
     CHECK(check_cross_TQF(Q) == Approx(0));
 }

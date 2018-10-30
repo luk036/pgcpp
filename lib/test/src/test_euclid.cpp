@@ -21,9 +21,9 @@ TEST_CASE("Euclid plane", "[euclid_plane]") {
 
     using P = decltype(a1);
 
-    auto triangle = std::tuple{a1, a2, a3};
+    auto triangle = std::tuple{std::move(a1), std::move(a2), std::move(a3)};
     auto trilateral = tri_dual(triangle);
-    auto [l1, l2, l3] = trilateral;
+    const auto& [l1, l2, l3] = trilateral;
 
     using P = decltype(a1);
     using L = decltype(l1);
@@ -37,7 +37,7 @@ TEST_CASE("Euclid plane", "[euclid_plane]") {
 
     auto o = orthocenter(triangle);
     CHECK(o == t2 * t3);
-    CHECK(a1 == orthocenter(std::tuple{o, a2, a3}));
+    CHECK(a1 == orthocenter(std::tuple{std::move(o), std::move(a2), std::move(a3)}));
 
     auto tau = reflect(l1);
     CHECK(tau(tau(a1)) == a1);
@@ -54,13 +54,13 @@ TEST_CASE("Euclid plane", "[euclid_plane]") {
     //auto m23 = midpoint(a2, a3);
     //auto m13 = midpoint(a1, a3);
     auto [m12, m23, m13] = tri_midpoint(triangle);
-    t1 = a1 * m23;
-    t2 = a2 * m13;
-    t3 = a3 * m12;
-    CHECK(coincident(t1, t2, t3));
+    auto tm1 = a1 * m23;
+    auto tm2 = a2 * m13;
+    auto tm3 = a3 * m12;
+    CHECK(coincident(tm1, tm2, tm3));
 
-    auto [q1, q2, q3] = Q;
-    auto [s1, s2, s3] = S;
+    auto& [q1, q2, q3] = Q;
+    auto& [s1, s2, s3] = S;
 
     auto tqf = sq(q1 + q2 + q3) - (q1 * q1 + q2 * q2 + q3 * q3) * 2;
     CHECK(tqf == Ar(q1, q2, q3));
@@ -69,26 +69,26 @@ TEST_CASE("Euclid plane", "[euclid_plane]") {
     // CHECK( c3 + s3 == 1 ); // get the same
 
     auto tsf =
-        sq(s1 + s2 + s3) - 2 * (s1 * s1 + s2 * s2 + s3 * s3) - 4 * s1 * s2 * s3;
+        sq(s1 + s2 + s3) - (s1 * s1 + s2 * s2 + s3 * s3) * 2 - s1 * s2 * s3 * 4;
     CHECK(tsf == 0);
 
-    a3 = plucker(3, a1, 4, a2);
-    q1 = quadrance(a2, a3);
-    q2 = quadrance(a1, a3);
+    auto a3p = plucker(3, a1, 4, a2);
+    q1 = quadrance(a2, a3p);
+    q2 = quadrance(a1, a3p);
     q3 = quadrance(a1, a2);
-    tqf = sq(q1 + q2 + q3) - 2 * (q1 * q1 + q2 * q2 + q3 * q3); // get 0
+    tqf = sq(q1 + q2 + q3) - (q1 * q1 + q2 * q2 + q3 * q3) * 2; // get 0
     CHECK(tqf == 0);
 
-    a1 = uc_point<P>(1, 0);
-    a2 = uc_point<P>(3, 4);
-    a3 = uc_point<P>(-1, 2);
-    auto a4 = uc_point<P>(0, 1);
-    auto q12 = quadrance(a1, a2);
-    auto q23 = quadrance(a2, a3);
-    auto q34 = quadrance(a3, a4);
-    auto q14 = quadrance(a1, a4);
-    auto q24 = quadrance(a2, a4);
-    auto q13 = quadrance(a1, a3);
+    auto u1 = uc_point<P>(1, 0);
+    auto u2 = uc_point<P>(3, 4);
+    auto u3 = uc_point<P>(-1, 2);
+    auto u4 = uc_point<P>(0, 1);
+    auto q12 = quadrance(u1, u2);
+    auto q23 = quadrance(u2, u3);
+    auto q34 = quadrance(u3, u4);
+    auto q14 = quadrance(u1, u4);
+    auto q24 = quadrance(u2, u4);
+    auto q13 = quadrance(u1, u3);
     // print(q12, q23, q34, q14, q24, q13)
     auto t = Ar(q12 * q34, q23 * q14, q13 * q24);
     // t = sympy.simplify(t)

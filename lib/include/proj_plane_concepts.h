@@ -22,8 +22,8 @@ namespace fun {
  */
 template <class P, class L>
 concept bool Projective_plane_prim_h =
-  Equality_comparable<P> && requires(P p, P q, L l) {
-    { P(p) } -> P; // copyable
+  Equality_comparable<P> && requires(P& p, P& q, L& l) {
+    // { P(p) } -> P; // copyable
     { incident(p, l) } -> bool; // incidence
     { p * q } -> L; // join or meet
     { p.aux() } -> L; // line not incident with p
@@ -46,7 +46,8 @@ concept bool Projective_plane_prim =
  * @tparam P Point
  */
 template <class P>
-concept bool Projective_plane_prim2 = Projective_plane_prim<P>; // Make the compiler happy
+concept bool Projective_plane_prim2 = 
+  Projective_plane_prim<std::remove_reference_t<P>>; // Make the compiler happy
 
 /**
  * @brief Projective plane Concept (half)
@@ -56,9 +57,9 @@ concept bool Projective_plane_prim2 = Projective_plane_prim<P>; // Make the comp
  */
 template <class P, class L>
 concept bool Projective_plane_h =
-  Equality_comparable<P> && requires(P p, P q, L l, Value_type<P> a) {
+  Equality_comparable<P> && requires(P& p, P& q, L& l, Value_type<P> a) {
     typename Value_type<P>;
-    { P(p) } -> P; // copyable
+    // { P(p) } -> P; // copyable
     // { incident(p, l) } -> bool; // incidence
     { p * q } -> L; // join or meet
     { p.aux() } -> L; // line not incident with p
@@ -89,7 +90,8 @@ axiom(P p, P q, P r, L l) {
  * @tparam P Point
  */
 template <class P>
-concept bool Projective_plane2 = Projective_plane<P>; // Make the compiler happy
+concept bool Projective_plane2
+  = Projective_plane<std::remove_reference_t<P>>; // Make the compiler happy
 
 /**
  * @brief Projective plane Concept (half)
@@ -99,7 +101,7 @@ concept bool Projective_plane2 = Projective_plane<P>; // Make the compiler happy
  */
 template <class P, class L>
 concept bool Projective_plane_coord_h =
-  Projective_plane_h<P, L> && requires(P p, size_t idx) {
+  Projective_plane_h<P, L> && requires(P& p, size_t idx) {
     { p[idx] } -> Value_type<P>; // for coordinate acess
   };
 
@@ -119,7 +121,8 @@ concept bool Projective_plane_coord =
  * @tparam P Point
  */
 template <class P>
-concept bool Projective_plane_coord2 = Projective_plane_coord<P>; // Make the compiler happy
+concept bool Projective_plane_coord2
+  = Projective_plane_coord<std::remove_reference_t<P>>; // Make the compiler happy
 
 } // namespace fun
 

@@ -23,7 +23,7 @@ TEST_CASE("Euclid plane", "[euclid_plane]") {
 
     auto triangle = std::tuple{std::move(a1), std::move(a2), std::move(a3)};
     auto trilateral = tri_dual(triangle);
-    const auto& [l1, l2, l3] = trilateral;
+    const auto &[l1, l2, l3] = trilateral;
 
     using P = decltype(a1);
     using L = decltype(l1);
@@ -37,7 +37,8 @@ TEST_CASE("Euclid plane", "[euclid_plane]") {
 
     auto o = orthocenter(triangle);
     CHECK(o == t2 * t3);
-    CHECK(a1 == orthocenter(std::tuple{std::move(o), std::move(a2), std::move(a3)}));
+    CHECK(a1 ==
+          orthocenter(std::tuple{std::move(o), std::move(a2), std::move(a3)}));
 
     auto tau = reflect(l1);
     CHECK(tau(tau(a1)) == a1);
@@ -50,17 +51,17 @@ TEST_CASE("Euclid plane", "[euclid_plane]") {
     CHECK(check_sine_law(Q, S));
     CHECK(check_sine_law(S, Q));
 
-    //auto m12 = midpoint(a1, a2);
-    //auto m23 = midpoint(a2, a3);
-    //auto m13 = midpoint(a1, a3);
+    // auto m12 = midpoint(a1, a2);
+    // auto m23 = midpoint(a2, a3);
+    // auto m13 = midpoint(a1, a3);
     auto [m12, m23, m13] = tri_midpoint(triangle);
     auto tm1 = a1 * m23;
     auto tm2 = a2 * m13;
     auto tm3 = a3 * m12;
     CHECK(coincident(tm1, tm2, tm3));
 
-    auto& [q1, q2, q3] = Q;
-    auto& [s1, s2, s3] = S;
+    auto &[q1, q2, q3] = Q;
+    auto &[s1, s2, s3] = S;
 
     auto tqf = sq(q1 + q2 + q3) - (q1 * q1 + q2 * q2 + q3 * q3) * 2;
     CHECK(tqf == Ar(q1, q2, q3));
@@ -73,11 +74,12 @@ TEST_CASE("Euclid plane", "[euclid_plane]") {
     CHECK(tsf == 0);
 
     auto a3p = plucker(3, a1, 4, a2);
-    q1 = quadrance(a2, a3p);
-    q2 = quadrance(a1, a3p);
-    q3 = quadrance(a1, a2);
-    tqf = sq(q1 + q2 + q3) - (q1 * q1 + q2 * q2 + q3 * q3) * 2; // get 0
-    CHECK(tqf == 0);
+    auto q1p = quadrance(a2, a3p);
+    auto q2p = quadrance(a1, a3p);
+    auto q3p = quadrance(a1, a2);
+    auto tqf2 =
+        sq(q1p + q2p + q3p) - (q1p * q1p + q2p * q2p + q3p * q3p) * 2; // get 0
+    CHECK(tqf2 == 0);
 
     auto u1 = uc_point<P>(1, 0);
     auto u2 = uc_point<P>(3, 4);
@@ -93,6 +95,8 @@ TEST_CASE("Euclid plane", "[euclid_plane]") {
     auto t = Ar(q12 * q34, q23 * q14, q13 * q24);
     // t = sympy.simplify(t)
     CHECK(t == 0);
-    bool b = Ptolemy(std::tuple{q12, q23, q34, q14, q24, q13});
+    bool b =
+        Ptolemy(std::tuple{std::move(q12), std::move(q23), std::move(q34),
+                           std::move(q14), std::move(q24), std::move(q13)});
     CHECK(b == true);
 }

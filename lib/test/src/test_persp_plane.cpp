@@ -21,7 +21,7 @@ template <typename PG> void chk_degenerate_int(const PG &myck) {
 
     auto triangle = std::tuple{std::move(a1), std::move(a2), std::move(a3)};
     auto trilateral = tri_dual(triangle);
-    const auto& [l1, l2, l3] = trilateral;
+    const auto &[l1, l2, l3] = trilateral;
 
     CHECK(!myck.is_parallel(l1, l2));
     CHECK(!myck.is_parallel(l2, l3));
@@ -60,14 +60,14 @@ template <typename PG> void chk_degenerate_float(const PG &myck) {
 
     auto triangle = std::tuple{std::move(a1), std::move(a2), std::move(a3)};
     auto trilateral = tri_dual(triangle);
-    const auto& [l1, l2, l3] = trilateral;
+    const auto &[l1, l2, l3] = trilateral;
 
     CHECK(myck.l_infty().dot(l1 * l2) != Approx(0.0));
     CHECK(myck.l_infty().dot(l2 * l3) != Approx(0.0));
 
-    //auto m12 = myck.midpoint(a1, a2);
-    //auto m23 = myck.midpoint(a2, a3);
-    //auto m13 = myck.midpoint(a1, a3);
+    // auto m12 = myck.midpoint(a1, a2);
+    // auto m23 = myck.midpoint(a2, a3);
+    // auto m13 = myck.midpoint(a1, a3);
     auto [m12, m23, m13] = myck.tri_midpoint(triangle);
     auto t1 = a1 * m23;
     auto t2 = a2 * m13;

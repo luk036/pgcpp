@@ -9,21 +9,21 @@ namespace fun {
 
 template <typename P, typename L = typename P::dual>
 requires Projective_plane_prim<P, L> // c++20 concept
-    class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
+class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
     using K = Value_type<P>;
 
   private:
-    const P& _Ire;
-    const P& _Iim;
-    const L& _l_infty;
+    P _Ire;
+    P _Iim;
+    L _l_infty;
 
   public:
     constexpr persp_euclid_plane(const P &Ire, const P &Iim, const L &l_infty)
         : _Ire{Ire}, _Iim{Iim}, _l_infty{l_infty} {}
 
-    constexpr const L& perp(const P &x) const { return _l_infty; }
+    constexpr const L &perp(const P &x) const { return _l_infty; }
 
-    constexpr const L& l_infty() const { return _l_infty; }
+    constexpr const L &l_infty() const { return _l_infty; }
 
     constexpr P perp(const L &x) const {
         return plucker(x.dot(_Ire), _Ire, x.dot(_Iim), _Iim);
@@ -38,7 +38,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
     }
 
     constexpr auto tri_midpoint(const Triple<P> &tri) const {
-        const auto& [a1, a2, a3] = tri;
+        const auto &[a1, a2, a3] = tri;
         auto m12 = this->midpoint(a1, a2);
         auto m23 = this->midpoint(a2, a3);
         auto m13 = this->midpoint(a1, a3);

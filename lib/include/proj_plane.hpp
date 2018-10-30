@@ -55,7 +55,7 @@ template <typename P> using Triple = std::tuple<P, P, P>;
 
 Projective_plane_prim2 { P }
 constexpr auto tri_dual(const Triple<P> &tri) {
-    const auto& [a1, a2, a3] = tri;
+    const auto &[a1, a2, a3] = tri;
     using L = typename std::remove_reference_t<P>::dual;
     L l1 = a2 * a3;
     L l2 = a1 * a3;
@@ -65,26 +65,24 @@ constexpr auto tri_dual(const Triple<P> &tri) {
 
 Projective_plane_prim2 { P }
 constexpr auto tri_func(auto func, const Triple<P> &tri) {
-    auto [a1, a2, a3] = tri;
+    const auto &[a1, a2, a3] = tri;
     using ret_t = decltype(func(a1, a2));
-    ret_t &&m1 = func(a2, a3);
-    ret_t &&m2 = func(a1, a3);
-    ret_t &&m3 = func(a1, a2);
-    return std::tuple{m1, m2, m3};
+    ret_t m1 = func(a2, a3);
+    ret_t m2 = func(a1, a3);
+    ret_t m3 = func(a1, a2);
+    return std::tuple{std::move(m1), std::move(m2), std::move(m3)};
 }
 
 Projective_plane_prim2 { Point }
 constexpr bool persp(const Triple<Point> &tri1, const Triple<Point> &tri2) {
-    auto [A, B, C] = tri1;
-    auto [D, E, F] = tri2;
-    Point &&O = (A * D) * (B * E);
+    const auto &[A, B, C] = tri1;
+    const auto &[D, E, F] = tri2;
+    Point O = (A * D) * (B * E);
     return incident(O, C * F);
 }
 
 Projective_plane { P, L }
-constexpr bool incident(const P &p, const L &l) {
-    return p.dot(l) == 0;
-}
+constexpr bool incident(const P &p, const L &l) { return p.dot(l) == 0; }
 
 Projective_plane2 { P }
 constexpr P harm_conj(const P &A, const P &B, const P &C) {
@@ -162,13 +160,11 @@ constexpr auto x_ratio(const P &A, const P &B, const L &l, const L &m) {
     return ratio_ratio(dAl, dAm, dBl, dBm);
 }
 
-
 Projective_plane2 { P }
 constexpr auto R(const P &A, const P &B, const P &C, const P &D) {
-    const P &O = (C*D).aux();
-    return x_ratio(A, B, O*C, O*D);
+    const P &O = (C * D).aux();
+    return x_ratio(A, B, O * C, O * D);
 }
-
 
 Projective_plane_coord2 { P }
 constexpr auto R0(const P &A, const P &B, const P &C, const P &D) {
@@ -189,7 +185,6 @@ constexpr auto R1(const P &A, const P &B, const P &C, const P &D) {
     K &&bd = cross1(B, D);
     return ratio_ratio(ac, ad, bc, bd);
 }
-
 
 Projective_plane_coord2 { P }
 constexpr auto R(const P &A, const P &B, const P &C, const P &D) {
@@ -215,11 +210,11 @@ constexpr auto is_harmonic(const P &A, const P &B, const P &C, const P &D) {
  */
 Projective_plane_prim2 { Point }
 void check_pappus(const Triple<Point> &co1, const Triple<Point> &co2) {
-    auto [A, B, C] = co1;
-    auto [D, E, F] = co2;
-    Point &&G = (A * E) * (B * D);
-    Point &&H = (A * F) * (C * D);
-    Point &&I = (B * F) * (C * E);
+    const auto &[A, B, C] = co1;
+    const auto &[D, E, F] = co2;
+    Point G = (A * E) * (B * D);
+    Point H = (A * F) * (C * D);
+    Point I = (B * F) * (C * E);
     assert(coincident(G, H, I));
 }
 

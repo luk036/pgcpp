@@ -27,7 +27,7 @@ template <typename PG> void chk_tri_int(const PG &myck) {
 
     auto triangle = std::tuple{std::move(a1), std::move(a2), std::move(a3)};
     auto trilateral = tri_dual(triangle);
-    const auto& [l1, l2, l3] = trilateral;
+    const auto &[l1, l2, l3] = trilateral;
 
     CHECK(myck.perp(myck.perp(l1)) == l1);
 
@@ -39,8 +39,8 @@ template <typename PG> void chk_tri_int(const PG &myck) {
 
     auto a4 = plucker(2, a1, 3, a2);
     auto collin = std::tuple{std::move(a1), std::move(a2), std::move(a4)};
-    Q = myck.tri_quadrance(collin);
-    CHECK(check_cross_TQF(Q) == 0);
+    auto Q2 = myck.tri_quadrance(collin);
+    CHECK(check_cross_TQF(Q2) == 0);
 }
 
 TEST_CASE("Elliptic/Hyperbolic plane", "[ell_plane]") {
@@ -66,7 +66,7 @@ template <typename PG> void chk_tri_float(const PG &myck) {
 
     auto triangle = std::tuple{std::move(a1), std::move(a2), std::move(a3)};
     auto trilateral = tri_dual(triangle);
-    const auto& [l1, l2, l3] = trilateral;
+    const auto &[l1, l2, l3] = trilateral;
 
     CHECK(ApproxEqual(cross(myck.perp(myck.perp(l1)), l1), zero));
 
@@ -78,8 +78,8 @@ template <typename PG> void chk_tri_float(const PG &myck) {
 
     auto a4 = plucker(2, a1, 3, a2);
     auto collin = std::tuple{std::move(a1), std::move(a2), std::move(a4)};
-    Q = myck.tri_quadrance(collin);
-    CHECK(check_cross_TQF(Q) == Approx(0));
+    auto Q2 = myck.tri_quadrance(collin);
+    CHECK(check_cross_TQF(Q2) == Approx(0));
 }
 
 TEST_CASE("Elliptic/Hyperbolic plane (double)", "[ell_plane]") {

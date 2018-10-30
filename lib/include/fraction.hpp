@@ -36,6 +36,8 @@ struct Fraction {
         : _numerator{numerator}, _denominator{1} {}
 
     constexpr Fraction() = default;
+    // Fraction(const _Self &) = delete;
+    // Fraction(_Self &&) = default;
 
     constexpr const Z &numerator() const { return _numerator; }
 
@@ -45,9 +47,7 @@ struct Fraction {
         return _Self(std::abs(_numerator), std::abs(_denominator));
     }
 
-    constexpr void reciprocal() {
-        std::swap(_numerator, _denominator);
-    }
+    constexpr void reciprocal() { std::swap(_numerator, _denominator); }
 
     constexpr _Self operator-() const {
         return _Self(-_numerator, _denominator);

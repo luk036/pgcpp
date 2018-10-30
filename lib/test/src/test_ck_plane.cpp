@@ -30,7 +30,7 @@ template <typename PG> void chk_int(const PG &myck) {
 
     auto triangle = Triple<P>{std::move(a1), std::move(a2), std::move(a3)};
     auto trilateral = tri_dual(triangle);
-    const auto& [l1, l2, l3] = trilateral;
+    const auto &[l1, l2, l3] = trilateral;
     CHECK(incident(l1, a2));
 
     // CHECK(geometry.perp(geometry.perp(a1)) == a1);
@@ -42,7 +42,8 @@ template <typename PG> void chk_int(const PG &myck) {
 
     auto o = myck.orthocenter(triangle);
     CHECK(o == t2 * t3);
-    CHECK(a1 == myck.orthocenter(std::tuple{std::move(o), std::move(a2), std::move(a3)}));
+    CHECK(a1 == myck.orthocenter(
+                    std::tuple{std::move(o), std::move(a2), std::move(a3)}));
 
     auto tau = myck.reflect(l1);
     CHECK(tau(tau(a1)) == a1);
@@ -76,16 +77,16 @@ TEST_CASE("CK plane chk_int", "[ck_plane]") {
     // namespace mp = boost::multiprecision;
     using boost::multiprecision::cpp_int;
 
-    chk_int(myck<pg_point<int>>());
-    chk_int(myck<pg_line<int>>());
-    chk_int(ellck<pg_point<int>>());
-    chk_int(ellck<pg_line<int>>());
-    chk_int(hyck<pg_point<int>>());
-    chk_int(hyck<pg_line<int>>());
+    chk_int(myck<pg_point<cpp_int>>());
+    chk_int(myck<pg_line<cpp_int>>());
+    chk_int(ellck<pg_point<cpp_int>>());
+    chk_int(ellck<pg_line<cpp_int>>());
+    chk_int(hyck<pg_point<cpp_int>>());
+    chk_int(hyck<pg_line<cpp_int>>());
 
-    pg_point<int> Ire(0, 1, 1);
-    pg_point<int> Iim(1, 0, 0);
-    pg_line<int> l_inf(0, -1, 1);
+    pg_point<cpp_int> Ire(0, 1, 1);
+    pg_point<cpp_int> Iim(1, 0, 0);
+    pg_line<cpp_int> l_inf(0, -1, 1);
     auto P = persp_euclid_plane{Ire, Iim, l_inf};
     chk_int(P);
 }
@@ -100,7 +101,7 @@ template <typename PG> void chk_float(const PG &myck) {
 
     auto triangle = std::tuple{std::move(a1), std::move(a2), std::move(a3)};
     auto trilateral = tri_dual(triangle);
-    const auto& [l1, l2, l3] = trilateral;
+    const auto &[l1, l2, l3] = trilateral;
     CHECK(l1.dot(a2) == Approx(0.));
 
     // CHECK(geometry.perp(geometry.perp(a1)) == a1);
@@ -114,7 +115,8 @@ template <typename PG> void chk_float(const PG &myck) {
 
     auto o = myck.orthocenter(triangle);
     CHECK(ApproxEqual(cross(o, t2 * t3), zero));
-    CHECK(a1 == myck.orthocenter(std::tuple{std::move(o), std::move(a2), std::move(a3)}));
+    CHECK(a1 == myck.orthocenter(
+                    std::tuple{std::move(o), std::move(a2), std::move(a3)}));
 
     auto tau = myck.reflect(l1);
     CHECK(ApproxEqual(cross(tau(tau(a1)), a1), zero));

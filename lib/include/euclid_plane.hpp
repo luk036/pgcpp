@@ -166,10 +166,10 @@ constexpr auto Ar(const _Q &a, const _Q &b, const _Q &c) {
 /// Cyclic quadrilateral quadrea theorem
 template <typename _Q>
 constexpr auto cqq(const _Q &a, const _Q &b, const _Q &c, const _Q &d) {
-    auto t1 = 4 * a * b;
-    auto t2 = 4 * c * d;
+    auto t1 = a * b * 4;
+    auto t2 = c * d * 4;
     auto m = (t1 + t2) - sq(a + b - c - d);
-    auto p = m * m - 4 * t1 * t2;
+    auto p = m * m - t1 * t2 * 4;
     return std::tuple{m, p};
 }
 

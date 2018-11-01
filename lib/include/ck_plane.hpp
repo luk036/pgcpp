@@ -12,7 +12,7 @@ namespace fun {
 template <typename _P, typename _L,
           template <typename P, typename L> class Derived>
 requires Projective_plane_prim<_P, _L> // c++20 concept
-    struct ck {
+struct ck {
     using point_t = _P;
     using line_t = _L;
 

@@ -56,11 +56,11 @@ template <typename P> using Triple = std::tuple<P, P, P>;
 Projective_plane_prim2 { P }
 constexpr auto tri_dual(const Triple<P> &tri) {
     const auto &[a1, a2, a3] = tri;
-    using L = typename std::remove_reference_t<P>::dual;
-    L l1 = a2 * a3;
-    L l2 = a1 * a3;
-    L l3 = a1 * a2;
-    return Triple<L>{std::move(l1), std::move(l2), std::move(l3)};
+    // using L = typename std::remove_reference_t<P>::dual;
+    // L l1 = a2 * a3;
+    // L l2 = a1 * a3;
+    // L l3 = a1 * a2;
+    return std::tuple{a2 * a3, a1 * a3, a1 * a2};
 }
 
 Projective_plane_prim2 { P }
@@ -87,9 +87,8 @@ constexpr bool incident(const P &p, const L &l) { return p.dot(l) == 0; }
 Projective_plane2 { P }
 constexpr P harm_conj(const P &A, const P &B, const P &C) {
     using Line = typename P::dual;
-    Line &&lC = C * (A * B).aux();
-    P a = plucker(B.dot(lC), A, A.dot(lC), B);
-    return std::move(a);
+    Line lC = C * (A * B).aux();
+    return plucker(B.dot(lC), A, A.dot(lC), B);
 }
 
 Projective_plane { P, L }
@@ -157,36 +156,36 @@ constexpr auto ratio_ratio(const K &a, const K &b, const K &c, const K &d) {
 Projective_plane { P, L }
 constexpr auto x_ratio(const P &A, const P &B, const L &l, const L &m) {
     using ret_t = Value_type<P>;
-    ret_t &&dAl = A.dot(l);
-    ret_t &&dAm = A.dot(m);
-    ret_t &&dBl = B.dot(l);
-    ret_t &&dBm = B.dot(m);
+    ret_t dAl = A.dot(l);
+    ret_t dAm = A.dot(m);
+    ret_t dBl = B.dot(l);
+    ret_t dBm = B.dot(m);
     return ratio_ratio(dAl, dAm, dBl, dBm);
 }
 
 Projective_plane2 { P }
 constexpr auto R(const P &A, const P &B, const P &C, const P &D) {
-    const P &O = (C * D).aux();
+    P O = (C * D).aux();
     return x_ratio(A, B, O * C, O * D);
 }
 
 Projective_plane_coord2 { P }
 constexpr auto R0(const P &A, const P &B, const P &C, const P &D) {
     using K = Value_type<P>;
-    K &&ac = cross0(A, C);
-    K &&ad = cross0(A, D);
-    K &&bc = cross0(B, C);
-    K &&bd = cross0(B, D);
+    K ac = cross0(A, C);
+    K ad = cross0(A, D);
+    K bc = cross0(B, C);
+    K bd = cross0(B, D);
     return ratio_ratio(ac, ad, bc, bd);
 }
 
 Projective_plane_coord2 { P }
 constexpr auto R1(const P &A, const P &B, const P &C, const P &D) {
     using K = Value_type<P>;
-    K &&ac = cross1(A, C);
-    K &&ad = cross1(A, D);
-    K &&bc = cross1(B, C);
-    K &&bd = cross1(B, D);
+    K ac = cross1(A, C);
+    K ad = cross1(A, D);
+    K bc = cross1(B, C);
+    K bd = cross1(B, D);
     return ratio_ratio(ac, ad, bc, bd);
 }
 
@@ -226,8 +225,8 @@ void check_pappus(const Triple<Point> &co1, const Triple<Point> &co2) {
 // requires Projective_plane<P, L>
 Projective_plane_prim2 { P }
 void check_desargue(const Triple<P> &tri1, const Triple<P> &tri2) {
-    auto &&trid1 = tri_dual(tri1);
-    auto &&trid2 = tri_dual(tri2);
+    auto trid1 = tri_dual(tri1);
+    auto trid2 = tri_dual(tri2);
     bool b1 = persp(tri1, tri2);
     bool b2 = persp(trid1, trid2);
     assert((b1 && b2) || (!b1 && !b2));

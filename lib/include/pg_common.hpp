@@ -89,7 +89,8 @@ CommutativeRing{_K} _K dot_c(const std::array<_K, 3> &v,
  * @return lamda*v + mu*w
  */
 template <typename _T, typename _K>
-requires CommutativeRing<_T> &&CommutativeRing<_K> std::array<_K, 3>
+requires CommutativeRing<_T> && CommutativeRing<_K> //
+std::array<_K, 3>
 plucker_c(const _T &ld, const std::array<_K, 3> &v1, const _T &mu,
           const std::array<_K, 3> &v2) {
     const auto &[x1, y1, z1] = v1;

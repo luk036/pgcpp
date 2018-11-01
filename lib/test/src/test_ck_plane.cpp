@@ -87,7 +87,7 @@ TEST_CASE("CK plane chk_int", "[ck_plane]") {
     pg_point<cpp_int> Ire(0, 1, 1);
     pg_point<cpp_int> Iim(1, 0, 0);
     pg_line<cpp_int> l_inf(0, -1, 1);
-    auto P = persp_euclid_plane{Ire, Iim, l_inf};
+    auto P = persp_euclid_plane{std::move(Ire), std::move(Iim), std::move(l_inf)};
     chk_int(P);
 }
 
@@ -147,6 +147,6 @@ TEST_CASE("CK plane chk_float", "[ck_plane]") {
     auto Ire = pg_point(0., 1., 1.);
     auto Iim = pg_point(1., 0., 0.);
     auto l_inf = pg_line(0., -1., 1.);
-    auto P = persp_euclid_plane{Ire, Iim, l_inf};
+    auto P = persp_euclid_plane{std::move(Ire), std::move(Iim), std::move(l_inf)};
     chk_float(P);
 }

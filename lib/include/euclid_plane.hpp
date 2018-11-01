@@ -20,7 +20,7 @@ Projective_plane_coord2 { L } // // and requires p[i]
 constexpr auto fB(const L &l) {
     using P = typename L::dual;
     using K = Value_type<P>;
-    return P(l[0], l[1], K(0));
+    return P{l[0], l[1], K(0)};
 }
 
 Projective_plane_coord2 { L }

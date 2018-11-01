@@ -46,7 +46,7 @@ TEST_CASE("Perspective Euclid plane", "[persp_plane]") {
     auto Ire = pg_point<cpp_int>(0, 1, 1);
     auto Iim = pg_point<cpp_int>(1, 0, 0);
     auto l_inf = pg_line<cpp_int>(0, -1, 1);
-    auto P = persp_euclid_plane{Ire, Iim, l_inf};
+    auto P = persp_euclid_plane{std::move(Ire), std::move(Iim), std::move(l_inf)};
     chk_degenerate_int(P);
 }
 
@@ -83,6 +83,6 @@ TEST_CASE("Perspective Euclid plane (floating point)", "[persp_plane]") {
     auto Ire = pg_point(0., 1., 1.);
     auto Iim = pg_point(1., 0., 0.);
     auto l_inf = pg_line(0., -1., 1.);
-    auto P = persp_euclid_plane{Ire, Iim, l_inf};
+    auto P = persp_euclid_plane{std::move(Ire), std::move(Iim), std::move(l_inf)};
     chk_degenerate_float(P);
 }

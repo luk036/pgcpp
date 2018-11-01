@@ -97,11 +97,15 @@ class involution {
     using K = Value_type<P>;
 
   private:
-    L _m;
+    const L& _m;
     P _o;
     K _c;
 
   public:
+    constexpr involution(const L &m, P &&o)
+        : // input mirror and center
+          _m{m}, _o{std::forward<P>(o)}, _c{m.dot(_o)} {}
+
     constexpr involution(const L &m, const P &o)
         : // input mirror and center
           _m{m}, _o{o}, _c{m.dot(o)} {}

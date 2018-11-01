@@ -18,6 +18,9 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
     L _l_infty;
 
   public:
+    constexpr persp_euclid_plane(P &&Ire, P &&Iim, L &&l_infty)
+        : _Ire{std::forward<P>(Ire)}, _Iim{std::forward<P>(Iim)}, _l_infty{std::forward<L>(l_infty)} {}
+
     constexpr persp_euclid_plane(const P &Ire, const P &Iim, const L &l_infty)
         : _Ire{Ire}, _Iim{Iim}, _l_infty{l_infty} {}
 

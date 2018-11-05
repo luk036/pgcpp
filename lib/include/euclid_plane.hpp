@@ -57,7 +57,7 @@ constexpr P orthocenter(const Triple<P> &tri) {
 }
 
 Projective_plane_coord2 { L }
-constexpr auto reflect(const L &m) { return involution(m, fB(m)); }
+constexpr auto reflect(const L &m) { return involution{m, fB(m)}; }
 
 Projective_plane_coord2 { P }
 constexpr auto omgB(const P &x, const P &y) {

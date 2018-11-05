@@ -15,13 +15,13 @@ template <typename PG> void chk_degenerate_int(const PG &myck) {
     using Point = typename PG::point_t;
     using Line = typename PG::line_t;
 
-    auto a1 = Point(-1, 0, 3);
-    auto a2 = Point(4, -2, 1);
-    auto a3 = Point(3, -1, 1);
+    auto a1 = Point{-1, 0, 3};
+    auto a2 = Point{4, -2, 1};
+    auto a3 = Point{3, -1, 1};
 
     auto triangle = std::tuple{std::move(a1), std::move(a2), std::move(a3)};
     auto trilateral = tri_dual(triangle);
-    const auto &[l1, l2, l3] = trilateral;
+    auto &[l1, l2, l3] = trilateral;
 
     CHECK(!myck.is_parallel(l1, l2));
     CHECK(!myck.is_parallel(l2, l3));
@@ -80,9 +80,9 @@ template <typename PG> void chk_degenerate_float(const PG &myck) {
 }
 
 TEST_CASE("Perspective Euclid plane (floating point)", "[persp_plane]") {
-    auto Ire = pg_point(0., 1., 1.);
-    auto Iim = pg_point(1., 0., 0.);
-    auto l_inf = pg_line(0., -1., 1.);
+    auto Ire = pg_point{0., 1., 1.};
+    auto Iim = pg_point{1., 0., 0.};
+    auto l_inf = pg_line{0., -1., 1.};
     auto P = persp_euclid_plane{std::move(Ire), std::move(Iim), std::move(l_inf)};
     chk_degenerate_float(P);
 }

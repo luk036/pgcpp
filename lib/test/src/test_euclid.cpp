@@ -15,15 +15,15 @@ TEST_CASE("Euclid plane", "[euclid_plane]") {
     using boost::multiprecision::cpp_int;
     using K = cpp_int;
 
-    auto a1 = pg_point<cpp_int>(1, 3, 1);
-    auto a2 = pg_point<cpp_int>(4, 2, 1);
-    auto a3 = pg_point<cpp_int>(4, -3, 1);
+    auto a1 = pg_point<cpp_int>{1,  3, 1};
+    auto a2 = pg_point<cpp_int>{4,  2, 1};
+    auto a3 = pg_point<cpp_int>{4, -3, 1};
 
     using P = decltype(a1);
 
     auto triangle = std::tuple{std::move(a1), std::move(a2), std::move(a3)};
     auto trilateral = tri_dual(triangle);
-    const auto &[l1, l2, l3] = trilateral;
+    auto &[l1, l2, l3] = trilateral;
 
     using P = decltype(a1);
     using L = decltype(l1);
@@ -95,8 +95,8 @@ TEST_CASE("Euclid plane", "[euclid_plane]") {
     auto t = Ar(q12 * q34, q23 * q14, q13 * q24);
     // t = sympy.simplify(t)
     CHECK(t == 0);
-    bool b =
+    auto okay =
         Ptolemy(std::tuple{std::move(q12), std::move(q23), std::move(q34),
                            std::move(q14), std::move(q24), std::move(q13)});
-    CHECK(b == true);
+    CHECK(okay);
 }

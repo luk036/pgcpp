@@ -17,8 +17,8 @@ TEST_CASE("Fraction", "[Fraction]") {
     cpp_int z = 0;
     cpp_int h = -g;
 
-    auto p = Fraction(a, b);
+    auto p = Fraction{a, b};
 
-    CHECK(p == Fraction(30, 40));
-    CHECK(p != 0);
+    CHECK( p == Fraction(30, 40) );
+    CHECK( p != 0 );
 }

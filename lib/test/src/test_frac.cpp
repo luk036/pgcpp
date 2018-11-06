@@ -35,19 +35,18 @@ TEST_CASE("Fraction Special Cases", "[Fraction]") {
     CHECK( p < inf );
     CHECK( inf == inf );
     CHECK( -inf < inf );
-    CHECK( inf * p == inf );
-    CHECK( -inf * p == -inf );
-    CHECK( inf * inf == inf );
-    CHECK( p / zero == inf );
-    CHECK( inf / zero == inf );
+    CHECK( inf == inf * p );
+    CHECK( inf == inf * inf );
+    CHECK( inf == p / zero );
+    CHECK( inf == inf / zero );
     CHECK( nan == nan );
-    CHECK( inf * zero == nan );
-    CHECK( -inf * zero == nan );
-    CHECK( inf / inf == nan );
-    CHECK( nan * zero == nan );
-    CHECK( nan * nan == nan );
-    CHECK( inf + inf == inf );
-    CHECK( inf - inf == nan );
+    CHECK( nan == inf * zero );
+    CHECK( nan == -inf * zero );
+    CHECK( nan == inf / inf );
+    CHECK( nan == nan * zero );
+    CHECK( nan == nan * nan );
+    CHECK( inf == inf + inf );
+    CHECK( nan == inf - inf );
     // CHECK( inf + p == nan ); // ???
     // CHECK( -inf + p == nan ); // ???
 }

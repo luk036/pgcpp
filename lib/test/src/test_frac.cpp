@@ -34,8 +34,7 @@ TEST_CASE("Fraction Special Cases", "[Fraction]") {
     CHECK( -inf < p );
     CHECK( p < inf );
     CHECK( inf == inf );
-    CHECK( -inf == inf ); // why compare this two numbers?
-    CHECK( !(-inf < inf) ); // why compare this two numbers?
+    CHECK( -inf < inf );
     CHECK( inf * p == inf );
     CHECK( -inf * p == -inf );
     CHECK( inf * inf == inf );
@@ -47,5 +46,8 @@ TEST_CASE("Fraction Special Cases", "[Fraction]") {
     CHECK( inf / inf == nan );
     CHECK( nan * zero == nan );
     CHECK( nan * nan == nan );
-    // CHECK( inf - inf == nan ); // will crash!
+    CHECK( inf + inf == inf );
+    CHECK( inf - inf == nan );
+    // CHECK( inf + p == nan ); // ???
+    // CHECK( -inf + p == nan ); // ???
 }

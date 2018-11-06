@@ -54,6 +54,9 @@ struct Fraction {
     }
 
     constexpr _Self operator+(const _Self &frac) const {
+        if (_denominator == frac._denominator) {
+            return _Self(_numerator + frac._numerator, _denominator);
+        }
         auto common = lcm(_denominator, frac._denominator);
         auto n = common / _denominator * _numerator +
                  common / frac._denominator * frac._numerator;
@@ -123,37 +126,46 @@ struct Fraction {
      * @return constexpr auto
      */
     template <typename U> constexpr auto cmp(const Fraction<U> &frac) const {
+        // if (_denominator == frac._denominator) {
+        //     return _numerator - frac._numerator;
+        // }
         return _numerator * frac._denominator - _denominator * frac._numerator;
     }
 
     template <typename U>
     constexpr bool operator==(const Fraction<U> &frac) const {
+        if (_denominator == frac._denominator) {
+            return _numerator == frac._numerator;
+        }
         return this->cmp(frac) == 0;
     }
 
     template <typename U>
     constexpr bool operator!=(const Fraction<U> &frac) const {
-        return this->cmp(frac) != 0;
+        return !(*this == frac);
     }
 
     template <typename U>
     constexpr bool operator<(const Fraction<U> &frac) const {
+        if (_denominator == frac._denominator) {
+            return _numerator < frac._numerator;
+        }
         return this->cmp(frac) < 0;
     }
 
     template <typename U>
     constexpr bool operator>(const Fraction<U> &frac) const {
-        return this->cmp(frac) > 0;
+        return frac < *this;
     }
 
     template <typename U>
     constexpr bool operator<=(const Fraction<U> &frac) const {
-        return this->cmp(frac) <= 0;
+        return !(frac < *this);
     }
 
     template <typename U>
     constexpr bool operator>=(const Fraction<U> &frac) const {
-        return this->cmp(frac) >= 0;
+        return !(*this < frac);
     }
 
     constexpr auto cmp(const Z &c) const {

@@ -28,8 +28,8 @@ struct Fraction {
   public:
     constexpr Fraction(const Z &numerator, const Z &denominator) {
         const Z &common = gcd(numerator, denominator);
-        _numerator = numerator / common;
-        _denominator = denominator / common;
+        _numerator = (common == Z(0)) ? Z(0) : numerator / common;
+        _denominator = (common == Z(0)) ? Z(0) : denominator / common;
     }
 
     constexpr explicit Fraction(const Z &numerator)

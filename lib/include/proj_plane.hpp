@@ -65,7 +65,7 @@ constexpr auto tri_dual(const Triple<P> &tri) {
 
 Projective_plane_prim2 { P }
 constexpr auto tri_func(auto func, const Triple<P> &tri) {
-    const auto &[a1, a2, a3] = tri;
+    auto &[a1, a2, a3] = tri;
     using ret_t = decltype(func(a1, a2));
     ret_t m1 = func(a2, a3);
     ret_t m2 = func(a1, a3);

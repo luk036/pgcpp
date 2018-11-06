@@ -55,3 +55,21 @@ TEST_CASE("Projective Line", "[proj_plane]") {
     auto u = plucker(1 + 0j, o, -1 - 1j, r);
     // check_desargue(std::tuple{l, m, r}, std::tuple{s, t, u});
 }
+
+
+TEST_CASE("Projective Point (Special case)", "[proj_plane]") {
+    auto p = pg_point{1, 3, 2}; //
+    auto l = pg_line{-2, 3, 1}; //
+    auto l_inf = pg_line{0, 0, 1}; //
+    auto l_nan = pg_line{0, 0, 0}; //
+    auto p_nan = pg_point{0, 0, 0}; //
+
+    CHECK(l_nan == l_nan);
+    CHECK(p * p == l_nan); // join two equal points
+    CHECK(l * l == p_nan);
+    CHECK(p_nan * p == l_nan);
+    CHECK(l_nan * l == p_nan);
+    CHECK(incident(l_nan, p));
+    CHECK(incident(p_nan, l));
+    CHECK(incident(p_nan, l_nan));
+}

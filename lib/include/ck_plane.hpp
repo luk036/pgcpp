@@ -122,15 +122,15 @@ struct hyck : ck<P, L, hyck> {
 
 template <typename Q_t> constexpr auto check_cross_TQF(const Q_t &Q) {
     const auto &[q1, q2, q3] = Q;
-    return sq(q1 + q2 + q3) - (q1 * q1 + q2 * q2 + q3 * q3) * 2 -
-           q1 * q2 * q3 * 4;
+    return sq(q1 + q2 + q3) - 2 * (q1 * q1 + q2 * q2 + q3 * q3) -
+           4 * q1 * q2 * q3;
 }
 
 template <typename S_t, typename K>
 constexpr auto check_cross_law(const S_t &S, const K &q3) {
     const auto &[s1, s2, s3] = S;
-    return sq(s1 * s2 * q3 - (s1 + s2 + s3) + 2) +
-           (s1 - 1) * (s2 - 1) * (s3 - 1) * 4;
+    return sq(s1 * s2 * q3 - (s1 + s2 + s3) + 2) -
+           4 * (1 - s1) * (1 - s2) * (1 - s3);
 }
 
 } // namespace fun

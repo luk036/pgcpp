@@ -203,17 +203,17 @@ constexpr Fraction<Z> operator*(const Z &c, const Fraction<Z> &frac) {
 }
 
 Integral { Z }
-constexpr Fraction<Z> operator+(int c, const Fraction<Z> &frac) {
+constexpr Fraction<Z> operator+(int&& c, const Fraction<Z> &frac) {
     return frac + c;
 }
 
 Integral { Z }
-constexpr Fraction<Z> operator-(int c, const Fraction<Z> &frac) {
-    return c + (-frac);
+constexpr Fraction<Z> operator-(int&& c, const Fraction<Z> &frac) {
+    return (-frac) + c;
 }
 
 Integral { Z }
-constexpr Fraction<Z> operator*(int c, const Fraction<Z> &frac) {
+constexpr Fraction<Z> operator*(int&& c, const Fraction<Z> &frac) {
     return frac * c;
 }
 

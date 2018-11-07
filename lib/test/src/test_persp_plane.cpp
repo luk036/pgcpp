@@ -36,7 +36,7 @@ template <typename PG> void chk_degenerate_int(const PG &myck) {
     CHECK(coincident(t1, t2, t3));
 
     auto [q1, q2, q3] = myck.tri_quadrance(triangle);
-    auto tqf = sq(q1 + q2 + q3) - (q1 * q1 + q2 * q2 + q3 * q3) * 2;
+    auto tqf = sq(q1 + q2 + q3) - 2 *(q1 * q1 + q2 * q2 + q3 * q3); 
     CHECK(tqf == Ar(q1, q2, q3));
 }
 
@@ -75,7 +75,7 @@ template <typename PG> void chk_degenerate_float(const PG &myck) {
     CHECK(t1.dot(t2 * t3) == Approx(0.0));
 
     auto [q1, q2, q3] = myck.tri_quadrance(triangle);
-    auto tqf = sq(q1 + q2 + q3) - (q1 * q1 + q2 * q2 + q3 * q3) * 2;
+    auto tqf = sq(q1 + q2 + q3) - 2 * (q1 * q1 + q2 * q2 + q3 * q3);
     CHECK(Approx(tqf) == Ar(q1, q2, q3));
 }
 

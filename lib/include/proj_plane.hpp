@@ -110,7 +110,7 @@ class involution {
           _m{m}, _o{o}, _c{m.dot(o)} {}
 
     constexpr P operator()(const P &p) const {
-        K temp = -p.dot(_m) * 2;
+        K temp = -2 * p.dot(_m);
         return plucker(_c, p, temp, _o);
     }
 };

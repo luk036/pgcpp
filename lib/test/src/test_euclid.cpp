@@ -63,14 +63,14 @@ TEST_CASE("Euclid plane", "[euclid_plane]") {
     auto &[q1, q2, q3] = Q;
     auto &[s1, s2, s3] = S;
 
-    auto tqf = sq(q1 + q2 + q3) - (q1 * q1 + q2 * q2 + q3 * q3) * 2;
+    auto tqf = sq(q1 + q2 + q3) - 2 * (q1 * q1 + q2 * q2 + q3 * q3);
     CHECK(tqf == Ar(q1, q2, q3));
 
     // auto c3 = sq(q1 + q2 - q3) / (4*q1*q2);
     // CHECK( c3 + s3 == 1 ); // get the same
 
     auto tsf =
-        sq(s1 + s2 + s3) - (s1 * s1 + s2 * s2 + s3 * s3) * 2 - s1 * s2 * s3 * 4;
+        sq(s1 + s2 + s3) - 2 * (s1 * s1 + s2 * s2 + s3 * s3) - 4 * s1 * s2 * s3;
     CHECK(tsf == 0);
 
     auto a3p = plucker(3, a1, 4, a2);
@@ -78,7 +78,7 @@ TEST_CASE("Euclid plane", "[euclid_plane]") {
     auto q2p = quadrance(a1, a3p);
     auto q3p = quadrance(a1, a2);
     auto tqf2 =
-        sq(q1p + q2p + q3p) - (q1p * q1p + q2p * q2p + q3p * q3p) * 2; // get 0
+        sq(q1p + q2p + q3p) - 2 * (q1p * q1p + q2p * q2p + q3p * q3p); // get 0
     CHECK(tqf2 == 0);
 
     auto u1 = uc_point<P>(1, 0);

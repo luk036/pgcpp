@@ -8,7 +8,8 @@
 
 using namespace fun;
 
-TEST_CASE("Fraction", "[Fraction]") {
+TEST_CASE("Fraction", "[Fraction]")
+{
     using boost::multiprecision::cpp_int;
     static_assert(Integral<cpp_int>);
 
@@ -18,36 +19,37 @@ TEST_CASE("Fraction", "[Fraction]") {
     cpp_int h = -g;
 
     auto p = Fraction{a, b};
-    auto q = 2*p;
+    auto q = 2 * p;
 
-    CHECK( p == Fraction(30, 40) );
-    CHECK( p != 0 );
+    CHECK(p == Fraction(30, 40));
+    CHECK(p != 0);
 }
 
-TEST_CASE("Fraction Special Cases", "[Fraction]") {
+TEST_CASE("Fraction Special Cases", "[Fraction]")
+{
     auto p = Fraction{3, 4};
     auto inf = Fraction{1, 0};
     auto nan = Fraction{0, 0};
     auto zero = Fraction{0, 1};
 
-    CHECK( -inf < zero );
-    CHECK( zero < inf );
-    CHECK( -inf < p );
-    CHECK( p < inf );
-    CHECK( inf == inf );
-    CHECK( -inf < inf );
-    CHECK( inf == inf * p );
-    CHECK( inf == inf * inf );
-    CHECK( inf == p / zero );
-    CHECK( inf == inf / zero );
-    CHECK( nan == nan );
-    CHECK( nan == inf * zero );
-    CHECK( nan == -inf * zero );
-    CHECK( nan == inf / inf );
-    CHECK( nan == nan * zero );
-    CHECK( nan == nan * nan );
-    CHECK( inf == inf + inf );
-    CHECK( nan == inf - inf );
+    CHECK(-inf < zero);
+    CHECK(zero < inf);
+    CHECK(-inf < p);
+    CHECK(p < inf);
+    CHECK(inf == inf);
+    CHECK(-inf < inf);
+    CHECK(inf == inf * p);
+    CHECK(inf == inf * inf);
+    CHECK(inf == p / zero);
+    CHECK(inf == inf / zero);
+    CHECK(nan == nan);
+    CHECK(nan == inf * zero);
+    CHECK(nan == -inf * zero);
+    CHECK(nan == inf / inf);
+    CHECK(nan == nan * zero);
+    CHECK(nan == nan * nan);
+    CHECK(inf == inf + inf);
+    CHECK(nan == inf - inf);
     // CHECK( inf + p == nan ); // ???
     // CHECK( -inf + p == nan ); // ???
 }

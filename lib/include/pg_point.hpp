@@ -1,4 +1,4 @@
-// The template and inlines for the -*- C++ -*- 3d point classes.
+// The template and inlines for the -*- C++ -*- pg point classes.
 // Initially implemented by Wai-Shing Luk <luk036@gmail.com>
 //
 
@@ -12,23 +12,46 @@
 #include "pg_common.hpp"
 #include "pg_object.hpp"
 
-namespace fun {
+namespace fun
+{
 
 // Forward declarations.
 CommutativeRing { _K }
 class pg_line;
 
 CommutativeRing { _K }
-struct pg_point : pg_object<_K, pg_line<_K>> {
+struct pg_point : pg_object<_K, pg_line<_K>>
+{
     /// Value typedef.
     using _Base = pg_object<_K, pg_line<_K>>;
     using _Base2 = std::array<_K, 3>;
     using value_type = _K;
 
+    /**
+     * @brief Construct a new pg point object
+     * 
+     */
     pg_point(const pg_point<_K> &) = delete;
+
+    /**
+     * @brief Construct a new pg point object
+     * 
+     */
     pg_point(pg_point<_K> &&) = default;
-    pg_point<_K>& operator=(const pg_point<_K> &) = delete;
-    pg_point<_K>& operator=(pg_point<_K> &&) = default;
+
+    /**
+     * @brief 
+     * 
+     * @return pg_point<_K>& 
+     */
+    pg_point<_K> &operator=(const pg_point<_K> &) = delete;
+
+    /**
+     * @brief 
+     * 
+     * @return pg_point<_K>& 
+     */
+    pg_point<_K> &operator=(pg_point<_K> &&) = default;
 
     /**
      * @brief Construct a new pg object object
@@ -48,9 +71,16 @@ struct pg_point : pg_object<_K, pg_line<_K>> {
         : _Base{_Base2{x, y, z}} {}
 };
 
-/// Return join of two points.
+/**
+ * @brief Return join of two points.
+ * 
+ * @param p 
+ * @param q 
+ * @return pg_line<_K> 
+ */
 CommutativeRing { _K }
-constexpr pg_line<_K> join(const pg_point<_K> &p, const pg_point<_K> &q) {
+constexpr pg_line<_K> join(const pg_point<_K> &p, const pg_point<_K> &q)
+{
     return p * q;
 }
 

@@ -12,12 +12,25 @@
 
 using namespace fun;
 
+/**
+ * @brief 
+ * 
+ * @tparam T 
+ * @tparam U 
+ * @param a 
+ * @param b 
+ * @return true 
+ * @return false 
+ */
 template <typename T, typename U>
-inline bool ApproxEqual(const T &a, const U &b) {
+inline bool ApproxEqual(const T &a, const U &b)
+{
     return a[0] == Approx(b[0]) && a[1] == Approx(b[1]) && a[2] == Approx(b[2]);
 }
 
-template <typename PG> void chk_ck(const PG &myck) {
+template <typename PG>
+void chk_ck(const PG &myck)
+{
     using P = typename PG::point_t;
     using Line = typename PG::line_t;
     using K = Value_type<P>;
@@ -40,7 +53,8 @@ template <typename PG> void chk_ck(const PG &myck) {
     auto Q = std::tuple{myck.tri_quadrance(triangle)};
     auto S = std::tuple{myck.tri_spread(trilateral)};
 
-    if constexpr (Integral<K>) {
+    if constexpr (Integral<K>)
+    {
         CHECK(incident(l1, a2));
         CHECK(myck.is_perpendicular(t1, l1));
         CHECK(coincident(t1, t2, t3));
@@ -52,7 +66,9 @@ template <typename PG> void chk_ck(const PG &myck) {
         CHECK(myck.quadrance(a1, a1) == 0);
         CHECK(check_sine_law(Q, S));
         CHECK(check_sine_law(S, Q));
-    } else {
+    }
+    else
+    {
         CHECK(l1.dot(a2) == Approx(0));
         CHECK(l1.dot(myck.perp(t1)) == Approx(0));
         CHECK(t1.dot(t2 * t3) == Approx(0));
@@ -63,8 +79,8 @@ template <typename PG> void chk_ck(const PG &myck) {
         CHECK(ApproxEqual(cross(tau(tau(a4)), a4), zero));
         CHECK(myck.measure(l1, l1) == Approx(0));
         CHECK(myck.measure(a1, a1) == Approx(0));
-        auto& [q1, q2, q3] = Q;
-        auto& [s1, s2, s3] = S;
+        auto &[q1, q2, q3] = Q;
+        auto &[s1, s2, s3] = S;
         auto r1 = q1 * s2 - q2 * s1;
         auto r2 = q2 * s3 - q3 * s2;
         CHECK(r1 == Approx(0));
@@ -74,20 +90,23 @@ template <typename PG> void chk_ck(const PG &myck) {
 
 template <typename P, typename L = typename P::dual>
 requires Projective_plane_prim<P, L> // c++20 concept
-struct myck : ck<P, L, myck> {
+    struct myck : ck<P, L, myck>
+{
     constexpr L perp(const P &v) const { return L(-2 * v[0], v[1], -2 * v[2]); }
 
     constexpr P perp(const L &v) const { return P(-v[0], 2 * v[1], -v[2]); }
 
     Projective_plane2 { _P }
-    constexpr auto measure(const _P &a1, const _P &a2) const {
+    constexpr auto measure(const _P &a1, const _P &a2) const
+    {
         auto x = x_ratio(a1, a2, this->perp(a2), this->perp(a1));
         using Q_t = decltype(x);
         return Q_t(1) - x;
     }
 };
 
-TEST_CASE("CK plane chk_ck (int)", "[ck_plane]") {
+TEST_CASE("CK plane chk_ck (int)", "[ck_plane]")
+{
     // using boost::multiprecision::cpp_int;
     // namespace mp = boost::multiprecision;
     using boost::multiprecision::cpp_int;
@@ -106,7 +125,8 @@ TEST_CASE("CK plane chk_ck (int)", "[ck_plane]") {
     chk_ck(P);
 }
 
-TEST_CASE("CK plane chk_ck (float)", "[ck_plane]") {
+TEST_CASE("CK plane chk_ck (float)", "[ck_plane]")
+{
     chk_ck(myck<pg_point<double>>());
     chk_ck(myck<pg_line<double>>());
     chk_ck(ellck<pg_point<float>>());

@@ -1,3 +1,11 @@
+// The template and inlines for the -*- C++ -*- fraction classes.
+// Initially implemented by Wai-Shing Luk <luk036@gmail.com>
+//
+
+/** @file include/fraction.hpp
+ *  This is a C++ Library header.
+ */
+
 #ifndef _HOME_UBUNTU_GITHUB_PGCPP_FRACTION_HPP
 #define _HOME_UBUNTU_GITHUB_PGCPP_FRACTION_HPP 1
 
@@ -7,54 +15,125 @@
 #include <numeric>
 #include <type_traits>
 
-namespace fun {
+namespace fun
+{
 
-template <typename _Mn> constexpr _Mn gcd(_Mn __m, _Mn __n) {
+/**
+ * @brief Greatest common divider
+ * 
+ * @tparam _Mn 
+ * @param __m 
+ * @param __n 
+ * @return _Mn 
+ */
+template <typename _Mn>
+constexpr _Mn gcd(_Mn __m, _Mn __n)
+{
     return __m == 0 ? abs(__n) : __n == 0 ? abs(__m) : gcd(__n, __m % __n);
 }
 
-/// Least common multiple
-template <typename _Mn> constexpr _Mn lcm(_Mn __m, _Mn __n) {
+/**
+ * @brief Least common multiple
+ * 
+ * @tparam _Mn 
+ * @param __m 
+ * @param __n 
+ * @return _Mn 
+ */
+template <typename _Mn>
+constexpr _Mn lcm(_Mn __m, _Mn __n)
+{
     return (__m != 0 && __n != 0) ? (abs(__m) / gcd(__m, __n)) * abs(__n) : 0;
 }
 
 Integral { Z }
-struct Fraction {
+struct Fraction
+{
     using _Self = Fraction<Z>;
 
     Z _numerator;
     Z _denominator;
 
   public:
-    constexpr Fraction(const Z &numerator, const Z &denominator) {
+    /**
+     * @brief Construct a new Fraction object
+     * 
+     * @param numerator 
+     * @param denominator 
+     */
+    constexpr Fraction(const Z &numerator, const Z &denominator)
+    {
         const Z &common = gcd(numerator, denominator);
         _numerator = (common == Z(0)) ? Z(0) : numerator / common;
         _denominator = (common == Z(0)) ? Z(0) : denominator / common;
     }
 
+    /**
+     * @brief Construct a new Fraction object
+     * 
+     * @param numerator 
+     */
     constexpr explicit Fraction(const Z &numerator)
         : _numerator{numerator}, _denominator{1} {}
 
+    /**
+     * @brief Construct a new Fraction object
+     * 
+     */
     constexpr Fraction() = default;
     // Fraction(const _Self &) = delete;
     // Fraction(_Self &&) = default;
 
+    /**
+     * @brief 
+     * 
+     * @return const Z& 
+     */
     constexpr const Z &numerator() const { return _numerator; }
 
+    /**
+     * @brief 
+     * 
+     * @return const Z& 
+     */
     constexpr const Z &denominator() const { return _denominator; }
 
-    constexpr _Self abs() const {
+    /**
+     * @brief 
+     * 
+     * @return _Self 
+     */
+    constexpr _Self abs() const
+    {
         return _Self(std::abs(_numerator), std::abs(_denominator));
     }
 
+    /**
+     * @brief 
+     * 
+     */
     constexpr void reciprocal() { std::swap(_numerator, _denominator); }
 
-    constexpr _Self operator-() const {
+    /**
+     * @brief 
+     * 
+     * @return _Self 
+     */
+    constexpr _Self operator-() const
+    {
         return _Self(-_numerator, _denominator);
     }
 
-    constexpr _Self operator+(const _Self &frac) const {
-        if (_denominator == frac._denominator) {
+    /**
+     * @brief 
+     * 
+     * @param frac 
+     * @return _Self 
+     */
+    constexpr _Self operator+(const _Self &frac) const
+    {
+        if (_denominator == frac._denominator)
+        {
             return _Self(_numerator + frac._numerator, _denominator);
         }
         auto common = lcm(_denominator, frac._denominator);
@@ -63,162 +142,454 @@ struct Fraction {
         return _Self(n, common);
     }
 
-    constexpr _Self operator-(const _Self &frac) const {
+    /**
+     * @brief 
+     * 
+     * @param frac 
+     * @return _Self 
+     */
+    constexpr _Self operator-(const _Self &frac) const
+    {
         return *this + (-frac);
     }
 
-    constexpr _Self operator*(const _Self &frac) const {
+    /**
+     * @brief 
+     * 
+     * @param frac 
+     * @return _Self 
+     */
+    constexpr _Self operator*(const _Self &frac) const
+    {
         auto n = _numerator * frac._numerator;
         auto d = _denominator * frac._denominator;
         return _Self(n, d);
     }
 
-    constexpr _Self operator/(_Self frac) const {
+    /**
+     * @brief 
+     * 
+     * @param frac 
+     * @return _Self 
+     */
+    constexpr _Self operator/(_Self frac) const
+    {
         frac.reciprocal();
         return *this * frac;
     }
 
-    constexpr _Self operator+(const Z &i) const {
+    /**
+     * @brief 
+     * 
+     * @param i 
+     * @return _Self 
+     */
+    constexpr _Self operator+(const Z &i) const
+    {
         auto n = _numerator + _denominator * i;
         return _Self(n, _denominator);
     }
 
+    /**
+     * @brief 
+     * 
+     * @param i 
+     * @return _Self 
+     */
     constexpr _Self operator-(const Z &i) const { return *this + (-i); }
 
-    constexpr _Self operator*(const Z &i) const {
+    /**
+     * @brief 
+     * 
+     * @param i 
+     * @return _Self 
+     */
+    constexpr _Self operator*(const Z &i) const
+    {
         auto n = _numerator * i;
         return _Self(n, _denominator);
     }
 
-    constexpr _Self operator/(const Z &i) const {
+    /**
+     * @brief 
+     * 
+     * @param i 
+     * @return _Self 
+     */
+    constexpr _Self operator/(const Z &i) const
+    {
         auto d = _denominator * i;
         return _Self(_numerator, d);
     }
 
-    constexpr _Self operator+=(const _Self &frac) {
+    /**
+     * @brief 
+     * 
+     * @param frac 
+     * @return _Self 
+     */
+    constexpr _Self operator+=(const _Self &frac)
+    {
         return *this = *this + frac;
     }
 
-    constexpr _Self operator-=(const _Self &frac) {
+    /**
+     * @brief 
+     * 
+     * @param frac 
+     * @return _Self 
+     */
+    constexpr _Self operator-=(const _Self &frac)
+    {
         return *this = *this - frac;
     }
 
-    constexpr _Self operator*=(const _Self &frac) {
+    /**
+     * @brief 
+     * 
+     * @param frac 
+     * @return _Self 
+     */
+    constexpr _Self operator*=(const _Self &frac)
+    {
         return *this = *this * frac;
     }
 
-    constexpr _Self operator/=(const _Self &frac) {
+    /**
+     * @brief 
+     * 
+     * @param frac 
+     * @return _Self 
+     */
+    constexpr _Self operator/=(const _Self &frac)
+    {
         return *this = *this / frac;
     }
 
+    /**
+     * @brief 
+     * 
+     * @param i 
+     * @return _Self 
+     */
     constexpr _Self operator+=(const Z &i) { return *this = *this + i; }
 
+    /**
+     * @brief 
+     * 
+     * @param i 
+     * @return _Self 
+     */
     constexpr _Self operator-=(const Z &i) { return *this = *this - i; }
 
+    /**
+     * @brief 
+     * 
+     * @param i 
+     * @return _Self 
+     */
     constexpr _Self operator*=(const Z &i) { return *this = *this * i; }
 
+    /**
+     * @brief 
+     * 
+     * @param i 
+     * @return _Self 
+     */
     constexpr _Self operator/=(const Z &i) { return *this = *this / i; }
 
     /**
      * @brief Three way comparison
      *
      * @param frac
-     * @return constexpr auto
+     * @return auto
      */
-    template <typename U> constexpr auto cmp(const Fraction<U> &frac) const {
+    template <typename U>
+    constexpr auto cmp(const Fraction<U> &frac) const
+    {
         // if (_denominator == frac._denominator) {
         //     return _numerator - frac._numerator;
         // }
-        return _numerator * frac._denominator - _denominator * frac._numerator;
+        return _numerator * frac._denominator -
+               _denominator * frac._numerator;
     }
 
+    /**
+     * @brief 
+     * 
+     * @tparam U 
+     * @param frac 
+     * @return true 
+     * @return false 
+     */
     template <typename U>
-    constexpr bool operator==(const Fraction<U> &frac) const {
-        if (_denominator == frac._denominator) {
+    constexpr bool operator==(const Fraction<U> &frac) const
+    {
+        if (_denominator == frac._denominator)
+        {
             return _numerator == frac._numerator;
         }
         return this->cmp(frac) == 0;
     }
 
+    /**
+     * @brief 
+     * 
+     * @tparam U 
+     * @param frac 
+     * @return true 
+     * @return false 
+     */
     template <typename U>
-    constexpr bool operator!=(const Fraction<U> &frac) const {
+    constexpr bool operator!=(const Fraction<U> &frac) const
+    {
         return !(*this == frac);
     }
 
+    /**
+     * @brief 
+     * 
+     * @tparam U 
+     * @param frac 
+     * @return true 
+     * @return false 
+     */
     template <typename U>
-    constexpr bool operator<(const Fraction<U> &frac) const {
-        if (_denominator == frac._denominator) {
+    constexpr bool operator<(const Fraction<U> &frac) const
+    {
+        if (_denominator == frac._denominator)
+        {
             return _numerator < frac._numerator;
         }
         return this->cmp(frac) < 0;
     }
 
+    /**
+     * @brief 
+     * 
+     * @tparam U 
+     * @param frac 
+     * @return true 
+     * @return false 
+     */
     template <typename U>
-    constexpr bool operator>(const Fraction<U> &frac) const {
+    constexpr bool operator>(const Fraction<U> &frac) const
+    {
         return frac < *this;
     }
 
+    /**
+     * @brief 
+     * 
+     * @tparam U 
+     * @param frac 
+     * @return true 
+     * @return false 
+     */
     template <typename U>
-    constexpr bool operator<=(const Fraction<U> &frac) const {
+    constexpr bool operator<=(const Fraction<U> &frac) const
+    {
         return !(frac < *this);
     }
 
+    /**
+     * @brief 
+     * 
+     * @tparam U 
+     * @param frac 
+     * @return true 
+     * @return false 
+     */
     template <typename U>
-    constexpr bool operator>=(const Fraction<U> &frac) const {
+    constexpr bool operator>=(const Fraction<U> &frac) const
+    {
         return !(*this < frac);
     }
 
-    constexpr auto cmp(const Z &c) const {
+    /**
+     * @brief 
+     * 
+     * @param c 
+     * @return auto 
+     */
+    constexpr auto cmp(const Z &c) const
+    {
         return _numerator - _denominator * c;
     }
 
-    constexpr bool operator==(const Z &c) const { return this->cmp(c) == 0; }
+    /**
+     * @brief 
+     * 
+     * @param c 
+     * @return true 
+     * @return false 
+     */
+    constexpr bool operator==(const Z &c) const
+    {
+        return this->cmp(c) == 0;
+    }
 
-    constexpr bool operator!=(const Z &c) const { return this->cmp(c) != 0; }
+    /**
+     * @brief 
+     * 
+     * @param c 
+     * @return true 
+     * @return false 
+     */
+    constexpr bool operator!=(const Z &c) const
+    {
+        return this->cmp(c) != 0;
+    }
 
-    constexpr bool operator<(const Z &c) const { return this->cmp(c) < 0; }
+    /**
+     * @brief 
+     * 
+     * @param c 
+     * @return true 
+     * @return false 
+     */
+    constexpr bool operator<(const Z &c) const
+    {
+        return this->cmp(c) < 0;
+    }
 
-    constexpr bool operator>(const Z &c) const { return this->cmp(c) > 0; }
+    /**
+     * @brief 
+     * 
+     * @param c 
+     * @return true 
+     * @return false 
+     */
+    constexpr bool operator>(const Z &c) const
+    {
+        return this->cmp(c) > 0;
+    }
 
-    constexpr bool operator<=(const Z &c) const { return this->cmp(c) <= 0; }
+    /**
+     * @brief 
+     * 
+     * @param c 
+     * @return true 
+     * @return false 
+     */
+    constexpr bool operator<=(const Z &c) const
+    {
+        return this->cmp(c) <= 0;
+    }
 
-    constexpr bool operator>=(const Z &c) const { return this->cmp(c) >= 0; }
+    /**
+     * @brief 
+     * 
+     * @param c 
+     * @return true 
+     * @return false 
+     */
+    constexpr bool operator>=(const Z &c) const
+    {
+        return this->cmp(c) >= 0;
+    }
 
-    explicit operator double() { return double(_numerator) / _denominator; }
+    /**
+     * @brief 
+     * 
+     * @return double 
+     */
+    constexpr explicit operator double()
+    {
+        return double(_numerator) / _denominator;
+    }
 };
 
+/**
+ * @brief 
+ * 
+ * @param c 
+ * @param frac 
+ * @return Fraction<Z> 
+ */
 Integral { Z }
-constexpr Fraction<Z> operator+(const Z &c, const Fraction<Z> &frac) {
+constexpr Fraction<Z> operator+(const Z &c, const Fraction<Z> &frac)
+{
     return frac + c;
 }
 
+/**
+ * @brief 
+ * 
+ * @param c 
+ * @param frac 
+ * @return Fraction<Z> 
+ */
 Integral { Z }
-constexpr Fraction<Z> operator-(const Z &c, const Fraction<Z> &frac) {
+constexpr Fraction<Z> operator-(const Z &c, const Fraction<Z> &frac)
+{
     return c + (-frac);
 }
 
+/**
+ * @brief 
+ * 
+ * @param c 
+ * @param frac 
+ * @return Fraction<Z> 
+ */
 Integral { Z }
-constexpr Fraction<Z> operator*(const Z &c, const Fraction<Z> &frac) {
+constexpr Fraction<Z> operator*(const Z &c, const Fraction<Z> &frac)
+{
     return frac * c;
 }
 
+/**
+ * @brief 
+ * 
+ * @param c 
+ * @param frac 
+ * @return Fraction<Z> 
+ */
 Integral { Z }
-constexpr Fraction<Z> operator+(int&& c, const Fraction<Z> &frac) {
+constexpr Fraction<Z> operator+(int &&c, const Fraction<Z> &frac)
+{
     return frac + c;
 }
 
+/**
+ * @brief 
+ * 
+ * @param c 
+ * @param frac 
+ * @return Fraction<Z> 
+ */
 Integral { Z }
-constexpr Fraction<Z> operator-(int&& c, const Fraction<Z> &frac) {
+constexpr Fraction<Z> operator-(int &&c, const Fraction<Z> &frac)
+{
     return (-frac) + c;
 }
 
+/**
+ * @brief 
+ * 
+ * @param c 
+ * @param frac 
+ * @return Fraction<Z> 
+ */
 Integral { Z }
-constexpr Fraction<Z> operator*(int&& c, const Fraction<Z> &frac) {
+constexpr Fraction<Z> operator*(int &&c, const Fraction<Z> &frac)
+{
     return frac * c;
 }
 
+/**
+ * @brief 
+ * 
+ * @tparam _Stream 
+ * @tparam Z 
+ * @param os 
+ * @param frac 
+ * @return _Stream& 
+ */
 template <typename _Stream, Integral Z>
-_Stream &operator<<(_Stream &os, const Fraction<Z> &frac) {
+_Stream &operator<<(_Stream &os, const Fraction<Z> &frac)
+{
     os << frac.numerator() << "/" << frac.denominator();
     return os;
 }

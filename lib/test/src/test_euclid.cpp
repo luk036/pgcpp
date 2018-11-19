@@ -11,12 +11,13 @@
 
 using namespace fun;
 
-TEST_CASE("Euclid plane", "[euclid_plane]") {
+TEST_CASE("Euclid plane", "[euclid_plane]")
+{
     using boost::multiprecision::cpp_int;
     using K = cpp_int;
 
-    auto a1 = pg_point<cpp_int>{1,  3, 1};
-    auto a2 = pg_point<cpp_int>{4,  2, 1};
+    auto a1 = pg_point<cpp_int>{1, 3, 1};
+    auto a2 = pg_point<cpp_int>{4, 2, 1};
     auto a3 = pg_point<cpp_int>{4, -3, 1};
 
     using P = decltype(a1);
@@ -69,16 +70,14 @@ TEST_CASE("Euclid plane", "[euclid_plane]") {
     // auto c3 = sq(q1 + q2 - q3) / (4*q1*q2);
     // CHECK( c3 + s3 == 1 ); // get the same
 
-    auto tsf =
-        sq(s1 + s2 + s3) - 2 * (s1 * s1 + s2 * s2 + s3 * s3) - 4 * s1 * s2 * s3;
+    auto tsf = sq(s1 + s2 + s3) - 2 * (s1 * s1 + s2 * s2 + s3 * s3) - 4 * s1 * s2 * s3;
     CHECK(tsf == 0);
 
     auto a3p = plucker(3, a1, 4, a2);
     auto q1p = quadrance(a2, a3p);
     auto q2p = quadrance(a1, a3p);
     auto q3p = quadrance(a1, a2);
-    auto tqf2 =
-        sq(q1p + q2p + q3p) - 2 * (q1p * q1p + q2p * q2p + q3p * q3p); // get 0
+    auto tqf2 = sq(q1p + q2p + q3p) - 2 * (q1p * q1p + q2p * q2p + q3p * q3p); // get 0
     CHECK(tqf2 == 0);
 
     auto u1 = uc_point<P>(1, 0);
@@ -95,8 +94,6 @@ TEST_CASE("Euclid plane", "[euclid_plane]") {
     auto t = Ar(q12 * q34, q23 * q14, q13 * q24);
     // t = sympy.simplify(t)
     CHECK(t == 0);
-    auto okay =
-        Ptolemy(std::tuple{std::move(q12), std::move(q23), std::move(q34),
-                           std::move(q14), std::move(q24), std::move(q13)});
+    auto okay = Ptolemy(std::tuple{std::move(q12), std::move(q23), std::move(q34), std::move(q14), std::move(q24), std::move(q13)});
     CHECK(okay);
 }

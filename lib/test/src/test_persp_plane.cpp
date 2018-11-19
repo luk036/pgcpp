@@ -11,6 +11,12 @@
 
 using namespace fun;
 
+/**
+ * @brief 
+ * 
+ * @tparam PG 
+ * @param myck 
+ */
 template <typename PG> void chk_degenerate_int(const PG &myck) {
     using Point = typename PG::point_t;
     using Line = typename PG::line_t;
@@ -50,6 +56,12 @@ TEST_CASE("Perspective Euclid plane", "[persp_plane]") {
     chk_degenerate_int(P);
 }
 
+/**
+ * @brief 
+ * 
+ * @tparam PG 
+ * @param myck 
+ */
 template <typename PG> void chk_degenerate_float(const PG &myck) {
     using Point = typename PG::point_t;
     using Line = typename PG::line_t;

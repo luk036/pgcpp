@@ -86,12 +86,11 @@ constexpr L altitude(const P &a, const L &l) { return a * fB(l); }
 Projective_plane_coord2 { P }
 constexpr auto tri_altitude(const Triple<P> &tri)
 {
-    using Line = typename P::dual;
-    const auto &[l1, l2, l3] = tri_dual(tri);
-    const auto &[a1, a2, a3] = tri;
-    Line t1 = altitude(a1, l1);
-    Line t2 = altitude(a2, l2);
-    Line t3 = altitude(a3, l3);
+    auto const &[l1, l2, l3] = tri_dual(tri);
+    auto const &[a1, a2, a3] = tri;
+    auto t1 = altitude(a1, l1);
+    auto t2 = altitude(a2, l2);
+    auto t3 = altitude(a3, l3);
     return std::tuple{std::move(t1), std::move(t2), std::move(t3)};
 }
 
@@ -104,10 +103,9 @@ constexpr auto tri_altitude(const Triple<P> &tri)
 Projective_plane_coord2 { P }
 constexpr P orthocenter(const Triple<P> &tri)
 {
-    using Line = typename P::dual;
-    const auto &[a1, a2, a3] = tri;
-    Line t1 = altitude(a1, a2 * a3);
-    Line t2 = altitude(a2, a1 * a3);
+    auto const &[a1, a2, a3] = tri;
+    auto t1 = altitude(a1, a2 * a3);
+    auto t2 = altitude(a2, a1 * a3);
     return P{t1 * t2};
 }
 
@@ -165,7 +163,7 @@ constexpr P midpoint(const P &a, const P &b)
 Projective_plane_coord2 { P }
 constexpr auto tri_midpoint(const Triple<P> &tri)
 {
-    const auto &[a1, a2, a3] = tri;
+    auto const &[a1, a2, a3] = tri;
     auto m12 = midpoint(a1, a2);
     auto m23 = midpoint(a2, a3);
     auto m13 = midpoint(a1, a3);
@@ -230,7 +228,7 @@ constexpr auto quadrance(const P &a1, const P &a2)
  * @return auto 
  */
 Projective_plane2 { L }
-constexpr auto sbase(const L &l1, const L &l2, const auto &d)
+constexpr auto sbase(const L &l1, const L &l2, auto const &d)
 {
     using K = Value_type<L>;
     if constexpr (Integral<K>)
@@ -267,12 +265,11 @@ constexpr auto spread(const L &l1, const L &l2)
 Projective_plane_coord2 { P }
 constexpr auto tri_quadrance(const Triple<P> &triangle)
 {
-    const auto &[a1, a2, a3] = triangle;
-    using ret_t = decltype(quadrance(a1, a2));
-    ret_t m1 = quadrance(a2, a3);
-    ret_t m2 = quadrance(a1, a3);
-    ret_t m3 = quadrance(a1, a2);
-    return Triple<ret_t>{std::move(m1), std::move(m2), std::move(m3)};
+    auto const &[a1, a2, a3] = triangle;
+    auto m1 = quadrance(a2, a3);
+    auto m2 = quadrance(a1, a3);
+    auto m3 = quadrance(a1, a2);
+    return std::tuple{std::move(m1), std::move(m2), std::move(m3)};
 }
 
 /**
@@ -284,12 +281,11 @@ constexpr auto tri_quadrance(const Triple<P> &triangle)
 Projective_plane_coord2 { L }
 constexpr auto tri_spread(const Triple<L> &trilateral)
 {
-    const auto &[a1, a2, a3] = trilateral;
-    using ret_t = decltype(spread(a1, a2));
-    ret_t m1 = spread(a2, a3);
-    ret_t m2 = spread(a1, a3);
-    ret_t m3 = spread(a1, a2);
-    return Triple<ret_t>{std::move(m1), std::move(m2), std::move(m3)};
+    auto const &[a1, a2, a3] = trilateral;
+    auto m1 = spread(a2, a3);
+    auto m2 = spread(a1, a3);
+    auto m3 = spread(a1, a2);
+    return std::tuple{std::move(m1), std::move(m2), std::move(m3)};
 }
 
 /**
@@ -315,9 +311,8 @@ constexpr auto cross_s(const L &l1, const L &l2)
 Projective_plane2 { P }
 constexpr P uc_point(const Value_type<P> &lambda1, const Value_type<P> &mu1)
 {
-    using K = Value_type<P>;
-    K lambda2 = lambda1 * lambda1;
-    K mu2 = mu1 * mu1;
+    auto lambda2 = lambda1 * lambda1;
+    auto mu2 = mu1 * mu1;
     return P(lambda2 - mu2, 2 * lambda1 * mu1, lambda2 + mu2);
 }
 
@@ -367,7 +362,7 @@ constexpr auto cqq(const _Q &a, const _Q &b,
 template <typename _Q>
 constexpr auto Ptolemy(const std::tuple<_Q, _Q, _Q, _Q, _Q, _Q> &quad)
 {
-    const auto &[Q12, Q23, Q34, Q14, Q13, Q24] = quad;
+    auto const &[Q12, Q23, Q34, Q14, Q13, Q24] = quad;
     return Ar(Q12 * Q34, Q23 * Q14, Q13 * Q24) == 0;
 }
 

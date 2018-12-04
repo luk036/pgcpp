@@ -47,7 +47,7 @@ constexpr bool coincident(const P &p, const P &q, const P &r)
 Projective_plane_prim { P, L }
 constexpr bool coincident(const L &l, const Sequence &seq)
 {
-    for (const P &p : seq)
+    for (auto const &p : seq)
     {
         if (!incident(l, p))
             return false;
@@ -67,7 +67,7 @@ using Triple = std::tuple<P, P, P>;
 Projective_plane_prim2 { P }
 constexpr auto tri_dual(const Triple<P> &tri)
 {
-    const auto &[a1, a2, a3] = tri;
+    auto const &[a1, a2, a3] = tri;
     return std::tuple{a2 * a3, a1 * a3, a1 * a2};
 }
 
@@ -81,11 +81,10 @@ constexpr auto tri_dual(const Triple<P> &tri)
 Projective_plane_prim2 { P }
 constexpr auto tri_func(auto func, const Triple<P> &tri)
 {
-    auto &[a1, a2, a3] = tri;
-    using ret_t = decltype(func(a1, a2));
-    ret_t m1 = func(a2, a3);
-    ret_t m2 = func(a1, a3);
-    ret_t m3 = func(a1, a2);
+    auto const &[a1, a2, a3] = tri;
+    auto m1 = func(a2, a3);
+    auto m2 = func(a1, a3);
+    auto m3 = func(a1, a2);
     return std::tuple{std::move(m1), std::move(m2), std::move(m3)};
 }
 
@@ -100,9 +99,9 @@ constexpr auto tri_func(auto func, const Triple<P> &tri)
 Projective_plane_prim2 { Point }
 constexpr bool persp(const Triple<Point> &tri1, const Triple<Point> &tri2)
 {
-    const auto &[A, B, C] = tri1;
-    const auto &[D, E, F] = tri2;
-    Point O = (A * D) * (B * E);
+    auto const &[A, B, C] = tri1;
+    auto const &[D, E, F] = tri2;
+    auto O = (A * D) * (B * E);
     return incident(O, C * F);
 }
 
@@ -128,8 +127,7 @@ constexpr bool incident(const P &p, const L &l) { return p.dot(l) == 0; }
 Projective_plane2 { P }
 constexpr P harm_conj(const P &A, const P &B, const P &C)
 {
-    using Line = typename P::dual;
-    Line lC = C * (A * B).aux();
+    auto lC = C * (A * B).aux();
     return plucker(B.dot(lC), A, A.dot(lC), B);
 }
 
@@ -176,8 +174,7 @@ class involution
      */
     constexpr P operator()(const P &p) const
     {
-        K temp = -2 * p.dot(_m);
-        return plucker(_c, p, temp, _o);
+        return plucker(_c, p, K(-2 * p.dot(_m)), _o);
     }
 };
 
@@ -220,11 +217,10 @@ constexpr auto ratio_ratio(const K &a, const K &b, const K &c, const K &d)
 Projective_plane { P, L }
 constexpr auto x_ratio(const P &A, const P &B, const L &l, const L &m)
 {
-    using ret_t = Value_type<P>;
-    ret_t dAl = A.dot(l);
-    ret_t dAm = A.dot(m);
-    ret_t dBl = B.dot(l);
-    ret_t dBm = B.dot(m);
+    auto dAl = A.dot(l);
+    auto dAm = A.dot(m);
+    auto dBl = B.dot(l);
+    auto dBm = B.dot(m);
     return ratio_ratio(dAl, dAm, dBl, dBm);
 }
 
@@ -240,7 +236,7 @@ constexpr auto x_ratio(const P &A, const P &B, const L &l, const L &m)
 Projective_plane2 { P }
 constexpr auto R(const P &A, const P &B, const P &C, const P &D)
 {
-    P O = (C * D).aux();
+    auto O = (C * D).aux();
     return x_ratio(A, B, O * C, O * D);
 }
 
@@ -256,11 +252,10 @@ constexpr auto R(const P &A, const P &B, const P &C, const P &D)
 Projective_plane_coord2 { P }
 constexpr auto R0(const P &A, const P &B, const P &C, const P &D)
 {
-    using K = Value_type<P>;
-    K ac = cross0(A, C);
-    K ad = cross0(A, D);
-    K bc = cross0(B, C);
-    K bd = cross0(B, D);
+    auto ac = cross0(A, C);
+    auto ad = cross0(A, D);
+    auto bc = cross0(B, C);
+    auto bd = cross0(B, D);
     return ratio_ratio(ac, ad, bc, bd);
 }
 
@@ -276,11 +271,10 @@ constexpr auto R0(const P &A, const P &B, const P &C, const P &D)
 Projective_plane_coord2 { P }
 constexpr auto R1(const P &A, const P &B, const P &C, const P &D)
 {
-    using K = Value_type<P>;
-    K ac = cross1(A, C);
-    K ad = cross1(A, D);
-    K bc = cross1(B, C);
-    K bd = cross1(B, D);
+    auto ac = cross1(A, C);
+    auto ad = cross1(A, D);
+    auto bc = cross1(B, C);
+    auto bd = cross1(B, D);
     return ratio_ratio(ac, ad, bc, bd);
 }
 
@@ -330,11 +324,11 @@ constexpr auto is_harmonic(const P &A, const P &B, const P &C, const P &D)
 Projective_plane_prim2 { Point }
 void check_pappus(const Triple<Point> &co1, const Triple<Point> &co2)
 {
-    const auto &[A, B, C] = co1;
-    const auto &[D, E, F] = co2;
-    Point G = (A * E) * (B * D);
-    Point H = (A * F) * (C * D);
-    Point I = (B * F) * (C * E);
+    auto const &[A, B, C] = co1;
+    auto const &[D, E, F] = co2;
+    auto G = (A * E) * (B * D);
+    auto H = (A * F) * (C * D);
+    auto I = (B * F) * (C * E);
     assert(coincident(G, H, I));
 }
 
@@ -349,8 +343,8 @@ void check_desargue(const Triple<P> &tri1, const Triple<P> &tri2)
 {
     auto trid1 = tri_dual(tri1);
     auto trid2 = tri_dual(tri2);
-    bool b1 = persp(tri1, tri2);
-    bool b2 = persp(trid1, trid2);
+    auto b1 = persp(tri1, tri2);
+    auto b2 = persp(trid1, trid2);
     assert((b1 && b2) || (!b1 && !b2));
 }
 

@@ -79,8 +79,8 @@ cross(const std::array<_K, 3> &v, const std::array<_K, 3> &w)
 CommutativeRing{_K} _K dot_c(const std::array<_K, 3> &v,
                              const std::array<_K, 3> &w)
 {
-    const auto &[x1, y1, z1] = v;
-    const auto &[x2, y2, z2] = w;
+    auto const &[x1, y1, z1] = v;
+    auto const &[x2, y2, z2] = w;
     return x1 * x2 + y1 * y2 + z1 * z2;
 }
 
@@ -100,8 +100,8 @@ std::array<_K, 3>
 plucker_c(const _T &ld, const std::array<_K, 3> &v1,
           const _T &mu, const std::array<_K, 3> &v2)
 {
-    const auto &[x1, y1, z1] = v1;
-    const auto &[x2, y2, z2] = v2;
+    auto const &[x1, y1, z1] = v1;
+    auto const &[x2, y2, z2] = v2;
     return std::array<_K, 3>(
         {ld * x1 + mu * x2, ld * y1 + mu * y2, ld * z1 + mu * z2});
 }

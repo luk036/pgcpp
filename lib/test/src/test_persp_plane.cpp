@@ -72,7 +72,7 @@ template <typename PG> void chk_degenerate_float(const PG &myck) {
 
     auto triangle = std::tuple{std::move(a1), std::move(a2), std::move(a3)};
     auto trilateral = tri_dual(triangle);
-    const auto &[l1, l2, l3] = trilateral;
+    auto const &[l1, l2, l3] = trilateral;
 
     CHECK(myck.l_infty().dot(l1 * l2) != Approx(0.0));
     CHECK(myck.l_infty().dot(l2 * l3) != Approx(0.0));

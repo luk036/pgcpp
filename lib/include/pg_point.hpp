@@ -12,16 +12,14 @@
 #include "pg_common.hpp"
 #include "pg_object.hpp"
 
-namespace fun
-{
+namespace fun {
 
 // Forward declarations.
 CommutativeRing { _K }
 class pg_line;
 
 CommutativeRing { _K }
-struct pg_point : pg_object<_K, pg_line<_K>>
-{
+struct pg_point : pg_object<_K, pg_line<_K>> {
     /// Value typedef.
     using _Base = pg_object<_K, pg_line<_K>>;
     using _Base2 = std::array<_K, 3>;
@@ -29,27 +27,27 @@ struct pg_point : pg_object<_K, pg_line<_K>>
 
     /**
      * @brief Construct a new pg point object
-     * 
+     *
      */
     pg_point(const pg_point<_K> &) = delete;
 
     /**
      * @brief Construct a new pg point object
-     * 
+     *
      */
     pg_point(pg_point<_K> &&) = default;
 
     /**
-     * @brief 
-     * 
-     * @return pg_point<_K>& 
+     * @brief
+     *
+     * @return pg_point<_K>&
      */
     pg_point<_K> &operator=(const pg_point<_K> &) = delete;
 
     /**
-     * @brief 
-     * 
-     * @return pg_point<_K>& 
+     * @brief
+     *
+     * @return pg_point<_K>&
      */
     pg_point<_K> &operator=(pg_point<_K> &&) = default;
 
@@ -73,14 +71,13 @@ struct pg_point : pg_object<_K, pg_line<_K>>
 
 /**
  * @brief Return join of two points.
- * 
- * @param p 
- * @param q 
- * @return pg_line<_K> 
+ *
+ * @param p
+ * @param q
+ * @return pg_line<_K>
  */
 CommutativeRing { _K }
-constexpr pg_line<_K> join(const pg_point<_K> &p, const pg_point<_K> &q)
-{
+constexpr pg_line<_K> join(const pg_point<_K> &p, const pg_point<_K> &q) {
     return p * q;
 }
 

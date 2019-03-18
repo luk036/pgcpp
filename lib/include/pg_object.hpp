@@ -11,8 +11,7 @@
 
 #include "pg_common.hpp"
 
-namespace fun
-{
+namespace fun {
 
 /**
  * @brief Projective object
@@ -21,8 +20,7 @@ namespace fun
  * @tparam _dual
  */
 template <typename _K, typename _dual>
-class pg_object : public std::array<_K, 3>
-{
+class pg_object : public std::array<_K, 3> {
     /// Value typedef.
     using _Base = std::array<_K, 3>;
     using _Self = pg_object<_K, _dual>;
@@ -49,10 +47,8 @@ class pg_object : public std::array<_K, 3>
      * @return true if this object is equivalent to the rhs
      * @return false otherwise
      */
-    constexpr bool operator==(const _Self &rhs) const
-    {
-        if (this == &rhs)
-        {
+    constexpr bool operator==(const _Self &rhs) const {
+        if (this == &rhs) {
             return true;
         }
         return cross(*this, rhs) == _Base{_K(0), _K(0), _K(0)};
@@ -65,16 +61,15 @@ class pg_object : public std::array<_K, 3>
      * @return true if this object is not equivalent to the rhs
      * @return false otherwise
      */
-    constexpr bool operator!=(const _Self &rhs) const
-    {
+    constexpr bool operator!=(const _Self &rhs) const {
         return !(*this == rhs);
     }
 
     /**
-     * @brief the dot product 
-     * 
-     * @param l 
-     * @return _K 
+     * @brief the dot product
+     *
+     * @param l
+     * @return _K
      */
     constexpr _K dot(const dual &l) const { return fun::dot_c(*this, l); }
 
@@ -85,49 +80,46 @@ class pg_object : public std::array<_K, 3>
      * @return true if this point is equivalent to the rhs
      * @return false otherwise
      */
-    constexpr dual operator*(const _Self &rhs) const
-    {
+    constexpr dual operator*(const _Self &rhs) const {
         return dual(cross(*this, rhs));
     }
 
     /**
      * @brief Generate a new line not incident with p
-     * 
-     * @return dual 
+     *
+     * @return dual
      */
     constexpr dual aux() const { return dual(*this); }
 };
 
 /**
- * @brief 
- * 
- * @tparam P 
- * @tparam Value_type<P> 
- * @param lambda1 
- * @param p 
- * @param mu1 
- * @param q 
- * @return P 
+ * @brief
+ *
+ * @tparam P
+ * @tparam Value_type<P>
+ * @param lambda1
+ * @param p
+ * @param mu1
+ * @param q
+ * @return P
  */
 template <typename P, typename _K = Value_type<P>>
-constexpr P plucker(const _K &lambda1, const P &p, const _K &mu1, const P &q)
-{
+constexpr P plucker(const _K &lambda1, const P &p, const _K &mu1, const P &q) {
     return P{plucker_c(lambda1, p, mu1, q)};
 }
 
 /**
- * @brief 
- * 
- * @tparam _K 
- * @tparam _dual 
- * @tparam _Stream 
- * @param os 
- * @param p 
- * @return _Stream& 
+ * @brief
+ *
+ * @tparam _K
+ * @tparam _dual
+ * @tparam _Stream
+ * @param os
+ * @param p
+ * @return _Stream&
  */
 template <typename _K, typename _dual, class _Stream>
-_Stream &operator<<(_Stream &os, const pg_object<_K, _dual> &p)
-{
+_Stream &operator<<(_Stream &os, const pg_object<_K, _dual> &p) {
     os << '(' << p[0] << ':' << p[1] << ':' << p[2] << ')';
     return os;
 }

@@ -14,8 +14,7 @@
  @todo: projectivity >=
 **/
 
-namespace fun
-{
+namespace fun {
 
 /**
  * @brief Coincident
@@ -29,8 +28,7 @@ namespace fun
  * @return false otherwise
  */
 Projective_plane_prim2 { P }
-constexpr bool coincident(const P &p, const P &q, const P &r)
-{
+constexpr bool coincident(const P &p, const P &q, const P &r) {
     return incident(r, p * q);
 }
 
@@ -45,42 +43,37 @@ constexpr bool coincident(const P &p, const P &q, const P &r)
  * @return false otherwise
  */
 Projective_plane_prim { P, L }
-constexpr bool coincident(const L &l, const Sequence &seq)
-{
-    for (auto const &p : seq)
-    {
+constexpr bool coincident(const L &l, const Sequence &seq) {
+    for (auto const &p : seq) {
         if (!incident(l, p))
             return false;
     }
     return true;
 }
 
-template <typename P>
-using Triple = std::tuple<P, P, P>;
+template <typename P> using Triple = std::tuple<P, P, P>;
 
 /**
- * @brief 
- * 
- * @param tri 
- * @return auto 
+ * @brief
+ *
+ * @param tri
+ * @return auto
  */
 Projective_plane_prim2 { P }
-constexpr auto tri_dual(const Triple<P> &tri)
-{
+constexpr auto tri_dual(const Triple<P> &tri) {
     auto const &[a1, a2, a3] = tri;
     return std::tuple{a2 * a3, a1 * a3, a1 * a2};
 }
 
 /**
- * @brief 
- * 
- * @param func 
- * @param tri 
- * @return auto 
+ * @brief
+ *
+ * @param func
+ * @param tri
+ * @return auto
  */
 Projective_plane_prim2 { P }
-constexpr auto tri_func(auto func, const Triple<P> &tri)
-{
+constexpr auto tri_func(auto func, const Triple<P> &tri) {
     auto const &[a1, a2, a3] = tri;
     auto m1 = func(a2, a3);
     auto m2 = func(a1, a3);
@@ -89,16 +82,15 @@ constexpr auto tri_func(auto func, const Triple<P> &tri)
 }
 
 /**
- * @brief 
- * 
- * @param tri1 
- * @param tri2 
- * @return true 
- * @return false 
+ * @brief
+ *
+ * @param tri1
+ * @param tri2
+ * @return true
+ * @return false
  */
 Projective_plane_prim2 { Point }
-constexpr bool persp(const Triple<Point> &tri1, const Triple<Point> &tri2)
-{
+constexpr bool persp(const Triple<Point> &tri1, const Triple<Point> &tri2) {
     auto const &[A, B, C] = tri1;
     auto const &[D, E, F] = tri2;
     auto O = (A * D) * (B * E);
@@ -106,34 +98,32 @@ constexpr bool persp(const Triple<Point> &tri1, const Triple<Point> &tri2)
 }
 
 /**
- * @brief 
- * 
- * @param p 
- * @param l 
- * @return true 
- * @return false 
+ * @brief
+ *
+ * @param p
+ * @param l
+ * @return true
+ * @return false
  */
 Projective_plane { P, L }
 constexpr bool incident(const P &p, const L &l) { return p.dot(l) == 0; }
 
 /**
- * @brief 
- * 
- * @param A 
- * @param B 
- * @param C 
- * @return P 
+ * @brief
+ *
+ * @param A
+ * @param B
+ * @param C
+ * @return P
  */
 Projective_plane2 { P }
-constexpr P harm_conj(const P &A, const P &B, const P &C)
-{
+constexpr P harm_conj(const P &A, const P &B, const P &C) {
     auto lC = C * (A * B).aux();
     return plucker(B.dot(lC), A, A.dot(lC), B);
 }
 
 Projective_plane { P, L }
-class involution
-{
+class involution {
     using K = Value_type<P>;
 
   private:
@@ -144,59 +134,50 @@ class involution
   public:
     /**
      * @brief Construct a new involution object
-     * 
-     * @param m 
-     * @param o 
+     *
+     * @param m
+     * @param o
      */
     constexpr involution(const L &m, P &&o)
         : // input mirror and center
-          _m{m}, _o{std::move(o)}, _c{m.dot(_o)}
-    {
-    }
+          _m{m}, _o{std::move(o)}, _c{m.dot(_o)} {}
 
     /**
      * @brief Construct a new involution object
-     * 
-     * @param m 
-     * @param o 
+     *
+     * @param m
+     * @param o
      */
     constexpr involution(const L &m, const P &o)
         : // input mirror and center
-          _m{m}, _o{o}, _c{m.dot(o)}
-    {
-    }
+          _m{m}, _o{o}, _c{m.dot(o)} {}
 
     /**
-     * @brief 
-     * 
-     * @param p 
-     * @return P 
+     * @brief
+     *
+     * @param p
+     * @return P
      */
-    constexpr P operator()(const P &p) const
-    {
+    constexpr P operator()(const P &p) const {
         return plucker(_c, p, K(-2 * p.dot(_m)), _o);
     }
 };
 
 /**
- * @brief 
- * 
- * @tparam K 
- * @param a 
- * @param b 
- * @param c 
- * @param d 
- * @return auto 
+ * @brief
+ *
+ * @tparam K
+ * @param a
+ * @param b
+ * @param c
+ * @param d
+ * @return auto
  */
 template <typename K>
-constexpr auto ratio_ratio(const K &a, const K &b, const K &c, const K &d)
-{
-    if constexpr (Integral<K>)
-    {
+constexpr auto ratio_ratio(const K &a, const K &b, const K &c, const K &d) {
+    if constexpr (Integral<K>) {
         return Fraction(a, b) / Fraction(c, d);
-    }
-    else
-    {
+    } else {
         return (a * d) / (b * c);
     }
 }
@@ -215,8 +196,7 @@ constexpr auto ratio_ratio(const K &a, const K &b, const K &c, const K &d)
  * @todo rewrite by projecting to the y-axis first [:2]
  */
 Projective_plane { P, L }
-constexpr auto x_ratio(const P &A, const P &B, const L &l, const L &m)
-{
+constexpr auto x_ratio(const P &A, const P &B, const L &l, const L &m) {
     auto dAl = A.dot(l);
     auto dAm = A.dot(m);
     auto dBl = B.dot(l);
@@ -225,33 +205,31 @@ constexpr auto x_ratio(const P &A, const P &B, const L &l, const L &m)
 }
 
 /**
- * @brief 
- * 
- * @param A 
- * @param B 
- * @param C 
- * @param D 
- * @return constexpr auto 
+ * @brief
+ *
+ * @param A
+ * @param B
+ * @param C
+ * @param D
+ * @return constexpr auto
  */
 Projective_plane2 { P }
-constexpr auto R(const P &A, const P &B, const P &C, const P &D)
-{
+constexpr auto R(const P &A, const P &B, const P &C, const P &D) {
     auto O = (C * D).aux();
     return x_ratio(A, B, O * C, O * D);
 }
 
 /**
- * @brief 
- * 
- * @param A 
- * @param B 
- * @param C 
- * @param D 
- * @return constexpr auto 
+ * @brief
+ *
+ * @param A
+ * @param B
+ * @param C
+ * @param D
+ * @return constexpr auto
  */
 Projective_plane_coord2 { P }
-constexpr auto R0(const P &A, const P &B, const P &C, const P &D)
-{
+constexpr auto R0(const P &A, const P &B, const P &C, const P &D) {
     auto ac = cross0(A, C);
     auto ad = cross0(A, D);
     auto bc = cross0(B, C);
@@ -260,17 +238,16 @@ constexpr auto R0(const P &A, const P &B, const P &C, const P &D)
 }
 
 /**
- * @brief 
- * 
- * @param A 
- * @param B 
- * @param C 
- * @param D 
- * @return constexpr auto 
+ * @brief
+ *
+ * @param A
+ * @param B
+ * @param C
+ * @param D
+ * @return constexpr auto
  */
 Projective_plane_coord2 { P }
-constexpr auto R1(const P &A, const P &B, const P &C, const P &D)
-{
+constexpr auto R1(const P &A, const P &B, const P &C, const P &D) {
     auto ac = cross1(A, C);
     auto ad = cross1(A, D);
     auto bc = cross1(B, C);
@@ -279,19 +256,17 @@ constexpr auto R1(const P &A, const P &B, const P &C, const P &D)
 }
 
 /**
- * @brief 
- * 
- * @param A 
- * @param B 
- * @param C 
- * @param D 
- * @return constexpr auto 
+ * @brief
+ *
+ * @param A
+ * @param B
+ * @param C
+ * @param D
+ * @return constexpr auto
  */
 Projective_plane_coord2 { P }
-constexpr auto R(const P &A, const P &B, const P &C, const P &D)
-{
-    if (cross0(A, B) != 0)
-    { // Project points to yz-plane
+constexpr auto R(const P &A, const P &B, const P &C, const P &D) {
+    if (cross0(A, B) != 0) { // Project points to yz-plane
         return R0(A, B, C, D);
     }
     // Project points to xz-plane
@@ -299,17 +274,16 @@ constexpr auto R(const P &A, const P &B, const P &C, const P &D)
 }
 
 /**
- * @brief 
- * 
- * @param A 
- * @param B 
- * @param C 
- * @param D 
- * @return constexpr auto 
+ * @brief
+ *
+ * @param A
+ * @param B
+ * @param C
+ * @param D
+ * @return constexpr auto
  */
 Projective_plane2 { P }
-constexpr auto is_harmonic(const P &A, const P &B, const P &C, const P &D)
-{
+constexpr auto is_harmonic(const P &A, const P &B, const P &C, const P &D) {
     return R(A, B, C, D) == -1;
 }
 
@@ -322,8 +296,7 @@ constexpr auto is_harmonic(const P &A, const P &B, const P &C, const P &D)
  * @param co2
  */
 Projective_plane_prim2 { Point }
-void check_pappus(const Triple<Point> &co1, const Triple<Point> &co2)
-{
+void check_pappus(const Triple<Point> &co1, const Triple<Point> &co2) {
     auto const &[A, B, C] = co1;
     auto const &[D, E, F] = co2;
     auto G = (A * E) * (B * D);
@@ -333,14 +306,13 @@ void check_pappus(const Triple<Point> &co1, const Triple<Point> &co2)
 }
 
 /**
- * @brief 
- * 
- * @param tri1 
- * @param tri2 
+ * @brief
+ *
+ * @param tri1
+ * @param tri2
  */
 Projective_plane_prim2 { P }
-void check_desargue(const Triple<P> &tri1, const Triple<P> &tri2)
-{
+void check_desargue(const Triple<P> &tri1, const Triple<P> &tri2) {
     auto trid1 = tri_dual(tri1);
     auto trid2 = tri_dual(tri2);
     auto b1 = persp(tri1, tri2);

@@ -2,12 +2,12 @@
 // Initially implemented by Wai-Shing Luk <luk036@gmail.com>
 //
 
-/** @file include/fraction.hpp
+/** @file include/fractions.hpp
  *  This is a C++ Library header.
  */
 
-#ifndef _HOME_UBUNTU_GITHUB_PGCPP_FRACTION_HPP
-#define _HOME_UBUNTU_GITHUB_PGCPP_FRACTION_HPP 1
+#ifndef _HOME_UBUNTU_GITHUB_PGCPP_FRACTIONS_HPP
+#define _HOME_UBUNTU_GITHUB_PGCPP_FRACTIONS_HPP 1
 
 #include "common_concepts.h"
 #include <cassert>

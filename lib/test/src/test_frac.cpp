@@ -1,7 +1,7 @@
 /*
  *  Distributed under the MIT License (See accompanying file /LICENSE )
  */
-#include "fraction.hpp"
+#include "fractions.hpp"
 #include <boost/multiprecision/cpp_int.hpp>
 #include <catch.hpp>
 #include <iostream>

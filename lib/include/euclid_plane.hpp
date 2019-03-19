@@ -1,26 +1,15 @@
 #ifndef _HOME_UBUNTU_CUBSTORE_PROJ_GEOM_PGCPP_EUCLID_PLANE_HPP
 #define _HOME_UBUNTU_CUBSTORE_PROJ_GEOM_PGCPP_EUCLID_PLANE_HPP 1
 
-//#include "proj_plane_concepts.h"
-#include "pg_common.hpp"
-#include "proj_plane.hpp"
+#include "fractions.hpp"
+#include "pg_common.hpp" // import cross2, dot1
+#include "proj_plane.hpp" // import pg_point, involution, tri_func, quad_func, plucker
+
 #include "proj_plane_concepts.h"
 #include <cassert>
 #include <type_traits>
 
 namespace fun {
-
-/**
- * @brief
- *
- * @param x
- * @param y
- * @return auto
- */
-Projective_plane_coord2 { L } // and requires p[i]
-constexpr auto dot1(const L &x, const L &y) {
-    return x[0] * y[0] + x[1] * y[1];
-}
 
 /**
  * @brief
@@ -31,8 +20,7 @@ constexpr auto dot1(const L &x, const L &y) {
 Projective_plane_coord2 { L } // // and requires p[i]
 constexpr auto fB(const L &l) {
     using P = typename L::dual;
-    using K = Value_type<P>;
-    return P{l[0], l[1], K(0)};
+    return P{l[0], l[1], 0};
 }
 
 /**
@@ -44,7 +32,7 @@ constexpr auto fB(const L &l) {
  * @return false
  */
 Projective_plane_coord2 { L }
-constexpr bool is_perpendicular(const L &l, const L &m) {
+constexpr auto is_perpendicular(const L &l, const L &m) -> bool {
     return dot1(l, m) == 0;
 }
 
@@ -57,8 +45,9 @@ constexpr bool is_perpendicular(const L &l, const L &m) {
  * @return false
  */
 Projective_plane_coord2 { L }
-constexpr bool is_parallel(const L &l, const L &m) {
-    return l[0] * m[1] == l[1] * m[0];
+constexpr auto is_parallel(const L &l, const L &m) -> bool {
+//     return l[0] * m[1] == l[1] * m[0];
+    return cross2(l, m) == 0;
 }
 
 /**
@@ -69,7 +58,7 @@ constexpr bool is_parallel(const L &l, const L &m) {
  * @return L
  */
 Projective_plane_coord { P, L }
-constexpr L altitude(const P &a, const L &l) { return a * fB(l); }
+constexpr auto altitude(const P &a, const L &l) -> L { return a * fB(l); }
 
 /**
  * @brief
@@ -79,11 +68,10 @@ constexpr L altitude(const P &a, const L &l) { return a * fB(l); }
  */
 Projective_plane_coord2 { P }
 constexpr auto tri_altitude(const Triple<P> &tri) {
-    auto const &[l1, l2, l3] = tri_dual(tri);
     auto const &[a1, a2, a3] = tri;
-    auto t1 = altitude(a1, l1);
-    auto t2 = altitude(a2, l2);
-    auto t3 = altitude(a3, l3);
+    auto t1 = altitude(a1, a2*a3);
+    auto t2 = altitude(a2, a3*a1);
+    auto t3 = altitude(a3, a1*a2);
     return std::tuple{std::move(t1), std::move(t2), std::move(t3)};
 }
 
@@ -94,11 +82,11 @@ constexpr auto tri_altitude(const Triple<P> &tri) {
  * @return P
  */
 Projective_plane_coord2 { P }
-constexpr P orthocenter(const Triple<P> &tri) {
+constexpr auto orthocenter(const Triple<P> &tri) -> P {
     auto const &[a1, a2, a3] = tri;
-    auto t1 = altitude(a1, a2 * a3);
-    auto t2 = altitude(a2, a1 * a3);
-    return P{t1 * t2};
+    auto t1 = altitude(a1, a2*a3);
+    auto t2 = altitude(a2, a1*a3);
+    return P{t1*t2};
 }
 
 /**
@@ -113,34 +101,12 @@ constexpr auto reflect(const L &m) { return involution{m, fB(m)}; }
 /**
  * @brief
  *
- * @param x
- * @param y
- * @return auto
- */
-Projective_plane_coord2 { P }
-constexpr auto omgB(const P &x, const P &y) {
-    return x[0] * y[0] + x[1] * y[1];
-}
-
-/**
- * @brief
- *
- * @param x
- * @param y
- * @return auto
- */
-Projective_plane_coord2 { P }
-constexpr auto det(const P &x, const P &y) { return x[0] * y[1] - x[1] * y[0]; }
-
-/**
- * @brief
- *
  * @param a
  * @param b
  * @return P
  */
 Projective_plane_coord2 { P }
-constexpr P midpoint(const P &a, const P &b) {
+constexpr auto midpoint(const P &a, const P &b) -> P {
     return plucker(b[2], a, a[2], b);
 }
 
@@ -158,11 +124,6 @@ constexpr auto tri_midpoint(const Triple<P> &tri) {
     auto m13 = midpoint(a1, a3);
     return Triple<P>{std::move(m12), std::move(m23), std::move(m13)};
 }
-
-// Integer { K }
-// constexpr auto quad1(const K &x1, const K &z1, const K &x2, const K &z2) {
-//     return sq(Fraction(x1, z1) - Fraction(x2, z2));
-// }
 
 /**
  * @brief
@@ -215,10 +176,10 @@ constexpr auto sbase(const L &l1, const L &l2, auto const &d) {
     using K = Value_type<L>;
     if constexpr (Integral<K>) {
         Fraction<K> res =
-            Fraction<K>(d, omgB(l1, l1)) * Fraction<K>(d, omgB(l2, l2));
+            Fraction<K>(d, dot1(l1, l1)) * Fraction<K>(d, dot1(l2, l2));
         return res;
     } else {
-        return (d * d) / (omgB(l1, l1) * omgB(l2, l2));
+        return (d * d) / (dot1(l1, l1) * dot1(l2, l2));
     }
 }
 
@@ -231,7 +192,7 @@ constexpr auto sbase(const L &l1, const L &l2, auto const &d) {
  */
 Projective_plane_coord2 { L }
 constexpr auto spread(const L &l1, const L &l2) {
-    return sbase(l1, l2, det(l1, l2));
+    return sbase(l1, l2, cross2(l1, l2));
 }
 
 /**
@@ -273,7 +234,7 @@ constexpr auto tri_spread(const Triple<L> &trilateral) {
  */
 Projective_plane_coord { P, L }
 constexpr auto cross_s(const L &l1, const L &l2) {
-    return sbase(l1, l2, omgB(l1, l2));
+    return sbase(l1, l2, dot1(l1, l2));
 }
 
 /**
@@ -284,10 +245,10 @@ constexpr auto cross_s(const L &l1, const L &l2) {
  * @return P
  */
 Projective_plane2 { P }
-constexpr P uc_point(const Value_type<P> &lambda1, const Value_type<P> &mu1) {
+constexpr auto uc_point(const Value_type<P> &lambda1, const Value_type<P> &mu1) -> P {
     auto lambda2 = lambda1 * lambda1;
     auto mu2 = mu1 * mu1;
-    return P(lambda2 - mu2, 2 * lambda1 * mu1, lambda2 + mu2);
+    return P(lambda2 - mu2, 2*lambda1*mu1, lambda2 + mu2);
 }
 
 /**
@@ -316,10 +277,10 @@ constexpr auto Ar(const _Q &a, const _Q &b, const _Q &c) {
  */
 template <typename _Q>
 constexpr auto cqq(const _Q &a, const _Q &b, const _Q &c, const _Q &d) {
-    auto t1 = 4 * a * b;
-    auto t2 = 4 * c * d;
+    auto t1 = 4*a*b;
+    auto t2 = 4*c*d;
     auto m = (t1 + t2) - sq(a + b - c - d);
-    auto p = m * m - 4 * t1 * t2;
+    auto p = m*m - 4*t1*t2;
     return std::tuple{m, p};
 }
 
@@ -331,7 +292,7 @@ constexpr auto cqq(const _Q &a, const _Q &b, const _Q &c, const _Q &d) {
  * @return auto
  */
 template <typename _Q>
-constexpr auto Ptolemy(const std::tuple<_Q, _Q, _Q, _Q, _Q, _Q> &quad) {
+constexpr auto Ptolemy(const std::tuple<_Q, _Q, _Q, _Q, _Q, _Q> &quad) -> bool {
     auto const &[Q12, Q23, Q34, Q14, Q13, Q24] = quad;
     return Ar(Q12 * Q34, Q23 * Q14, Q13 * Q24) == 0;
 }

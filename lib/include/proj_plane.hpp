@@ -1,7 +1,7 @@
 #ifndef _HOME_UBUNTU_GITHUB_PGCPP_PROJ_PLANE_HPP
 #define _HOME_UBUNTU_GITHUB_PGCPP_PROJ_PLANE_HPP 1
 
-#include "fraction.hpp"
+#include "fractions.hpp"
 #include "proj_plane_concepts.h"
 #include <cassert>
 #include <tuple>

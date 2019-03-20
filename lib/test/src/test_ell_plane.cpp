@@ -11,30 +11,27 @@
 using namespace fun;
 
 /**
- * @brief 
- * 
- * @tparam T 
- * @tparam U 
- * @param a 
- * @param b 
- * @return true 
- * @return false 
+ * @brief
+ *
+ * @tparam T
+ * @tparam U
+ * @param a
+ * @param b
+ * @return true
+ * @return false
  */
 template <typename T, typename U>
-inline bool ApproxEqual(const T &a, const U &b)
-{
+inline bool ApproxEqual(const T &a, const U &b) {
     return a[0] == Approx(b[0]) && a[1] == Approx(b[1]) && a[2] == Approx(b[2]);
 }
 
 /**
- * @brief 
- * 
- * @tparam PG 
- * @param myck 
+ * @brief
+ *
+ * @tparam PG
+ * @param myck
  */
-template <typename PG>
-void chk_tri(const PG &myck)
-{
+template <typename PG> void chk_tri(const PG &myck) {
     using Point = typename PG::point_t;
     using Line = typename PG::line_t;
     using K = Value_type<Point>;
@@ -53,16 +50,13 @@ void chk_tri(const PG &myck)
     auto collin = std::tuple{std::move(a1), std::move(a2), std::move(a4)};
     auto Q2 = myck.tri_quadrance(collin);
 
-    if constexpr (Integral<K>)
-    {
+    if constexpr (Integral<K>) {
         CHECK(myck.perp(myck.perp(a1)) == a1);
         CHECK(myck.perp(myck.perp(l1)) == l1);
         CHECK(check_cross_law(S, std::get<2>(Q)) == 0);
         CHECK(check_cross_law(Q, std::get<2>(S)) == 0);
         CHECK(check_cross_TQF(Q2) == 0);
-    }
-    else
-    {
+    } else {
         CHECK(ApproxEqual(cross(myck.perp(myck.perp(a1)), a1), zero));
         CHECK(ApproxEqual(cross(myck.perp(myck.perp(l1)), l1), zero));
         CHECK(check_cross_law(S, std::get<2>(Q)) == Approx(0));
@@ -71,8 +65,7 @@ void chk_tri(const PG &myck)
     }
 }
 
-TEST_CASE("Elliptic/Hyperbolic plane", "[ell_plane]")
-{
+TEST_CASE("Elliptic/Hyperbolic plane", "[ell_plane]") {
     using boost::multiprecision::cpp_int;
 
     chk_tri(ellck<pg_point<cpp_int>>());
@@ -81,8 +74,7 @@ TEST_CASE("Elliptic/Hyperbolic plane", "[ell_plane]")
     chk_tri(hyck<pg_line<cpp_int>>());
 }
 
-TEST_CASE("Elliptic/Hyperbolic plane (double)", "[ell_plane]")
-{
+TEST_CASE("Elliptic/Hyperbolic plane (double)", "[ell_plane]") {
     chk_tri(ellck<pg_point<double>>());
     chk_tri(ellck<pg_line<double>>());
     chk_tri(hyck<pg_point<double>>());

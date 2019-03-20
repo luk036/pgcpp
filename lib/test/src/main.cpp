@@ -56,12 +56,11 @@ TEST_CASE("Projective Line", "[proj_plane]") {
     // check_desargue(std::tuple{l, m, r}, std::tuple{s, t, u});
 }
 
-
 TEST_CASE("Projective Point (Special case)", "[proj_plane]") {
-    auto p = pg_point{1, 3, 2}; //
-    auto l = pg_line{-2, 3, 1}; //
-    auto l_inf = pg_line{0, 0, 1}; //
-    auto l_nan = pg_line{0, 0, 0}; //
+    auto p = pg_point{1, 3, 2};     //
+    auto l = pg_line{-2, 3, 1};     //
+    auto l_inf = pg_line{0, 0, 1};  //
+    auto l_nan = pg_line{0, 0, 0};  //
     auto p_nan = pg_point{0, 0, 0}; //
 
     CHECK(l_nan == l_nan);

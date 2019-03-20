@@ -8,8 +8,7 @@
 
 using namespace fun;
 
-TEST_CASE("Fraction", "[Fraction]")
-{
+TEST_CASE("Fraction", "[Fraction]") {
     using boost::multiprecision::cpp_int;
     static_assert(Integral<cpp_int>);
 
@@ -25,8 +24,7 @@ TEST_CASE("Fraction", "[Fraction]")
     CHECK(p != 0);
 }
 
-TEST_CASE("Fraction Special Cases", "[Fraction]")
-{
+TEST_CASE("Fraction Special Cases", "[Fraction]") {
     auto p = Fraction{3, 4};
     auto inf = Fraction{1, 0};
     auto nan = Fraction{0, 0};

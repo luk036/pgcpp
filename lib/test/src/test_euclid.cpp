@@ -164,7 +164,7 @@ void chk_euclid(T &triangle)
         CHECK(check_sine_law(S, Q));
         CHECK(coincident(mt1, mt2, mt3));
         // CHECK(cross_s(l1, l2) == c3);
-        // CHECK(c3 + s3 == 1);  // get the same
+        CHECK((c3 + s3) == 1);  // get the same
         CHECK(tqf == Ar(q1, q2, q3));
         CHECK(tsf == 0);
         CHECK(tqf2 == 0);
@@ -185,7 +185,7 @@ void chk_euclid(T &triangle)
         CHECK(angle(l1, l1) == Approx(0));
         CHECK(distance(a1, a1) == Approx(0));
         // CHECK(cross_s(l1, l2) == Approx(c3));
-        // CHECK(c3 + s3 == Approx(1));
+        CHECK((c3 + s3) == Approx(1));
         CHECK(Approx(tqf) == Ar(q1, q2, q3));
         CHECK(tsf == Approx(0));
         CHECK(tqf2 == Approx(0));

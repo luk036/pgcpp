@@ -25,7 +25,7 @@ namespace fun {
  * @param __n
  * @return _Mn
  */
-template <typename _Mn> constexpr _Mn gcd(_Mn __m, _Mn __n) {
+template <Integral _Mn> constexpr _Mn gcd(_Mn __m, _Mn __n) {
     return __m == 0 ? abs(__n) : __n == 0 ? abs(__m) : gcd(__n, __m % __n);
 }
 
@@ -37,18 +37,17 @@ template <typename _Mn> constexpr _Mn gcd(_Mn __m, _Mn __n) {
  * @param __n
  * @return _Mn
  */
-template <typename _Mn> constexpr _Mn lcm(_Mn __m, _Mn __n) {
+template <Integral _Mn> constexpr _Mn lcm(_Mn __m, _Mn __n) {
     return (__m != 0 && __n != 0) ? (abs(__m) / gcd(__m, __n)) * abs(__n) : 0;
 }
 
-Integral { Z }
+template <Integral Z>
 struct Fraction {
     using _Self = Fraction<Z>;
 
     Z _numerator;
     Z _denominator;
 
-  public:
     /**
      * @brief Construct a new Fraction object
      *
@@ -283,7 +282,7 @@ struct Fraction {
      * @param frac
      * @return auto
      */
-    template <typename U> constexpr auto cmp(const Fraction<U> &frac) const {
+    template <Integral U> constexpr auto cmp(const Fraction<U> &frac) const {
         // if (_denominator == frac._denominator) {
         //     return _numerator - frac._numerator;
         // }
@@ -298,7 +297,7 @@ struct Fraction {
      * @return true
      * @return false
      */
-    template <typename U>
+    template <Integral U>
     constexpr bool operator==(const Fraction<U> &frac) const {
         if (_denominator == frac._denominator) {
             return _numerator == frac._numerator;
@@ -314,7 +313,7 @@ struct Fraction {
      * @return true
      * @return false
      */
-    template <typename U>
+    template <Integral U>
     constexpr bool operator!=(const Fraction<U> &frac) const {
         return !(*this == frac);
     }
@@ -327,7 +326,7 @@ struct Fraction {
      * @return true
      * @return false
      */
-    template <typename U>
+    template <Integral U>
     constexpr bool operator<(const Fraction<U> &frac) const {
         if (_denominator == frac._denominator) {
             return _numerator < frac._numerator;
@@ -343,7 +342,7 @@ struct Fraction {
      * @return true
      * @return false
      */
-    template <typename U>
+    template <Integral U>
     constexpr bool operator>(const Fraction<U> &frac) const {
         return frac < *this;
     }
@@ -356,7 +355,7 @@ struct Fraction {
      * @return true
      * @return false
      */
-    template <typename U>
+    template <Integral U>
     constexpr bool operator<=(const Fraction<U> &frac) const {
         return !(frac < *this);
     }
@@ -369,7 +368,7 @@ struct Fraction {
      * @return true
      * @return false
      */
-    template <typename U>
+    template <Integral U>
     constexpr bool operator>=(const Fraction<U> &frac) const {
         return !(*this < frac);
     }
@@ -455,7 +454,7 @@ struct Fraction {
  * @param frac
  * @return Fraction<Z>
  */
-Integral { Z }
+template <Integral Z>
 constexpr Fraction<Z> operator+(const Z &c, const Fraction<Z> &frac) {
     return frac + c;
 }
@@ -467,7 +466,7 @@ constexpr Fraction<Z> operator+(const Z &c, const Fraction<Z> &frac) {
  * @param frac
  * @return Fraction<Z>
  */
-Integral { Z }
+template <Integral Z>
 constexpr Fraction<Z> operator-(const Z &c, const Fraction<Z> &frac) {
     return c + (-frac);
 }
@@ -479,7 +478,7 @@ constexpr Fraction<Z> operator-(const Z &c, const Fraction<Z> &frac) {
  * @param frac
  * @return Fraction<Z>
  */
-Integral { Z }
+template <Integral Z>
 constexpr Fraction<Z> operator*(const Z &c, const Fraction<Z> &frac) {
     return frac * c;
 }
@@ -491,7 +490,7 @@ constexpr Fraction<Z> operator*(const Z &c, const Fraction<Z> &frac) {
  * @param frac
  * @return Fraction<Z>
  */
-Integral { Z }
+template <Integral Z>
 constexpr Fraction<Z> operator+(int &&c, const Fraction<Z> &frac) {
     return frac + c;
 }
@@ -503,7 +502,7 @@ constexpr Fraction<Z> operator+(int &&c, const Fraction<Z> &frac) {
  * @param frac
  * @return Fraction<Z>
  */
-Integral { Z }
+template <Integral Z>
 constexpr Fraction<Z> operator-(int &&c, const Fraction<Z> &frac) {
     return (-frac) + c;
 }
@@ -515,7 +514,7 @@ constexpr Fraction<Z> operator-(int &&c, const Fraction<Z> &frac) {
  * @param frac
  * @return Fraction<Z>
  */
-Integral { Z }
+template <Integral Z>
 constexpr Fraction<Z> operator*(int &&c, const Fraction<Z> &frac) {
     return frac * c;
 }

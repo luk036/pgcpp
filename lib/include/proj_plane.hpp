@@ -27,7 +27,7 @@ namespace fun {
  * @return true if three points are conincident
  * @return false otherwise
  */
-Projective_plane_prim2 { P }
+template <Projective_plane_prim2 P>
 constexpr bool coincident(const P &p, const P &q, const P &r) {
     return incident(r, p * q);
 }
@@ -59,7 +59,7 @@ template <typename P> using Triple = std::tuple<P, P, P>;
  * @param tri
  * @return auto
  */
-Projective_plane_prim2 { P }
+template <Projective_plane_prim2 P>
 constexpr auto tri_dual(const Triple<P> &tri) {
     auto const &[a1, a2, a3] = tri;
     return std::tuple{a2 * a3, a1 * a3, a1 * a2};
@@ -72,7 +72,7 @@ constexpr auto tri_dual(const Triple<P> &tri) {
  * @param tri
  * @return auto
  */
-Projective_plane_prim2 { P }
+template <Projective_plane_prim2 P>
 constexpr auto tri_func(auto func, const Triple<P> &tri) {
     auto const &[a1, a2, a3] = tri;
     auto m1 = func(a2, a3);
@@ -89,8 +89,8 @@ constexpr auto tri_func(auto func, const Triple<P> &tri) {
  * @return true
  * @return false
  */
-Projective_plane_prim2 { Point }
-constexpr bool persp(const Triple<Point> &tri1, const Triple<Point> &tri2) {
+template <Projective_plane_prim2 P>
+constexpr bool persp(const Triple<P> &tri1, const Triple<P> &tri2) {
     auto const &[A, B, C] = tri1;
     auto const &[D, E, F] = tri2;
     auto O = (A * D) * (B * E);
@@ -109,15 +109,16 @@ Projective_plane { P, L }
 constexpr bool incident(const P &p, const L &l) { return p.dot(l) == 0; }
 
 /**
- * @brief
- *
- * @param A
- * @param B
- * @param C
- * @return P
+ * @brief 
+ * 
+ * @tparam P 
+ * @param A 
+ * @param B 
+ * @param C 
+ * @return constexpr P 
  */
-Projective_plane2 { P }
-constexpr P harm_conj(const P &A, const P &B, const P &C) {
+template <Projective_plane2 P>
+constexpr auto harm_conj(const P &A, const P &B, const P &C) -> P {
     auto lC = C * (A * B).aux();
     return plucker(B.dot(lC), A, A.dot(lC), B);
 }
@@ -158,7 +159,7 @@ class involution {
      * @param p
      * @return P
      */
-    constexpr P operator()(const P &p) const {
+    constexpr auto operator()(const P &p) const -> P {
         return plucker(_c, p, K(-2 * p.dot(_m)), _o);
     }
 };
@@ -173,7 +174,7 @@ class involution {
  * @param d
  * @return auto
  */
-template <typename K>
+template <CommutativeRing K>
 constexpr auto ratio_ratio(const K &a, const K &b, const K &c, const K &d) {
     if constexpr (Integral<K>) {
         return Fraction(a, b) / Fraction(c, d);
@@ -213,7 +214,7 @@ constexpr auto x_ratio(const P &A, const P &B, const L &l, const L &m) {
  * @param D
  * @return constexpr auto
  */
-Projective_plane2 { P }
+template <Projective_plane2 P>
 constexpr auto R(const P &A, const P &B, const P &C, const P &D) {
     auto O = (C * D).aux();
     return x_ratio(A, B, O * C, O * D);
@@ -282,7 +283,7 @@ constexpr auto R(const P &A, const P &B, const P &C, const P &D) {
  * @param D
  * @return constexpr auto
  */
-Projective_plane2 { P }
+template <Projective_plane2 P>
 constexpr auto is_harmonic(const P &A, const P &B, const P &C, const P &D) {
     return R(A, B, C, D) == -1;
 }
@@ -295,8 +296,8 @@ constexpr auto is_harmonic(const P &A, const P &B, const P &C, const P &D) {
  * @param co1
  * @param co2
  */
-Projective_plane_prim2 { Point }
-void check_pappus(const Triple<Point> &co1, const Triple<Point> &co2) {
+template <Projective_plane_prim2 P>
+void check_pappus(const Triple<P> &co1, const Triple<P> &co2) {
     auto const &[A, B, C] = co1;
     auto const &[D, E, F] = co2;
     auto G = (A * E) * (B * D);
@@ -311,7 +312,7 @@ void check_pappus(const Triple<Point> &co1, const Triple<Point> &co2) {
  * @param tri1
  * @param tri2
  */
-Projective_plane_prim2 { P }
+template <Projective_plane_prim2 P>
 void check_desargue(const Triple<P> &tri1, const Triple<P> &tri2) {
     auto trid1 = tri_dual(tri1);
     auto trid2 = tri_dual(tri2);

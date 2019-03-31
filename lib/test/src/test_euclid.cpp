@@ -12,17 +12,14 @@
 using namespace fun;
 
 /**
- * @brief
- *
- * @tparam T
- * @tparam U
- * @param a
- * @param b
- * @return true
- * @return false
+ * @brief 
+ * 
+ * @param a 
+ * @param b 
+ * @return true 
+ * @return false 
  */
-template <typename T, typename U>
-inline bool ApproxEqual(const T &a, const U &b) {
+inline auto ApproxEqual(const auto &a, const auto &b) -> bool {
     return a[0] == Approx(b[0]) && a[1] == Approx(b[1]) && a[2] == Approx(b[2]);
 }
 
@@ -32,14 +29,17 @@ inline bool ApproxEqual(const T &a, const U &b) {
  * @tparam T 
  * @param triangle 
  */
-template <typename T> void chk_euclid(T &triangle) {
+template <Projective_plane_prim2 P> 
+void chk_euclid(Triple<P> &triangle) {
     auto trilateral = tri_dual(triangle);
     auto &[a1, a2, a3] = triangle;
     auto &[l1, l2, l3] = trilateral;
 
-    using P = decltype(a1);
+    // using P = decltype(a1);
     using L = decltype(l1);
     using K = Value_type<P>;
+    static_assert(Projective_plane_prim2<L>);
+    static_assert(CommutativeRing<K>);
 
     auto zero = std::array<K, 3>{0, 0, 0};
 

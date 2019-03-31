@@ -11,17 +11,14 @@
 using namespace fun;
 
 /**
- * @brief
- *
- * @tparam T
- * @tparam U
- * @param a
- * @param b
- * @return true
- * @return false
+ * @brief 
+ * 
+ * @param a 
+ * @param b 
+ * @return true 
+ * @return false 
  */
-template <typename T, typename U>
-inline bool ApproxEqual(const T &a, const U &b) {
+inline auto ApproxEqual(const auto &a, const auto &b) -> bool {
     return a[0] == Approx(b[0]) && a[1] == Approx(b[1]) && a[2] == Approx(b[2]);
 }
 

@@ -16,7 +16,7 @@ namespace fun {
 
 // Forward declarations.
 
-CommutativeRing { _K }
+template <CommutativeRing _K>
 class pg_point;
 
 /**
@@ -24,7 +24,7 @@ class pg_point;
  *
  * @tparam  _K  Type of line elements
  */
-CommutativeRing { _K }
+template <CommutativeRing _K>
 struct pg_line : pg_object<_K, pg_point<_K>> {
     /// Value typedef.
     using _Base = pg_object<_K, pg_point<_K>>;
@@ -53,13 +53,14 @@ struct pg_line : pg_object<_K, pg_point<_K>> {
 };
 
 /// Return meet of two lines.
-CommutativeRing { _K }
+template <CommutativeRing _K>
 constexpr pg_point<_K> meet(const pg_line<_K> &l, const pg_line<_K> &m) {
     return l * m;
 }
 
 // template deduction guides (C++17)
-CommutativeRing{_K} pg_line(const std::array<_K, 3>)->pg_line<_K>;
+// template <CommutativeRing _K>
+// pg_line(const std::array<_K, 3>)->pg_line<_K>;
 
 // CommutativeRing{_K} pg_line(const _K &, const _K &, const _K &)->pg_line<_K>;
 

@@ -13,17 +13,14 @@
 using namespace fun;
 
 /**
- * @brief
- *
- * @tparam T
- * @tparam U
- * @param a
- * @param b
- * @return true
- * @return false
+ * @brief 
+ * 
+ * @param a 
+ * @param b 
+ * @return true 
+ * @return false 
  */
-template <typename T, typename U>
-inline bool ApproxEqual(const T &a, const U &b) {
+inline auto ApproxEqual(const auto &a, const auto &b) -> bool {
     return a[0] == Approx(b[0]) && a[1] == Approx(b[1]) && a[2] == Approx(b[2]);
 }
 
@@ -86,14 +83,13 @@ template <typename P, typename L = typename P::dual>
 requires Projective_plane_prim<P, L> // c++20 concept
     struct myck : ck<P, L, myck> {
     constexpr L perp(const P &v) const { return L(-2 * v[0], v[1], -2 * v[2]); }
-
     constexpr P perp(const L &v) const { return P(-v[0], 2 * v[1], -v[2]); }
 
-    Projective_plane2 { _P }
+    template <Projective_plane2 _P>
     constexpr auto measure(const _P &a1, const _P &a2) const {
         auto x = x_ratio(a1, a2, this->perp(a2), this->perp(a1));
-        using Q_t = decltype(x);
-        return Q_t(1) - x;
+        // using Q_t = decltype(x);
+        return 1 - x;
     }
 };
 

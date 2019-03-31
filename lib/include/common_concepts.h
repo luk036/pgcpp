@@ -49,9 +49,9 @@ concept bool Equality_comparable =
   };
 // ( T, == ) must be reflective, symmetric, and transitive.
 
-template <typename K>
+template <Equality_comparable K>
 concept bool CommutativeRing =
-  Equality_comparable<K> && requires(K a, K b) {
+  requires(K a, K b) {
     { a + b } -> K;
     { a - b } -> K;
     { a * b } -> K;
@@ -60,9 +60,9 @@ concept bool CommutativeRing =
     { K(0)  } -> K;
   };
 
-template <typename Z>
+template <CommutativeRing Z>
 concept bool Integral =
-  CommutativeRing<Z> && requires(Z a, Z b) {
+  requires(Z a, Z b) {
     { a % b } -> Z;
     { a / b } -> Z;
   };

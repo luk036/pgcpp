@@ -132,7 +132,7 @@ constexpr auto tri_midpoint(const Triple<P> &tri) -> Triple<P> {
  * @param z2
  * @return auto
  */
-template <typename K>
+template <CommutativeRing K>
 constexpr auto quad1(const K &x1, const K &z1, const K &x2, const K &z2) {
     if constexpr (Integral<K>) {
         Fraction<K> res = sq(Fraction<K>(x1, z1) - Fraction<K>(x2, z2));
@@ -258,7 +258,7 @@ constexpr auto uc_point(const Value_type<P> &lambda1,
  * @param c
  * @return auto
  */
-template <typename _Q>
+template <CommutativeRing _Q>
 constexpr auto Ar(const _Q &a, const _Q &b, const _Q &c) {
     return 4 * a * b - sq(a + b - c);
 }
@@ -273,7 +273,7 @@ constexpr auto Ar(const _Q &a, const _Q &b, const _Q &c) {
  * @param d
  * @return auto
  */
-template <typename _Q>
+template <CommutativeRing _Q>
 constexpr auto cqq(const _Q &a, const _Q &b, const _Q &c, const _Q &d) {
     auto t1 = 4*a*b;
     auto t2 = 4*c*d;

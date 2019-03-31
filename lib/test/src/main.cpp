@@ -22,6 +22,7 @@ TEST_CASE("Projective Point", "[proj_plane]") {
 
     auto pq = plucker(2 + 1j, p, 3 + 0j, q);
     CHECK(incident(l, pq));
+
     auto h = harm_conj(p, q, pq);
     CHECK(is_harmonic(p, q, pq, h));
 
@@ -57,11 +58,11 @@ TEST_CASE("Projective Line", "[proj_plane]") {
 }
 
 TEST_CASE("Projective Point (Special case)", "[proj_plane]") {
-    auto p = pg_point{1, 3, 2};     //
-    auto l = pg_line{-2, 3, 1};     //
-    auto l_inf = pg_line{0, 0, 1};  //
-    auto l_nan = pg_line{0, 0, 0};  //
-    auto p_nan = pg_point{0, 0, 0}; //
+    auto p = pg_point{1, 3, 2};    
+    auto l = pg_line{-2, 3, 1};    
+    // auto l_inf = pg_line{0, 0, 1}; 
+    auto l_nan = pg_line{0, 0, 0}; 
+    auto p_nan = pg_point{0, 0, 0};
 
     CHECK(l_nan == l_nan);
     CHECK(l_nan == p * p); // join two equal points

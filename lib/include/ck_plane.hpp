@@ -121,8 +121,8 @@ struct ck {
  * @return true
  * @return false
  */
-template <typename Q_t>
-constexpr bool check_sine_law(const Q_t &Q, const Q_t &S) {
+template <CommutativeRing Q_t>
+constexpr bool check_sine_law(const Triple<Q_t> &Q, const Triple<Q_t> &S) {
     auto const &[q1, q2, q3] = Q;
     auto const &[s1, s2, s3] = S;
     return (s1 * q2 == s2 * q1) && (s2 * q3 == s3 * q2);
@@ -137,36 +137,59 @@ constexpr bool check_sine_law(const Q_t &Q, const Q_t &S) {
 template <typename P, typename L = typename P::dual>
 requires Projective_plane_prim<P, L> // c++20 concept
 struct ellck : ck<P, L, ellck> {
-    constexpr L perp(const P &v) const { return L(v); }
-    constexpr P perp(const L &v) const { return P(v); }
+    constexpr auto perp(const P &v) const -> L { return L(v); }
+    constexpr auto perp(const L &v) const -> P { return P(v); }
 
-    Projective_plane2 { _P }
+    template <Projective_plane2 _P>
     constexpr auto measure(const _P &a1, const _P &a2) const {
         auto x = x_ratio(a1, a2, this->perp(a2), this->perp(a1));
         return 1 - x;
     }
 };
 
+/**
+ * @brief Hyperbolic Plane
+ *
+ * @tparam P
+ * @tparam P::dual
+ */
 template <typename P, typename L = typename P::dual>
 requires Projective_plane_prim<P, L> // c++20 concept
 struct hyck : ck<P, L, hyck> {
-    constexpr L perp(const P &v) const { return L(v[0], v[1], -v[2]); }
-    constexpr P perp(const L &v) const { return P(v[0], v[1], -v[2]); }
+    constexpr auto perp(const P &v) const { return L(v[0], v[1], -v[2]); }
+    constexpr auto perp(const L &v) const { return P(v[0], v[1], -v[2]); }
 
-    Projective_plane2 { _P }
+    template <Projective_plane2 _P>
     constexpr auto measure(const _P &a1, const _P &a2) const {
         auto x = x_ratio(a1, a2, this->perp(a2), this->perp(a1));
         return 1 - x;
     }
 };
 
-constexpr auto check_cross_TQF(const auto &Q) {
+/**
+ * @brief 
+ * 
+ * @tparam K 
+ * @param Q 
+ * @return constexpr auto 
+ */
+template <CommutativeRing K>
+constexpr auto check_cross_TQF(const Triple<K> &Q) {
     auto const &[q1, q2, q3] = Q;
     return sq(q1 + q2 + q3) - 2 * (q1 * q1 + q2 * q2 + q3 * q3) -
            4 * q1 * q2 * q3;
 }
 
-constexpr auto check_cross_law(const auto &S, const auto &q3) {
+/**
+ * @brief 
+ * 
+ * @tparam K 
+ * @param S 
+ * @param q3 
+ * @return constexpr auto 
+ */
+template <CommutativeRing K>
+constexpr auto check_cross_law(const Triple<K> &S, const K &q3) {
     auto const &[s1, s2, s3] = S;
     return sq(s1 * s2 * q3 - (s1 + s2 + s3) + 2) -
            4 * (1 - s1) * (1 - s2) * (1 - s3);

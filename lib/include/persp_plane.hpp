@@ -141,7 +141,7 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
      * @param a2
      * @return auto
      */
-    Projective_plane2 { _P }
+    template <Projective_plane2 _P>
     constexpr auto measure(const _P &a1, const _P &a2) const {
         auto omg = K(this->omega(a1*a2));
         auto den = K(this->omega(a1) * this->omega(a2));

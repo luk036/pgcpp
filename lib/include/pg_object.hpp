@@ -19,7 +19,7 @@ namespace fun {
  * @tparam _K Type of object elements
  * @tparam _dual
  */
-template <typename _K, typename _dual>
+template <CommutativeRing _K, typename _dual>
 class pg_object : public std::array<_K, 3> {
     /// Value typedef.
     using _Base = std::array<_K, 3>;
@@ -103,7 +103,7 @@ class pg_object : public std::array<_K, 3> {
  * @param q
  * @return P
  */
-template <typename P, typename _K = Value_type<P>>
+template <typename P, CommutativeRing _K = Value_type<P>>
 constexpr P plucker(const _K &lambda1, const P &p, const _K &mu1, const P &q) {
     return P{plucker_c(lambda1, p, mu1, q)};
 }
@@ -118,7 +118,7 @@ constexpr P plucker(const _K &lambda1, const P &p, const _K &mu1, const P &q) {
  * @param p
  * @return _Stream&
  */
-template <typename _K, typename _dual, class _Stream>
+template <CommutativeRing _K, typename _dual, class _Stream>
 _Stream &operator<<(_Stream &os, const pg_object<_K, _dual> &p) {
     os << '(' << p[0] << ':' << p[1] << ':' << p[2] << ')';
     return os;

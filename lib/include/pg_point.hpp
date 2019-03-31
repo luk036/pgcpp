@@ -15,10 +15,10 @@
 namespace fun {
 
 // Forward declarations.
-CommutativeRing { _K }
+template <CommutativeRing _K>
 class pg_line;
 
-CommutativeRing { _K }
+template <CommutativeRing _K>
 struct pg_point : pg_object<_K, pg_line<_K>> {
     /// Value typedef.
     using _Base = pg_object<_K, pg_line<_K>>;
@@ -76,7 +76,7 @@ struct pg_point : pg_object<_K, pg_line<_K>> {
  * @param q
  * @return pg_line<_K>
  */
-CommutativeRing { _K }
+template <CommutativeRing _K>
 constexpr pg_line<_K> join(const pg_point<_K> &p, const pg_point<_K> &q) {
     return p * q;
 }

@@ -1,41 +1,65 @@
+# Copyright (c) <year> <author> (<email>)
+# Distributed under the MIT License.
+# See accompanying file LICENSE.md or copy at http://opensource.org/licenses/MIT
+
 language: cpp
-dist: trusty
+
+sudo: false
+
+compiler:
+  - gcc
+  # - clang
+
+env:
+  global:
+    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+    #   via the "travis encrypt" command using the project repo's public key
+    - secure: "i0MCd0QkxVVAVMXYQXl0phkzpHvtSvLYJg28CF4fuiT+0jSC7kuaZ6XGCa32cohc2BZP4OmX/MBjoMmPJUNWS+yQ8TEy4Ml3K/LV5MHu25sv/gi/ZI+3Pvl9WoCKfGBCbEPsQdhoLoeG8s6akJonh8IgGGmVXUVDhROy5DhUENg="
+  matrix:
+    - BUILD_TYPE=Debug TEST_FRAMEWORK=Catch2
+    - BUILD_TYPE=Release TEST_FRAMEWORK=Catch2
+    - BUILD_TYPE=Debug TEST_FRAMEWORK=GTest
+    - BUILD_TYPE=Release TEST_FRAMEWORK=GTest
 
 matrix:
-  include:
-    # Linux C++17 GCC builds
-    - os: linux
-      compiler: gcc
-      addons: &gcc7
-        apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages:
-            - g++-7
-            - catch
-      env: COMPILER='g++-7' BUILD_TYPE='Release'
+  exclude:
+    # - compiler: clang
+    #   env: COVERITY_SCAN_BRANCH_PATTERN=coverity_scan
+    - compiler: gcc
+      env: COVERITY_SCAN_BRANCH_PATTERN=coverity_scan BUILD_TYPE=Release
+    - compiler: gcc
+      env: COVERITY_SCAN_BRANCH_PATTERN=coverity_scan BUILD_TYPE=Debug TEST_FRAMEWORK=GTest
 
-    - os: linux
-      compiler: gcc
-      addons: *gcc7
-      env: COMPILER='g++-7' BUILD_TYPE='Debug'
+addons:
+  coverity_scan:
+    project:
+      name: "luk036/pgcpp"
+      description: "Build submitted via Travis CI"
+    notification_email: me@kartikkumar.com
+    build_command_prepend: "mkdir build; cd build; cmake -DPROJECT_NAME=pgcpp -DTEST_FRAMEWORK=$TEST_FRAMEWORK -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=on .."
+    build_command: "make"
+    branch_pattern: coverity_scan
 
-install:
-  - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
-  - mkdir -p ${DEPS_DIR} && cd ${DEPS_DIR}
-  - sudo apt install libboost1.55-dev
-
-before_script:
-  - export CXX=${COMPILER}
-  - cd ${TRAVIS_BUILD_DIR}
-  - cmake -H. -BBuild -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -Wdev
-  - cd Build
+before_install:
+  - bash scripts/install_cmake.sh
+  - bash scripts/install_doxygen.sh
+  - chmod ugo+x scripts/check_doxygen.sh
+  - if [ "$COVERITY_SCAN_BRANCH_PATTERN" != "coverity_scan" ] && [ "$CXX" == "g++" ] && [ "$BUILD_TYPE" == "Debug" ] && [ "$TEST_FRAMEWORK" == "Catch2" ]; then
+      echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-;
+      pip install --user cpp-coveralls;
+    fi
 
 script:
-  - make -j 2
-  - ctest -V -j 2
+  - if [ "$COVERITY_SCAN_BRANCH_PATTERN" != "coverity_scan" ]; then
+      mkdir build;
+      cd build;
+      $HOME/cmake/bin/cmake -DPROJECT_NAME=pgcpp -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DTEST_FRAMEWORK=$TEST_FRAMEWORK -DBUILD_TESTING=on -DDOXYGEN_EXECUTABLE=$HOME/doxygen/build/bin/doxygen -DBUILD_DOXYGEN_DOCS=on ..;
+      make;
+      ctest -V;
+      ../scripts/check_doxygen.sh;
+    fi
 
-notifications:
-  email: false
-  slack:
-    rooms:
-      - loksu:jErzuILLSNn9qGYkkILvBwje#pgcpp
+after_success:
+  - if [ "$COVERITY_SCAN_BRANCH_PATTERN" != "coverity_scan" ] && [ "$CXX" == "g++" ] && [ "$BUILD_TYPE" == "Debug" ] && [ "$TEST_FRAMEWORK" == "Catch2" ]; then
+      coveralls --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*" -E ".*src/main.cpp.*";
+    fi

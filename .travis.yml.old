@@ -1,0 +1,41 @@
+language: cpp
+dist: trusty
+
+matrix:
+  include:
+    # Linux C++17 GCC builds
+    - os: linux
+      compiler: gcc
+      addons: &gcc7
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages:
+            - g++-7
+            - catch
+      env: COMPILER='g++-7' BUILD_TYPE='Release'
+
+    - os: linux
+      compiler: gcc
+      addons: *gcc7
+      env: COMPILER='g++-7' BUILD_TYPE='Debug'
+
+install:
+  - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
+  - mkdir -p ${DEPS_DIR} && cd ${DEPS_DIR}
+  - sudo apt install libboost1.55-dev
+
+before_script:
+  - export CXX=${COMPILER}
+  - cd ${TRAVIS_BUILD_DIR}
+  - cmake -H. -BBuild -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -Wdev
+  - cd Build
+
+script:
+  - make -j 2
+  - ctest -V -j 2
+
+notifications:
+  email: false
+  slack:
+    rooms:
+      - loksu:jErzuILLSNn9qGYkkILvBwje#pgcpp

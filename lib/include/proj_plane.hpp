@@ -61,7 +61,7 @@ template <typename P> using Triple = std::tuple<P, P, P>;
  */
 template <Projective_plane_prim2 P>
 constexpr auto tri_dual(const Triple<P> &tri) {
-    auto const &[a1, a2, a3] = tri;
+    auto &&[a1, a2, a3] = tri;
     return std::tuple{a2 * a3, a1 * a3, a1 * a2};
 }
 
@@ -74,7 +74,7 @@ constexpr auto tri_dual(const Triple<P> &tri) {
  */
 template <Projective_plane_prim2 P>
 constexpr auto tri_func(auto func, const Triple<P> &tri) {
-    auto const &[a1, a2, a3] = tri;
+    auto &&[a1, a2, a3] = tri;
     auto m1 = func(a2, a3);
     auto m2 = func(a1, a3);
     auto m3 = func(a1, a2);
@@ -91,8 +91,8 @@ constexpr auto tri_func(auto func, const Triple<P> &tri) {
  */
 template <Projective_plane_prim2 P>
 constexpr bool persp(const Triple<P> &tri1, const Triple<P> &tri2) {
-    auto const &[A, B, C] = tri1;
-    auto const &[D, E, F] = tri2;
+    auto &&[A, B, C] = tri1;
+    auto &&[D, E, F] = tri2;
     auto O = (A * D) * (B * E);
     return incident(O, C * F);
 }
@@ -229,7 +229,7 @@ constexpr auto R(const P &A, const P &B, const P &C, const P &D) {
  * @param D
  * @return constexpr auto
  */
-Projective_plane_coord2 { P }
+template <Projective_plane_coord2 P>
 constexpr auto R0(const P &A, const P &B, const P &C, const P &D) {
     auto ac = cross0(A, C);
     auto ad = cross0(A, D);
@@ -247,7 +247,7 @@ constexpr auto R0(const P &A, const P &B, const P &C, const P &D) {
  * @param D
  * @return constexpr auto
  */
-Projective_plane_coord2 { P }
+template <Projective_plane_coord2 P>
 constexpr auto R1(const P &A, const P &B, const P &C, const P &D) {
     auto ac = cross1(A, C);
     auto ad = cross1(A, D);
@@ -265,7 +265,7 @@ constexpr auto R1(const P &A, const P &B, const P &C, const P &D) {
  * @param D
  * @return constexpr auto
  */
-Projective_plane_coord2 { P }
+template <Projective_plane_coord2 P>
 constexpr auto R(const P &A, const P &B, const P &C, const P &D) {
     if (cross0(A, B) != 0) { // Project points to yz-plane
         return R0(A, B, C, D);
@@ -298,8 +298,8 @@ constexpr auto is_harmonic(const P &A, const P &B, const P &C, const P &D) {
  */
 template <Projective_plane_prim2 P>
 void check_pappus(const Triple<P> &co1, const Triple<P> &co2) {
-    auto const &[A, B, C] = co1;
-    auto const &[D, E, F] = co2;
+    auto &&[A, B, C] = co1;
+    auto &&[D, E, F] = co2;
     auto G = (A * E) * (B * D);
     auto H = (A * F) * (C * D);
     auto I = (B * F) * (C * E);

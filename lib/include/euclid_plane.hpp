@@ -65,7 +65,7 @@ constexpr auto altitude(const P &a, const L &l) -> L { return a * fB(l); }
  */
 template <Projective_plane_coord2 P>
 constexpr auto tri_altitude(const Triple<P> &tri) {
-    auto const &[a1, a2, a3] = tri;
+    auto &&[a1, a2, a3] = tri;
     auto t1 = altitude(a1, a2*a3);
     auto t2 = altitude(a2, a3*a1);
     auto t3 = altitude(a3, a1*a2);
@@ -80,7 +80,7 @@ constexpr auto tri_altitude(const Triple<P> &tri) {
  */
 template <Projective_plane_coord2 P>
 constexpr auto orthocenter(const Triple<P> &tri) -> P {
-    auto const &[a1, a2, a3] = tri;
+    auto &&[a1, a2, a3] = tri;
     auto t1 = altitude(a1, a2*a3);
     auto t2 = altitude(a2, a1*a3);
     return t1 * t2;
@@ -115,7 +115,7 @@ constexpr auto midpoint(const P &a, const P &b) -> P {
  */
 template <Projective_plane_coord2 P>
 constexpr auto tri_midpoint(const Triple<P> &tri) -> Triple<P> {
-    auto const &[a1, a2, a3] = tri;
+    auto &&[a1, a2, a3] = tri;
     auto m12 = midpoint(a1, a2);
     auto m23 = midpoint(a2, a3);
     auto m13 = midpoint(a1, a3);
@@ -200,7 +200,7 @@ constexpr auto spread(const L &l1, const L &l2) {
  */
 template <Projective_plane_coord2 P>
 constexpr auto tri_quadrance(const Triple<P> &triangle) {
-    auto const &[a1, a2, a3] = triangle;
+    auto &&[a1, a2, a3] = triangle;
     auto m1 = quadrance(a2, a3);
     auto m2 = quadrance(a1, a3);
     auto m3 = quadrance(a1, a2);
@@ -215,7 +215,7 @@ constexpr auto tri_quadrance(const Triple<P> &triangle) {
  */
 template <Projective_plane_coord2 L>
 constexpr auto tri_spread(const Triple<L> &trilateral) {
-    auto const &[a1, a2, a3] = trilateral;
+    auto &&[a1, a2, a3] = trilateral;
     auto m1 = spread(a2, a3);
     auto m2 = spread(a1, a3);
     auto m3 = spread(a1, a2);
@@ -290,7 +290,7 @@ constexpr auto cqq(const _Q &a, const _Q &b, const _Q &c, const _Q &d) {
  * @return auto
  */
 constexpr auto Ptolemy(const auto &quad) -> bool {
-    auto const &[Q12, Q23, Q34, Q14, Q13, Q24] = quad;
+    auto &&[Q12, Q23, Q34, Q14, Q13, Q24] = quad;
     return Ar(Q12 * Q34, Q23 * Q14, Q13 * Q24) == 0;
 }
 

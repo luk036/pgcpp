@@ -32,8 +32,8 @@ inline auto ApproxEqual(const auto &a, const auto &b) -> bool {
 template <Projective_plane_prim2 P> 
 void chk_euclid(Triple<P> &triangle) {
     auto trilateral = tri_dual(triangle);
-    auto &[a1, a2, a3] = triangle;
-    auto &[l1, l2, l3] = trilateral;
+    auto &&[a1, a2, a3] = triangle;
+    auto &&[l1, l2, l3] = trilateral;
 
     // using P = decltype(a1);
     using L = decltype(l1);
@@ -49,12 +49,12 @@ void chk_euclid(Triple<P> &triangle) {
     auto tau = reflect(l1);
     auto Q = tri_quadrance(triangle);
     auto S = tri_spread(trilateral);
-    auto [m12, m23, m13] = tri_midpoint(triangle);
+    auto &&[m12, m23, m13] = tri_midpoint(triangle);
     auto mt1 = a1 * m23;
     auto mt2 = a2 * m13;
     auto mt3 = a3 * m12;
-    auto &[q1, q2, q3] = Q;
-    auto &[s1, s2, s3] = S;
+    auto &&[q1, q2, q3] = Q;
+    auto &&[s1, s2, s3] = S;
     auto tqf = sq(q1 + q2 + q3) - 2 * (q1 * q1 + q2 * q2 + q3 * q3);
     auto tsf =
         sq(s1 + s2 + s3) - 2 * (s1 * s1 + s2 * s2 + s3 * s3) - 4 * s1 * s2 * s3;

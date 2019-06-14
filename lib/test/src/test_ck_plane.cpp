@@ -40,8 +40,8 @@ template <typename PG> void chk_ck(const PG &myck) {
 
     auto triangle = std::tuple{std::move(a1), std::move(a2), std::move(a3)};
     auto trilateral = tri_dual(triangle);
-    auto &[l1, l2, l3] = trilateral;
-    auto [t1, t2, t3] = myck.tri_altitude(triangle);
+    auto &&[l1, l2, l3] = trilateral;
+    auto &&[t1, t2, t3] = myck.tri_altitude(triangle);
     auto o = myck.orthocenter(triangle);
     auto tau = myck.reflect(l1);
     auto Q = std::tuple{myck.tri_quadrance(triangle)};
@@ -70,8 +70,8 @@ template <typename PG> void chk_ck(const PG &myck) {
         CHECK(ApproxEqual(cross(tau(tau(a4)), a4), zero));
         CHECK(myck.measure(l1, l1) == Approx(0));
         CHECK(myck.measure(a1, a1) == Approx(0));
-        auto &[q1, q2, q3] = Q;
-        auto &[s1, s2, s3] = S;
+        auto &&[q1, q2, q3] = Q;
+        auto &&[s1, s2, s3] = S;
         auto r1 = q1 * s2 - q2 * s1;
         auto r2 = q2 * s3 - q3 * s2;
         CHECK(r1 == Approx(0));

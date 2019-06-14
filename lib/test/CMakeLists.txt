@@ -11,8 +11,11 @@ set (TEST_MODULE_PATH "${LIBRARY_MODULE_PATH}/test")
 #configure test directories
 set (TEST_SRC_PATH  "${TEST_MODULE_PATH}/src" )
 
+set(LIBS ${LIBS} "-L$ENV{CONDA_PREFIX}/lib")
+set (Boost_INCLUDE_DIRS "$ENV{CONDA_PREFIX}/include")
+
 #set includes
-include_directories (${LIBRARY_INCLUDE_PATH} ${TEST_THIRD_PARTY_INCLUDE_PATH})
+include_directories (${LIBRARY_INCLUDE_PATH} ${TEST_THIRD_PARTY_INCLUDE_PATH} ${Boost_INCLUDE_DIRS})
 
 #set test sources
 file (GLOB TEST_SOURCE_FILES "${TEST_SRC_PATH}/*.cpp")

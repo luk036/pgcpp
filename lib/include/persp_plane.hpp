@@ -107,7 +107,7 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
      * @return auto
      */
     constexpr auto tri_midpoint(const Triple<P> &tri) const {
-        auto const &[a1, a2, a3] = tri;
+        auto &&[a1, a2, a3] = tri;
         auto m12 = this->midpoint(a1, a2);
         auto m23 = this->midpoint(a2, a3);
         auto m13 = this->midpoint(a1, a3);

@@ -26,8 +26,16 @@ matrix:
     # - compiler: clang
     #   env: COVERITY_SCAN_BRANCH_PATTERN=coverity_scan
     - compiler: gcc
+      addons: &gcc7
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages:
+            - g++-7
+            - catch
+            - libboost-dev
       env: COVERITY_SCAN_BRANCH_PATTERN=coverity_scan BUILD_TYPE=Release
     - compiler: gcc
+      addons: *gcc7
       env: COVERITY_SCAN_BRANCH_PATTERN=coverity_scan BUILD_TYPE=Debug TEST_FRAMEWORK=GTest
 
 addons:

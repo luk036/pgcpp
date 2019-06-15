@@ -11,10 +11,10 @@ compiler:
   # - clang
 
 env:
-  global:
-    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
-    #   via the "travis encrypt" command using the project repo's public key
-    - secure: "i0MCd0QkxVVAVMXYQXl0phkzpHvtSvLYJg28CF4fuiT+0jSC7kuaZ6XGCa32cohc2BZP4OmX/MBjoMmPJUNWS+yQ8TEy4Ml3K/LV5MHu25sv/gi/ZI+3Pvl9WoCKfGBCbEPsQdhoLoeG8s6akJonh8IgGGmVXUVDhROy5DhUENg="
+  # global:
+  #   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+  #   #   via the "travis encrypt" command using the project repo's public key
+  #   - secure: "i0MCd0QkxVVAVMXYQXl0phkzpHvtSvLYJg28CF4fuiT+0jSC7kuaZ6XGCa32cohc2BZP4OmX/MBjoMmPJUNWS+yQ8TEy4Ml3K/LV5MHu25sv/gi/ZI+3Pvl9WoCKfGBCbEPsQdhoLoeG8s6akJonh8IgGGmVXUVDhROy5DhUENg="
   matrix:
     - BUILD_TYPE=Debug TEST_FRAMEWORK=Catch2
     - BUILD_TYPE=Release TEST_FRAMEWORK=Catch2
@@ -71,3 +71,9 @@ after_success:
   - if [ "$COVERITY_SCAN_BRANCH_PATTERN" != "coverity_scan" ] && [ "$CXX" == "g++" ] && [ "$BUILD_TYPE" == "Debug" ] && [ "$TEST_FRAMEWORK" == "Catch2" ]; then
       coveralls --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*" -E ".*src/main.cpp.*";
     fi
+
+notifications:
+  email: false
+  slack:
+    rooms:
+      - loksu:jErzuILLSNn9qGYkkILvBwje#pgcpp

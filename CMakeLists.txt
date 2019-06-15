@@ -5,7 +5,7 @@
 cmake_minimum_required(VERSION 3.3)
 set(CMAKE_CXX_STANDARD 17)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
-add_definitions ( -fconcepts ) # gcc's concepts
+add_definitions ( -fconcepts -fpermissive ) # gcc's concepts
 set(PROJECT_NAME PgCpp)
 
 # Check if project name has been specified correctly.

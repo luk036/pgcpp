@@ -3,9 +3,9 @@
 # See accompanying file LICENSE.md or copy at http://opensource.org/licenses/MIT
 
 cmake_minimum_required(VERSION 3.3)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
-add_definitions ( -fconcepts -fpermissive ) # gcc's concepts
+add_definitions ( -std=c++1z -fconcepts -fpermissive ) # gcc's concepts
 set(PROJECT_NAME PgCpp)
 
 # Check if project name has been specified correctly.

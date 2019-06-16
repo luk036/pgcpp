@@ -57,7 +57,7 @@ script:
   - if [ "$COVERITY_SCAN_BRANCH_PATTERN" != "coverity_scan" ]; then
       mkdir build;
       cd build;
-      $HOME/cmake/bin/cmake -DPROJECT_NAME=pgcpp -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DTEST_FRAMEWORK=$TEST_FRAMEWORK -DBUILD_TESTING=on ..;
+      cmake -DPROJECT_NAME=pgcpp -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DTEST_FRAMEWORK=$TEST_FRAMEWORK -DBUILD_TESTING=on ..;
       make -j 2;
       ctest -V -j 2;
     fi

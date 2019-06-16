@@ -13,8 +13,8 @@ env:
   matrix:
     - BUILD_TYPE=Debug TEST_FRAMEWORK=Catch2 COMPILER='g++-7'
     - BUILD_TYPE=Release TEST_FRAMEWORK=Catch2 COMPILER='g++-7'
-    - BUILD_TYPE=Debug TEST_FRAMEWORK=GTest COMPILER='g++-7'
-    - BUILD_TYPE=Release TEST_FRAMEWORK=GTest COMPILER='g++-7'
+    # - BUILD_TYPE=Debug TEST_FRAMEWORK=GTest COMPILER='g++-7'
+    # - BUILD_TYPE=Release TEST_FRAMEWORK=GTest COMPILER='g++-7'
 
 matrix:
   exclude:

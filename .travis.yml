@@ -10,10 +10,6 @@ compiler:
   # - clang
 
 env:
-  global:
-    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
-    #   via the "travis encrypt" command using the project repo's public key
-    # - secure: "i0MCd0QkxVVAVMXYQXl0phkzpHvtSvLYJg28CF4fuiT+0jSC7kuaZ6XGCa32cohc2BZP4OmX/MBjoMmPJUNWS+yQ8TEy4Ml3K/LV5MHu25sv/gi/ZI+3Pvl9WoCKfGBCbEPsQdhoLoeG8s6akJonh8IgGGmVXUVDhROy5DhUENg="
   matrix:
     - BUILD_TYPE=Debug TEST_FRAMEWORK=Catch2 COMPILER='g++-7'
     - BUILD_TYPE=Release TEST_FRAMEWORK=Catch2 COMPILER='g++-7'
@@ -64,7 +60,6 @@ script:
       $HOME/cmake/bin/cmake -DPROJECT_NAME=pgcpp -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DTEST_FRAMEWORK=$TEST_FRAMEWORK -DBUILD_TESTING=on ..;
       make -j 2;
       ctest -V -j 2;
-      # ../scripts/check_doxygen.sh;
     fi
 
 after_success:

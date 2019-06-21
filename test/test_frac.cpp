@@ -3,7 +3,7 @@
  */
 #include "pgcpp/fractions.hpp"
 #include <boost/multiprecision/cpp_int.hpp>
-#include <catch.hpp>
+#include <catch2/catch.hpp>
 #include <iostream>
 
 using namespace fun;

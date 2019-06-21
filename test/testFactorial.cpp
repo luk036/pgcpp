@@ -6,7 +6,7 @@
 
 #ifdef USE_CATCH2
 
-#include <catch.hpp>
+#include <catch2/catch.hpp>
 
 #elif USE_GTEST
 

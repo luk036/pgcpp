@@ -1,22 +1,22 @@
 #ifndef _HOME_UBUNTU_GITHUB_PGCPP_PROJ_PLANE_HPP
 #define _HOME_UBUNTU_GITHUB_PGCPP_PROJ_PLANE_HPP 1
 
-#include "fractions.hpp"
-#include "proj_plane_concepts.h"
+#include "pgcpp/fractions.hpp"
+#include "pgcpp/proj_plane_concepts.h"
 #include <cassert>
 #include <tuple>
 
-/** @file include/proj_plane.hpp
+/*! @file include/proj_plane.hpp
  *  This is a C++ Library header.
  */
 
-/**
+/*!
  @todo: projectivity >=
 **/
 
 namespace fun {
 
-/**
+/*!
  * @brief Coincident
  *
  * @tparam P Point
@@ -32,7 +32,7 @@ constexpr bool coincident(const P &p, const P &q, const P &r) {
     return incident(r, p * q);
 }
 
-/**
+/*!
  * @brief Coincident
  *
  * @tparam P Point
@@ -53,7 +53,7 @@ constexpr bool coincident(const L &l, const Sequence &seq) {
 
 template <typename P> using Triple = std::tuple<P, P, P>;
 
-/**
+/*!
  * @brief
  *
  * @param tri
@@ -65,7 +65,7 @@ constexpr auto tri_dual(const Triple<P> &tri) {
     return std::tuple{a2 * a3, a1 * a3, a1 * a2};
 }
 
-/**
+/*!
  * @brief
  *
  * @param func
@@ -81,7 +81,7 @@ constexpr auto tri_func(auto func, const Triple<P> &tri) {
     return std::tuple{std::move(m1), std::move(m2), std::move(m3)};
 }
 
-/**
+/*!
  * @brief
  *
  * @param tri1
@@ -97,7 +97,7 @@ constexpr bool persp(const Triple<P> &tri1, const Triple<P> &tri2) {
     return incident(O, C * F);
 }
 
-/**
+/*!
  * @brief
  *
  * @param p
@@ -108,7 +108,7 @@ constexpr bool persp(const Triple<P> &tri1, const Triple<P> &tri2) {
 Projective_plane { P, L }
 constexpr bool incident(const P &p, const L &l) { return p.dot(l) == 0; }
 
-/**
+/*!
  * @brief 
  * 
  * @tparam P 
@@ -133,7 +133,7 @@ class involution {
     K _c;
 
   public:
-    /**
+    /*!
      * @brief Construct a new involution object
      *
      * @param m
@@ -143,7 +143,7 @@ class involution {
         : // input mirror and center
           _m{m}, _o{std::move(o)}, _c{m.dot(_o)} {}
 
-    /**
+    /*!
      * @brief Construct a new involution object
      *
      * @param m
@@ -153,7 +153,7 @@ class involution {
         : // input mirror and center
           _m{m}, _o{o}, _c{m.dot(o)} {}
 
-    /**
+    /*!
      * @brief
      *
      * @param p
@@ -164,7 +164,7 @@ class involution {
     }
 };
 
-/**
+/*!
  * @brief
  *
  * @tparam K
@@ -183,7 +183,7 @@ constexpr auto ratio_ratio(const K &a, const K &b, const K &c, const K &d) {
     }
 }
 
-/**
+/*!
  * @brief Cross Ratio
  *
  * @tparam P
@@ -205,7 +205,7 @@ constexpr auto x_ratio(const P &A, const P &B, const L &l, const L &m) {
     return ratio_ratio(dAl, dAm, dBl, dBm);
 }
 
-/**
+/*!
  * @brief
  *
  * @param A
@@ -220,7 +220,7 @@ constexpr auto R(const P &A, const P &B, const P &C, const P &D) {
     return x_ratio(A, B, O * C, O * D);
 }
 
-/**
+/*!
  * @brief
  *
  * @param A
@@ -238,7 +238,7 @@ constexpr auto R0(const P &A, const P &B, const P &C, const P &D) {
     return ratio_ratio(ac, ad, bc, bd);
 }
 
-/**
+/*!
  * @brief
  *
  * @param A
@@ -256,7 +256,7 @@ constexpr auto R1(const P &A, const P &B, const P &C, const P &D) {
     return ratio_ratio(ac, ad, bc, bd);
 }
 
-/**
+/*!
  * @brief
  *
  * @param A
@@ -274,7 +274,7 @@ constexpr auto R(const P &A, const P &B, const P &C, const P &D) {
     return R1(A, B, C, D);
 }
 
-/**
+/*!
  * @brief
  *
  * @param A
@@ -288,7 +288,7 @@ constexpr auto is_harmonic(const P &A, const P &B, const P &C, const P &D) {
     return R(A, B, C, D) == -1;
 }
 
-/**
+/*!
  * @brief Check Pappus Theorem
  *
  * @tparam P
@@ -306,7 +306,7 @@ void check_pappus(const Triple<P> &co1, const Triple<P> &co2) {
     assert(coincident(G, H, I));
 }
 
-/**
+/*!
  * @brief
  *
  * @param tri1

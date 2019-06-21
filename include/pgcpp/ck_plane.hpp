@@ -1,14 +1,14 @@
 #ifndef _HOME_UBUNTU_GITHUB_PGCPP_CK_PLANE_HPP
 #define _HOME_UBUNTU_GITHUB_PGCPP_CK_PLANE_HPP 1
 
-#include "pg_common.hpp"
-#include "proj_plane.hpp"
-#include "proj_plane_concepts.h"
+#include "pgcpp/pg_common.hpp"
+#include "pgcpp/proj_plane.hpp"
+#include "pgcpp/proj_plane_concepts.h"
 #include <type_traits>  // std::is_base_of_v
 
 namespace fun {
 
-/**
+/*!
  * @brief
  *
  * @tparam _P
@@ -29,7 +29,7 @@ struct ck {
         static_assert(std::is_base_of_v<ck<_P, _L, Derived>, Derived<_P, _L>>);
     }
 
-    /**
+    /*!
      * @brief
      *
      * @tparam L
@@ -43,7 +43,7 @@ struct ck {
         return incident(m, self.perp(l));
     }
 
-    /**
+    /*!
      * @brief
      *
      * @param p
@@ -56,7 +56,7 @@ struct ck {
         return p * self.perp(l);
     }
 
-    /**
+    /*!
      * @brief
      *
      * @param tri
@@ -71,7 +71,7 @@ struct ck {
         return std::tuple{std::move(t1), std::move(t2), std::move(t3)};
     }
 
-    /**
+    /*!
      * @brief
      *
      * @param tri
@@ -113,7 +113,7 @@ struct ck {
     }
 };
 
-/**
+/*!
  * @brief
  *
  * @tparam Q_t
@@ -130,7 +130,7 @@ constexpr bool check_sine_law(const Triple<Q_t> &Q, const Triple<Q_t> &S) {
     return (s1 * q2 == s2 * q1) && (s2 * q3 == s3 * q2);
 }
 
-/**
+/*!
  * @brief Elliptic Plane
  *
  * @tparam P
@@ -149,7 +149,7 @@ struct ellck : ck<P, L, ellck> {
     }
 };
 
-/**
+/*!
  * @brief Hyperbolic Plane
  *
  * @tparam P
@@ -168,7 +168,7 @@ struct hyck : ck<P, L, hyck> {
     }
 };
 
-/**
+/*!
  * @brief 
  * 
  * @tparam K 
@@ -182,7 +182,7 @@ constexpr auto check_cross_TQF(const Triple<K> &Q) {
            4 * q1 * q2 * q3;
 }
 
-/**
+/*!
  * @brief 
  * 
  * @tparam K 

@@ -1,17 +1,19 @@
 /*
  *  Distributed under the MIT License (See accompanying file /LICENSE )
  */
-#include "ck_plane.hpp"
-#include "euclid_plane.hpp"
-#include "pg_line.hpp"
-#include "pg_point.hpp"
+#include "pgcpp/ck_plane.hpp"
+#include "pgcpp/euclid_plane.hpp"
+#include "pgcpp/pg_line.hpp"
+#include "pgcpp/pg_point.hpp"
 #include <boost/multiprecision/cpp_int.hpp>
-#include <catch.hpp>
+#include <catch2/catch.hpp>
 #include <iostream>
 
 using namespace fun;
 
-/**
+static auto Zero = Approx(0).margin(0.01);
+
+/*!
  * @brief 
  * 
  * @param a 
@@ -20,10 +22,10 @@ using namespace fun;
  * @return false 
  */
 inline auto ApproxEqual(const auto &a, const auto &b) -> bool {
-    return a[0] == Approx(b[0]) && a[1] == Approx(b[1]) && a[2] == Approx(b[2]);
+    return a[0] - b[0] == Zero && a[1] - b[1] == Zero && a[2] - b[2] == Zero;
 }
 
-/**
+/*!
  * @brief 
  * 
  * @tparam T 
@@ -88,25 +90,25 @@ void chk_euclid(Triple<P> &triangle) {
         CHECK(a1 == orthocenter(std::tuple{std::move(o), std::move(a2),
                                            std::move(a3)}));
     } else {
-        CHECK(cross2(l1, l2) != Approx(0));
-        CHECK(cross2(l2, l3) != Approx(0));
-        CHECK(dot1(t1, l1) == Approx(0));
-        CHECK(spread(t1, l1) == Approx(1));
-        CHECK(t1.dot(t2 * t3) == Approx(0));
-        // CHECK(R(t1, t2, t3, t4) == Approx(-1)); // Can't support floating
+        CHECK(cross2(l1, l2) != Zero);
+        CHECK(cross2(l2, l3) != Zero);
+        CHECK(dot1(t1, l1) == Zero);
+        CHECK(spread(t1, l1) - 1 == Zero);
+        CHECK(t1.dot(t2 * t3) == Zero);
+        // CHECK(R(t1, t2, t3, t4) == Approx(-1).epsilon(0.01)); // Can't support floating
         // point
         CHECK(ApproxEqual(cross(o, meet(t2, t3)), zero));
         CHECK(ApproxEqual(cross(tau(tau(a1)), a1), zero));
-        CHECK(mt1.dot(mt2 * mt3) == Approx(0));
-        CHECK(spread(l1, l1) == Approx(0));
-        CHECK(quadrance(a1, a1) == Approx(0));
-        CHECK(angle(l1, l1) == Approx(0));
-        CHECK(distance(a1, a1) == Approx(0));
-        // CHECK(cross_s(l1, l2) == Approx(c3));
-        CHECK((c3 + s3) == Approx(1));
-        CHECK(Approx(tqf) == Ar(q1, q2, q3));
-        CHECK(tsf == Approx(0));
-        CHECK(tqf2 == Approx(0));
+        CHECK(mt1.dot(mt2 * mt3) == Zero);
+        CHECK(spread(l1, l1) == Zero);
+        CHECK(quadrance(a1, a1) == Zero);
+        CHECK(angle(l1, l1) == Zero);
+        CHECK(distance(a1, a1) == Zero);
+        // CHECK(cross_s(l1, l2) == Approx(c3).epsilon(0.01));
+        CHECK((c3 + s3) - 1 == Zero);
+        CHECK(tqf - Ar(q1, q2, q3) == Zero);
+        CHECK(tsf == Zero);
+        CHECK(tqf2 == Zero);
         // CHECK(ApproxEqual(a1, orthocenter(std::tuple{std::move(o), // not
         // quite accurate
         //                     std::move(a2), std::move(a3)})));
@@ -132,7 +134,7 @@ template <typename T> void chk_cyclic(const T &quadangle) {
         CHECK(okay);
     } else {
         auto t = Ar(q12 * q34, q23 * q14, q13 * q24);
-        CHECK(t == Approx(0));
+        CHECK(t == Zero);
     }
 }
 

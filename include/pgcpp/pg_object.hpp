@@ -2,18 +2,18 @@
 // Initially implemented by Wai-Shing Luk <luk036@gmail.com>
 //
 
-/** @file include/pg_object.hpp
+/*! @file include/pg_object.hpp
  *  This is a C++ Library header.
  */
 
 #ifndef _HOME_UBUNTU_GITHUB_PGCPP_PG_OBJECT_HPP
 #define _HOME_UBUNTU_GITHUB_PGCPP_PG_OBJECT_HPP 1
 
-#include "pg_common.hpp"
+#include "pgcpp/pg_common.hpp"
 
 namespace fun {
 
-/**
+/*!
  * @brief Projective object
  *
  * @tparam _K Type of object elements
@@ -31,7 +31,7 @@ class pg_object : public std::array<_K, 3> {
 
     // pg_object(_Self &&) = default;
 
-    /**
+    /*!
      * @brief Construct a new pg object object
      *
      * @param a array of coordinates
@@ -40,7 +40,7 @@ class pg_object : public std::array<_K, 3> {
 
     // Operators:
 
-    /**
+    /*!
      * @brief Equal to
      *
      * @param rhs
@@ -54,7 +54,7 @@ class pg_object : public std::array<_K, 3> {
         return cross(*this, rhs) == _Base{_K(0), _K(0), _K(0)};
     }
 
-    /**
+    /*!
      * @brief Not equal to
      *
      * @param rhs
@@ -65,7 +65,7 @@ class pg_object : public std::array<_K, 3> {
         return !(*this == rhs);
     }
 
-    /**
+    /*!
      * @brief the dot product
      *
      * @param l
@@ -73,7 +73,7 @@ class pg_object : public std::array<_K, 3> {
      */
     constexpr _K dot(const dual &l) const { return fun::dot_c(*this, l); }
 
-    /**
+    /*!
      * @brief Join or meet
      *
      * @param rhs
@@ -84,7 +84,7 @@ class pg_object : public std::array<_K, 3> {
         return dual(cross(*this, rhs));
     }
 
-    /**
+    /*!
      * @brief Generate a new line not incident with p
      *
      * @return dual
@@ -92,7 +92,7 @@ class pg_object : public std::array<_K, 3> {
     constexpr dual aux() const { return dual(*this); }
 };
 
-/**
+/*!
  * @brief
  *
  * @tparam P
@@ -108,7 +108,7 @@ constexpr P plucker(const _K &lambda1, const P &p, const _K &mu1, const P &q) {
     return P{plucker_c(lambda1, p, mu1, q)};
 }
 
-/**
+/*!
  * @brief
  *
  * @tparam _K

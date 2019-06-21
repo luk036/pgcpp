@@ -7,12 +7,14 @@
 #include "pgcpp/pg_line.hpp"
 #include "pgcpp/pg_point.hpp"
 #include <boost/multiprecision/cpp_int.hpp>
-#include <catch.hpp>
+#include <catch2/catch.hpp>
 #include <iostream>
 
 using namespace fun;
 
-/**
+static auto Zero = Approx(0).margin(0.01);
+
+/*!
  * @brief 
  * 
  * @param a 
@@ -21,7 +23,7 @@ using namespace fun;
  * @return false 
  */
 inline auto ApproxEqual(const auto &a, const auto &b) -> bool {
-    return a[0] == Approx(b[0]) && a[1] == Approx(b[1]) && a[2] == Approx(b[2]);
+    return a[0] - b[0] == Zero && a[1] - b[1] == Zero && a[2] - b[2] == Zero;
 }
 
 template <typename PG> void chk_ck(const PG &myck) {
@@ -60,22 +62,22 @@ template <typename PG> void chk_ck(const PG &myck) {
         CHECK(check_sine_law(Q, S));
         CHECK(check_sine_law(S, Q));
     } else {
-        CHECK(l1.dot(a2) == Approx(0));
-        CHECK(l1.dot(myck.perp(t1)) == Approx(0));
-        CHECK(t1.dot(t2 * t3) == Approx(0));
+        CHECK(l1.dot(a2) == Zero);
+        CHECK(l1.dot(myck.perp(t1)) == Zero);
+        CHECK(t1.dot(t2 * t3) == Zero);
         CHECK(ApproxEqual(cross(o, t2 * t3), zero));
         auto o2 = myck.orthocenter(
             std::tuple{std::move(o), std::move(a2), std::move(a3)});
         CHECK(ApproxEqual(cross(a1, o2), zero));
         CHECK(ApproxEqual(cross(tau(tau(a4)), a4), zero));
-        CHECK(myck.measure(l1, l1) == Approx(0));
-        CHECK(myck.measure(a1, a1) == Approx(0));
+        CHECK(myck.measure(l1, l1) == Zero);
+        CHECK(myck.measure(a1, a1) == Zero);
         auto &&[q1, q2, q3] = Q;
         auto &&[s1, s2, s3] = S;
         auto r1 = q1 * s2 - q2 * s1;
         auto r2 = q2 * s3 - q3 * s2;
-        CHECK(r1 == Approx(0));
-        CHECK(r2 == Approx(0));
+        CHECK(r1 == Zero);
+        CHECK(r2 == Zero);
     }
 }
 

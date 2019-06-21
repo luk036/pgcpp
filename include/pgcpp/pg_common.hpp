@@ -1,17 +1,17 @@
-/** @file include/pg_common.hpp
+/*! @file include/pg_common.hpp
  *  This is a C++ Library header.
  */
 
 #ifndef _HOME_UBUNTU_GITHUB_PGCPP_PG_COMMON_HPP
 #define _HOME_UBUNTU_GITHUB_PGCPP_PG_COMMON_HPP 1
 
-#include "common_concepts.h"
+#include "pgcpp/common_concepts.h"
 #include <array>
 #include <tuple>
 
 namespace fun {
 
-/**
+/*!
  * @brief 1st term of Cross product
  *
  * @tparam _K
@@ -25,7 +25,7 @@ auto cross0(const std::array<_K, 3> &v,
     return v[1] * w[2] - w[1] * v[2];
 }
 
-/**
+/*!
  * @brief 2nd term of Cross product
  *
  * @tparam _K
@@ -39,7 +39,7 @@ auto cross1(const std::array<_K, 3> &v,
     return v[0] * w[2] - w[0] * v[2];
 }
 
-/**
+/*!
  * @brief 3rd term of Cross product
  *
  * @tparam _K
@@ -53,7 +53,7 @@ auto cross2(const std::array<_K, 3> &v,
     return v[0] * w[1] - w[0] * v[1];
 }
 
-/**
+/*!
  * @brief Cross product
  *
  * @tparam _K
@@ -66,7 +66,7 @@ auto cross(const P &v, const P &w) -> std::array<Value_type<P>, 3> {
     return {cross0(v, w), -cross1(v, w), cross2(v, w)};
 }
 
-/**
+/*!
  * @brief Dot product
  *
  * @tparam _K
@@ -82,7 +82,7 @@ auto dot_c(const std::array<_K, 3> &v,
     return x1 * x2 + y1 * y2 + z1 * z2;
 }
 
-/**
+/*!
  * @brief generic Plucker function
  *
  * @tparam _K data type
@@ -101,7 +101,7 @@ auto plucker_c(const _T &ld, const std::array<_K, 3> &v1,
     return {ld*x1 + mu*x2, ld*y1 + mu*y2, ld*z1 + mu*z2};
 }
 
-/**
+/*!
  * @brief dot product of the (0,1)-component of two vectors
  *
  * @tparam _K
@@ -115,7 +115,7 @@ auto dot1(const std::array<_K, 3> &v,
     return v[0] * w[0] + v[1] * w[1];
 }
 
-/**
+/*!
  * @brief dot product of the (0,2)-component of two vectors
  *
  * @tparam _K
@@ -129,7 +129,7 @@ auto dot2(const std::array<_K, 3> &v,
     return v[0] * w[0] + v[2] * w[2];
 }
 
-/**
+/*!
  * @brief Square function
  *
  * @tparam T data type

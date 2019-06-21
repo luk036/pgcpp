@@ -1,15 +1,15 @@
 #ifndef _HOME_UBUNTU_GITHUB_PGCPP_PERSP_PLANE_HPP
 #define _HOME_UBUNTU_GITHUB_PGCPP_PERSP_PLANE_HPP 1
 
-#include "ck_plane.hpp"
-#include "fractions.hpp"
-// #include "pg_common.hpp"
-#include "proj_plane.hpp" // import pg_point, involution, tri_func, 
+#include "pgcpp/ck_plane.hpp"
+#include "pgcpp/fractions.hpp"
+// #include "pgcpp/pg_common.hpp"
+#include "pgcpp/proj_plane.hpp" // import pg_point, involution, tri_func, 
 #include <cassert>
 
 namespace fun {
 
-/**
+/*!
  * @brief
  *
  * @tparam P
@@ -26,7 +26,7 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
     L _l_infty;
 
   public:
-    /**
+    /*!
      * @brief Construct a new persp euclid plane object
      *
      * @param Ire
@@ -38,7 +38,7 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
           _Iim{std::forward<P>(Iim)}, //
           _l_infty{std::forward<L>(l_infty)} {}
 
-    // /**
+    // /*!
     //  * @brief Construct a new persp euclid plane object
     //  *
     //  * @param Ire
@@ -48,7 +48,7 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
     // constexpr persp_euclid_plane(const P &Ire, const P &Iim, const L &l_infty)
     //     : _Ire{Ire}, _Iim{Iim}, _l_infty{l_infty} {}
 
-    // /**
+    // /*!
     //  * @brief
     //  *
     //  * @param x
@@ -56,14 +56,14 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
     //  */
     // constexpr const L &perp(const P &x) const { return _l_infty; }
 
-    /**
+    /*!
      * @brief
      *
      * @return const L&
      */
     constexpr const L &l_infty() const { return this->_l_infty; }
 
-    /**
+    /*!
      * @brief
      *
      * @param x
@@ -75,7 +75,7 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
         return plucker(alpha, this->_Ire, beta, this->_Iim);
     }
 
-    /**
+    /*!
      * @brief
      *
      * @param l
@@ -87,7 +87,7 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
         return incident(this->_l_infty, l * m);
     }
 
-    /**
+    /*!
      * @brief
      *
      * @param a
@@ -100,7 +100,7 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
         return plucker(alpha, a, beta, b);
     }
 
-    /**
+    /*!
      * @brief
      *
      * @param tri
@@ -114,7 +114,7 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
         return Triple<P>{std::move(m12), std::move(m23), std::move(m13)};
     }
 
-    /**
+    /*!
      * @brief
      *
      * @param x
@@ -124,7 +124,7 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
         return sq(x.dot(this->_l_infty));
     }
 
-    /**
+    /*!
      * @brief
      *
      * @param x
@@ -134,7 +134,7 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
         return sq(x.dot(this->_Ire)) + sq(x.dot(this->_Iim));
     }
 
-    /**
+    /*!
      * @brief
      *
      * @param a1
@@ -152,7 +152,7 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
         }
     }
 
-    // /**
+    // /*!
     //  * @brief
     //  *
     //  * @param l1

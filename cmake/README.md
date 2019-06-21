@@ -16,7 +16,7 @@ This repository provides CMake modules for the following:
   - [Boost "Boost homepage"](https://boost.org)
   - [Catch2 "Catch2 Github page"](https://github.com/catchorg/Catch2)
   - [control "control Github page"](https://github.com/openastro/control)
-  - [pgcpp "pgcpp Github page"](https://github.com/kartikkumar/pgcpp)
+  - [cppbase "cppbase Github page"](https://github.com/kartikkumar/cppbase)
   - [Eigen3 "Eigen3 homepage"](http://eigen.tuxfamily.org/index.php?title=Main_Page)
   - [GLog](https://github.com/google/glog)
   - [GSL "GSL homepage"](https://www.gnu.org/software/gsl/gsl.html)

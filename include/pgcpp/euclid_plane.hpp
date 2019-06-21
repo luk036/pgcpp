@@ -1,16 +1,16 @@
 #ifndef _HOME_UBUNTU_CUBSTORE_PROJ_GEOM_PGCPP_EUCLID_PLANE_HPP
 #define _HOME_UBUNTU_CUBSTORE_PROJ_GEOM_PGCPP_EUCLID_PLANE_HPP 1
 
-#include "fractions.hpp"
-#include "pg_common.hpp" // import cross2, dot1
-#include "proj_plane.hpp" // import pg_point, involution, tri_func, quad_func, plucker
-#include "proj_plane_concepts.h"
+#include "pgcpp/fractions.hpp"
+#include "pgcpp/pg_common.hpp" // import cross2, dot1
+#include "pgcpp/proj_plane.hpp" // import pg_point, involution, tri_func, quad_func, plucker
+#include "pgcpp/proj_plane_concepts.h"
 #include <cassert>
 #include <type_traits>
 
 namespace fun {
 
-/**
+/*!
  * @brief
  *
  * @param l
@@ -21,7 +21,7 @@ constexpr auto fB(const L &l) -> typename L::dual {
     return {l[0], l[1], 0};
 }
 
-/**
+/*!
  * @brief
  *
  * @param l
@@ -34,7 +34,7 @@ constexpr auto is_perpendicular(const L &l, const L &m) -> bool {
     return dot1(l, m) == 0;
 }
 
-/**
+/*!
  * @brief
  *
  * @param l
@@ -47,7 +47,7 @@ constexpr auto is_parallel(const L &l, const L &m) -> bool {
     return cross2(l, m) == 0;
 }
 
-/**
+/*!
  * @brief
  *
  * @param a
@@ -57,7 +57,7 @@ constexpr auto is_parallel(const L &l, const L &m) -> bool {
 Projective_plane_coord { P, L }
 constexpr auto altitude(const P &a, const L &l) -> L { return a * fB(l); }
 
-/**
+/*!
  * @brief
  *
  * @param tri
@@ -72,7 +72,7 @@ constexpr auto tri_altitude(const Triple<P> &tri) {
     return std::tuple{std::move(t1), std::move(t2), std::move(t3)};
 }
 
-/**
+/*!
  * @brief
  *
  * @param tri
@@ -86,7 +86,7 @@ constexpr auto orthocenter(const Triple<P> &tri) -> P {
     return t1 * t2;
 }
 
-/**
+/*!
  * @brief
  *
  * @param m
@@ -95,7 +95,7 @@ constexpr auto orthocenter(const Triple<P> &tri) -> P {
 template <Projective_plane_coord2 L>
 constexpr auto reflect(const L &m) { return involution{m, fB(m)}; }
 
-/**
+/*!
  * @brief
  *
  * @param a
@@ -107,7 +107,7 @@ constexpr auto midpoint(const P &a, const P &b) -> P {
     return plucker(b[2], a, a[2], b);
 }
 
-/**
+/*!
  * @brief
  *
  * @param tri
@@ -122,7 +122,7 @@ constexpr auto tri_midpoint(const Triple<P> &tri) -> Triple<P> {
     return {std::move(m12), std::move(m23), std::move(m13)};
 }
 
-/**
+/*!
  * @brief
  *
  * @tparam K
@@ -142,7 +142,7 @@ constexpr auto quad1(const K &x1, const K &z1, const K &x2, const K &z2) {
     }
 }
 
-/**
+/*!
  * @brief
  *
  * @param a1
@@ -160,7 +160,7 @@ constexpr auto quadrance(const P &a1, const P &a2) {
 //     return Fraction(d, omgB(l1, l1)) * Fraction(d, omgB(l2, l2));
 // }
 
-/**
+/*!
  * @brief
  *
  * @param l1
@@ -180,7 +180,7 @@ constexpr auto sbase(const L &l1, const L &l2, auto const &d) {
     }
 }
 
-/**
+/*!
  * @brief
  *
  * @param l1
@@ -192,7 +192,7 @@ constexpr auto spread(const L &l1, const L &l2) {
     return sbase(l1, l2, cross2(l1, l2));
 }
 
-/**
+/*!
  * @brief
  *
  * @param triangle
@@ -207,7 +207,7 @@ constexpr auto tri_quadrance(const Triple<P> &triangle) {
     return std::tuple{std::move(m1), std::move(m2), std::move(m3)};
 }
 
-/**
+/*!
  * @brief
  *
  * @param trilateral
@@ -222,7 +222,7 @@ constexpr auto tri_spread(const Triple<L> &trilateral) {
     return std::tuple{std::move(m1), std::move(m2), std::move(m3)};
 }
 
-/**
+/*!
  * @brief
  *
  * @param l1
@@ -234,7 +234,7 @@ constexpr auto cross_s(const L &l1, const L &l2) {
     return sbase(l1, l2, dot1(l1, l2));
 }
 
-/**
+/*!
  * @brief
  *
  * @param lambda1
@@ -249,7 +249,7 @@ constexpr auto uc_point(const Value_type<P> &lambda1,
     return P{lambda2 - mu2, 2*lambda1*mu1, lambda2 + mu2};
 }
 
-/**
+/*!
  * @brief Archimedes's function
  *
  * @tparam _Q
@@ -263,7 +263,7 @@ constexpr auto Ar(const _Q &a, const _Q &b, const _Q &c) {
     return 4 * a * b - sq(a + b - c);
 }
 
-/**
+/*!
  * @brief Cyclic quadrilateral quadrea theorem
  *
  * @tparam _Q
@@ -282,7 +282,7 @@ constexpr auto cqq(const _Q &a, const _Q &b, const _Q &c, const _Q &d) {
     return std::tuple{m, p};
 }
 
-/**
+/*!
  * @brief
  *
  * @tparam _Q
@@ -296,7 +296,7 @@ constexpr auto Ptolemy(const auto &quad) -> bool {
 
 #include <cmath>
 
-/**
+/*!
  * @brief
  *
  * @param a
@@ -308,7 +308,7 @@ constexpr auto distance(const P &a, const P &b) {
     return std::sqrt(double(quadrance(a, b)));
 }
 
-/**
+/*!
  * @brief
  *
  * @param l

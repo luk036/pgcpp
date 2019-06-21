@@ -5,7 +5,8 @@
 # Set project source files.
 set(SRC
   "${SRC_PATH}/factorial.cpp"
-)
+  "${SRC_PATH}/fraction.cpp"
+  )
 
 # Set project main file.
 set(MAIN_SRC
@@ -16,9 +17,10 @@ set(MAIN_SRC
 set(TEST_SRC
   "${TEST_SRC_PATH}/testCppbase.cpp"
   "${TEST_SRC_PATH}/testFactorial.cpp"
-  "${TEST_SRC_PATH}/test_proj_plane.cpp"
   "${TEST_SRC_PATH}/test_ck_plane.cpp"
   "${TEST_SRC_PATH}/test_ell_plane.cpp"
-  "${TEST_SRC_PATH}/test_euclid_plane.cpp"
+  "${TEST_SRC_PATH}/test_euclid.cpp"
+  "${TEST_SRC_PATH}/test_frac.cpp"
   "${TEST_SRC_PATH}/test_persp_plane.cpp"
-)
+  "${TEST_SRC_PATH}/test_proj_plane.cpp"
+    )

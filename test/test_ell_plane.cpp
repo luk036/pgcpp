@@ -5,12 +5,14 @@
 #include "pgcpp/pg_line.hpp"
 #include "pgcpp/pg_point.hpp"
 #include <boost/multiprecision/cpp_int.hpp>
-#include <catch.hpp>
+#include <catch2/catch.hpp>
 #include <iostream>
 
 using namespace fun;
 
-/**
+static auto Zero = Approx(0).margin(0.01);
+
+/*!
  * @brief 
  * 
  * @param a 
@@ -19,10 +21,10 @@ using namespace fun;
  * @return false 
  */
 inline auto ApproxEqual(const auto &a, const auto &b) -> bool {
-    return a[0] == Approx(b[0]) && a[1] == Approx(b[1]) && a[2] == Approx(b[2]);
+    return a[0] - b[0] == Zero && a[1] - b[1] == Zero && a[2] - b[2] == Zero;
 }
 
-/**
+/*!
  * @brief
  *
  * @tparam PG
@@ -56,9 +58,9 @@ template <typename PG> void chk_tri(const PG &myck) {
     } else {
         CHECK(ApproxEqual(cross(myck.perp(myck.perp(a1)), a1), zero));
         CHECK(ApproxEqual(cross(myck.perp(myck.perp(l1)), l1), zero));
-        CHECK(check_cross_law(S, std::get<2>(Q)) == Approx(0));
-        CHECK(check_cross_law(Q, std::get<2>(S)) == Approx(0));
-        CHECK(check_cross_TQF(Q2) == Approx(0));
+        CHECK(check_cross_law(S, std::get<2>(Q)) == Zero);
+        CHECK(check_cross_law(Q, std::get<2>(S)) == Zero);
+        CHECK(check_cross_TQF(Q2) == Zero);
     }
 }
 

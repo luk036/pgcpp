@@ -6,12 +6,14 @@
 #include "pgcpp/pg_line.hpp"
 #include "pgcpp/pg_point.hpp"
 #include <boost/multiprecision/cpp_int.hpp>
-#include <catch.hpp>
+#include <catch2/catch.hpp>
 #include <iostream>
 
 using namespace fun;
 
-/**
+static auto Zero = Approx(0).margin(0.01);
+
+/*!
  * @brief
  *
  * @tparam PG
@@ -55,12 +57,12 @@ template <typename PG> void chk_degenerate(const PG &myck) {
         CHECK(tsf == 0);
         CHECK(tqf2 == 0);
     } else {
-        CHECK(myck.l_infty().dot(l1 * l2) != Approx(0.0));
-        CHECK(myck.l_infty().dot(l2 * l3) != Approx(0.0));
-        CHECK(t1.dot(t2 * t3) == Approx(0.0));
-        CHECK(Approx(tqf) == Ar(q1, q2, q3));
-        CHECK(tsf == Approx(0));
-        CHECK(tqf2 == Approx(0));
+        CHECK(myck.l_infty().dot(l1 * l2) != Zero);
+        CHECK(myck.l_infty().dot(l2 * l3) != Zero);
+        CHECK(t1.dot(t2 * t3) == Zero);
+        CHECK(tqf - Ar(q1, q2, q3) == Zero);
+        CHECK(tsf == Zero);
+        CHECK(tqf2 == Zero);
     }
 }
 

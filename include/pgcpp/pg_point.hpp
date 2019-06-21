@@ -2,15 +2,15 @@
 // Initially implemented by Wai-Shing Luk <luk036@gmail.com>
 //
 
-/** @file include/pg_point.hpp
+/*! @file include/pg_point.hpp
  *  This is a C++ Library header.
  */
 
 #ifndef _HOME_UBUNTU_GITHUB_PGCPP_PG_POINT_HPP
 #define _HOME_UBUNTU_GITHUB_PGCPP_PG_POINT_HPP 1
 
-#include "pg_common.hpp"
-#include "pg_object.hpp"
+#include "pgcpp/pg_common.hpp"
+#include "pgcpp/pg_object.hpp"
 
 namespace fun {
 
@@ -25,40 +25,40 @@ struct pg_point : pg_object<_K, pg_line<_K>> {
     using _Base2 = std::array<_K, 3>;
     using value_type = _K;
 
-    /**
+    /*!
      * @brief Construct a new pg point object
      *
      */
     pg_point(const pg_point<_K> &) = delete;
 
-    /**
+    /*!
      * @brief Construct a new pg point object
      *
      */
     pg_point(pg_point<_K> &&) = default;
 
-    /**
+    /*!
      * @brief
      *
      * @return pg_point<_K>&
      */
     pg_point<_K> &operator=(const pg_point<_K> &) = delete;
 
-    /**
+    /*!
      * @brief
      *
      * @return pg_point<_K>&
      */
     pg_point<_K> &operator=(pg_point<_K> &&) = default;
 
-    /**
+    /*!
      * @brief Construct a new pg object object
      *
      * @param a array of coordinates
      */
     constexpr explicit pg_point(const _Base2 &a) : _Base{a} {}
 
-    /**
+    /*!
      * @brief Construct a new pg_object object
      *
      * @param x
@@ -69,7 +69,7 @@ struct pg_point : pg_object<_K, pg_line<_K>> {
         : _Base{_Base2{x, y, z}} {}
 };
 
-/**
+/*!
  * @brief Return join of two points.
  *
  * @param p

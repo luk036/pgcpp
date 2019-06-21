@@ -4,6 +4,12 @@
 
 # Include script to build external libraries with CMake.
 include(ExternalProject)
+find_package (Boost REQUIRED COMPONENTS coroutine context)
+if (Boost_FOUND)
+    message(STATUS "Found boost: ${Boost_INCLUDE_DIRS}")
+    set(INCLUDE_PATH ${INCLUDE_PATH} ${Boost_INCLUDE_DIRS})
+    set(LIBS ${LIBS} ${Boost_LIBRARIES})
+endif (Boost_FOUND)
 
 # -------------------------------
 
@@ -95,13 +101,10 @@ if(BUILD_TESTING)
     link_directories("${binary_dir}/lib")
   endif((TEST_FRAMEWORK STREQUAL "GTest") AND (NOT GTEST_FOUND))
 
-  set(LIBS ${LIBS} "-L$ENV{CONDA_PREFIX}/lib")
-  set (Boost_INCLUDE_DIRS "$ENV{CONDA_PREFIX}/include")
-  
   if(NOT APPLE)
-    include_directories(SYSTEM AFTER "${TEST_FRAMEWORK_INCLUDE_DIRS}" "${Boost_INCLUDE_DIRS}")
+    include_directories(SYSTEM AFTER "${TEST_FRAMEWORK_INCLUDE_DIRS}")
   else(APPLE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -isystem \"${TEST_FRAMEWORK_INCLUDE_DIRS}\" \"${Boost_INCLUDE_DIRS}\"")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -isystem \"${TEST_FRAMEWORK_INCLUDE_DIRS}\"")
   endif(NOT APPLE)
 endif(BUILD_TESTING)
 

@@ -4,8 +4,8 @@
  * See accompanying file LICENSE.md or copy at http://opensource.org/licenses/MIT
  */
 
-#ifndef PGCPP_FACTORIAL_HPP
-#define PGCPP_FACTORIAL_HPP
+#ifndef CPPBASE_FACTORIAL_HPP
+#define CPPBASE_FACTORIAL_HPP
 
 namespace cppbase
 {
@@ -21,4 +21,4 @@ const int computeFactorial( const int integerNumber );
 
 } // namespace cppbase
 
-#endif // PGCPP_FACTORIAL_HPP
+#endif // CPPBASE_FACTORIAL_HPP

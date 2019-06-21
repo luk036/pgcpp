@@ -2,15 +2,15 @@
 // Initially implemented by Wai-Shing Luk <luk036@gmail.com>
 //
 
-/** @file include/pg_line.hpp
+/*! @file include/pg_line.hpp
  *  This is a C++ Library header.
  */
 
 #ifndef _HOME_UBUNTU_GITHUB_PGCPP_PG_LINE_HPP
 #define _HOME_UBUNTU_GITHUB_PGCPP_PG_LINE_HPP 1
 
-#include "pg_common.hpp"
-#include "pg_object.hpp"
+#include "pgcpp/pg_common.hpp"
+#include "pgcpp/pg_object.hpp"
 
 namespace fun {
 
@@ -19,7 +19,7 @@ namespace fun {
 template <CommutativeRing _K>
 class pg_point;
 
-/**
+/*!
  * @brief Projective line: two dimensional subspace of K^3
  *
  * @tparam  _K  Type of line elements
@@ -34,14 +34,14 @@ struct pg_line : pg_object<_K, pg_point<_K>> {
     pg_line(const pg_line<_K> &) = delete;
     pg_line(pg_line<_K> &&) = default;
 
-    /**
+    /*!
      * @brief Construct a new pg object object
      *
      * @param a array of coordinates
      */
     constexpr explicit pg_line(const _Base2 &a) : _Base{a} {}
 
-    /**
+    /*!
      * @brief Construct a new pg_object object
      *
      * @param x

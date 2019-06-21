@@ -1,4 +1,4 @@
-/** @file include/proj_plane_concepts.h
+/*! @file include/proj_plane_concepts.h
  *  This is a C++ Library header.
  */
 
@@ -6,15 +6,15 @@
 #ifndef _HOME_UBUNTU_GITHUB_PGCPP_PROJ_PLANE_CONCEPTS_H
 #define _HOME_UBUNTU_GITHUB_PGCPP_PROJ_PLANE_CONCEPTS_H 1
 
-#include "common_concepts.h"
+#include "pgcpp/common_concepts.h"
 
-/**
+/*!
  @todo: projectivity >=
 **/
 
 namespace fun {
 
-/**
+/*!
  * @brief Projective plane Concept (half)
  *
  * @tparam P Point
@@ -29,7 +29,7 @@ concept bool Projective_plane_prim_h =
     { p.aux() } -> L; // line not incident with p
 };
 
-/**
+/*!
  * @brief Projective plane Concept (full)
  *
  * @tparam P Point
@@ -40,7 +40,7 @@ concept bool Projective_plane_prim =
   Projective_plane_prim_h<P, L> && Projective_plane_prim_h<L, P>;
 
 
-/**
+/*!
  * @brief Shorthand Notation of Projective_plane
  *
  * @tparam P Point
@@ -49,7 +49,7 @@ template <class P>
 concept bool Projective_plane_prim2 = 
   Projective_plane_prim<std::remove_reference_t<P>>; // Make the compiler happy
 
-/**
+/*!
  * @brief Projective plane Concept (half)
  *
  * @tparam P Point
@@ -67,7 +67,7 @@ concept bool Projective_plane_h =
     { plucker(a, p, a, q) } -> P; // vector computation
   };
 
-/**
+/*!
  * @brief Projective plane Concept (full)
  *
  * @tparam P Point
@@ -84,7 +84,7 @@ axiom(P p, P q, P r, L l) {
 */
 
 
-/**
+/*!
  * @brief Shorthand Notation of Projective_plane
  *
  * @tparam P Point
@@ -93,7 +93,7 @@ template <class P>
 concept bool Projective_plane2
   = Projective_plane<std::remove_reference_t<P>>; // Make the compiler happy
 
-/**
+/*!
  * @brief Projective plane Concept (half)
  *
  * @tparam P Point
@@ -105,7 +105,7 @@ concept bool Projective_plane_coord_h =
     { p[idx] } -> Value_type<P>; // for coordinate acess
   };
 
-/**
+/*!
  * @brief Projective plane Concept (full)
  *
  * @tparam P Point
@@ -115,7 +115,7 @@ template <class P, class L = typename P::dual>
 concept bool Projective_plane_coord =
   Projective_plane_coord_h<P, L> && Projective_plane_coord_h<L, P>;
 
-/**
+/*!
  * @brief Shorthand Notation of Projective_plane
  *
  * @tparam P Point

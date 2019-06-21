@@ -4,7 +4,7 @@
 #include "pgcpp/pg_line.hpp"
 #include "pgcpp/pg_point.hpp"
 #include "pgcpp/proj_plane.hpp"
-#include <catch.hpp>
+#include <catch2/catch.hpp>
 #include <complex>
 
 using namespace fun;

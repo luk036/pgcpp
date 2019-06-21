@@ -2,11 +2,9 @@
 # Distributed under the MIT License.
 # See accompanying file LICENSE.md or copy at http://opensource.org/licenses/MIT
 
-cmake_minimum_required(VERSION 3.4)
-set(CMAKE_CXX_STANDARD 17)
-set (CMAKE_CXX_STANDARD_REQUIRED ON)
-add_definitions ( -fconcepts -fpermissive ) # gcc's concepts
-set(PROJECT_NAME PgCpp)
+cmake_minimum_required(VERSION 3.3)
+
+set(PROJECT_NAME "pgcpp")
 
 # Check if project name has been specified correctly.
 if((NOT PROJECT_NAME))
@@ -17,7 +15,13 @@ if(${PROJECT_NAME} MATCHES " ")
 endif(${PROJECT_NAME} MATCHES " ")
 
 # Change this section to correspond with your project info.
-project(${PROJECT_NAME} C CXX)
+project(${PROJECT_NAME})
+
+set_property (GLOBAL PROPERTY USE_FOLDERS ON)
+set(CMAKE_CXX_STANDARD 17)
+set (CMAKE_CXX_STANDARD_REQUIRED ON)
+add_definitions(-fconcepts)
+
 set(${CMAKE_PROJECT_NAME}_SUMMARY              "${PROJECT_SUMMARY}")
 set(${CMAKE_PROJECT_NAME}_VENDOR_NAME          "${PROJECT_VENDOR_NAME}")
 set(${CMAKE_PROJECT_NAME}_VENDOR_CONTACT       "${PROJECT_VENDOR_CONTACT}")
@@ -48,6 +52,7 @@ set(TEST_NAME                                  "test_${PROJECT_NAME}")
 OPTION(BUILD_MAIN                              "Build main function"            ON)
 OPTION(BUILD_DOXYGEN_DOCS                      "Build Doxygen docs"             OFF)
 OPTION(BUILD_DEPENDENCIES                      "Force build of dependencies"    OFF)
+OPTION(BUILD_COVERAGE_ANALYSIS                 "Build code coverage analysis"   OFF)
 
 include(CTest)
 
@@ -112,7 +117,7 @@ add_library(${LIB_NAME} ${SRC})
 if(BUILD_MAIN)
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BIN_PATH})
   add_executable(${MAIN_NAME} ${MAIN_SRC})
-  target_link_libraries(${MAIN_NAME} ${LIB_NAME})
+  target_link_libraries(${MAIN_NAME} ${LIB_NAME} ${LIBS})
 endif(BUILD_MAIN)
 
 if(BUILD_DOXYGEN_DOCS)
@@ -139,7 +144,7 @@ if(BUILD_TESTING)
 
   add_executable(${TEST_NAME} ${TEST_SRC})
 
-  target_link_libraries(${TEST_NAME} ${LIB_NAME})
+  target_link_libraries(${TEST_NAME} ${LIB_NAME} ${LIBS})
 
   if(TEST_FRAMEWORK STREQUAL "Catch2")
     add_definitions(-DUSE_CATCH2=TRUE)
@@ -155,7 +160,7 @@ if(BUILD_TESTING)
     if(NOT GTEST_FOUND)
       add_dependencies(${TEST_NAME} gtest-lib)
     endif(NOT GTEST_FOUND)
-    target_link_libraries(${TEST_NAME} ${TEST_FRAMEWORK_LIB} Threads::Threads)
+    target_link_libraries(${TEST_NAME} ${TEST_FRAMEWORK_LIB} ${LIBS} Threads::Threads)
   endif(TEST_FRAMEWORK STREQUAL "GTest")
 
  add_test(NAME ${TEST_NAME} COMMAND "${TEST_PATH}/${TEST_NAME}")

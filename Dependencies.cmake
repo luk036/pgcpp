@@ -4,11 +4,11 @@
 
 # Include script to build external libraries with CMake.
 include(ExternalProject)
-find_package (Boost REQUIRED COMPONENTS coroutine context)
+find_package (Boost REQUIRED)
 if (Boost_FOUND)
     message(STATUS "Found boost: ${Boost_INCLUDE_DIRS}")
     set(INCLUDE_PATH ${INCLUDE_PATH} ${Boost_INCLUDE_DIRS})
-    set(LIBS ${LIBS} ${Boost_LIBRARIES})
+    # set(LIBS ${LIBS} ${Boost_LIBRARIES})
 endif (Boost_FOUND)
 
 # -------------------------------

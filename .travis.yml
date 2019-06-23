@@ -59,7 +59,6 @@ script:
       cd build;
       cmake -DPROJECT_NAME=pgcpp -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DTEST_FRAMEWORK=$TEST_FRAMEWORK -DBUILD_TESTING=on ..;
       make -j 2;
-      make coverage -j 2;
       ctest -V -j 2;
     fi
 

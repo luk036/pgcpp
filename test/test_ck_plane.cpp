@@ -43,7 +43,7 @@ template <typename PG> void chk_ck(const PG &myck) {
     auto triangle = std::tuple{std::move(a1), std::move(a2), std::move(a3)};
     auto trilateral = tri_dual(triangle);
     auto &&[l1, l2, l3] = trilateral;
-    auto &&[t1, t2, t3] = myck.tri_altitude(triangle);
+    auto [t1, t2, t3] = myck.tri_altitude(triangle);
     auto o = myck.orthocenter(triangle);
     auto tau = myck.reflect(l1);
     auto Q = std::tuple{myck.tri_quadrance(triangle)};

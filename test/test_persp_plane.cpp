@@ -39,14 +39,14 @@ template <typename PG> void chk_degenerate(const PG &myck) {
     auto t1 = a1 * m23;
     auto t2 = a2 * m13;
     auto t3 = a3 * m12;
-    auto &&[q1, q2, q3] = myck.tri_quadrance(triangle);
-    auto &&[s1, s2, s3] = myck.tri_spread(trilateral);
+    auto [q1, q2, q3] = myck.tri_quadrance(triangle);
+    auto [s1, s2, s3] = myck.tri_spread(trilateral);
     auto tqf = sq(q1 + q2 + q3) - 2 * (q1 * q1 + q2 * q2 + q3 * q3);
     auto tsf =
         sq(s1 + s2 + s3) - 2 * (s1 * s1 + s2 * s2 + s3 * s3) - 4 * s1 * s2 * s3;
     auto a4 = plucker(3, a1, 4, a2);
     auto tri2 = std::tuple{std::move(a1), std::move(a2), std::move(a4)};
-    auto &&[qq1, qq2, qq3] = myck.tri_quadrance(tri2);
+    auto [qq1, qq2, qq3] = myck.tri_quadrance(tri2);
     auto tqf2 = Ar(qq1, qq2, qq3); // get 0
 
     if constexpr (Integral<K>) {

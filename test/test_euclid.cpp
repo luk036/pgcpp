@@ -51,7 +51,7 @@ void chk_euclid(Triple<P> &triangle) {
     auto tau = reflect(l1);
     auto Q = tri_quadrance(triangle);
     auto S = tri_spread(trilateral);
-    auto &&[m12, m23, m13] = tri_midpoint(triangle);
+    auto [m12, m23, m13] = tri_midpoint(triangle);
     auto mt1 = a1 * m23;
     auto mt2 = a2 * m13;
     auto mt3 = a3 * m12;

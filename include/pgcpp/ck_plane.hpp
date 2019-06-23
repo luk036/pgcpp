@@ -63,7 +63,7 @@ struct ck {
      * @return std::tuple
      */
     constexpr auto tri_altitude(const Triple<Projective_plane_prim2> &tri) const {
-        auto &&[l1, l2, l3] = tri_dual(tri);
+        auto [l1, l2, l3] = tri_dual(tri);
         auto &&[a1, a2, a3] = tri;
         auto t1 = this->altitude(a1, l1);
         auto t2 = this->altitude(a2, l2);

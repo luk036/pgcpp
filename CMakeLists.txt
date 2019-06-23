@@ -21,6 +21,7 @@ set_property (GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_CXX_STANDARD 17)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
 add_definitions(-fconcepts)
+add_definitions(-fpermissive) # for Boost 1.53 shift expression problem
 
 set(${CMAKE_PROJECT_NAME}_SUMMARY              "${PROJECT_SUMMARY}")
 set(${CMAKE_PROJECT_NAME}_VENDOR_NAME          "${PROJECT_VENDOR_NAME}")

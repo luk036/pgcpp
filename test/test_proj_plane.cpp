@@ -6,6 +6,7 @@
 #include "pgcpp/proj_plane.hpp"
 #include <catch2/catch.hpp>
 #include <complex>
+#include <iostream>
 
 using namespace fun;
 
@@ -13,6 +14,8 @@ TEST_CASE("Projective Point", "[proj_plane]") {
     auto p = pg_point{1 - 2j, 3 - 1j, 2 + 1j}; // complex number
     auto q = pg_point{-2 + 1j, 1 - 3j, -1 - 1j};
     auto l = p * q;
+
+    std::cout << l << '\n';
 
     CHECK(l == q * p);
     CHECK(!(l == q));
@@ -24,7 +27,7 @@ TEST_CASE("Projective Point", "[proj_plane]") {
 
     auto h = harm_conj(p, q, pq);
     CHECK(is_harmonic(p, q, pq, h));
-
+    
     // auto r = pg_point{2 - 1j, -2 + 1j, 1 + 1j};
     // auto s = pg_point{2j, 2 - 2j, 3 + 0j};
     // auto t = pg_point{2 + 0j, -2j, 2 + 0j};
@@ -38,6 +41,9 @@ TEST_CASE("Projective Line", "[proj_plane]") {
     auto l = pg_line{1 - 2j, 3 - 1j, 2 + 1j}; // complex number
     auto m = pg_line{-2 + 1j, 1 - 3j, -1 - 1j};
     auto A = l * m;
+
+    std::cout << A << '\n';
+
     CHECK(A == m * l);
     CHECK(incident(A, l));
     CHECK(incident(A, m));

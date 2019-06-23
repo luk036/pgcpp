@@ -52,12 +52,16 @@ template <typename PG> void chk_tri(const PG &myck) {
     if constexpr (Integral<K>) {
         CHECK(myck.perp(myck.perp(a1)) == a1);
         CHECK(myck.perp(myck.perp(l1)) == l1);
+        CHECK(myck.perp(myck.perp(l2)) == l2);
+        CHECK(myck.perp(myck.perp(l3)) == l3);
         CHECK(check_cross_law(S, std::get<2>(Q)) == 0);
         CHECK(check_cross_law(Q, std::get<2>(S)) == 0);
         CHECK(check_cross_TQF(Q2) == 0);
     } else {
         CHECK(ApproxEqual(cross(myck.perp(myck.perp(a1)), a1), zero));
         CHECK(ApproxEqual(cross(myck.perp(myck.perp(l1)), l1), zero));
+        CHECK(ApproxEqual(cross(myck.perp(myck.perp(l2)), l2), zero));
+        CHECK(ApproxEqual(cross(myck.perp(myck.perp(l3)), l3), zero));
         CHECK(check_cross_law(S, std::get<2>(Q)) == Zero);
         CHECK(check_cross_law(Q, std::get<2>(S)) == Zero);
         CHECK(check_cross_TQF(Q2) == Zero);

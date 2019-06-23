@@ -95,8 +95,7 @@ void chk_euclid(Triple<P> &triangle) {
         CHECK(dot1(t1, l1) == Zero);
         CHECK(spread(t1, l1) - 1 == Zero);
         CHECK(t1.dot(t2 * t3) == Zero);
-        // CHECK(R(t1, t2, t3, t4) == Approx(-1).epsilon(0.01)); // Can't support floating
-        // point
+        CHECK(R(t1, t2, t3, t4) + 1 == Zero);
         CHECK(ApproxEqual(cross(o, meet(t2, t3)), zero));
         CHECK(ApproxEqual(cross(tau(tau(a1)), a1), zero));
         CHECK(mt1.dot(mt2 * mt3) == Zero);

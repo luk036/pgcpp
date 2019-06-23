@@ -57,7 +57,8 @@ template <typename PG> void chk_ck(const PG &myck) {
         CHECK(a1 == myck.orthocenter(std::tuple{std::move(o), std::move(a2),
                                                 std::move(a3)}));
         CHECK(tau(tau(a4)) == a4);
-        CHECK(myck.spread(l1, l1) == 0);
+        CHECK(myck.spread(l2, l2) == 0);
+        CHECK(myck.spread(l3, l3) == 0);
         CHECK(myck.quadrance(a1, a1) == 0);
         CHECK(check_sine_law(Q, S));
         CHECK(check_sine_law(S, Q));
@@ -70,7 +71,8 @@ template <typename PG> void chk_ck(const PG &myck) {
             std::tuple{std::move(o), std::move(a2), std::move(a3)});
         CHECK(ApproxEqual(cross(a1, o2), zero));
         CHECK(ApproxEqual(cross(tau(tau(a4)), a4), zero));
-        CHECK(myck.measure(l1, l1) == Zero);
+        CHECK(myck.measure(l2, l2) == Zero);
+        CHECK(myck.measure(l3, l3) == Zero);
         CHECK(myck.measure(a1, a1) == Zero);
         auto &&[q1, q2, q3] = Q;
         auto &&[s1, s2, s3] = S;

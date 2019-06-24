@@ -8,7 +8,7 @@ include(ExternalProject)
 find_package (Boost REQUIRED)
 if (Boost_FOUND)
     message(STATUS "Found boost: ${Boost_INCLUDE_DIRS}")
-    set(INCLUDE_PATH ${INCLUDE_PATH} ${Boost_INCLUDE_DIRS})
+    set(INC_PATH ${INC_PATH} ${Boost_INCLUDE_DIRS})
     # set(LIBS ${LIBS} ${Boost_LIBRARIES})
 endif (Boost_FOUND)
 

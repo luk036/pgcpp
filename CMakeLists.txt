@@ -51,7 +51,7 @@ set(TEST_PATH                                  "${PROJECT_BINARY_DIR}/test")
 set(TEST_NAME                                  "test_${PROJECT_NAME}")
 
 OPTION(BUILD_MAIN                              "Build main function"            ON)
-OPTION(BUILD_DOXYGEN_DOCS                      "Build Doxygen docs"             OFF)
+OPTION(BUILD_DOXYGEN_DOCS                      "Build Doxygen docs"             ON)
 OPTION(BUILD_DEPENDENCIES                      "Force build of dependencies"    OFF)
 OPTION(BUILD_COVERAGE_ANALYSIS                 "Build code coverage analysis"   ON)
 
@@ -109,7 +109,7 @@ endif(CMAKE_COMPILER_IS_GNUCXX)
 
 include(Dependencies.cmake)
 include(ProjectFiles.cmake)
-include_directories(AFTER "${INCLUDE_PATH}")
+include_directories(AFTER "${INCLUDE_PATH}" "${INC_PATH}")
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_PATH})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${LIB_PATH})

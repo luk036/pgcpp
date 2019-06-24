@@ -3,8 +3,8 @@ Build
 build
 tidy
 Win32
-html
-latex
+docs
+.vscode
 .idea/
 cmake-build-*/
 .vs/

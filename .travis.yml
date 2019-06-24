@@ -30,7 +30,6 @@ addons:
     sources: ['ubuntu-toolchain-r-test']
     packages:
       - g++-7
-      - catch
       - lcov
       - libboost-dev
   coverity_scan:
@@ -43,7 +42,7 @@ addons:
     branch_pattern: coverity_scan
 
 before_install:
-  # - bash scripts/install_cmake.sh
+  - bash scripts/install_cmake.sh
   # - bash scripts/install_doxygen.sh
   # - chmod ugo+x scripts/check_doxygen.sh
   - if [ "$COVERITY_SCAN_BRANCH_PATTERN" != "coverity_scan" ] && [ "$CXX" == "g++-7" ] && [ "$BUILD_TYPE" == "Debug" ] && [ "$TEST_FRAMEWORK" == "Catch2" ]; then

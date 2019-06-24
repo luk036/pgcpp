@@ -53,13 +53,13 @@ set(TEST_NAME                                  "test_${PROJECT_NAME}")
 OPTION(BUILD_MAIN                              "Build main function"            ON)
 OPTION(BUILD_DOXYGEN_DOCS                      "Build Doxygen docs"             OFF)
 OPTION(BUILD_DEPENDENCIES                      "Force build of dependencies"    OFF)
-OPTION(BUILD_COVERAGE_ANALYSIS                 "Build code coverage analysis"   OFF)
+OPTION(BUILD_COVERAGE_ANALYSIS                 "Build code coverage analysis"   ON)
 
 include(CTest)
 
 include(CMakeDependentOption)
-CMAKE_DEPENDENT_OPTION(BUILD_COVERAGE_ANALYSIS "Build code coverage analysis"   OFF
-                                               "BUILD_TESTING"                  OFF)
+CMAKE_DEPENDENT_OPTION(BUILD_COVERAGE_ANALYSIS "Build code coverage analysis"   ON
+                                               "BUILD_TESTING"                  ON)
 
 # Define test framework variables.
 set(TEST_FRAMEWORK "Catch2" CACHE STRING "Test Framework to use")

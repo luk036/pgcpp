@@ -20,7 +20,7 @@ project(${PROJECT_NAME})
 set_property (GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_CXX_STANDARD 17)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
-add_definitions(-fconcepts)
+add_definitions(-fconcepts) # for g++ only
 add_definitions(-fpermissive) # for Boost 1.53 shift expression problem
 
 set(${CMAKE_PROJECT_NAME}_SUMMARY              "${PROJECT_SUMMARY}")
@@ -51,7 +51,7 @@ set(TEST_PATH                                  "${PROJECT_BINARY_DIR}/test")
 set(TEST_NAME                                  "test_${PROJECT_NAME}")
 
 OPTION(BUILD_MAIN                              "Build main function"            ON)
-OPTION(BUILD_DOXYGEN_DOCS                      "Build Doxygen docs"             ON)
+OPTION(BUILD_DOXYGEN_DOCS                      "Build Doxygen docs"             OFF)
 OPTION(BUILD_DEPENDENCIES                      "Force build of dependencies"    OFF)
 OPTION(BUILD_COVERAGE_ANALYSIS                 "Build code coverage analysis"   ON)
 

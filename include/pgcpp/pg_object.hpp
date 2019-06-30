@@ -11,7 +11,8 @@
 
 #include "pgcpp/pg_common.hpp"
 
-namespace fun {
+namespace fun
+{
 
 /*!
  * @brief Projective object
@@ -19,15 +20,16 @@ namespace fun {
  * @tparam _K Type of object elements
  * @tparam _dual
  */
-template <CommutativeRing _K, typename _dual>
-class pg_object : public std::array<_K, 3> {
+template<CommutativeRing _K, typename _dual>
+class pg_object : public std::array<_K, 3>
+{
     /// Value typedef.
     using _Base = std::array<_K, 3>;
     using _Self = pg_object<_K, _dual>;
 
-  public:
+public:
     using value_type = _K;
-    using dual = _dual;
+    using dual       = _dual;
 
     // pg_object(_Self &&) = default;
 
@@ -36,7 +38,7 @@ class pg_object : public std::array<_K, 3> {
      *
      * @param a array of coordinates
      */
-    constexpr explicit pg_object(const _Base &a) : _Base{a} {}
+    constexpr explicit pg_object(const _Base& a) : _Base{a} {}
 
     // Operators:
 
@@ -47,10 +49,9 @@ class pg_object : public std::array<_K, 3> {
      * @return true if this object is equivalent to the rhs
      * @return false otherwise
      */
-    constexpr bool operator==(const _Self &rhs) const {
-        if (this == &rhs) {
-            return true;
-        }
+    constexpr bool operator==(const _Self& rhs) const
+    {
+        if (this == &rhs) { return true; }
         return cross(*this, rhs) == _Base{_K(0), _K(0), _K(0)};
     }
 
@@ -61,9 +62,7 @@ class pg_object : public std::array<_K, 3> {
      * @return true if this object is not equivalent to the rhs
      * @return false otherwise
      */
-    constexpr bool operator!=(const _Self &rhs) const {
-        return !(*this == rhs);
-    }
+    constexpr bool operator!=(const _Self& rhs) const { return !(*this == rhs); }
 
     /*!
      * @brief the dot product
@@ -71,7 +70,7 @@ class pg_object : public std::array<_K, 3> {
      * @param l
      * @return _K
      */
-    constexpr _K dot(const dual &l) const { return fun::dot_c(*this, l); }
+    constexpr _K dot(const dual& l) const { return fun::dot_c(*this, l); }
 
     /*!
      * @brief Join or meet
@@ -80,9 +79,7 @@ class pg_object : public std::array<_K, 3> {
      * @return true if this point is equivalent to the rhs
      * @return false otherwise
      */
-    constexpr dual operator*(const _Self &rhs) const {
-        return dual(cross(*this, rhs));
-    }
+    constexpr dual operator*(const _Self& rhs) const { return dual(cross(*this, rhs)); }
 
     /*!
      * @brief Generate a new line not incident with p
@@ -97,15 +94,16 @@ class pg_object : public std::array<_K, 3> {
  *
  * @tparam P
  * @tparam Value_type<P>
- * @param lambda1
+ * @param lda1
  * @param p
  * @param mu1
  * @param q
  * @return P
  */
-template <typename P, CommutativeRing _K = Value_type<P>>
-constexpr P plucker(const _K &lambda1, const P &p, const _K &mu1, const P &q) {
-    return P{plucker_c(lambda1, p, mu1, q)};
+template<typename P, CommutativeRing _K = Value_type<P>>
+constexpr P plucker(const _K& lda1, const P& p, const _K& mu1, const P& q)
+{
+    return P{plucker_c(lda1, p, mu1, q)};
 }
 
 /*!
@@ -118,8 +116,9 @@ constexpr P plucker(const _K &lambda1, const P &p, const _K &mu1, const P &q) {
  * @param p
  * @return _Stream&
  */
-template <CommutativeRing _K, typename _dual, class _Stream>
-_Stream &operator<<(_Stream &os, const pg_object<_K, _dual> &p) {
+template<CommutativeRing _K, typename _dual, class _Stream>
+_Stream& operator<<(_Stream& os, const pg_object<_K, _dual>& p)
+{
     os << '(' << p[0] << ':' << p[1] << ':' << p[2] << ')';
     return os;
 }

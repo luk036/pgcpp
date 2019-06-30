@@ -4,10 +4,11 @@
 #include "pgcpp/ck_plane.hpp"
 #include "pgcpp/fractions.hpp"
 // #include "pgcpp/pg_common.hpp"
-#include "pgcpp/proj_plane.hpp" // import pg_point, involution, tri_func, 
 #include <cassert>
+#include "pgcpp/proj_plane.hpp" // import pg_point, involution, tri_func,
 
-namespace fun {
+namespace fun
+{
 
 /*!
  * @brief
@@ -15,17 +16,18 @@ namespace fun {
  * @tparam P
  * @tparam P::dual
  */
-template <typename P, typename L = typename P::dual>
+template<typename P, typename L = typename P::dual>
 requires Projective_plane_prim<P, L> // c++20 concept
-class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
+class persp_euclid_plane : public ck<P, L, persp_euclid_plane>
+{
     using K = Value_type<P>;
 
-  private:
+private:
     P _Ire;
     P _Iim;
     L _l_infty;
 
-  public:
+public:
     /*!
      * @brief Construct a new persp euclid plane object
      *
@@ -33,10 +35,12 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
      * @param Iim
      * @param l_infty
      */
-    constexpr persp_euclid_plane(P &&Ire, P &&Iim, L &&l_infty)
+    constexpr persp_euclid_plane(P&& Ire, P&& Iim, L&& l_infty)
         : _Ire{std::forward<P>(Ire)}, //
           _Iim{std::forward<P>(Iim)}, //
-          _l_infty{std::forward<L>(l_infty)} {}
+          _l_infty{std::forward<L>(l_infty)}
+    {
+    }
 
     // /*!
     //  * @brief Construct a new persp euclid plane object
@@ -61,7 +65,7 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
      *
      * @return const L&
      */
-    constexpr const L &l_infty() const { return this->_l_infty; }
+    constexpr const L& l_infty() const { return this->_l_infty; }
 
     /*!
      * @brief
@@ -69,9 +73,10 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
      * @param x
      * @return P
      */
-    constexpr auto perp(const L &v) const -> P {
+    constexpr auto perp(const L& v) const -> P
+    {
         auto alpha = v.dot(this->_Ire);
-        auto beta = v.dot(this->_Iim);
+        auto beta  = v.dot(this->_Iim);
         return plucker(alpha, this->_Ire, beta, this->_Iim);
     }
 
@@ -83,7 +88,8 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
      * @return true
      * @return false
      */
-    constexpr auto is_parallel(const L &l, const L &m) const -> bool {
+    constexpr auto is_parallel(const L& l, const L& m) const -> bool
+    {
         return incident(this->_l_infty, l * m);
     }
 
@@ -94,9 +100,10 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
      * @param b
      * @return P
      */
-    constexpr auto midpoint(const P &a, const P &b) const -> P {
+    constexpr auto midpoint(const P& a, const P& b) const -> P
+    {
         auto alpha = a.dot(this->_l_infty);
-        auto beta = b.dot(this->_l_infty);
+        auto beta  = b.dot(this->_l_infty);
         return plucker(alpha, a, beta, b);
     }
 
@@ -106,8 +113,10 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
      * @param tri
      * @return auto
      */
-    constexpr auto tri_midpoint(const Triple<P> &tri) const {
-        auto &&[a1, a2, a3] = tri;
+    constexpr auto tri_midpoint(const Triple<P>& tri) const
+    {
+        auto&& [a1, a2, a3] = tri;
+
         auto m12 = this->midpoint(a1, a2);
         auto m23 = this->midpoint(a2, a3);
         auto m13 = this->midpoint(a1, a3);
@@ -120,9 +129,7 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
      * @param x
      * @return K
      */
-    constexpr auto omega(const P &x) const -> K {
-        return sq(x.dot(this->_l_infty));
-    }
+    constexpr auto omega(const P& x) const -> K { return sq(x.dot(this->_l_infty)); }
 
     /*!
      * @brief
@@ -130,7 +137,8 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
      * @param x
      * @return K
      */
-    constexpr auto omega(const L &x) const -> K {
+    constexpr auto omega(const L& x) const -> K
+    {
         return sq(x.dot(this->_Ire)) + sq(x.dot(this->_Iim));
     }
 
@@ -141,13 +149,14 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane> {
      * @param a2
      * @return auto
      */
-    template <Projective_plane2 _P>
-    constexpr auto measure(const _P &a1, const _P &a2) const {
-        auto omg = K(this->omega(a1*a2));
+    template<Projective_plane2 _P>
+    constexpr auto measure(const _P& a1, const _P& a2) const
+    {
+        auto omg = K(this->omega(a1 * a2));
         auto den = K(this->omega(a1) * this->omega(a2));
-        if constexpr (Integral<K>) {
-            return Fraction<K>(omg, den);
-        } else {
+        if constexpr (Integral<K>) { return Fraction<K>(omg, den); }
+        else
+        {
             return omg / den;
         }
     }

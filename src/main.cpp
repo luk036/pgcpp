@@ -5,32 +5,32 @@
  */
 
 #include <cstdlib>
-#include <iostream>
 #include <stdexcept>
+#include <iostream>
 
 #include "cppbase/factorial.hpp"
 
-int main( const int numberOfInputs, const char* inputArguments[ ] )
+int main(const int numberOfInputs, const char* inputArguments[])
 {
-	try
-	{
-		const int factorial = cppbase::computeFactorial( 10 );
-		std::cout << "10! = " << factorial << std::endl;
-	}
-	catch( std::exception& error )
-	{
-		std::cout << error.what( ) << std::endl;
-	}
+    try
+    {
+        const int factorial = cppbase::computeFactorial(10);
+        std::cout << "10! = " << factorial << std::endl;
+    }
+    catch (std::exception& error)
+    {
+        std::cout << error.what() << std::endl;
+    }
 
-	try
-	{
-		const int factorial = cppbase::computeFactorial( -5 );
-		std::cout << "5! = " << factorial << std::endl;
-	}
-	catch( std::exception& error )
-	{
-		std::cout << error.what( ) << std::endl;
-	}
+    try
+    {
+        const int factorial = cppbase::computeFactorial(-5);
+        std::cout << "5! = " << factorial << std::endl;
+    }
+    catch (std::exception& error)
+    {
+        std::cout << error.what() << std::endl;
+    }
 
-	return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }

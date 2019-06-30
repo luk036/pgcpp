@@ -1,14 +1,15 @@
 #ifndef _HOME_UBUNTU_CUBSTORE_PROJ_GEOM_PGCPP_EUCLID_PLANE_HPP
 #define _HOME_UBUNTU_CUBSTORE_PROJ_GEOM_PGCPP_EUCLID_PLANE_HPP 1
 
-#include "pgcpp/fractions.hpp"
-#include "pgcpp/pg_common.hpp" // import cross2, dot1
-#include "pgcpp/proj_plane.hpp" // import pg_point, involution, tri_func, quad_func, plucker
-#include "pgcpp/proj_plane_concepts.h"
 #include <cassert>
 #include <type_traits>
+#include "pgcpp/fractions.hpp"
+#include "pgcpp/pg_common.hpp"  // import cross2, dot1
+#include "pgcpp/proj_plane.hpp" // import pg_point, involution, tri_func, quad_func, plucker
+#include "pgcpp/proj_plane_concepts.h"
 
-namespace fun {
+namespace fun
+{
 
 /*!
  * @brief
@@ -16,8 +17,9 @@ namespace fun {
  * @param l
  * @return auto
  */
-template <Projective_plane_coord2 L> // // and requires p[i]
-constexpr auto fB(const L &l) -> typename L::dual {
+template<Projective_plane_coord2 L> // // and requires p[i]
+constexpr auto fB(const L& l) -> typename L::dual
+{
     return {l[0], l[1], 0};
 }
 
@@ -29,8 +31,9 @@ constexpr auto fB(const L &l) -> typename L::dual {
  * @return true
  * @return false
  */
-template <Projective_plane_coord2 L>
-constexpr auto is_perpendicular(const L &l, const L &m) -> bool {
+template<Projective_plane_coord2 L>
+constexpr auto is_perpendicular(const L& l, const L& m) -> bool
+{
     return dot1(l, m) == 0;
 }
 
@@ -42,8 +45,9 @@ constexpr auto is_perpendicular(const L &l, const L &m) -> bool {
  * @return true
  * @return false
  */
-template <Projective_plane_coord2 L>
-constexpr auto is_parallel(const L &l, const L &m) -> bool {
+template<Projective_plane_coord2 L>
+constexpr auto is_parallel(const L& l, const L& m) -> bool
+{
     return cross2(l, m) == 0;
 }
 
@@ -55,7 +59,7 @@ constexpr auto is_parallel(const L &l, const L &m) -> bool {
  * @return L
  */
 Projective_plane_coord { P, L }
-constexpr auto altitude(const P &a, const L &l) -> L { return a * fB(l); }
+constexpr auto altitude(const P& a, const L& l) -> L { return a * fB(l); }
 
 /*!
  * @brief
@@ -63,12 +67,14 @@ constexpr auto altitude(const P &a, const L &l) -> L { return a * fB(l); }
  * @param tri
  * @return auto
  */
-template <Projective_plane_coord2 P>
-constexpr auto tri_altitude(const Triple<P> &tri) {
-    auto &&[a1, a2, a3] = tri;
-    auto t1 = altitude(a1, a2*a3);
-    auto t2 = altitude(a2, a3*a1);
-    auto t3 = altitude(a3, a1*a2);
+template<Projective_plane_coord2 P>
+constexpr auto tri_altitude(const Triple<P>& tri)
+{
+    auto&& [a1, a2, a3] = tri;
+
+    auto t1 = altitude(a1, a2 * a3);
+    auto t2 = altitude(a2, a3 * a1);
+    auto t3 = altitude(a3, a1 * a2);
     return std::tuple{std::move(t1), std::move(t2), std::move(t3)};
 }
 
@@ -78,11 +84,13 @@ constexpr auto tri_altitude(const Triple<P> &tri) {
  * @param tri
  * @return P
  */
-template <Projective_plane_coord2 P>
-constexpr auto orthocenter(const Triple<P> &tri) -> P {
-    auto &&[a1, a2, a3] = tri;
-    auto t1 = altitude(a1, a2*a3);
-    auto t2 = altitude(a2, a1*a3);
+template<Projective_plane_coord2 P>
+constexpr auto orthocenter(const Triple<P>& tri) -> P
+{
+    auto&& [a1, a2, a3] = tri;
+
+    auto t1 = altitude(a1, a2 * a3);
+    auto t2 = altitude(a2, a1 * a3);
     return t1 * t2;
 }
 
@@ -92,8 +100,11 @@ constexpr auto orthocenter(const Triple<P> &tri) -> P {
  * @param m
  * @return auto
  */
-template <Projective_plane_coord2 L>
-constexpr auto reflect(const L &m) { return involution{m, fB(m)}; }
+template<Projective_plane_coord2 L>
+constexpr auto reflect(const L& m)
+{
+    return involution{m, fB(m)};
+}
 
 /*!
  * @brief
@@ -102,8 +113,9 @@ constexpr auto reflect(const L &m) { return involution{m, fB(m)}; }
  * @param b
  * @return P
  */
-template <Projective_plane_coord2 P>
-constexpr auto midpoint(const P &a, const P &b) -> P {
+template<Projective_plane_coord2 P>
+constexpr auto midpoint(const P& a, const P& b) -> P
+{
     return plucker(b[2], a, a[2], b);
 }
 
@@ -113,9 +125,11 @@ constexpr auto midpoint(const P &a, const P &b) -> P {
  * @param tri
  * @return auto
  */
-template <Projective_plane_coord2 P>
-constexpr auto tri_midpoint(const Triple<P> &tri) -> Triple<P> {
-    auto &&[a1, a2, a3] = tri;
+template<Projective_plane_coord2 P>
+constexpr auto tri_midpoint(const Triple<P>& tri) -> Triple<P>
+{
+    auto&& [a1, a2, a3] = tri;
+
     auto m12 = midpoint(a1, a2);
     auto m23 = midpoint(a2, a3);
     auto m13 = midpoint(a1, a3);
@@ -132,12 +146,16 @@ constexpr auto tri_midpoint(const Triple<P> &tri) -> Triple<P> {
  * @param z2
  * @return auto
  */
-template <CommutativeRing K>
-constexpr auto quad1(const K &x1, const K &z1, const K &x2, const K &z2) {
-    if constexpr (Integral<K>) {
+template<CommutativeRing K>
+constexpr auto quad1(const K& x1, const K& z1, const K& x2, const K& z2)
+{
+    if constexpr (Integral<K>)
+    {
         Fraction<K> res = sq(Fraction<K>(x1, z1) - Fraction<K>(x2, z2));
         return res;
-    } else {
+    }
+    else
+    {
         return sq(x1 / z1 - x2 / z2);
     }
 }
@@ -149,10 +167,10 @@ constexpr auto quad1(const K &x1, const K &z1, const K &x2, const K &z2) {
  * @param a2
  * @return auto
  */
-template <Projective_plane_coord2 P>
-constexpr auto quadrance(const P &a1, const P &a2) {
-    return quad1(a1[0], a1[2], a2[0], a2[2]) +
-           quad1(a1[1], a1[2], a2[1], a2[2]);
+template<Projective_plane_coord2 P>
+constexpr auto quadrance(const P& a1, const P& a2)
+{
+    return quad1(a1[0], a1[2], a2[0], a2[2]) + quad1(a1[1], a1[2], a2[1], a2[2]);
 }
 
 // Projective_plane2 { L }
@@ -168,14 +186,17 @@ constexpr auto quadrance(const P &a1, const P &a2) {
  * @param d
  * @return auto
  */
-template <Projective_plane_coord2 L>
-constexpr auto sbase(const L &l1, const L &l2, auto const &d) {
+template<Projective_plane_coord2 L>
+constexpr auto sbase(const L& l1, const L& l2, auto const& d)
+{
     using K = Value_type<L>;
-    if constexpr (Integral<K>) {
-        Fraction<K> res =
-            Fraction<K>(d, dot1(l1, l1)) * Fraction<K>(d, dot1(l2, l2));
+    if constexpr (Integral<K>)
+    {
+        Fraction<K> res = Fraction<K>(d, dot1(l1, l1)) * Fraction<K>(d, dot1(l2, l2));
         return res;
-    } else {
+    }
+    else
+    {
         return (d * d) / (dot1(l1, l1) * dot1(l2, l2));
     }
 }
@@ -187,8 +208,9 @@ constexpr auto sbase(const L &l1, const L &l2, auto const &d) {
  * @param l2
  * @return auto
  */
-template <Projective_plane_coord2 L>
-constexpr auto spread(const L &l1, const L &l2) {
+template<Projective_plane_coord2 L>
+constexpr auto spread(const L& l1, const L& l2)
+{
     return sbase(l1, l2, cross2(l1, l2));
 }
 
@@ -198,9 +220,11 @@ constexpr auto spread(const L &l1, const L &l2) {
  * @param triangle
  * @return auto
  */
-template <Projective_plane_coord2 P>
-constexpr auto tri_quadrance(const Triple<P> &triangle) {
-    auto &&[a1, a2, a3] = triangle;
+template<Projective_plane_coord2 P>
+constexpr auto tri_quadrance(const Triple<P>& triangle)
+{
+    auto&& [a1, a2, a3] = triangle;
+
     auto m1 = quadrance(a2, a3);
     auto m2 = quadrance(a1, a3);
     auto m3 = quadrance(a1, a2);
@@ -213,9 +237,11 @@ constexpr auto tri_quadrance(const Triple<P> &triangle) {
  * @param trilateral
  * @return auto
  */
-template <Projective_plane_coord2 L>
-constexpr auto tri_spread(const Triple<L> &trilateral) {
-    auto &&[a1, a2, a3] = trilateral;
+template<Projective_plane_coord2 L>
+constexpr auto tri_spread(const Triple<L>& trilateral)
+{
+    auto&& [a1, a2, a3] = trilateral;
+
     auto m1 = spread(a2, a3);
     auto m2 = spread(a1, a3);
     auto m3 = spread(a1, a2);
@@ -229,24 +255,25 @@ constexpr auto tri_spread(const Triple<L> &trilateral) {
  * @param l2
  * @return auto
  */
-template <Projective_plane_coord2 L>
-constexpr auto cross_s(const L &l1, const L &l2) {
+template<Projective_plane_coord2 L>
+constexpr auto cross_s(const L& l1, const L& l2)
+{
     return sbase(l1, l2, dot1(l1, l2));
 }
 
 /*!
  * @brief
  *
- * @param lambda1
+ * @param lda1
  * @param mu1
  * @return P
  */
-template <Projective_plane_coord2 P>
-constexpr auto uc_point(const Value_type<P> &lambda1,
-                        const Value_type<P> &mu1) -> P {
-    auto lambda2 = lambda1 * lambda1;
-    auto mu2 = mu1 * mu1;
-    return P{lambda2 - mu2, 2*lambda1*mu1, lambda2 + mu2};
+template<Projective_plane_coord2 P>
+constexpr auto uc_point(const Value_type<P>& lda1, const Value_type<P>& mu1) -> P
+{
+    auto lda2 = lda1 * lda1;
+    auto mu2  = mu1 * mu1;
+    return P{lda2 - mu2, 2 * lda1 * mu1, lda2 + mu2};
 }
 
 /*!
@@ -258,8 +285,9 @@ constexpr auto uc_point(const Value_type<P> &lambda1,
  * @param c
  * @return auto
  */
-template <CommutativeRing _Q>
-constexpr auto Ar(const _Q &a, const _Q &b, const _Q &c) {
+template<CommutativeRing _Q>
+constexpr auto Ar(const _Q& a, const _Q& b, const _Q& c)
+{
     return 4 * a * b - sq(a + b - c);
 }
 
@@ -273,12 +301,13 @@ constexpr auto Ar(const _Q &a, const _Q &b, const _Q &c) {
  * @param d
  * @return auto
  */
-template <CommutativeRing _Q>
-constexpr auto cqq(const _Q &a, const _Q &b, const _Q &c, const _Q &d) {
-    auto t1 = 4*a*b;
-    auto t2 = 4*c*d;
-    auto m = (t1 + t2) - sq(a + b - c - d);
-    auto p = m*m - 4*t1*t2;
+template<CommutativeRing _Q>
+constexpr auto cqq(const _Q& a, const _Q& b, const _Q& c, const _Q& d)
+{
+    auto t1 = 4 * a * b;
+    auto t2 = 4 * c * d;
+    auto m  = (t1 + t2) - sq(a + b - c - d);
+    auto p  = m * m - 4 * t1 * t2;
     return std::tuple{m, p};
 }
 
@@ -289,8 +318,9 @@ constexpr auto cqq(const _Q &a, const _Q &b, const _Q &c, const _Q &d) {
  * @param quad
  * @return auto
  */
-constexpr auto Ptolemy(const auto &quad) -> bool {
-    auto &&[Q12, Q23, Q34, Q14, Q13, Q24] = quad;
+constexpr auto Ptolemy(const auto& quad) -> bool
+{
+    auto&& [Q12, Q23, Q34, Q14, Q13, Q24] = quad;
     return Ar(Q12 * Q34, Q23 * Q14, Q13 * Q24) == 0;
 }
 
@@ -303,8 +333,9 @@ constexpr auto Ptolemy(const auto &quad) -> bool {
  * @param b
  * @return auto
  */
-template <Projective_plane_coord2 P>
-constexpr auto distance(const P &a, const P &b) {
+template<Projective_plane_coord2 P>
+constexpr auto distance(const P& a, const P& b)
+{
     return std::sqrt(double(quadrance(a, b)));
 }
 
@@ -315,8 +346,9 @@ constexpr auto distance(const P &a, const P &b) {
  * @param m
  * @return auto
  */
-template <Projective_plane_coord2 L>
-constexpr auto angle(const L &l, const L &m) {
+template<Projective_plane_coord2 L>
+constexpr auto angle(const L& l, const L& m)
+{
     return std::asin(std::sqrt(double(spread(l, m))));
 }
 

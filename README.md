@@ -1,75 +1,96 @@
-CMake-modules
-===
+# Projective Geometry
 
-A collection of CMake modules for a variety of C++ libraries and features.
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2791a40d6cd94011b8c36d7ad6b9b8f0)](https://app.codacy.com/app/luk036/pgcpp?utm_source=github.com&utm_medium=referral&utm_content=luk036/pgcpp&utm_campaign=badger)
+[![Build Status](https://travis-ci.org/luk036/pgcpp.svg?branch=master)](https://travis-ci.org/luk036/pgcpp)
+[![CodeFactor](https://www.codefactor.io/repository/github/luk036/pgcpp/badge)](https://www.codefactor.io/repository/github/luk036/pgcpp)
+[![BCH compliance](https://bettercodehub.com/edge/badge/luk036/pgcpp?branch=master)](https://bettercodehub.com/)
+[![Documentation](https://img.shields.io/badge/Documentation-latest-blue.svg)](https://luk036.github.io/pgcpp)
 
-Features
-------
+Configuuration inspided by Modern C++ Continuous Integration
 
-This repository provides CMake modules for the following:
+## Pre-installation
 
-  - [Ceres](http://ceres-solver.org)
-  - CodeCoverage
-  - [Assist](https://github.com/kartikkumar/assist)
-  - [Astro "astro Github page"](https://github.com/openastro/astro)
-  - [Atom "atom Github page"](https://github.com/openastro/atom)
-  - [Boost "Boost homepage"](https://boost.org)
-  - [Catch2 "Catch2 Github page"](https://github.com/catchorg/Catch2)
-  - [control "control Github page"](https://github.com/openastro/control)
-  - [cppbase "cppbase Github page"](https://github.com/kartikkumar/cppbase)
-  - [Eigen3 "Eigen3 homepage"](http://eigen.tuxfamily.org/index.php?title=Main_Page)
-  - [GLog](https://github.com/google/glog)
-  - [GSL "GSL homepage"](https://www.gnu.org/software/gsl/gsl.html)
-  - [integrate "integrate Github page"](https://github.com/openastro/integrate)
-  - [NLOPT "NLOPT homepage"](https://nlopt.readthedocs.io/en/latest)
-  - [PaGMO "PaGMO Github page"](https://github.com/esa/pagmo)
-  - [PyKEP "PyKEP Github page"](https://github.com/esa/pykep)
-  - [RapidJSON "RapidJSON Github page"](https://github.com/miloyip/rapidjson)
-  - [SGP4 "SGP4 Github page"](https://github.com/openastro/sgp4)
-  - [sml "sml Github page"](https://github/openastro/sml)
-  - [spot "spot Github page"](https://github.com/kartikkumar/spot)
-  - [SQLite3 "SQLite3 homepage"](https://www.sqlite.org)
-  - [SQLiteCpp "SQLiteCpp Github page"](https://github.com/SRombauts/SQLiteCpp)
-  - [Tudat "Tudat Github page"](https://github.com/tudat)
-  - [Tudat Core "Tudat Core Github page"](https://github.com/tudat)
-  - LibFindMacros
+```shell
+  sudo apt install catch
+```
 
-Installation
-------
 
-Run the following command to download this project using [Git](http://git-scm.com).
+## Generate project
 
-    git clone https://www.github.com/openastro/cmake-modules cmake
+```shell
+  cmake -H. -BBuild
+```
 
-You can also grab the archive directly [here](https://github.com/openastro/cmake-modules/archive/master.zip).
+Auto detect everything.
 
-Contributing
-------------
+If you like to set a implicit compiler set the variable CXX=${COMPILER}, for example COMPILER could be gcc, clang and so on.
 
-Once you've made your great commits:
+Auto detect in Windows usually generate a Visual Studio project since msbuild require it, but in OSX does not generate and XCode project, since is not required for compiling using XCode clang.
 
-1. [Fork](https://github.com/openastro/cmake-modules/fork) cmake-modules
-2. Create a topic branch - `git checkout -b my_branch`
-3. Push to your branch - `git push origin my_branch`
-4. Create a [Pull Request](http://help.github.com/pull-requests/) from your branch
-5. That's it!
+Specify build type debug/release
 
-License
-------
+```shell
+  # generate a debug project
+  cmake -H. -BBuild -DCMAKE_BUILD_TYPE=Debug
+  # generate a release project
+  cmake -H. -BBuild -DCMAKE_BUILD_TYPE=Release
+```
 
-See LICENSE.md.
+Specify architecture
 
-Disclaimer
-------
+```shell
+  # 64 bits architecture
+  cmake -H. -BBuild -Ax64
+  # ARM architecture
+  cmake -H. -BBuild -AARM
+  # Windows 32 bits architecture
+  cmake -H. -BBuild -AxWin32
+```
 
-The copyright holders are not liable for any damage(s) incurred due to improper use of cmake-modules.
+Generate different project types
 
-Contact
-------
+```shell
+  # MinGW makefiles
+  cmake -H. -BBuild -G "MinGW Makefiles"
+  # XCode project
+  cmake -H. -BBuild -G "XCode"
+  # Visual Studio 15 2017 solution
+  cmake -H. -BBuild -G "Visual Studio 15 2017"
+```
 
-Shoot me an [email](mailto:me@kartikkumar.com?subject=cmake-modules) if you have any questions.
+## Build
 
-TODO
-------
+From the Build folder
 
- - Figure out way to write tests for CMake modules
+```shell
+  # build the default build type (in multi build types usually debug)
+  cmake --build .
+  # build a specific build type
+  cmake --build . --config Release
+```
+## Run tests
+
+From the Build folder
+
+```shell
+  # run all test using the default build type
+  ctest -V
+  # run all test in Release build type
+  ctest -V -C Release
+```
+
+## references
+
+- https://cmake.org/
+- https://docs.travis-ci.com/user/languages/cpp/
+- https://www.appveyor.com/docs/lang/cpp/
+- https://github.com/isocpp/CppCoreGuidelines
+- https://github.com/philsquared/Catch
+- https://github.com/gabime/spdlog
+- https://github.com/cognitivewaves/CMake-VisualStudio-Example
+- http://derekmolloy.ie/hello-world-introductions-to-cmake/
+- https://cmake.org/Wiki/CMake/Testing_With_CTest
+- https://www.appveyor.com/docs/lang/cpp/
+- https://docs.travis-ci.com/user/languages/cpp/
+- https://github.com/philsquared/Catch/blob/master/docs/build-systems.md
+- https://stackoverflow.com/questions/14446495/cmake-project-structure-with-unit-tests

@@ -53,7 +53,7 @@ set(TEST_NAME                                  "test_${PROJECT_NAME}")
 OPTION(BUILD_MAIN                              "Build main function"            ON)
 OPTION(BUILD_DOXYGEN_DOCS                      "Build Doxygen docs"             OFF)
 OPTION(BUILD_DEPENDENCIES                      "Force build of dependencies"    OFF)
-OPTION(BUILD_COVERAGE_ANALYSIS                 "Build code coverage analysis"   ON)
+OPTION(BUILD_COVERAGE_ANALYSIS                 "Build code coverage analysis"   OFF)
 
 include(CTest)
 

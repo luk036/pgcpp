@@ -2,8 +2,7 @@
  *  This is a C++ Library header.
  */
 
-#ifndef _HOME_UBUNTU_GITHUB_PGCPP_PG_COMMON_HPP
-#define _HOME_UBUNTU_GITHUB_PGCPP_PG_COMMON_HPP 1
+#pragma once
 
 #include <array>
 #include <tuple>
@@ -146,5 +145,3 @@ constexpr inline auto sq(const T& a)
 }
 
 } // namespace fun
-
-#endif

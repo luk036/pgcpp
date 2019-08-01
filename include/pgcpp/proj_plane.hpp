@@ -1,5 +1,4 @@
-#ifndef _HOME_UBUNTU_GITHUB_PGCPP_PROJ_PLANE_HPP
-#define _HOME_UBUNTU_GITHUB_PGCPP_PROJ_PLANE_HPP 1
+#pragma once
 
 #include <cassert>
 #include <tuple>
@@ -347,5 +346,3 @@ void check_desargue(const Triple<P>& tri1, const Triple<P>& tri2)
 }
 
 } // namespace fun
-
-#endif

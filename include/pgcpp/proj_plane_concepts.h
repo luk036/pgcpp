@@ -2,9 +2,7 @@
  *  This is a C++ Library header.
  */
 
-
-#ifndef _HOME_UBUNTU_GITHUB_PGCPP_PROJ_PLANE_CONCEPTS_H
-#define _HOME_UBUNTU_GITHUB_PGCPP_PROJ_PLANE_CONCEPTS_H 1
+#pragma once
 
 #include "pgcpp/common_concepts.h"
 
@@ -125,5 +123,3 @@ concept bool Projective_plane_coord2
   = Projective_plane_coord<std::remove_reference_t<P>>; // Make the compiler happy
 
 } // namespace fun
-
-#endif

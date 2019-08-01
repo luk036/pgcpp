@@ -1,5 +1,4 @@
-#ifndef _HOME_UBUNTU_GITHUB_PGCPP_CK_PLANE_HPP
-#define _HOME_UBUNTU_GITHUB_PGCPP_CK_PLANE_HPP 1
+#pragma once
 
 #include <type_traits> // std::is_base_of_v
 #include "pgcpp/pg_common.hpp"
@@ -209,5 +208,3 @@ constexpr auto check_cross_law(const Triple<K>& S, const K& q3)
 }
 
 } // namespace fun
-
-#endif

@@ -6,8 +6,7 @@
  *  This is a C++ Library header.
  */
 
-#ifndef _HOME_UBUNTU_GITHUB_PGCPP_FRACTIONS_HPP
-#define _HOME_UBUNTU_GITHUB_PGCPP_FRACTIONS_HPP 1
+#pragma once
 
 #include <cassert>
 #include <cmath>
@@ -542,5 +541,3 @@ _Stream& operator<<(_Stream& os, const Fraction<Z>& frac)
 // Integral{Z} Fraction(const Z &, const Z &)->Fraction<Z>;
 
 } // namespace fun
-
-#endif

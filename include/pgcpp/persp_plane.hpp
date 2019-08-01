@@ -1,5 +1,4 @@
-#ifndef _HOME_UBUNTU_GITHUB_PGCPP_PERSP_PLANE_HPP
-#define _HOME_UBUNTU_GITHUB_PGCPP_PERSP_PLANE_HPP 1
+#pragma once
 
 #include "pgcpp/ck_plane.hpp"
 #include "pgcpp/fractions.hpp"
@@ -174,5 +173,3 @@ public:
 };
 
 } // namespace fun
-
-#endif

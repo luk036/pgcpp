@@ -6,8 +6,7 @@
  *  This is a C++ Library header.
  */
 
-#ifndef _HOME_UBUNTU_GITHUB_PGCPP_PG_OBJECT_HPP
-#define _HOME_UBUNTU_GITHUB_PGCPP_PG_OBJECT_HPP 1
+#pragma once
 
 #include "pgcpp/pg_common.hpp"
 
@@ -124,5 +123,3 @@ _Stream& operator<<(_Stream& os, const pg_object<_K, _dual>& p)
 }
 
 } // namespace fun
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef _HOME_UBUNTU_GITHUB_PGCPP_COMMON_CONCEPTS_H
-#define _HOME_UBUNTU_GITHUB_PGCPP_COMMON_CONCEPTS_H 1
+#pragma once
 
 #include <utility>
 
@@ -68,5 +67,3 @@ concept bool Integral =
   };
 
 } // namespace fun
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef _HOME_UBUNTU_CUBSTORE_PROJ_GEOM_PGCPP_EUCLID_PLANE_HPP
-#define _HOME_UBUNTU_CUBSTORE_PROJ_GEOM_PGCPP_EUCLID_PLANE_HPP 1
+#pragma once
 
 #include <cassert>
 #include <type_traits>
@@ -353,5 +352,3 @@ constexpr auto angle(const L& l, const L& m)
 }
 
 } // namespace fun
-
-#endif

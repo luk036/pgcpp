@@ -6,8 +6,7 @@
  *  This is a C++ Library header.
  */
 
-#ifndef _HOME_UBUNTU_GITHUB_PGCPP_PG_POINT_HPP
-#define _HOME_UBUNTU_GITHUB_PGCPP_PG_POINT_HPP 1
+#pragma once
 
 #include "pgcpp/pg_common.hpp"
 #include "pgcpp/pg_object.hpp"
@@ -90,5 +89,3 @@ constexpr pg_line<_K> join(const pg_point<_K>& p, const pg_point<_K>& q)
 // &)->pg_point<_K>;
 
 } // namespace fun
-
-#endif

@@ -6,8 +6,7 @@
  *  This is a C++ Library header.
  */
 
-#ifndef _HOME_UBUNTU_GITHUB_PGCPP_PG_LINE_HPP
-#define _HOME_UBUNTU_GITHUB_PGCPP_PG_LINE_HPP 1
+#pragma once
 
 #include "pgcpp/pg_common.hpp"
 #include "pgcpp/pg_object.hpp"
@@ -67,5 +66,3 @@ constexpr pg_point<_K> meet(const pg_line<_K>& l, const pg_line<_K>& m)
 // CommutativeRing{_K} pg_line(const _K &, const _K &, const _K &)->pg_line<_K>;
 
 } // namespace fun
-
-#endif

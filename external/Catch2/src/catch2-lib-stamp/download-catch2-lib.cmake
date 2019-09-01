@@ -22,14 +22,14 @@ function(check_file_hash has_hash hash_is_good)
   set("${has_hash}" TRUE PARENT_SCOPE)
 
   message(STATUS "verifying file...
-       file='/media/lubuntu/USBDISK/github/pgcpp/external/Catch2/src/master.zip'")
+       file='/home/lubuntu/github/pgcpp/external/Catch2/src/master.zip'")
 
-  file("" "/media/lubuntu/USBDISK/github/pgcpp/external/Catch2/src/master.zip" actual_value)
+  file("" "/home/lubuntu/github/pgcpp/external/Catch2/src/master.zip" actual_value)
 
   if(NOT "${actual_value}" STREQUAL "")
     set("${hash_is_good}" FALSE PARENT_SCOPE)
     message(STATUS " hash of
-    /media/lubuntu/USBDISK/github/pgcpp/external/Catch2/src/master.zip
+    /home/lubuntu/github/pgcpp/external/Catch2/src/master.zip
   does not match expected value
     expected: ''
       actual: '${actual_value}'")
@@ -71,7 +71,7 @@ function(sleep_before_download attempt)
   execute_process(COMMAND "${CMAKE_COMMAND}" -E sleep "${sleep_seconds}")
 endfunction()
 
-if("/media/lubuntu/USBDISK/github/pgcpp/external/Catch2/src/master.zip" STREQUAL "")
+if("/home/lubuntu/github/pgcpp/external/Catch2/src/master.zip" STREQUAL "")
   message(FATAL_ERROR "LOCAL can't be empty")
 endif()
 
@@ -79,32 +79,32 @@ if("https://github.com/catchorg/Catch2/archive/master.zip" STREQUAL "")
   message(FATAL_ERROR "REMOTE can't be empty")
 endif()
 
-if(EXISTS "/media/lubuntu/USBDISK/github/pgcpp/external/Catch2/src/master.zip")
+if(EXISTS "/home/lubuntu/github/pgcpp/external/Catch2/src/master.zip")
   check_file_hash(has_hash hash_is_good)
   if(has_hash)
     if(hash_is_good)
       message(STATUS "File already exists and hash match (skip download):
-  file='/media/lubuntu/USBDISK/github/pgcpp/external/Catch2/src/master.zip'
+  file='/home/lubuntu/github/pgcpp/external/Catch2/src/master.zip'
   =''"
       )
       return()
     else()
       message(STATUS "File already exists but hash mismatch. Removing...")
-      file(REMOVE "/media/lubuntu/USBDISK/github/pgcpp/external/Catch2/src/master.zip")
+      file(REMOVE "/home/lubuntu/github/pgcpp/external/Catch2/src/master.zip")
     endif()
   else()
     message(STATUS "File already exists but no hash specified (use URL_HASH):
-  file='/media/lubuntu/USBDISK/github/pgcpp/external/Catch2/src/master.zip'
+  file='/home/lubuntu/github/pgcpp/external/Catch2/src/master.zip'
 Old file will be removed and new file downloaded from URL."
     )
-    file(REMOVE "/media/lubuntu/USBDISK/github/pgcpp/external/Catch2/src/master.zip")
+    file(REMOVE "/home/lubuntu/github/pgcpp/external/Catch2/src/master.zip")
   endif()
 endif()
 
 set(retry_number 5)
 
 message(STATUS "Downloading...
-   dst='/media/lubuntu/USBDISK/github/pgcpp/external/Catch2/src/master.zip'
+   dst='/home/lubuntu/github/pgcpp/external/Catch2/src/master.zip'
    timeout='30 seconds'"
 )
 
@@ -121,7 +121,7 @@ foreach(i RANGE ${retry_number})
 
     file(
         DOWNLOAD
-        "${url}" "/media/lubuntu/USBDISK/github/pgcpp/external/Catch2/src/master.zip"
+        "${url}" "/home/lubuntu/github/pgcpp/external/Catch2/src/master.zip"
         SHOW_PROGRESS
         TIMEOUT;30
         STATUS status
@@ -137,7 +137,7 @@ foreach(i RANGE ${retry_number})
       check_file_hash(has_hash hash_is_good)
       if(has_hash AND NOT hash_is_good)
         message(STATUS "Hash mismatch, removing...")
-        file(REMOVE "/media/lubuntu/USBDISK/github/pgcpp/external/Catch2/src/master.zip")
+        file(REMOVE "/home/lubuntu/github/pgcpp/external/Catch2/src/master.zip")
       else()
         message(STATUS "Downloading... done")
         return()

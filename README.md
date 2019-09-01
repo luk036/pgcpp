@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/luk036/pgcpp.svg?branch=master)](https://travis-ci.org/luk036/pgcpp)
 [![CodeFactor](https://www.codefactor.io/repository/github/luk036/pgcpp/badge)](https://www.codefactor.io/repository/github/luk036/pgcpp)
 [![BCH compliance](https://bettercodehub.com/edge/badge/luk036/pgcpp?branch=master)](https://bettercodehub.com/)
-[![Documentation](https://img.shields.io/badge/Documentation-latest-blue.svg)](https://luk036.github.io/pgcpp)
+[![Documentation](https://img.shields.io/badge/Documentation-latest-blue.svg)](https://luk036.github.io/doc/projgeomcpp/index.html)
 
 Configuuration inspided by Modern C++ Continuous Integration
 

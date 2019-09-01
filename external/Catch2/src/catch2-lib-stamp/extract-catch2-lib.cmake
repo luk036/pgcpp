@@ -1,7 +1,7 @@
 # Make file names absolute:
 #
-get_filename_component(filename "/media/lubuntu/USBDISK/github/pgcpp/external/Catch2/src/master.zip" ABSOLUTE)
-get_filename_component(directory "/media/lubuntu/USBDISK/github/pgcpp/external/Catch2/src/catch2-lib" ABSOLUTE)
+get_filename_component(filename "/home/lubuntu/github/pgcpp/external/Catch2/src/master.zip" ABSOLUTE)
+get_filename_component(directory "/home/lubuntu/github/pgcpp/external/Catch2/src/catch2-lib" ABSOLUTE)
 
 message(STATUS "extracting...
      src='${filename}'

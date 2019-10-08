@@ -5,7 +5,7 @@ set(CTEST_BINARY_DIRECTORY "./buildCI")
 
 set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 #set(CTEST_USE_LAUNCHERS 1)
-set(CTEST_PROJECT_NAME "CPP-CkPttn")
+set(CTEST_PROJECT_NAME "PgCpp")
 set(CTEST_BUILD_CONFIGURATION "Coverage") # Only works for multi-config generators
 
 if(NOT "$ENV{GCOV}" STREQUAL "")

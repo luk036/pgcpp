@@ -1,72 +1,111 @@
-# Copyright (c) <year> <author> (<email>)
-# Distributed under the MIT License.
-# See accompanying file LICENSE.md or copy at http://opensource.org/licenses/MIT
-
 language: cpp
-dist: trusty
+dist: bionic
 
-compiler:
-  - gcc
-  # - clang
-
-env:
-  matrix:
-    - BUILD_TYPE=Debug TEST_FRAMEWORK=Catch2 COMPILER='g++-7'
-    - BUILD_TYPE=Release TEST_FRAMEWORK=Catch2 COMPILER='g++-7'
-    # - BUILD_TYPE=Debug TEST_FRAMEWORK=GTest COMPILER='g++-7'
-    # - BUILD_TYPE=Release TEST_FRAMEWORK=GTest COMPILER='g++-7'
+cache: # see https://docs.travis-ci.com/user/caching/
+  - directories:
+    - $HOME/.cache
 
 matrix:
-  exclude:
-    # - compiler: clang
-    #   env: COVERITY_SCAN_BRANCH_PATTERN=coverity_scan
-    - compiler: gcc
-      env: COVERITY_SCAN_BRANCH_PATTERN=coverity_scan BUILD_TYPE=Release COMPILER='g++-7'
-    - compiler: gcc
-      env: COVERITY_SCAN_BRANCH_PATTERN=coverity_scan BUILD_TYPE=Debug TEST_FRAMEWORK=GTest COMPILER='g++-7'
+  include:
+    - os: linux
+      addons: &gcc7
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+            - libfmt-dev
+            - lcov
+      env: COMPILER=gcc GCC=7 BUILD_TYPE='Debug'
+    - os: linux
+      addons: *gcc7
+      env: COMPILER=gcc GCC=7 BUILD_TYPE='Release'
+    - os: linux
+      addons: *gcc7
+      env: COMPILER=gcc GCC=7 BUILD_TYPE='Coverage'
+    - os: linux
+      addons: &gcc8
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-8
+            - libfmt-dev
+            - lcov
+      env: COMPILER=gcc GCC=8 BUILD_TYPE='Debug'
+    - os: linux
+      addons: *gcc8
+      env: COMPILER=gcc GCC=8 BUILD_TYPE='Release'
+    # - os: linux
+    #   addons: &clang8
+    #     apt:
+    #       sources: ['llvm-toolchain-xenial-8', 'ubuntu-toolchain-r-test']
+    #       packages:
+    #         - clang-8
+    #         - libstdc++-8-dev
+    #         - libfmt-dev
+    #         - lcov
+    #   env: COMPILER=clang CLANG=8 BUILD_TYPE='Debug'
+    # - os: linux
+    #   addons: *clang8
+    #   env: COMPILER=clang CLANG=8 BUILD_TYPE='Release'
 
-addons:
-  apt:
-    sources: ['ubuntu-toolchain-r-test']
-    packages:
-      - g++-7
-      - lcov
-      - libboost-dev
-  coverity_scan:
-    project:
-      name: "luk036/pgcpp"
-      description: "Build submitted via Travis CI"
-    notification_email: luk036@gmail.com
-    build_command_prepend: "mkdir build; cd build; cmake -DPROJECT_NAME=pgcpp -DTEST_FRAMEWORK=$TEST_FRAMEWORK -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=on .."
-    build_command: "make"
-    branch_pattern: coverity_scan
+env:
+  global:
+    - MINCONDA_VERSION="latest"
+    - MINCONDA_LINUX="Linux-x86_64"
+    - MINCONDA_OSX="MacOSX-x86_64"
 
 before_install:
-  - bash scripts/install_cmake.sh
-  - pip install --user cpp-coveralls;
-  - bash scripts/install_doxygen.sh
-  - chmod ugo+x scripts/check_doxygen.sh
-  - if [ "$COVERITY_SCAN_BRANCH_PATTERN" != "coverity_scan" ] && [ "$CXX" == "g++-7" ] && [ "$BUILD_TYPE" == "Debug" ] && [ "$TEST_FRAMEWORK" == "Catch2" ]; then
-      echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-;
-      pip install --user cpp-coveralls;
+  - |
+    # Configure build variables
+    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      if [[ "$COMPILER" == "gcc" ]]; then
+        export CXX=g++-$GCC CC=gcc-$GCC;
+      fi
+      if [[ "$COMPILER" == "clang" ]]; then
+        export CXX=clang++-$CLANG CC=clang-$CLANG;
+      fi
+    elif [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      export CXX=clang++ CC=clang;
     fi
 
-before_script:
-  - export CXX=${COMPILER}
+install:
+  - mkdir -p $HOME/.cache
+  - touch $HOME/.cache/mydependency.so
+  # Define the version of miniconda to download
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      MINCONDA_OS=$MINCONDA_LINUX;
+    elif [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      MINCONDA_OS=$MINCONDA_OSX;
+    fi
+  - wget "http://repo.continuum.io/miniconda/Miniconda3-$MINCONDA_VERSION-$MINCONDA_OS.sh" -O miniconda.sh;
+  - export CONDA_PREFIX=$HOME/miniconda
+  - bash miniconda.sh -b -p $CONDA_PREFIX
+  - export PATH="$CONDA_PREFIX/bin:$PATH"
+  - export LD_LIBRARY_PATH="$CONDA_PREFIX/lib"
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+  - conda info -a
+  - conda install libboost -c conda-forge
+  - conda install catch2 -c conda-forge
 
 script:
-  - if [ "$COVERITY_SCAN_BRANCH_PATTERN" != "coverity_scan" ]; then
-      mkdir build;
-      cd build;
-      cmake -DPROJECT_NAME=pgcpp -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DTEST_FRAMEWORK=$TEST_FRAMEWORK -DBUILD_TESTING=on ..;
-      make coverage;
-      make -j 2;
-      ctest -V -j 2;
+  - |
+    if [[ "$BUILD_TYPE" == "Coverage" ]]; then
+      ctest -S cmake/CI.CTestScript.cmake --output-on-failure -VV -DCMAKE_PREFIX_PATH=$CONDA_PREFIX -DCTEST_SITE=Travis -DCTEST_BUILD_NAME="${TRAVIS_OS_NAME}-$BUILD_TYPE"
+    else
+      mkdir build && cd build;
+      cmake -DBUILD_TESTS=ON -DCMAKE_PREFIX_PATH=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_SYSTEM_IGNORE_PATH=/usr/lib ..;
+      make -j2
+      ctest -V -j 2
     fi
 
 after_success:
-  - if [ "$COVERITY_SCAN_BRANCH_PATTERN" != "coverity_scan" ] && [ "$CXX" == "g++-7" ] && [ "$BUILD_TYPE" == "Debug" ] && [ "$TEST_FRAMEWORK" == "Catch2" ]; then
-      coveralls --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*" -E ".*src/main.cpp.*";
+  - |
+    if [[ "$BUILD_TYPE" == "Coverage" ]]; then
+      bash <(curl -s https://codecov.io/bash) -X gcov || echo "Codecov did not collect coverage reports"
     fi
 
 notifications:

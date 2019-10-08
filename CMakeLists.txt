@@ -1,213 +1,75 @@
-# Copyright (c) <year> <author> (<email>)
-# Distributed under the MIT License.
-# See accompanying file LICENSE.md or copy at http://opensource.org/licenses/MIT
+# Distributed under the MIT License (See accompanying file /LICENSE )
 
-cmake_minimum_required(VERSION 3.3)
+# CMake build : global project
 
-set(PROJECT_NAME "pgcpp")
+cmake_minimum_required (VERSION 3.8.2)
 
-# Check if project name has been specified correctly.
-if((NOT PROJECT_NAME))
-  message(FATAL_ERROR "Project name must be specified!")
-endif ((NOT PROJECT_NAME))
-if(${PROJECT_NAME} MATCHES " ")
-    message(FATAL_ERROR "Project name cannot contain spaces!")
-endif(${PROJECT_NAME} MATCHES " ")
+set(CMAKE_PREFIX_PATH $ENV{CONDA_PREFIX})
 
-# Change this section to correspond with your project info.
-project(${PROJECT_NAME})
-
-set_property (GLOBAL PROPERTY USE_FOLDERS ON)
-set(CMAKE_CXX_STANDARD 17)
-set (CMAKE_CXX_STANDARD_REQUIRED ON)
-add_definitions(-fconcepts) # for g++ only
-add_definitions(-fpermissive) # for Boost 1.53 shift expression problem
-
-set(${CMAKE_PROJECT_NAME}_SUMMARY              "${PROJECT_SUMMARY}")
-set(${CMAKE_PROJECT_NAME}_VENDOR_NAME          "${PROJECT_VENDOR_NAME}")
-set(${CMAKE_PROJECT_NAME}_VENDOR_CONTACT       "${PROJECT_VENDOR_CONTACT}")
-set(${CMAKE_PROJECT_NAME}_VERSION_MAJOR        0)
-set(${CMAKE_PROJECT_NAME}_VERSION_MINOR        0)
-set(${CMAKE_PROJECT_NAME}_VERSION_PATCH        0)
-set(PROJECT_VERSION
-  "${${CMAKE_PROJECT_NAME}_VERSION_MAJOR}.${${CMAKE_PROJECT_NAME}_VERSION_MINOR}.${${CMAKE_PROJECT_NAME}_VERSION_PATCH}")
-
-set(PROJECT_PATH                               "${CMAKE_CURRENT_SOURCE_DIR}")
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}     "${PROJECT_PATH}/cmake/Modules")
-set(INCLUDE_PATH                               "${PROJECT_PATH}/include")
-set(SRC_PATH                                   "${PROJECT_PATH}/src")
-set(TEST_SRC_PATH                              "${PROJECT_PATH}/test")
-if(NOT EXTERNAL_PATH)
-  set(EXTERNAL_PATH                            "${PROJECT_PATH}/external")
-endif(NOT EXTERNAL_PATH)
-if(NOT DOXYGEN_PATH)
-  set(DOXYGEN_PATH                             "${PROJECT_PATH}/docs")
-endif(NOT DOXYGEN_PATH)
-set(LIB_PATH                                   "${PROJECT_BINARY_DIR}/lib")
-set(LIB_NAME                                   "${PROJECT_NAME}")
-set(BIN_PATH                                   "${PROJECT_BINARY_DIR}/bin")
-set(MAIN_NAME                                  "${PROJECT_NAME}_main")
-set(TEST_PATH                                  "${PROJECT_BINARY_DIR}/test")
-set(TEST_NAME                                  "test_${PROJECT_NAME}")
-
-OPTION(BUILD_MAIN                              "Build main function"            ON)
-OPTION(BUILD_DOXYGEN_DOCS                      "Build Doxygen docs"             OFF)
-OPTION(BUILD_DEPENDENCIES                      "Force build of dependencies"    OFF)
-OPTION(BUILD_COVERAGE_ANALYSIS                 "Build code coverage analysis"   OFF)
-
-include(CTest)
-
-include(CMakeDependentOption)
-CMAKE_DEPENDENT_OPTION(BUILD_COVERAGE_ANALYSIS "Build code coverage analysis"   ON
-                                               "BUILD_TESTING"                  ON)
-
-# Define test framework variables.
-set(TEST_FRAMEWORK "Catch2" CACHE STRING "Test Framework to use")
-set(TEST_FRAMEWORK_VALUES "Catch2;GTest")
-set_property(CACHE TEST_FRAMEWORK PROPERTY STRINGS ${TEST_FRAMEWORK_VALUES})
-
-# Set CMake build-type. If it not supplied by the user, the default built type is "Release".
-if(((NOT CMAKE_BUILD_TYPE)
-  AND (NOT BUILD_COVERAGE_ANALYSIS))
-  OR (CMAKE_BUILD_TYPE STREQUAL "Release"))
-    message(STATUS "WARNING: building release version!")
-    set(CMAKE_BUILD_TYPE Release)
-elseif((CMAKE_BUILD_TYPE STREQUAL "Debug") OR (BUILD_COVERAGE_ANALYSIS))
-    message(STATUS "WARNING: building debug version!")
-endif(((NOT CMAKE_BUILD_TYPE)
-  AND (NOT BUILD_COVERAGE_ANALYSIS))
-  OR (CMAKE_BUILD_TYPE STREQUAL "Release"))
-
-# Set platform-specific compiler flags.
-if(WIN32)
-  if(MSVC)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc /Ox /W3 /FC -D_SCL_SECURE_NO_WARNINGS")
-    # We need to force MSVC to use static runtime:
-    # (from http://www.cmake.org/Wiki/CMake_FAQ#Dynamic_Replace).
-    foreach(flag_var
-      CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
-      CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
-      # Find all dynamic runtime (MD) references and replace with static (MT)
-      if(${flag_var} MATCHES "/MD")
-        string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
-      endif(${flag_var} MATCHES "/MD")
-    endforeach(flag_var)
-  else(MSVC)
-    set(CMAKE_CXX_FLAGS
-      "${CMAKE_CXX_FLAGS} -Wall -Woverloaded-virtual -Wold-style-cast -Wnon-virtual-dtor")
-  endif(MSVC)
-else(WIN32)
-  set(CMAKE_CXX_FLAGS
-    "${CMAKE_CXX_FLAGS} -Wall -Woverloaded-virtual -Wold-style-cast -Wnon-virtual-dtor")
-endif(WIN32)
-
-if(CMAKE_COMPILER_IS_GNUCXX)
-    set(CMAKE_CXX_FLAGS_DEBUG   "-O0 -g3")
-    set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-    set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
-endif(CMAKE_COMPILER_IS_GNUCXX)
-
-include(Dependencies.cmake)
-include(ProjectFiles.cmake)
-include_directories(AFTER "${INCLUDE_PATH}" "${INC_PATH}")
-
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_PATH})
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${LIB_PATH})
-add_library(${LIB_NAME} ${SRC})
-
-if(BUILD_MAIN)
-  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BIN_PATH})
-  add_executable(${MAIN_NAME} ${MAIN_SRC})
-  target_link_libraries(${MAIN_NAME} ${LIB_NAME} ${LIBS})
-endif(BUILD_MAIN)
-
-if(BUILD_DOXYGEN_DOCS)
-  find_package(Doxygen)
-
-  if(NOT DOXYGEN_FOUND)
-    message(FATAL_ERROR
-            "Doxygen is needed to build the documentation. Please make sure it is installed.")
-  endif(NOT DOXYGEN_FOUND)
-
-  configure_file(${PROJECT_PATH}/Doxyfile.in
-                 ${PROJECT_BINARY_DIR}/Doxyfile @ONLY IMMEDIATE)
-
-  # Add a custom target to run Doxygen whenever the project is built.
-  # If you want the documentation to be generated EVERY time you build the project
-  # then add the 'ALL' keyword before 'COMMAND' below.
-  add_custom_target(doxygen_docs COMMAND ${DOXYGEN_EXECUTABLE}
-                    ${PROJECT_BINARY_DIR}/Doxyfile
-                    SOURCES ${PROJECT_BINARY_DIR}/Doxyfile)
-endif(BUILD_DOXYGEN_DOCS)
-
-if(BUILD_TESTING)
-  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${TEST_PATH})
-
-  add_executable(${TEST_NAME} ${TEST_SRC})
-
-  target_link_libraries(${TEST_NAME} ${LIB_NAME} ${LIBS})
-
-  if(TEST_FRAMEWORK STREQUAL "Catch2")
-    add_definitions(-DUSE_CATCH2=TRUE)
-  elseif((TEST_FRAMEWORK STREQUAL "GTest"))
-    add_definitions(-DUSE_GTEST=TRUE)
-  endif(TEST_FRAMEWORK STREQUAL "Catch2")
-
-  if((NOT CATCH2_FOUND) AND (TEST_FRAMEWORK STREQUAL "Catch2"))
-    add_dependencies(${TEST_NAME} catch2-lib)
-  endif((NOT CATCH2_FOUND) AND (TEST_FRAMEWORK STREQUAL "Catch2"))
-
-  if(TEST_FRAMEWORK STREQUAL "GTest")
-    if(NOT GTEST_FOUND)
-      add_dependencies(${TEST_NAME} gtest-lib)
-    endif(NOT GTEST_FOUND)
-    target_link_libraries(${TEST_NAME} ${TEST_FRAMEWORK_LIB} ${LIBS} Threads::Threads)
-  endif(TEST_FRAMEWORK STREQUAL "GTest")
-
- add_test(NAME ${TEST_NAME} COMMAND "${TEST_PATH}/${TEST_NAME}")
-
-  if(BUILD_COVERAGE_ANALYSIS)
-    include(CodeCoverage)
-    set(COVERAGE_EXTRACT '${PROJECT_PATH}/include/*' '${PROJECT_PATH}/src/*')
-    setup_target_for_coverage(coverage "${TEST_NAME}" coverage)
-  endif(BUILD_COVERAGE_ANALYSIS)
-endif(BUILD_TESTING)
-
-# Install files.
-# Destination is set by CMAKE_INSTALL_PREFIX and defaults to usual locations, unless overridden by
-# user.
-install(DIRECTORY ${INCLUDE_PATH}/${CMAKE_PROJECT_NAME}
-        DESTINATION include
-        FILES_MATCHING PATTERN "*.hpp")
-install(TARGETS ${LIB_NAME} DESTINATION lib)
-install(TARGETS ${BIN_NAME} DESTINATION bin)
-
-# Uninstall files.
-if(NOT TARGET uninstall)
-    configure_file(
-        "${CMAKE_CURRENT_SOURCE_DIR}/Uninstall.cmake.in"
-        "${CMAKE_CURRENT_BINARY_DIR}/Uninstall.cmake"
-        IMMEDIATE @ONLY)
-
-    add_custom_target(uninstall
-        COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/Uninstall.cmake)
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
+    message(FATAL_ERROR "Do not build in-source. Please remove CMakeCache.txt and the CMakeFiles/ directory. Then build out-of-source.")
 endif()
 
-# Set up packager.
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${CMAKE_PROJECT_NAME}")
-set(CPACK_PACKAGE_VENDOR              "${CMAKE_PROJECT_NAME}_VENDOR_NAME")
-set(CPACK_PACKAGE_DESCRIPTION_FILE    "${PROJECT_PATH}/README.md")
-set(CPACK_RESOURCE_FILE_LICENSE       "${PROJECT_PATH}/LICENSE.md")
-set(CPACK_PACKAGE_VERSION_MAJOR       "${${CMAKE_PROJECT_NAME}_VERSION_MAJOR}")
-set(CPACK_PACKAGE_VERSION_MINOR       "${${CMAKE_PROJECT_NAME}_VERSION_MINOR}")
-set(CPACK_PACKAGE_VERSION_PATCH       "${${CMAKE_PROJECT_NAME}_VERSION_PATCH}")
-set(CPACK_PACKAGE_INSTALL_DIRECTORY   "${CMAKE_PROJECT_NAME}")
-if(WIN32 AND NOT UNIX)
-  # There is a bug in NSI that does not handle full unix paths properly. Make
-  # sure there is at least one set of four (4) backslashes.
-  set(CPACK_NSIS_DISPLAY_NAME         "${CPACK_PACKAGE_INSTALL_DIRECTORY}")
-  set(CPACK_NSIS_CONTACT              "${CMAKE_PROJECT_NAME}_VENDOR_CONTACT")
-  set(CPACK_NSIS_MODIFY_PATH ON)
-else(WIN32 AND NOT UNIX)
-endif(WIN32 AND NOT UNIX)
-include(CPack)
+project (CkPttnCpp LANGUAGES CXX)
+
+include(CTest) # Must be called before adding tests but after calling project(). This automatically calls enable_testing() and configures ctest targets when using Make/Ninja
+include(CMakeDependentOption)# This is a really useful scripts that creates options that depends on other options. It can even be used with generator expressions !
+
+# Custom modules and scripts
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake")
+include(LTO)
+include(Warnings)
+include(CopyDllsForDebug)
+include(Coverage)
+
+# Guard against in-source builds and bad build-type strings
+#
+include(ConfigSafeGuards)
+
+###############
+##  OPTIONS  ##
+###############
+
+# You should try to give as much control over the project setup to the user.
+# When modifying compile flags for example, if they are not mandatory, provide an option.
+
+# Use your own option for tests, in case people use your library through add_subdirectory
+cmake_dependent_option(BP_BUILD_TESTS
+    "Enable Boilerplate project tests targets" ON # By default we want tests if CTest is enabled
+    "BUILD_TESTING" OFF # Stay coherent with CTest variables
+)
+
+# It is always easier to navigate in an IDE when projects are organized in folders.
+set_property (GLOBAL PROPERTY USE_FOLDERS ON)
+
+set (CMAKE_CXX_STANDARD 17)
+set (CMAKE_CXX_STANDARD_REQUIRED ON)
+# Don't use e.g. GNU extension (like -std=gnu++11) for portability
+set(CMAKE_CXX_EXTENSIONS OFF)
+if(MSVC)
+    add_compile_options(/std:c++17 /W3 /WX )
+else()
+    add_compile_options(-fconcepts -std=c++17 -Wall -Wnon-virtual-dtor -Wunused -pedantic)
+endif()
+
+# set(LIBS ${LIBS} "-L$ENV{CONDA_PREFIX}/lib")
+
+set (THREADS_PREFER_PTHREAD_FLAG ON)
+find_package (Threads REQUIRED)
+find_package (fmt REQUIRED)
+
+# set (Boost_DIR $ENV{CONDA_PREFIX}/include)
+find_package (Boost REQUIRED COMPONENTS coroutine context)
+if (Boost_FOUND)
+    message(STATUS "Found boost: ${Boost_INCLUDE_DIRS}")
+    set(LIBS ${LIBS} ${Boost_LIBRARIES})
+endif (Boost_FOUND)
+
+set (LIBRARY_INCLUDE_PATH  ${LIBRARY_INCLUDE_PATH} ${Boost_INCLUDE_DIRS})
+
+add_subdirectory (doc)
+add_subdirectory (lib)
+add_subdirectory (app)
+
+enable_testing ()

@@ -1,10 +1,10 @@
 /*
  *  Distributed under the MIT License (See accompanying file /LICENSE )
  */
-#include "pg_line.hpp"
-#include "pg_point.hpp"
-#include "proj_plane.hpp"
-#include "proj_plane_concepts.h"
+#include "pgcpp/pg_line.hpp"
+#include "pgcpp/pg_point.hpp"
+#include "pgcpp/proj_plane.hpp"
+#include "pgcpp/proj_plane_concepts.h"
 #include <iostream>
 
 /**

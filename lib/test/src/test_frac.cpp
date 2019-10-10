@@ -20,8 +20,11 @@ TEST_CASE("Fraction", "[Fraction]")
 
     auto p = Fraction {a, b};
     std::cout << p << '\n';
+    auto q = Fraction {c, d};
 
     CHECK(p == Fraction(30, 40));
+    CHECK(p + q == Fraction(19, 12));
+    CHECK(p - q == Fraction(-1, 12));
     CHECK(p != 0);
 }
 

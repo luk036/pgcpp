@@ -69,7 +69,7 @@ using Triple = std::tuple<P, P, P>;
 template <Projective_plane_prim2 P>
 constexpr auto tri_dual(const Triple<P>& tri)
 {
-    auto&& [a1, a2, a3] = tri;
+    const auto& [a1, a2, a3] = tri;
     return std::tuple {a2 * a3, a1 * a3, a1 * a2};
 }
 
@@ -83,7 +83,7 @@ constexpr auto tri_dual(const Triple<P>& tri)
 template <Projective_plane_prim2 P>
 constexpr auto tri_func(auto func, const Triple<P>& tri)
 {
-    auto&& [a1, a2, a3] = tri;
+    const auto& [a1, a2, a3] = tri;
 
     auto m1 = func(a2, a3);
     auto m2 = func(a1, a3);
@@ -102,10 +102,10 @@ constexpr auto tri_func(auto func, const Triple<P>& tri)
 template <Projective_plane_prim2 P>
 constexpr bool persp(const Triple<P>& tri1, const Triple<P>& tri2)
 {
-    auto&& [A, B, C] = tri1;
-    auto&& [D, E, F] = tri2;
+    const auto& [A, B, C] = tri1;
+    const auto& [D, E, F] = tri2;
 
-    auto O = (A * D) * (B * E);
+    const auto O = (A * D) * (B * E);
     return incident(O, C * F);
 }
 
@@ -139,7 +139,7 @@ constexpr bool incident(const P& p, const L& l)
 template <Projective_plane2 P>
 constexpr auto harm_conj(const P& A, const P& B, const P& C) -> P
 {
-    auto lC = C * (A * B).aux();
+    const auto lC = C * (A * B).aux();
     return plucker(B.dot(lC), A, A.dot(lC), B);
 }
 
@@ -237,10 +237,10 @@ Projective_plane
 }
 constexpr auto x_ratio(const P& A, const P& B, const L& l, const L& m)
 {
-    auto dAl = A.dot(l);
-    auto dAm = A.dot(m);
-    auto dBl = B.dot(l);
-    auto dBm = B.dot(m);
+    const auto dAl = A.dot(l);
+    const auto dAm = A.dot(m);
+    const auto dBl = B.dot(l);
+    const auto dBm = B.dot(m);
     return ratio_ratio(dAl, dAm, dBl, dBm);
 }
 
@@ -256,7 +256,7 @@ constexpr auto x_ratio(const P& A, const P& B, const L& l, const L& m)
 template <Projective_plane2 P>
 constexpr auto R(const P& A, const P& B, const P& C, const P& D)
 {
-    auto O = (C * D).aux();
+    const auto O = (C * D).aux();
     return x_ratio(A, B, O * C, O * D);
 }
 
@@ -272,10 +272,10 @@ constexpr auto R(const P& A, const P& B, const P& C, const P& D)
 template <Projective_plane_coord2 P>
 constexpr auto R0(const P& A, const P& B, const P& C, const P& D)
 {
-    auto ac = cross0(A, C);
-    auto ad = cross0(A, D);
-    auto bc = cross0(B, C);
-    auto bd = cross0(B, D);
+    const auto ac = cross0(A, C);
+    const auto ad = cross0(A, D);
+    const auto bc = cross0(B, C);
+    const auto bd = cross0(B, D);
     return ratio_ratio(ac, ad, bc, bd);
 }
 
@@ -291,10 +291,10 @@ constexpr auto R0(const P& A, const P& B, const P& C, const P& D)
 template <Projective_plane_coord2 P>
 constexpr auto R1(const P& A, const P& B, const P& C, const P& D)
 {
-    auto ac = cross1(A, C);
-    auto ad = cross1(A, D);
-    auto bc = cross1(B, C);
-    auto bd = cross1(B, D);
+    const auto ac = cross1(A, C);
+    const auto ad = cross1(A, D);
+    const auto bc = cross1(B, C);
+    const auto bd = cross1(B, D);
     return ratio_ratio(ac, ad, bc, bd);
 }
 
@@ -346,12 +346,12 @@ constexpr auto is_harmonic(const P& A, const P& B, const P& C, const P& D)
 template <Projective_plane_prim2 P>
 void check_pappus(const Triple<P>& co1, const Triple<P>& co2)
 {
-    auto&& [A, B, C] = co1;
-    auto&& [D, E, F] = co2;
+    const auto& [A, B, C] = co1;
+    const auto& [D, E, F] = co2;
 
-    auto G = (A * E) * (B * D);
-    auto H = (A * F) * (C * D);
-    auto I = (B * F) * (C * E);
+    const auto G = (A * E) * (B * D);
+    const auto H = (A * F) * (C * D);
+    const auto I = (B * F) * (C * E);
     assert(coincident(G, H, I));
 }
 
@@ -364,10 +364,10 @@ void check_pappus(const Triple<P>& co1, const Triple<P>& co2)
 template <Projective_plane_prim2 P>
 void check_desargue(const Triple<P>& tri1, const Triple<P>& tri2)
 {
-    auto trid1 = tri_dual(tri1);
-    auto trid2 = tri_dual(tri2);
-    auto b1 = persp(tri1, tri2);
-    auto b2 = persp(trid1, trid2);
+    const auto trid1 = tri_dual(tri1);
+    const auto trid2 = tri_dual(tri2);
+    const auto b1 = persp(tri1, tri2);
+    const auto b2 = persp(trid1, trid2);
     assert((b1 && b2) || (!b1 && !b2));
 }
 

@@ -32,12 +32,12 @@ inline auto ApproxZero(const auto& a) -> bool
  * @param triangle
  */
 template <Projective_plane_prim2 P>
-void chk_euclid(Triple<P>& triangle)
+void chk_euclid(const Triple<P>& triangle)
 {
     auto trilateral = tri_dual(triangle);
 
-    auto&& [a1, a2, a3] = triangle;
-    auto&& [l1, l2, l3] = trilateral;
+    const auto& [a1, a2, a3] = triangle;
+    const auto& [l1, l2, l3] = trilateral;
 
     // using P = decltype(a1);
     using L = decltype(l1);
@@ -61,8 +61,8 @@ void chk_euclid(Triple<P>& triangle)
     auto mt2 = a2 * m13;
     auto mt3 = a3 * m12;
 
-    auto&& [q1, q2, q3] = Q;
-    auto&& [s1, s2, s3] = S;
+    const auto& [q1, q2, q3] = Q;
+    const auto& [s1, s2, s3] = S;
 
     auto tqf = sq(q1 + q2 + q3) - 2 * (q1 * q1 + q2 * q2 + q3 * q3);
     auto tsf =
@@ -95,9 +95,9 @@ void chk_euclid(Triple<P>& triangle)
         CHECK(tqf == Ar(q1, q2, q3));
         CHECK(tsf == 0);
         CHECK(tqf2 == 0);
-        CHECK(a1 ==
-            orthocenter(
-                std::tuple {std::move(o), std::move(a2), std::move(a3)}));
+        // auto o2 = orthocenter(
+        //               std::tuple {std::move(o), std::move(a2), std::move(a3)});
+        // CHECK(a1 == o2);
     }
     else
     {

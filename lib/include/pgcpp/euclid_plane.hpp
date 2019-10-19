@@ -71,7 +71,7 @@ constexpr auto altitude(const P& a, const L& l) -> L
 template <Projective_plane_coord2 P>
 constexpr auto tri_altitude(const Triple<P>& tri)
 {
-    auto&& [a1, a2, a3] = tri;
+    const auto& [a1, a2, a3] = tri;
 
     auto t1 = altitude(a1, a2 * a3);
     auto t2 = altitude(a2, a3 * a1);
@@ -88,10 +88,10 @@ constexpr auto tri_altitude(const Triple<P>& tri)
 template <Projective_plane_coord2 P>
 constexpr auto orthocenter(const Triple<P>& tri) -> P
 {
-    auto&& [a1, a2, a3] = tri;
+    const auto& [a1, a2, a3] = tri;
 
-    auto t1 = altitude(a1, a2 * a3);
-    auto t2 = altitude(a2, a1 * a3);
+    const auto t1 = altitude(a1, a2 * a3);
+    const auto t2 = altitude(a2, a1 * a3);
     return t1 * t2;
 }
 
@@ -129,7 +129,7 @@ constexpr auto midpoint(const P& a, const P& b) -> P
 template <Projective_plane_coord2 P>
 constexpr auto tri_midpoint(const Triple<P>& tri) -> Triple<P>
 {
-    auto&& [a1, a2, a3] = tri;
+    const auto& [a1, a2, a3] = tri;
 
     auto m12 = midpoint(a1, a2);
     auto m23 = midpoint(a2, a3);
@@ -226,7 +226,7 @@ constexpr auto spread(const L& l1, const L& l2)
 template <Projective_plane_coord2 P>
 constexpr auto tri_quadrance(const Triple<P>& triangle)
 {
-    auto&& [a1, a2, a3] = triangle;
+    const auto& [a1, a2, a3] = triangle;
 
     auto m1 = quadrance(a2, a3);
     auto m2 = quadrance(a1, a3);
@@ -243,7 +243,7 @@ constexpr auto tri_quadrance(const Triple<P>& triangle)
 template <Projective_plane_coord2 L>
 constexpr auto tri_spread(const Triple<L>& trilateral)
 {
-    auto&& [a1, a2, a3] = trilateral;
+    const auto& [a1, a2, a3] = trilateral;
 
     auto m1 = spread(a2, a3);
     auto m2 = spread(a1, a3);
@@ -273,10 +273,9 @@ constexpr auto cross_s(const L& l1, const L& l2)
  */
 template <Projective_plane_coord2 P>
 constexpr auto uc_point(const Value_type<P>& lda1, const Value_type<P>& mu1)
-    -> P
 {
-    auto lda2 = lda1 * lda1;
-    auto mu2 = mu1 * mu1;
+    const auto lda2 = lda1 * lda1;
+    const auto mu2 = mu1 * mu1;
     return P {lda2 - mu2, 2 * lda1 * mu1, lda2 + mu2};
 }
 
@@ -308,11 +307,11 @@ constexpr auto Ar(const _Q& a, const _Q& b, const _Q& c)
 template <CommutativeRing _Q>
 constexpr auto cqq(const _Q& a, const _Q& b, const _Q& c, const _Q& d)
 {
-    auto t1 = 4 * a * b;
-    auto t2 = 4 * c * d;
+    const auto t1 = 4 * a * b;
+    const auto t2 = 4 * c * d;
     auto m = (t1 + t2) - sq(a + b - c - d);
     auto p = m * m - 4 * t1 * t2;
-    return std::tuple {m, p};
+    return std::tuple {std::move(m), std::move(p)};
 }
 
 /*!
@@ -324,7 +323,7 @@ constexpr auto cqq(const _Q& a, const _Q& b, const _Q& c, const _Q& d)
  */
 constexpr auto Ptolemy(const auto& quad) -> bool
 {
-    auto&& [Q12, Q23, Q34, Q14, Q13, Q24] = quad;
+    const auto& [Q12, Q23, Q34, Q14, Q13, Q24] = quad;
     return Ar(Q12 * Q34, Q23 * Q14, Q13 * Q24) == 0;
 }
 

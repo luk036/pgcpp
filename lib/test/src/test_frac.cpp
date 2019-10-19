@@ -13,14 +13,18 @@ TEST_CASE("Fraction", "[Fraction]")
     using boost::multiprecision::cpp_int;
     static_assert(Integral<cpp_int>);
 
-    cpp_int a = 3, b = 4, c = 5, d = 6;
-    cpp_int f = -30, g = 40;
-    cpp_int z = 0;
-    cpp_int h = -g;
+    const auto a = cpp_int{3};
+    const auto b = cpp_int{4};
+    const auto c = cpp_int{5};
+    const auto d = cpp_int{6};
+    const auto f = cpp_int{-30};
+    const auto g = cpp_int{40};
+    const auto z = cpp_int{0};
+    const auto h = cpp_int{-g};
 
-    auto p = Fraction {a, b};
+    const auto p = Fraction {a, b};
     std::cout << p << '\n';
-    auto q = Fraction {c, d};
+    const auto q = Fraction {c, d};
 
     CHECK(p == Fraction(30, 40));
     CHECK(p + q == Fraction(19, 12));
@@ -30,10 +34,10 @@ TEST_CASE("Fraction", "[Fraction]")
 
 TEST_CASE("Fraction Special Cases", "[Fraction]")
 {
-    auto p = Fraction {3, 4};
-    auto inf = Fraction {1, 0};
-    auto nan = Fraction {0, 0};
-    auto zero = Fraction {0, 1};
+    const auto p = Fraction {3, 4};
+    const auto inf = Fraction {1, 0};
+    const auto nan = Fraction {0, 0};
+    const auto zero = Fraction {0, 1};
 
     CHECK(-inf < zero);
     CHECK(zero < inf);

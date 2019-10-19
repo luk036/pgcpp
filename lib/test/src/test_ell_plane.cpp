@@ -42,16 +42,17 @@ void chk_tri(const PG& myck)
 
     // auto zero = std::array<K, 3> {0, 0, 0};
 
-    auto triangle = std::tuple {std::move(a1), std::move(a2), std::move(a3)};
-    auto trilateral = tri_dual(triangle);
+    const auto triangle = std::tuple {std::move(a1), std::move(a2), std::move(a3)};
+    const auto trilateral = tri_dual(triangle);
 
-    auto&& [l1, l2, l3] = trilateral;
+    const auto& [l1, l2, l3] = trilateral;
 
-    auto Q = std::tuple {myck.tri_quadrance(triangle)};
-    auto S = std::tuple {myck.tri_spread(trilateral)};
+    const auto Q = std::tuple {myck.tri_quadrance(triangle)};
+    const auto S = std::tuple {myck.tri_spread(trilateral)};
+
     auto a4 = plucker(2, a1, 3, a2);
-    auto collin = std::tuple {std::move(a1), std::move(a2), std::move(a4)};
-    auto Q2 = myck.tri_quadrance(collin);
+    const auto collin = std::tuple {std::move(a1), std::move(a2), std::move(a4)};
+    const auto Q2 = myck.tri_quadrance(collin);
 
     if constexpr (Integral<K>)
     {

@@ -72,8 +72,8 @@ struct ck
      */
     constexpr auto tri_altitude(const Triple<Projective_plane_prim2>& tri) const
     {
-        auto [l1, l2, l3] = tri_dual(tri);
-        auto&& [a1, a2, a3] = tri;
+        const auto [l1, l2, l3] = tri_dual(tri);
+        const auto& [a1, a2, a3] = tri;
 
         auto t1 = this->altitude(a1, l1);
         auto t2 = this->altitude(a2, l2);
@@ -89,10 +89,10 @@ struct ck
      */
     constexpr auto orthocenter(const Triple<Projective_plane_prim2>& tri) const
     {
-        auto&& [a1, a2, a3] = tri;
+        const auto& [a1, a2, a3] = tri;
 
-        auto t1 = this->altitude(a1, a2 * a3);
-        auto t2 = this->altitude(a2, a1 * a3);
+        const auto t1 = this->altitude(a1, a2 * a3);
+        const auto t2 = this->altitude(a2, a1 * a3);
         return t1 * t2;
     }
 
@@ -115,7 +115,7 @@ struct ck
      */
     constexpr auto tri_measure(const Triple<Projective_plane2>& tri) const
     {
-        auto&& [a1, a2, a3] = tri;
+        const auto& [a1, a2, a3] = tri;
 
         auto m1 = self.measure(a2, a3);
         auto m2 = self.measure(a1, a3);
@@ -183,8 +183,8 @@ struct ck
 template <CommutativeRing Q_t>
 constexpr bool check_sine_law(const Triple<Q_t>& Q, const Triple<Q_t>& S)
 {
-    auto&& [q1, q2, q3] = Q;
-    auto&& [s1, s2, s3] = S;
+    const auto& [q1, q2, q3] = Q;
+    const auto& [s1, s2, s3] = S;
     return (s1 * q2 == s2 * q1) && (s2 * q3 == s3 * q2);
 }
 
@@ -231,8 +231,7 @@ struct ellck : ck<P, L, ellck>
     template <Projective_plane2 _P>
     constexpr auto measure(const _P& a1, const _P& a2) const
     {
-        auto x = x_ratio(a1, a2, this->perp(a2), this->perp(a1));
-        return 1 - x;
+        return 1 - x_ratio(a1, a2, this->perp(a2), this->perp(a1));
     }
 };
 
@@ -279,8 +278,7 @@ struct hyck : ck<P, L, hyck>
     template <Projective_plane2 _P>
     constexpr auto measure(const _P& a1, const _P& a2) const
     {
-        auto x = x_ratio(a1, a2, this->perp(a2), this->perp(a1));
-        return 1 - x;
+        return 1 - x_ratio(a1, a2, this->perp(a2), this->perp(a1));
     }
 };
 
@@ -294,7 +292,7 @@ struct hyck : ck<P, L, hyck>
 template <CommutativeRing K>
 constexpr auto check_cross_TQF(const Triple<K>& Q)
 {
-    auto&& [q1, q2, q3] = Q;
+    const auto& [q1, q2, q3] = Q;
     return sq(q1 + q2 + q3) - 2 * (q1 * q1 + q2 * q2 + q3 * q3) -
         4 * q1 * q2 * q3;
 }
@@ -310,7 +308,7 @@ constexpr auto check_cross_TQF(const Triple<K>& Q)
 template <CommutativeRing K>
 constexpr auto check_cross_law(const Triple<K>& S, const K& q3)
 {
-    auto&& [s1, s2, s3] = S;
+    const auto& [s1, s2, s3] = S;
     return sq(s1 * s2 * q3 - (s1 + s2 + s3) + 2) -
         4 * (1 - s1) * (1 - s2) * (1 - s3);
 }

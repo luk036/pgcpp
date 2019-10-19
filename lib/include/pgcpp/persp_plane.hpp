@@ -77,8 +77,8 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane>
      */
     constexpr auto perp(const L& v) const -> P
     {
-        auto alpha = v.dot(this->_Ire);
-        auto beta = v.dot(this->_Iim);
+        const auto alpha = v.dot(this->_Ire);
+        const auto beta = v.dot(this->_Iim);
         return plucker(alpha, this->_Ire, beta, this->_Iim);
     }
 
@@ -104,8 +104,8 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane>
      */
     constexpr auto midpoint(const P& a, const P& b) const -> P
     {
-        auto alpha = a.dot(this->_l_infty);
-        auto beta = b.dot(this->_l_infty);
+        const auto alpha = a.dot(this->_l_infty);
+        const auto beta = b.dot(this->_l_infty);
         return plucker(alpha, a, beta, b);
     }
 
@@ -117,7 +117,7 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane>
      */
     constexpr auto tri_midpoint(const Triple<P>& tri) const
     {
-        auto&& [a1, a2, a3] = tri;
+        const auto& [a1, a2, a3] = tri;
 
         auto m12 = this->midpoint(a1, a2);
         auto m23 = this->midpoint(a2, a3);
@@ -157,8 +157,8 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane>
     template <Projective_plane2 _P>
     constexpr auto measure(const _P& a1, const _P& a2) const
     {
-        auto omg = K(this->omega(a1 * a2));
-        auto den = K(this->omega(a1) * this->omega(a2));
+        const auto omg = K(this->omega(a1 * a2));
+        const auto den = K(this->omega(a1) * this->omega(a2));
         if constexpr (Integral<K>)
         {
             return Fraction<K>(omg, den);

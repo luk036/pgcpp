@@ -1,7 +1,8 @@
 /*
  * Copyright (c) <year> <author> (<email>)
  * Distributed under the MIT License.
- * See accompanying file LICENSE.md or copy at http://opensource.org/licenses/MIT
+ * See accompanying file LICENSE.md or copy at
+ * http://opensource.org/licenses/MIT
  */
 
 #ifndef CPPBASE_FACTORIAL_HPP
@@ -17,7 +18,7 @@ namespace cppbase
  * @param[in]  integerNumber Integer number to compute factorial of
  * @return                   Value of factorial of integer
  */
-const int computeFactorial( const int integerNumber );
+const int computeFactorial(const int integerNumber);
 
 } // namespace cppbase
 

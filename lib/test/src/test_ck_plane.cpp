@@ -35,7 +35,8 @@ void chk_ck(const PG& myck)
     auto a1 = P {1, -2, 3};
     auto a2 = P {4, 0, 6};
     auto a3 = P {-7, 1, 2};
-    const auto triangle = std::tuple {std::move(a1), std::move(a2), std::move(a3)};
+    const auto triangle =
+        std::tuple {std::move(a1), std::move(a2), std::move(a3)};
     const auto trilateral = tri_dual(triangle);
     const auto& [l1, l2, l3] = trilateral;
     const auto [t1, t2, t3] = myck.tri_altitude(triangle);
@@ -88,7 +89,7 @@ void chk_ck(const PG& myck)
 
 template <typename P, typename L = typename P::dual>
 requires Projective_plane_prim<P, L> // c++20 concept
-struct myck : ck<P, L, myck>
+    struct myck : ck<P, L, myck>
 {
     constexpr L perp(const P& v) const
     {

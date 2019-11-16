@@ -96,7 +96,8 @@ void chk_euclid(const Triple<P>& triangle)
         CHECK(tsf == 0);
         CHECK(tqf2 == 0);
         // auto o2 = orthocenter(
-        //               std::tuple {std::move(o), std::move(a2), std::move(a3)});
+        //               std::tuple {std::move(o), std::move(a2),
+        //               std::move(a3)});
         // CHECK(a1 == o2);
     }
     else

@@ -75,7 +75,7 @@ TEST_CASE("Projective Point (Special case)", "[proj_plane]")
     auto p_nan = pg_point {0, 0, 0};
 
     CHECK(l_nan.is_NaN());
-    
+
     CHECK(l_nan == l_nan);
     CHECK(l_nan == p * p); // join two equal points
     CHECK(p_nan == l * l);

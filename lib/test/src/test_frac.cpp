@@ -13,14 +13,14 @@ TEST_CASE("Fraction", "[Fraction]")
     using boost::multiprecision::cpp_int;
     static_assert(Integral<cpp_int>);
 
-    const auto a = cpp_int{3};
-    const auto b = cpp_int{4};
-    const auto c = cpp_int{5};
-    const auto d = cpp_int{6};
-    const auto f = cpp_int{-30};
-    const auto g = cpp_int{40};
-    const auto z = cpp_int{0};
-    const auto h = cpp_int{-g};
+    const auto a = cpp_int {3};
+    const auto b = cpp_int {4};
+    const auto c = cpp_int {5};
+    const auto d = cpp_int {6};
+    const auto f = cpp_int {-30};
+    const auto g = cpp_int {40};
+    const auto z = cpp_int {0};
+    const auto h = cpp_int {-g};
 
     const auto p = Fraction {a, b};
     std::cout << p << '\n';

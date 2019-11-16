@@ -42,7 +42,8 @@ void chk_tri(const PG& myck)
 
     // auto zero = std::array<K, 3> {0, 0, 0};
 
-    const auto triangle = std::tuple {std::move(a1), std::move(a2), std::move(a3)};
+    const auto triangle =
+        std::tuple {std::move(a1), std::move(a2), std::move(a3)};
     const auto trilateral = tri_dual(triangle);
 
     const auto& [l1, l2, l3] = trilateral;
@@ -51,7 +52,8 @@ void chk_tri(const PG& myck)
     const auto S = std::tuple {myck.tri_spread(trilateral)};
 
     auto a4 = plucker(2, a1, 3, a2);
-    const auto collin = std::tuple {std::move(a1), std::move(a2), std::move(a4)};
+    const auto collin =
+        std::tuple {std::move(a1), std::move(a2), std::move(a4)};
     const auto Q2 = myck.tri_quadrance(collin);
 
     if constexpr (Integral<K>)

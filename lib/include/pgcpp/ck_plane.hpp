@@ -1,8 +1,8 @@
 #pragma once
 
-#include "pgcpp/pg_common.hpp"
-#include "pgcpp/proj_plane.hpp"
-#include "pgcpp/proj_plane_concepts.h"
+#include "pg_common.hpp"
+#include "proj_plane.hpp"
+#include "proj_plane_concepts.h"
 #include <type_traits> // std::is_base_of_v
 
 namespace fun

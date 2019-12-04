@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "pgcpp/common_concepts.h"
+#include "common_concepts.h"
 #include <array>
 #include <tuple>
 

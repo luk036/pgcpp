@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "pgcpp/common_concepts.h"
+#include "common_concepts.h"
 #include <cmath>
 #include <numeric>
 #include <type_traits>

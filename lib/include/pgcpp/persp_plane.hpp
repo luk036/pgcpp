@@ -1,9 +1,9 @@
 #pragma once
 
-#include "pgcpp/ck_plane.hpp"
-#include "pgcpp/fractions.hpp"
-// #include "pgcpp/pg_common.hpp"
-#include "pgcpp/proj_plane.hpp" // import pg_point, involution, tri_func,
+#include "ck_plane.hpp"
+#include "fractions.hpp"
+// #include "pg_common.hpp"
+#include "proj_plane.hpp" // import pg_point, involution, tri_func,
 
 namespace fun
 {

@@ -8,6 +8,15 @@
 
 using namespace fun;
 
+TEST_CASE("undefined behavior", "[Fraction]")
+{
+    int a = 125;
+    int c = 32;
+    int b = a >> c;
+
+    CHECK(b == 0);
+}
+
 TEST_CASE("Fraction", "[Fraction]")
 {
     using boost::multiprecision::cpp_int;

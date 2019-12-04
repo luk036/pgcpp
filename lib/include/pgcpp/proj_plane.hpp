@@ -1,7 +1,7 @@
 #pragma once
 
-#include "pgcpp/fractions.hpp"
-#include "pgcpp/proj_plane_concepts.h"
+#include "fractions.hpp"
+#include "proj_plane_concepts.h"
 #include <cassert>
 #include <tuple>
 

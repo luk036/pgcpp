@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "pgcpp/pg_common.hpp"
-#include "pgcpp/pg_object.hpp"
+#include "pg_common.hpp"
+#include "pg_object.hpp"
 
 namespace fun
 {

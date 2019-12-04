@@ -1,9 +1,9 @@
 #pragma once
 
-#include "pgcpp/fractions.hpp"
-#include "pgcpp/pg_common.hpp" // import cross2, dot1
-#include "pgcpp/proj_plane.hpp" // import pg_point, involution, tri_func, quad_func, plucker
-#include "pgcpp/proj_plane_concepts.h"
+#include "fractions.hpp"
+#include "pg_common.hpp" // import cross2, dot1
+#include "proj_plane.hpp" // import pg_point, involution, tri_func, quad_func, plucker
+#include "proj_plane_concepts.h"
 #include <type_traits>
 
 namespace fun

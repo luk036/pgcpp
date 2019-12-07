@@ -163,23 +163,10 @@ class involution
      * @param m
      * @param o
      */
-    constexpr involution(const L& m, P&& o) // input mirror and center
+    constexpr involution(const L& m, P o) // input mirror and center
         : _m {m}
-        , _o {std::forward<P>(o)}
+        , _o {std::move(o)}
         , _c {m.dot(_o)}
-    {
-    }
-
-    /*!
-     * @brief Construct a new involution object
-     *
-     * @param m
-     * @param o
-     */
-    constexpr involution(const L& m, const P& o) // input mirror and center
-        : _m {m}
-        , _o {o}
-        , _c {m.dot(o)}
     {
     }
 

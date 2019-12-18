@@ -51,7 +51,7 @@ constexpr bool coincident(const L& l, const Sequence& seq)
 {
     for (auto const& p : seq)
     {
-        if (!incident(l, p))
+        if (not incident(l, p))
             return false;
     }
     return true;
@@ -355,7 +355,7 @@ void check_desargue(const Triple<P>& tri1, const Triple<P>& tri2)
     const auto trid2 = tri_dual(tri2);
     const auto b1 = persp(tri1, tri2);
     const auto b2 = persp(trid1, trid2);
-    assert((b1 && b2) || (!b1 && !b2));
+    assert((b1 and b2) or (not b1 and not b2));
 }
 
 } // namespace fun

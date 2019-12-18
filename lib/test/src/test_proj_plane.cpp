@@ -21,7 +21,7 @@ TEST_CASE("Projective Point", "[proj_plane]")
     std::cout << l << '\n';
 
     CHECK(l == q * p);
-    CHECK(!(l == q));
+    CHECK(not (l == q));
     CHECK(incident(l, p));
     CHECK(incident(l, q));
 

@@ -102,7 +102,7 @@ concept bool Projective_plane =
 
 /*
 axiom(P p, P q, P r, L l) {
-  l == L{p, q} => I(p, l) && I(q, l);
+  l == L{p, q} => I(p, l) and I(q, l);
 }
 */
 

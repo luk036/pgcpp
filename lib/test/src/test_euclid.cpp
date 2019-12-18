@@ -22,7 +22,7 @@ static auto Zero = Approx(0).margin(0.01);
  */
 inline auto ApproxZero(const auto& a) -> bool
 {
-    return a[0] == Zero && a[1] == Zero && a[2] == Zero;
+    return a[0] == Zero and a[1] == Zero and a[2] == Zero;
 }
 
 /*!
@@ -77,8 +77,8 @@ void chk_euclid(const Triple<P>& triangle)
 
     if constexpr (Integral<K>)
     {
-        CHECK(!is_parallel(l1, l2));
-        CHECK(!is_parallel(l2, l3));
+        CHECK(not is_parallel(l1, l2));
+        CHECK(not is_parallel(l2, l3));
         CHECK(is_perpendicular(t1, l1));
         CHECK(spread(t1, l1) == 1);
         CHECK(coincident(t1, t2, t3));

@@ -185,7 +185,7 @@ constexpr bool check_sine_law(const Triple<Q_t>& Q, const Triple<Q_t>& S)
 {
     const auto& [q1, q2, q3] = Q;
     const auto& [s1, s2, s3] = S;
-    return (s1 * q2 == s2 * q1) && (s2 * q3 == s3 * q2);
+    return (s1 * q2 == s2 * q1) and (s2 * q3 == s3 * q2);
 }
 
 /*!

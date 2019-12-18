@@ -21,7 +21,7 @@ static auto Zero = Approx(0).margin(0.01);
  */
 inline auto ApproxZero(const auto& a) -> bool
 {
-    return a[0] == Zero && a[1] == Zero && a[2] == Zero;
+    return a[0] == Zero and a[1] == Zero and a[2] == Zero;
 }
 
 /*!

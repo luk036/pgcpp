@@ -1,6 +1,7 @@
 Projective Geometry
 ===================
 
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/luk036/pgcpp)
 [![Build Status](https://travis-ci.org/luk036/pgcpp.svg?branch=master)](https://travis-ci.org/luk036/pgcpp)
 [![Documentation Status](https://readthedocs.org/projects/pgcpp/badge/?version=latest)](https://pgcpp.readthedocs.io/en/latest/?badge=latest)
 [![codecov](https://codecov.io/gh/luk036/pgcpp/branch/master/graph/badge.svg)](https://codecov.io/gh/luk036/pgcpp)
@@ -15,3 +16,22 @@ Features
 --------
 
 -   constexpr aware
+
+
+Installation and run
+--------------------
+
+To start with gitpod:
+
+    ./envconfig.sh  # first time
+    conda activate /workspace/conda/arcw
+
+To build with Ninja:
+
+    mkdir build && cd build
+    cmake -GNinja ..
+    ninja all
+
+To run CTest:
+
+    ninja test

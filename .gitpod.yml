@@ -1,10 +1,12 @@
 image:
   file: .gitpod.Dockerfile
 tasks:
-- command: pyenv global 3.7.4 &&
-           chmod +x envconfig.sh
+  - command: >
+      chmod +x envconfig.sh &&
+      ./envconfig.sh &&
+      export CONDA_PREFIX=/opt/conda
 
 vscode:
   extensions:
+    - gocarlos.cmake-tools@1.5.2:nUO/opvJVLgFgKq+tbOX6A==
     - ms-vscode.cpptools@0.26.2:Pq/tmf2WN3SanVzB4xZc1g==
-    - ms-vscode.cmake-tools@1.2.3:qLtqI3aUcEBX9EpuK0ZCyw==

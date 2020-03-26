@@ -7,12 +7,12 @@
 #include "pgcpp/pg_line.hpp"
 #include "pgcpp/pg_point.hpp"
 #include <boost/multiprecision/cpp_int.hpp>
-#include <catch2/catch.hpp>
+#include <doctest.h>
 #include <iostream>
 
 using namespace fun;
 
-static auto Zero = Approx(0).margin(0.01);
+static auto Zero = doctest::Approx(0).epsilon(0.01);
 
 /*!
  * @brief
@@ -110,7 +110,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
     }
 };
 
-TEST_CASE("CK plane chk_ck (int)", "[ck_plane]")
+TEST_CASE("CK plane chk_ck (int)")
 {
     // using boost::multiprecision::cpp_int;
     // namespace mp = boost::multiprecision;
@@ -132,7 +132,7 @@ TEST_CASE("CK plane chk_ck (int)", "[ck_plane]")
     chk_ck(P);
 }
 
-TEST_CASE("CK plane chk_ck (float)", "[ck_plane]")
+TEST_CASE("CK plane chk_ck (float)")
 {
     chk_ck(myck<pg_point<double>>());
     chk_ck(myck<pg_line<double>>());

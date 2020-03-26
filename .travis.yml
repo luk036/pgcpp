@@ -14,8 +14,6 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-7
-            - libfmt-dev
-            - libspdlog-dev
             - lcov
       env: COMPILER=gcc GCC=7 BUILD_TYPE='Debug'
     - os: linux
@@ -31,8 +29,6 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-8
-            - libfmt-dev
-            - libspdlog-dev
             - lcov
       env: COMPILER=gcc GCC=8 BUILD_TYPE='Debug'
     - os: linux
@@ -45,8 +41,6 @@ matrix:
     #       packages:
     #         - clang-8
     #         - libstdc++-8-dev
-    #         - libfmt-dev
-    #         - libspdlog-dev
     #         - lcov
     #   env: COMPILER=clang CLANG=8 BUILD_TYPE='Debug'
     # - os: linux
@@ -91,16 +85,15 @@ install:
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
   - conda info -a
-  - conda install libboost -c conda-forge
-  - conda install catch2 -c conda-forge
+  - conda install -c conda-forge libboost fmt spdlog
 
 script:
   - |
     if [[ "$BUILD_TYPE" == "Coverage" ]]; then
       mkdir build && cd build;
-      cmake -DENABLE_COVERAGE=1 -DCMAKE_PREFIX_PATH=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_IGNORE_PATH=/usr/lib ..;
+      cmake -DCMAKE_PREFIX_PATH=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Coverage -DCMAKE_SYSTEM_IGNORE_PATH=/usr/lib ..;
       make -j2
-      ctest -VV --output-on-failure
+      make coverage
     else
       mkdir build && cd build;
       cmake -DBUILD_TESTS=ON -DCMAKE_PREFIX_PATH=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_SYSTEM_IGNORE_PATH=/usr/lib ..;
@@ -111,11 +104,8 @@ script:
 after_success:
   - |
     if [[ "$BUILD_TYPE" == "Coverage" ]]; then
-      lcov --directory . --capture --output-file coverage.info # capture coverage info
-      lcov --remove coverage.info '/usr/*' $CONDA_PREFIX'/*' --output-file coverage.info # filter out system
-      lcov --list coverage.info #debug info
-      # Uploading report to CodeCov
-      bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
+      lcov --list coverage_out.info.cleaned
+      bash <(curl -s https://codecov.io/bash) -f coverage_out.info.cleaned || echo "Codecov did not collect coverage reports"
     fi
 
 notifications:

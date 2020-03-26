@@ -6,12 +6,12 @@
 #include "pgcpp/pg_line.hpp"
 #include "pgcpp/pg_point.hpp"
 #include <boost/multiprecision/cpp_int.hpp>
-#include <catch2/catch.hpp>
+#include <doctest.h>
 #include <iostream>
 
 using namespace fun;
 
-static auto Zero = Approx(0).margin(0.01);
+static auto Zero = doctest::Approx(0).epsilon(0.01);
 
 /*!
  * @brief
@@ -115,7 +115,7 @@ void chk_euclid(const Triple<P>& triangle)
         CHECK(quadrance(a1, a1) == Zero);
         CHECK(angle(l1, l1) == Zero);
         CHECK(distance(a1, a1) == Zero);
-        // CHECK(cross_s(l1, l2) == Approx(c3).epsilon(0.01));
+        // CHECK(cross_s(l1, l2) == doctest::Approx(c3).epsilon(0.01));
         CHECK((c3 + s3) - 1 == Zero);
         CHECK(tqf - Ar(q1, q2, q3) == Zero);
         CHECK(tsf == Zero);
@@ -154,7 +154,7 @@ void chk_cyclic(const T& quadangle)
     }
 }
 
-TEST_CASE("Euclid plane (cpp_int)", "[euclid_plane]")
+TEST_CASE("Euclid plane (cpp_int)")
 {
     using boost::multiprecision::cpp_int;
 
@@ -166,7 +166,7 @@ TEST_CASE("Euclid plane (cpp_int)", "[euclid_plane]")
     chk_euclid(triangle);
 }
 
-TEST_CASE("Euclid plane (floating point)", "[euclid_plane]")
+TEST_CASE("Euclid plane (floating point)")
 {
     auto a1 = pg_point {1., 3., 1.};
     auto a2 = pg_point {4., 2., 1.};
@@ -176,7 +176,7 @@ TEST_CASE("Euclid plane (floating point)", "[euclid_plane]")
     chk_euclid(triangle);
 }
 
-TEST_CASE("Euclid Cyclic Points (cpp_int)", "[euclid_plane]")
+TEST_CASE("Euclid Cyclic Points (cpp_int)")
 {
     using boost::multiprecision::cpp_int;
     using P = pg_point<cpp_int>;
@@ -191,7 +191,7 @@ TEST_CASE("Euclid Cyclic Points (cpp_int)", "[euclid_plane]")
     chk_cyclic(quadangle);
 }
 
-TEST_CASE("Euclid Cyclic Points (double)", "[euclid_plane]")
+TEST_CASE("Euclid Cyclic Points (double)")
 {
     using P = pg_point<double>;
 

@@ -6,11 +6,13 @@ RUN apt-get update \
  && apt-get install -y \
   apt-utils \
   sudo \
+  aria2 \
   git \
   less \
   libfmt-dev \
   libspdlog-dev \
   lcov \
+  neofetch \
   wget
 
 RUN mkdir -p /workspace/data \

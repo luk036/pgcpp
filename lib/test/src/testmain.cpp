@@ -1,11 +1,10 @@
-#define CATCH_CONFIG_MAIN // This tells Catch to provide a main() - only do
-                          // this in one cpp file
-#include "catch2/catch.hpp"
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include <doctest.h>
 #include <array>
 #include <gsl/span>
 #include <vector>
 
-TEST_CASE("Test span", "[testmain]")
+TEST_CASE("Test span")
 {
     auto k = std::array {3, 4, 5};
     auto s = gsl::span<int> {k};

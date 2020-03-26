@@ -20,7 +20,7 @@ foreach(ONE_BENCH_CPP ${ALL_BENCH_CPP})
 
    # If required, you can add your project library here
 # ...
-    ${LIB_NAME} ${LIBS} Threads::Threads
+    ${LIB_NAME} ${LIBS} doctest Threads::Threads
     benchmark
    )
 

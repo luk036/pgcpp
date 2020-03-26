@@ -5,12 +5,12 @@
 #include "pgcpp/pg_line.hpp"
 #include "pgcpp/pg_point.hpp"
 #include <boost/multiprecision/cpp_int.hpp>
-#include <catch2/catch.hpp>
+#include <doctest.h>
 #include <iostream>
 
 using namespace fun;
 
-static auto Zero = Approx(0).margin(0.01);
+static auto Zero = doctest::Approx(0).epsilon(0.01);
 
 /*!
  * @brief
@@ -78,7 +78,7 @@ void chk_tri(const PG& myck)
     }
 }
 
-TEST_CASE("Elliptic/Hyperbolic plane", "[ell_plane]")
+TEST_CASE("Elliptic/Hyperbolic plane")
 {
     using boost::multiprecision::cpp_int;
 
@@ -88,7 +88,7 @@ TEST_CASE("Elliptic/Hyperbolic plane", "[ell_plane]")
     chk_tri(hyck<pg_line<cpp_int>>());
 }
 
-TEST_CASE("Elliptic/Hyperbolic plane (double)", "[ell_plane]")
+TEST_CASE("Elliptic/Hyperbolic plane (double)")
 {
     chk_tri(ellck<pg_point<double>>());
     chk_tri(ellck<pg_line<double>>());

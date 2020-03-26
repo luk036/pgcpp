@@ -31,6 +31,9 @@ add_library (${LIB_NAME} STATIC ${LIB_SOURCE_FILES} ${LIB_HEADER_FILES})
 set (LIBRARY_INCLUDE_PATH  ${LIBRARY_INCLUDE_PATH} PARENT_SCOPE)
 set (LIB_NAME ${LIB_NAME} PARENT_SCOPE)
 
+# There's also (probably) doctests within the library, so we need to see this as well.
+target_link_libraries(${LIB_NAME} PUBLIC doctest)
+
 #test
 enable_testing ()
 add_subdirectory (test)

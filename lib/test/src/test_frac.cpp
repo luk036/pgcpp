@@ -3,12 +3,12 @@
  */
 #include "pgcpp/fractions.hpp"
 #include <boost/multiprecision/cpp_int.hpp>
-#include <catch2/catch.hpp>
+#include <doctest.h>
 #include <iostream>
 
 using namespace fun;
 
-TEST_CASE("undefined behavior", "[Fraction]")
+TEST_CASE("undefined behavior")
 {
     int a = 125;
     int c = 32;
@@ -16,7 +16,7 @@ TEST_CASE("undefined behavior", "[Fraction]")
     std::cout << "125 >> 32 = " << b << "\n";
 }
 
-TEST_CASE("Fraction", "[Fraction]")
+TEST_CASE("Fraction")
 {
     using boost::multiprecision::cpp_int;
     static_assert(Integral<cpp_int>);
@@ -40,7 +40,7 @@ TEST_CASE("Fraction", "[Fraction]")
     CHECK(p != 0);
 }
 
-TEST_CASE("Fraction Special Cases", "[Fraction]")
+TEST_CASE("Fraction Special Cases")
 {
     const auto p = Fraction {3, 4};
     const auto inf = Fraction {1, 0};

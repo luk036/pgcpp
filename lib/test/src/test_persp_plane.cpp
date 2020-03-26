@@ -6,12 +6,12 @@
 #include "pgcpp/pg_line.hpp"
 #include "pgcpp/pg_point.hpp"
 #include <boost/multiprecision/cpp_int.hpp>
-#include <catch2/catch.hpp>
+#include <doctest.h>
 #include <iostream>
 
 using namespace fun;
 
-static auto Zero = Approx(0).margin(0.01);
+static auto Zero = doctest::Approx(0).epsilon(0.01);
 
 /*!
  * @brief
@@ -76,7 +76,7 @@ void chk_degenerate(const PG& myck)
     }
 }
 
-TEST_CASE("Perspective Euclid plane (cpp_int)", "[persp_plane]")
+TEST_CASE("Perspective Euclid plane (cpp_int)")
 {
     using boost::multiprecision::cpp_int;
 
@@ -89,7 +89,7 @@ TEST_CASE("Perspective Euclid plane (cpp_int)", "[persp_plane]")
     chk_degenerate(P);
 }
 
-TEST_CASE("Perspective Euclid plane (floating point)", "[persp_plane]")
+TEST_CASE("Perspective Euclid plane (floating point)")
 {
     auto Ire = pg_point {0., 1., 1.};
     auto Iim = pg_point {1., 0., 0.};

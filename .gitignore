@@ -1,6 +1,6 @@
 # CMake
 Build
-external/*
+external/*/
 build*/
 tidy
 Win32

@@ -3,7 +3,8 @@
 # CMake build : library tests
 
 #configure variables
-set (TEST_APP_NAME "${LIB_NAME}Test")
+set (TEST_MAIN "${LIB_NAME}Test")
+set (TEST_RUNNER_PARAMS "")  # Any arguemnts to feed the test runner (change as needed).
 
 #configure directories
 set (TEST_MODULE_PATH "${LIBRARY_MODULE_PATH}/test")
@@ -22,14 +23,17 @@ file (GLOB TEST_SOURCE_FILES "${TEST_SRC_PATH}/*.cpp")
 # add_definitions ( -std=c++1z )
 
 #set target executable
-add_executable (${TEST_APP_NAME} ${TEST_SOURCE_FILES})
+add_executable (${TEST_MAIN} ${TEST_SOURCE_FILES} ${TEST_RUNNER_PARAMS})
 
 #add the library
-target_link_libraries (${TEST_APP_NAME} ${LIB_NAME} ${LIBS} Threads::Threads)
+target_link_libraries (${TEST_MAIN} ${LIB_NAME} ${LIBS} doctest Threads::Threads -lrt)
 
 # Turn on CMake testing capabilities
 enable_testing()
 
 #parse catch tests
-## ParseAndAddCatchTests (${TEST_APP_NAME})
-add_test (NAME ${TEST_APP_NAME} COMMAND ${TEST_APP_NAME} )
+## ParseAndAddCatchTests (${TEST_MAIN})
+add_test (NAME ${TEST_MAIN} COMMAND ${TEST_MAIN} )
+
+# Adds a 'coverage' target.
+include(CodeCoverage)

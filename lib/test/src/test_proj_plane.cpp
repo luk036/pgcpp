@@ -4,13 +4,13 @@
 #include "pgcpp/pg_line.hpp"
 #include "pgcpp/pg_point.hpp"
 #include "pgcpp/proj_plane.hpp"
-#include <catch2/catch.hpp>
+#include <doctest.h>
 #include <complex>
 #include <iostream>
 
 using namespace fun;
 
-TEST_CASE("Projective Point", "[proj_plane]")
+TEST_CASE("Projective Point")
 {
     using namespace std::complex_literals;
 
@@ -39,7 +39,7 @@ TEST_CASE("Projective Point", "[proj_plane]")
     // check_desargue(std::tuple{p, q, r}, std::tuple{s, t, u});
 }
 
-TEST_CASE("Projective Line", "[proj_plane]")
+TEST_CASE("Projective Line")
 {
     using namespace std::complex_literals;
 
@@ -66,7 +66,7 @@ TEST_CASE("Projective Line", "[proj_plane]")
     // check_desargue(std::tuple{l, m, r}, std::tuple{s, t, u});
 }
 
-TEST_CASE("Projective Point (Special case)", "[proj_plane]")
+TEST_CASE("Projective Point (Special case)")
 {
     auto p = pg_point {1, 3, 2};
     auto l = pg_line {-2, 3, 1};

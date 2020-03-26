@@ -12,7 +12,9 @@ endif()
 
 project (PgCpp LANGUAGES CXX)
 
-option(ENABLE_COVERAGE "Generates the coverage build" OFF)
+option(ENABLE_COVERAGE "Generates the coverage build" ON)
+option(ENABLE_DOCTESTS "Include tests in the library. Setting this to OFF will remove all doctest related code.
+                        Tests in tests/*.cpp will still be enabled." OFF)
 
 include(CTest) # Must be called before adding tests but after calling project(). This automatically calls enable_testing() and configures ctest targets when using Make/Ninja
 include(CMakeDependentOption)# This is a really useful scripts that creates options that depends on other options. It can even be used with generator expressions !
@@ -20,6 +22,8 @@ include(CMakeDependentOption)# This is a really useful scripts that creates opti
 # Custom modules and scripts
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake")
+include(Colors)
+include(Doctest)
 include(LTO)
 include(Warnings)
 include(CopyDllsForDebug)
@@ -44,14 +48,14 @@ cmake_dependent_option(BP_BUILD_TESTS
 # It is always easier to navigate in an IDE when projects are organized in folders.
 set_property (GLOBAL PROPERTY USE_FOLDERS ON)
 
-set (CMAKE_CXX_STANDARD 20)
+set (CMAKE_CXX_STANDARD 17)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
 # Don't use e.g. GNU extension (like -std=gnu++11) for portability
 set(CMAKE_CXX_EXTENSIONS OFF)
 if(MSVC)
-    add_compile_options(/std:c++20 /W3 /WX )
+    add_compile_options(/std:c++17 /W3 /WX )
 else()
-    add_compile_options(-fconcepts -std=c++2a -Wall -Wnon-virtual-dtor -Wunused -pedantic)
+    add_compile_options(-fconcepts -std=c++17 -Wall -Wnon-virtual-dtor -Wunused -pedantic)
 endif()
 
 # set(LIBS ${LIBS} "-L$ENV{CONDA_PREFIX}/lib")
@@ -70,14 +74,14 @@ endif (Boost_FOUND)
 
 set (LIBRARY_INCLUDE_PATH  ${LIBRARY_INCLUDE_PATH} ${Boost_INCLUDE_DIRS})
 
-add_subdirectory (third_party EXCLUDE_FROM_ALL)
+add_subdirectory (external EXCLUDE_FROM_ALL)
 
 # Enable code coverage with -DENABLE_COVERAGE=1
-if(ENABLE_COVERAGE)
-    set(CMAKE_BUILD_TYPE "Coverage")
-    include(CodeCoverage)
-    setup_target_for_coverage(${PROJECT_NAME}_coverage ${PROJECT_NAME}_test coverage)
-endif()
+# if(ENABLE_COVERAGE)
+#     set(CMAKE_BUILD_TYPE "Coverage")
+#     include(CodeCoverage)
+#     setup_target_for_coverage(${PROJECT_NAME}_coverage ${PROJECT_NAME}_test coverage)
+# endif()
 
 # add_subdirectory (doc)
 add_subdirectory (lib)

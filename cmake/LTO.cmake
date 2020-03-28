@@ -52,10 +52,6 @@
 # SOFTWARE.
 
 
-cmake_minimum_required(VERSION 3.1)
-
-option(ENABLE_LTO "enable link time optimization" ON)
-
 macro(find_lto lang)
     if(ENABLE_LTO AND NOT LTO_${lang}_CHECKED)
 
@@ -220,7 +216,7 @@ macro(find_lto lang)
           if(NOT __IPO_SUPPORTED)
             message(STATUS "IPO is not supported or broken.")
           else()
-            message(STATUS "IPO is supported !")
+            message(STATUS "IPO is supported")
           endif()
       endif()
       if(__IPO_SUPPORTED)

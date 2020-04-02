@@ -36,7 +36,7 @@ concept bool Sequence = requires(T t, Element_type<T> x)
     { t.size() } -> int;
     { t.empty() } -> bool;
     { t.back() } -> Element_type<T>;
-    { t.push_back(x) }
+    { t.push_back(x) };
 };
 
 template <typename T>
@@ -64,8 +64,8 @@ concept bool Equality_comparable = requires(T a, T b)
 };
 // ( T, == ) must be reflective, symmetric, and transitive.
 
-template <Equality_comparable K>
-concept bool CommutativeRing = requires(K a, K b)
+template <typename K>
+concept bool CommutativeRing = Equality_comparable<K> && requires(K a, K b)
 {
     { a + b } -> K;
     { a - b } -> K;
@@ -75,8 +75,8 @@ concept bool CommutativeRing = requires(K a, K b)
     { K(0) } -> K;
 };
 
-template <CommutativeRing Z>
-concept bool Integral = requires(Z a, Z b)
+template <typename Z>
+concept bool Integral = CommutativeRing<Z> && requires(Z a, Z b)
 {
     { a % b } -> Z;
     { a / b } -> Z;

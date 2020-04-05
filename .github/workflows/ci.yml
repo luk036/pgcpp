@@ -18,7 +18,8 @@ jobs:
         
     - name: install related packages
       run: |
-	sudo apt install libboost-dev
+        sudo apt-get update -m && sudo apt-get install libboost-dev
+      shell: bash
     - name: configure
       run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=debug ..
     - name: build

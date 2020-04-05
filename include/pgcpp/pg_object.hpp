@@ -35,7 +35,7 @@ class pg_object : public std::array<_K, 3>
     /*!
      * @brief Construct a new pg object object
      *
-     * @param a array of coordinates
+     * @param[in] a array of coordinates
      */
     constexpr explicit pg_object(const _Base& a)
         : _Base {a}
@@ -47,7 +47,7 @@ class pg_object : public std::array<_K, 3>
     /*!
      * @brief Equal to
      *
-     * @param rhs
+     * @param[in] rhs
      * @return true if this object is equivalent to the rhs
      * @return false otherwise
      */
@@ -63,7 +63,7 @@ class pg_object : public std::array<_K, 3>
     /*!
      * @brief Not equal to
      *
-     * @param rhs
+     * @param[in] rhs
      * @return true if this object is not equivalent to the rhs
      * @return false otherwise
      */
@@ -75,7 +75,7 @@ class pg_object : public std::array<_K, 3>
     /*!
      * @brief Equal to
      *
-     * @param rhs
+     * @param[in] rhs
      * @return true if this object is equivalent to the rhs
      * @return false otherwise
      */
@@ -89,7 +89,7 @@ class pg_object : public std::array<_K, 3>
     /*!
      * @brief the dot product
      *
-     * @param l
+     * @param[in] l
      * @return _K
      */
     constexpr _K dot(const dual& l) const
@@ -100,7 +100,7 @@ class pg_object : public std::array<_K, 3>
     /*!
      * @brief Join or meet
      *
-     * @param rhs
+     * @param[in] rhs
      * @return true if this point is equivalent to the rhs
      * @return false otherwise
      */
@@ -125,10 +125,10 @@ class pg_object : public std::array<_K, 3>
  *
  * @tparam P
  * @tparam Value_type<P>
- * @param lda1
- * @param p
- * @param mu1
- * @param q
+ * @param[in] lda1
+ * @param[in] p
+ * @param[in] mu1
+ * @param[in] q
  * @return P
  */
 template <typename P, CommutativeRing _K = Value_type<P>>
@@ -143,8 +143,8 @@ constexpr P plucker(const _K& lda1, const P& p, const _K& mu1, const P& q)
  * @tparam _K
  * @tparam _dual
  * @tparam _Stream
- * @param os
- * @param p
+ * @param[in] os
+ * @param[in] p
  * @return _Stream&
  */
 template <CommutativeRing _K, typename _dual, class _Stream>

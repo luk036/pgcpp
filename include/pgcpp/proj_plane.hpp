@@ -21,9 +21,9 @@ namespace fun
  *
  * @tparam P Point
  * @tparam L Line
- * @param p p
- * @param q q
- * @param r r
+ * @param[in] p p
+ * @param[in] q q
+ * @param[in] r r
  * @return true if three points are conincident
  * @return false otherwise
  */
@@ -38,8 +38,8 @@ constexpr bool coincident(const P& p, const P& q, const P& r)
  *
  * @tparam P Point
  * @tparam L Line
- * @param l line
- * @param seq Sequence of points
+ * @param[in] l line
+ * @param[in] seq Sequence of points
  * @return true if all points are incident with l
  * @return false otherwise
  */
@@ -63,7 +63,7 @@ using Triple = std::tuple<P, P, P>;
 /*!
  * @brief
  *
- * @param tri
+ * @param[in] tri
  * @return auto
  */
 template <Projective_plane_prim2 P>
@@ -76,8 +76,8 @@ constexpr auto tri_dual(const Triple<P>& tri)
 /*!
  * @brief
  *
- * @param func
- * @param tri
+ * @param[in] func
+ * @param[in] tri
  * @return auto
  */
 template <Projective_plane_prim2 P>
@@ -94,8 +94,8 @@ constexpr auto tri_func(auto func, const Triple<P>& tri)
 /*!
  * @brief
  *
- * @param tri1
- * @param tri2
+ * @param[in] tri1
+ * @param[in] tri2
  * @return true
  * @return false
  */
@@ -112,8 +112,8 @@ constexpr bool persp(const Triple<P>& tri1, const Triple<P>& tri2)
 /*!
  * @brief
  *
- * @param p
- * @param l
+ * @param[in] p
+ * @param[in] l
  * @return true
  * @return false
  */
@@ -131,9 +131,9 @@ constexpr bool incident(const P& p, const L& l)
  * @brief
  *
  * @tparam P
- * @param A
- * @param B
- * @param C
+ * @param[in] A
+ * @param[in] B
+ * @param[in] C
  * @return constexpr P
  */
 template <Projective_plane2 P>
@@ -160,8 +160,8 @@ class involution
     /*!
      * @brief Construct a new involution object
      *
-     * @param m
-     * @param o
+     * @param[in] m
+     * @param[in] o
      */
     constexpr involution(const L& m, P o) // input mirror and center
         : _m {m}
@@ -173,7 +173,7 @@ class involution
     /*!
      * @brief
      *
-     * @param p
+     * @param[in] p
      * @return P
      */
     constexpr auto operator()(const P& p) const -> P
@@ -186,10 +186,10 @@ class involution
  * @brief
  *
  * @tparam K
- * @param a
- * @param b
- * @param c
- * @param d
+ * @param[in] a
+ * @param[in] b
+ * @param[in] c
+ * @param[in] d
  * @return auto
  */
 template <CommutativeRing K>
@@ -210,10 +210,10 @@ constexpr auto ratio_ratio(const K& a, const K& b, const K& c, const K& d)
  *
  * @tparam P
  * @tparam L
- * @param A point \in P
- * @param B point \in P
- * @param l line \in P
- * @param m line \in P
+ * @param[in] A point \in P
+ * @param[in] B point \in P
+ * @param[in] l line \in P
+ * @param[in] m line \in P
  * @return cross ratio R(A,B;l,m)
  *
  * @todo rewrite by projecting to the y-axis first [:2]
@@ -234,10 +234,10 @@ constexpr auto x_ratio(const P& A, const P& B, const L& l, const L& m)
 /*!
  * @brief
  *
- * @param A
- * @param B
- * @param C
- * @param D
+ * @param[in] A
+ * @param[in] B
+ * @param[in] C
+ * @param[in] D
  * @return constexpr auto
  */
 template <Projective_plane2 P>
@@ -250,10 +250,10 @@ constexpr auto R(const P& A, const P& B, const P& C, const P& D)
 /*!
  * @brief
  *
- * @param A
- * @param B
- * @param C
- * @param D
+ * @param[in] A
+ * @param[in] B
+ * @param[in] C
+ * @param[in] D
  * @return constexpr auto
  */
 template <Projective_plane_coord2 P>
@@ -269,10 +269,10 @@ constexpr auto R0(const P& A, const P& B, const P& C, const P& D)
 /*!
  * @brief
  *
- * @param A
- * @param B
- * @param C
- * @param D
+ * @param[in] A
+ * @param[in] B
+ * @param[in] C
+ * @param[in] D
  * @return constexpr auto
  */
 template <Projective_plane_coord2 P>
@@ -288,10 +288,10 @@ constexpr auto R1(const P& A, const P& B, const P& C, const P& D)
 /*!
  * @brief
  *
- * @param A
- * @param B
- * @param C
- * @param D
+ * @param[in] A
+ * @param[in] B
+ * @param[in] C
+ * @param[in] D
  * @return constexpr auto
  */
 template <Projective_plane_coord2 P>
@@ -309,10 +309,10 @@ constexpr auto R(const P& A, const P& B, const P& C, const P& D)
 /*!
  * @brief
  *
- * @param A
- * @param B
- * @param C
- * @param D
+ * @param[in] A
+ * @param[in] B
+ * @param[in] C
+ * @param[in] D
  * @return constexpr auto
  */
 template <Projective_plane2 P>
@@ -327,8 +327,8 @@ constexpr auto is_harmonic(const P& A, const P& B, const P& C, const P& D)
  *
  * @tparam P
  * @tparam L
- * @param co1
- * @param co2
+ * @param[in] co1
+ * @param[in] co2
  */
 template <Projective_plane_prim2 P>
 void check_pappus(const Triple<P>& co1, const Triple<P>& co2)
@@ -345,8 +345,8 @@ void check_pappus(const Triple<P>& co1, const Triple<P>& co2)
 /*!
  * @brief
  *
- * @param tri1
- * @param tri2
+ * @param[in] tri1
+ * @param[in] tri2
  */
 template <Projective_plane_prim2 P>
 void check_desargue(const Triple<P>& tri1, const Triple<P>& tri2)

@@ -29,9 +29,9 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane>
     /*!
      * @brief Construct a new persp euclid plane object
      *
-     * @param Ire
-     * @param Iim
-     * @param l_infty
+     * @param[in] Ire
+     * @param[in] Iim
+     * @param[in] l_infty
      */
     constexpr persp_euclid_plane(P Ire, P Iim, L l_infty)
         : _Ire {std::move(Ire)}
@@ -43,9 +43,9 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane>
     // /*!
     //  * @brief Construct a new persp euclid plane object
     //  *
-    //  * @param Ire
-    //  * @param Iim
-    //  * @param l_infty
+    //  * @param[in] Ire
+    //  * @param[in] Iim
+    //  * @param[in] l_infty
     //  */
     // constexpr persp_euclid_plane(const P &Ire, const P &Iim, const L
     // &l_infty)
@@ -54,7 +54,7 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane>
     // /*!
     //  * @brief
     //  *
-    //  * @param x
+    //  * @param[in] x
     //  * @return const L&
     //  */
     // constexpr const L &perp(const P &x) const { return _l_infty; }
@@ -72,7 +72,7 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane>
     /*!
      * @brief
      *
-     * @param x
+     * @param[in] x
      * @return P
      */
     constexpr auto perp(const L& v) const -> P
@@ -85,8 +85,8 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane>
     /*!
      * @brief
      *
-     * @param l
-     * @param m
+     * @param[in] l
+     * @param[in] m
      * @return true
      * @return false
      */
@@ -98,8 +98,8 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane>
     /*!
      * @brief
      *
-     * @param a
-     * @param b
+     * @param[in] a
+     * @param[in] b
      * @return P
      */
     constexpr auto midpoint(const P& a, const P& b) const -> P
@@ -112,7 +112,7 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane>
     /*!
      * @brief
      *
-     * @param tri
+     * @param[in] tri
      * @return auto
      */
     constexpr auto tri_midpoint(const Triple<P>& tri) const
@@ -128,7 +128,7 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane>
     /*!
      * @brief
      *
-     * @param x
+     * @param[in] x
      * @return K
      */
     constexpr auto omega(const P& x) const -> K
@@ -139,7 +139,7 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane>
     /*!
      * @brief
      *
-     * @param x
+     * @param[in] x
      * @return K
      */
     constexpr auto omega(const L& x) const -> K
@@ -150,8 +150,8 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane>
     /*!
      * @brief
      *
-     * @param a1
-     * @param a2
+     * @param[in] a1
+     * @param[in] a2
      * @return auto
      */
     template <Projective_plane2 _P>
@@ -172,8 +172,8 @@ class persp_euclid_plane : public ck<P, L, persp_euclid_plane>
     // /*!
     //  * @brief
     //  *
-    //  * @param l1
-    //  * @param l2
+    //  * @param[in] l1
+    //  * @param[in] l2
     //  * @return auto
     //  */
     // constexpr auto cross_s(const L &l1, const L &l2) const {

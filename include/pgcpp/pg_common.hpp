@@ -15,8 +15,8 @@ namespace fun
  * @brief 1st term of Cross product
  *
  * @tparam _K
- * @param v
- * @param w
+ * @param[in] v
+ * @param[in] w
  * @return 1st term of Cross product
  */
 template <CommutativeRing _K>
@@ -29,8 +29,8 @@ auto cross0(const std::array<_K, 3>& v, const std::array<_K, 3>& w) -> _K
  * @brief 2nd term of Cross product
  *
  * @tparam _K
- * @param v
- * @param w
+ * @param[in] v
+ * @param[in] w
  * @return 2nd term of Cross product
  */
 template <CommutativeRing _K>
@@ -43,8 +43,8 @@ auto cross1(const std::array<_K, 3>& v, const std::array<_K, 3>& w) -> _K
  * @brief 3rd term of Cross product
  *
  * @tparam _K
- * @param v
- * @param w
+ * @param[in] v
+ * @param[in] w
  * @return 3rd term of Cross product
  */
 template <CommutativeRing _K>
@@ -57,8 +57,8 @@ auto cross2(const std::array<_K, 3>& v, const std::array<_K, 3>& w) -> _K
  * @brief Cross product
  *
  * @tparam _K
- * @param v
- * @param w
+ * @param[in] v
+ * @param[in] w
  * @return Cross product
  */
 template <typename P>
@@ -72,8 +72,8 @@ requires CommutativeRing<Value_type<P>> auto cross(const P& v, const P& w)
  * @brief Dot product
  *
  * @tparam _K
- * @param v
- * @param w
+ * @param[in] v
+ * @param[in] w
  * @return auto
  */
 template <CommutativeRing _K>
@@ -88,10 +88,10 @@ auto dot_c(const std::array<_K, 3>& v, const std::array<_K, 3>& w) -> _K
  * @brief generic Plucker function
  *
  * @tparam _K data type
- * @param ld lamda
- * @param v
- * @param mu
- * @param w
+ * @param[in] ld lamda
+ * @param[in] v
+ * @param[in] mu
+ * @param[in] w
  * @return lamda*v + mu*w
  */
 template <CommutativeRing _T, CommutativeRing _K>
@@ -107,8 +107,8 @@ auto plucker_c(const _T& ld, const std::array<_K, 3>& v1, const _T& mu,
  * @brief dot product of the (0,1)-component of two vectors
  *
  * @tparam _K
- * @param v
- * @param w
+ * @param[in] v
+ * @param[in] w
  * @return auto
  */
 template <CommutativeRing _K>
@@ -121,8 +121,8 @@ auto dot1(const std::array<_K, 3>& v, const std::array<_K, 3>& w) -> _K
  * @brief dot product of the (0,2)-component of two vectors
  *
  * @tparam _K
- * @param v
- * @param w
+ * @param[in] v
+ * @param[in] w
  * @return auto
  */
 template <CommutativeRing _K>
@@ -135,7 +135,7 @@ auto dot2(const std::array<_K, 3>& v, const std::array<_K, 3>& w) -> _K
  * @brief Square function
  *
  * @tparam T data type
- * @param a input value
+ * @param[in] a input value
  * @return a^2
  */
 template <typename T>

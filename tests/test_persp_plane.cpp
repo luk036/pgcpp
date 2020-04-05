@@ -17,7 +17,7 @@ static auto Zero = doctest::Approx(0).epsilon(0.01);
  * @brief
  *
  * @tparam PG
- * @param myck
+ * @param[in] myck
  */
 template <typename PG>
 void chk_degenerate(const PG& myck)

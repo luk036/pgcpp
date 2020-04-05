@@ -55,7 +55,7 @@ struct pg_point : pg_object<_K, pg_line<_K>>
     /*!
      * @brief Construct a new pg object object
      *
-     * @param a array of coordinates
+     * @param[in] a array of coordinates
      */
     constexpr explicit pg_point(const _Base2& a)
         : _Base {a}
@@ -65,9 +65,9 @@ struct pg_point : pg_object<_K, pg_line<_K>>
     /*!
      * @brief Construct a new pg_object object
      *
-     * @param x
-     * @param y
-     * @param z
+     * @param[in] x
+     * @param[in] y
+     * @param[in] z
      */
     constexpr pg_point(const _K& x, const _K& y, const _K& z)
         : _Base {_Base2 {x, y, z}}
@@ -78,8 +78,8 @@ struct pg_point : pg_object<_K, pg_line<_K>>
 /*!
  * @brief Return join of two points.
  *
- * @param p
- * @param q
+ * @param[in] p
+ * @param[in] q
  * @return pg_line<_K>
  */
 template <CommutativeRing _K>

@@ -38,7 +38,7 @@ struct pg_line : pg_object<_K, pg_point<_K>>
     /*!
      * @brief Construct a new pg object object
      *
-     * @param a array of coordinates
+     * @param[in] a array of coordinates
      */
     constexpr explicit pg_line(const _Base2& a)
         : _Base {a}
@@ -48,9 +48,9 @@ struct pg_line : pg_object<_K, pg_point<_K>>
     /*!
      * @brief Construct a new pg_object object
      *
-     * @param x
-     * @param y
-     * @param z
+     * @param[in] x
+     * @param[in] y
+     * @param[in] z
      */
     constexpr pg_line(const _K& x, const _K& y, const _K& z)
         : _Base {_Base2 {x, y, z}}

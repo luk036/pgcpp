@@ -12,7 +12,7 @@ namespace fun
 /*!
  * @brief
  *
- * @param l
+ * @param[in] l
  * @return auto
  */
 template <Projective_plane_coord2 L> // // and requires p[i]
@@ -24,8 +24,8 @@ constexpr auto fB(const L& l) -> typename L::dual
 /*!
  * @brief
  *
- * @param l
- * @param m
+ * @param[in] l
+ * @param[in] m
  * @return true
  * @return false
  */
@@ -38,8 +38,8 @@ constexpr auto is_perpendicular(const L& l, const L& m) -> bool
 /*!
  * @brief
  *
- * @param l
- * @param m
+ * @param[in] l
+ * @param[in] m
  * @return true
  * @return false
  */
@@ -52,8 +52,8 @@ constexpr auto is_parallel(const L& l, const L& m) -> bool
 /*!
  * @brief
  *
- * @param a
- * @param l
+ * @param[in] a
+ * @param[in] l
  * @return L
  */
 Projective_plane_coord { P, L }
@@ -65,7 +65,7 @@ constexpr auto altitude(const P& a, const L& l) -> L
 /*!
  * @brief
  *
- * @param tri
+ * @param[in] tri
  * @return auto
  */
 template <Projective_plane_coord2 P>
@@ -82,7 +82,7 @@ constexpr auto tri_altitude(const Triple<P>& tri)
 /*!
  * @brief
  *
- * @param tri
+ * @param[in] tri
  * @return P
  */
 template <Projective_plane_coord2 P>
@@ -98,7 +98,7 @@ constexpr auto orthocenter(const Triple<P>& tri) -> P
 /*!
  * @brief
  *
- * @param m
+ * @param[in] m
  * @return auto
  */
 template <Projective_plane_coord2 L>
@@ -110,8 +110,8 @@ constexpr auto reflect(const L& m)
 /*!
  * @brief
  *
- * @param a
- * @param b
+ * @param[in] a
+ * @param[in] b
  * @return P
  */
 template <Projective_plane_coord2 P>
@@ -123,7 +123,7 @@ constexpr auto midpoint(const P& a, const P& b) -> P
 /*!
  * @brief
  *
- * @param tri
+ * @param[in] tri
  * @return auto
  */
 template <Projective_plane_coord2 P>
@@ -141,10 +141,10 @@ constexpr auto tri_midpoint(const Triple<P>& tri) -> Triple<P>
  * @brief
  *
  * @tparam K
- * @param x1
- * @param z1
- * @param x2
- * @param z2
+ * @param[in] x1
+ * @param[in] z1
+ * @param[in] x2
+ * @param[in] z2
  * @return auto
  */
 template <CommutativeRing K>
@@ -164,8 +164,8 @@ constexpr auto quad1(const K& x1, const K& z1, const K& x2, const K& z2)
 /*!
  * @brief
  *
- * @param a1
- * @param a2
+ * @param[in] a1
+ * @param[in] a2
  * @return auto
  */
 template <Projective_plane_coord2 P>
@@ -183,9 +183,9 @@ constexpr auto quadrance(const P& a1, const P& a2)
 /*!
  * @brief
  *
- * @param l1
- * @param l2
- * @param d
+ * @param[in] l1
+ * @param[in] l2
+ * @param[in] d
  * @return auto
  */
 template <Projective_plane_coord2 L>
@@ -207,8 +207,8 @@ constexpr auto sbase(const L& l1, const L& l2, auto const& d)
 /*!
  * @brief
  *
- * @param l1
- * @param l2
+ * @param[in] l1
+ * @param[in] l2
  * @return auto
  */
 template <Projective_plane_coord2 L>
@@ -220,7 +220,7 @@ constexpr auto spread(const L& l1, const L& l2)
 /*!
  * @brief
  *
- * @param triangle
+ * @param[in] triangle
  * @return auto
  */
 template <Projective_plane_coord2 P>
@@ -237,7 +237,7 @@ constexpr auto tri_quadrance(const Triple<P>& triangle)
 /*!
  * @brief
  *
- * @param trilateral
+ * @param[in] trilateral
  * @return auto
  */
 template <Projective_plane_coord2 L>
@@ -254,8 +254,8 @@ constexpr auto tri_spread(const Triple<L>& trilateral)
 /*!
  * @brief
  *
- * @param l1
- * @param l2
+ * @param[in] l1
+ * @param[in] l2
  * @return auto
  */
 template <Projective_plane_coord2 L>
@@ -267,8 +267,8 @@ constexpr auto cross_s(const L& l1, const L& l2)
 /*!
  * @brief
  *
- * @param lda1
- * @param mu1
+ * @param[in] lda1
+ * @param[in] mu1
  * @return P
  */
 template <Projective_plane_coord2 P>
@@ -283,9 +283,9 @@ constexpr auto uc_point(const Value_type<P>& lda1, const Value_type<P>& mu1)
  * @brief Archimedes's function
  *
  * @tparam _Q
- * @param a
- * @param b
- * @param c
+ * @param[in] a
+ * @param[in] b
+ * @param[in] c
  * @return auto
  */
 template <CommutativeRing _Q>
@@ -298,10 +298,10 @@ constexpr auto Ar(const _Q& a, const _Q& b, const _Q& c)
  * @brief Cyclic quadrilateral quadrea theorem
  *
  * @tparam _Q
- * @param a
- * @param b
- * @param c
- * @param d
+ * @param[in] a
+ * @param[in] b
+ * @param[in] c
+ * @param[in] d
  * @return auto
  */
 template <CommutativeRing _Q>
@@ -318,7 +318,7 @@ constexpr auto cqq(const _Q& a, const _Q& b, const _Q& c, const _Q& d)
  * @brief
  *
  * @tparam _Q
- * @param quad
+ * @param[in] quad
  * @return auto
  */
 constexpr auto Ptolemy(const auto& quad) -> bool
@@ -332,8 +332,8 @@ constexpr auto Ptolemy(const auto& quad) -> bool
 /*!
  * @brief
  *
- * @param a
- * @param b
+ * @param[in] a
+ * @param[in] b
  * @return auto
  */
 template <Projective_plane_coord2 P>
@@ -345,8 +345,8 @@ constexpr auto distance(const P& a, const P& b)
 /*!
  * @brief
  *
- * @param l
- * @param m
+ * @param[in] l
+ * @param[in] m
  * @return auto
  */
 template <Projective_plane_coord2 L>

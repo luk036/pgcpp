@@ -15,7 +15,7 @@ static auto Zero = doctest::Approx(0).epsilon(0.01);
 /*!
  * @brief
  *
- * @param a
+ * @param[in] a
  * @return true
  * @return false
  */
@@ -28,7 +28,7 @@ inline auto ApproxZero(const auto& a) -> bool
  * @brief
  *
  * @tparam PG
- * @param myck
+ * @param[in] myck
  */
 template <typename PG>
 void chk_tri(const PG& myck)

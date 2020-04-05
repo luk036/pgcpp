@@ -17,7 +17,7 @@ static auto Zero = doctest::Approx(0).epsilon(0.01);
 /*!
  * @brief
  *
- * @param a
+ * @param[in] a
  * @return true
  * @return false
  */

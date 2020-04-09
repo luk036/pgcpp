@@ -31,6 +31,12 @@ include(LTO)
 include(Misc)
 include(Warnings)
 
+# Adds convenience methods, see cmake/cleanCppExtensions.cmake
+include(cleanCppExtensions)
+
+# Creates options to turn on sanitizers, see cmake/sanitizers.cmake
+include(sanitizers)
+
 # Check for LTO support.
 find_lto(CXX)
 
@@ -85,13 +91,20 @@ target_enable_lto(main optimized)  # enable link-time-optimization if available 
 set_target_properties(
     ${LIBRARY_NAME} main 
       PROPERTIES 
-        CXX_STANDARD 20 
+        CXX_STANDARD 17
         CXX_STANDARD_REQUIRED YES 
         CXX_EXTENSIONS NO
 )
 
 # need concept
-add_compile_options(-fconcepts)
+add_compile_options(-std=c++1z -fconcepts)
 
 # Set up tests (see tests/CMakeLists.txt).
 add_subdirectory(tests)
+
+
+#------------------------------------------------------------------------------
+# Other MISC targets
+
+# Adds misc targets: format, cppcheck, tidy, see cmake/cleanCppExtensions.cmake
+addMiscTargets()

@@ -18,7 +18,7 @@ namespace fun
 template <typename _P, typename _L,
     template <typename P, typename L> class Derived>
 requires Projective_plane_prim<_P, _L> // c++20 concept
-struct ck
+    struct ck
 {
     using point_t = _P;
     using line_t = _L;
@@ -28,7 +28,7 @@ struct ck
 
     /**
      * @brief construct ck object
-     * 
+     *
      */
     constexpr ck()
     {
@@ -59,7 +59,7 @@ struct ck
      */
     template <typename P, typename L = typename P::dual>
     requires Projective_plane_prim<P, L> // c++20 concept
-    constexpr auto altitude(const P& p, const L& l) const -> L
+        constexpr auto altitude(const P& p, const L& l) const -> L
     {
         return p * self.perp(l);
     }
@@ -98,9 +98,9 @@ struct ck
 
     /**
      * @brief reflect
-     * 
-     * @param[in] m 
-     * @return auto 
+     *
+     * @param[in] m
+     * @return auto
      */
     auto reflect(const Projective_plane2& m) const
     {
@@ -109,9 +109,9 @@ struct ck
 
     /**
      * @brief measure of triangle
-     * 
-     * @param[in] tri 
-     * @return constexpr auto 
+     *
+     * @param[in] tri
+     * @return constexpr auto
      */
     constexpr auto tri_measure(const Triple<Projective_plane2>& tri) const
     {
@@ -125,10 +125,10 @@ struct ck
 
     /**
      * @brief quadrance between two points
-     * 
-     * @param[in] p 
-     * @param[in] q 
-     * @return constexpr auto 
+     *
+     * @param[in] p
+     * @param[in] q
+     * @return constexpr auto
      */
     constexpr auto quadrance(const _P& p, const _P& q) const
     {
@@ -137,10 +137,10 @@ struct ck
 
     /**
      * @brief spread between two lines
-     * 
+     *
      * @param[in] l
-     * @param[in] m 
-     * @return constexpr auto 
+     * @param[in] m
+     * @return constexpr auto
      */
     constexpr auto spread(const _L& l, const _L& m) const
     {
@@ -149,9 +149,9 @@ struct ck
 
     /**
      * @brief quadrances of triangle
-     * 
-     * @param[in] triangle 
-     * @return constexpr auto 
+     *
+     * @param[in] triangle
+     * @return constexpr auto
      */
     constexpr auto tri_quadrance(const Triple<_P>& triangle) const
     {
@@ -160,9 +160,9 @@ struct ck
 
     /**
      * @brief spreads of triangle
-     * 
-     * @param[in] trilateral 
-     * @return constexpr auto 
+     *
+     * @param[in] trilateral
+     * @return constexpr auto
      */
     constexpr auto tri_spread(const Triple<_L>& trilateral) const
     {
@@ -196,13 +196,13 @@ constexpr bool check_sine_law(const Triple<Q_t>& Q, const Triple<Q_t>& S)
  */
 template <typename P, typename L = typename P::dual>
 requires Projective_plane_prim<P, L> // c++20 concept
-struct ellck : ck<P, L, ellck>
+    struct ellck : ck<P, L, ellck>
 {
     /**
      * @brief perp (polar) of point
-     * 
-     * @param[in] v 
-     * @return L 
+     *
+     * @param[in] v
+     * @return L
      */
     constexpr auto perp(const P& v) const -> L
     {
@@ -211,9 +211,9 @@ struct ellck : ck<P, L, ellck>
 
     /**
      * @brief perp (pole) of line
-     * 
-     * @param[in] v 
-     * @return P 
+     *
+     * @param[in] v
+     * @return P
      */
     constexpr auto perp(const L& v) const -> P
     {
@@ -222,11 +222,11 @@ struct ellck : ck<P, L, ellck>
 
     /**
      * @brief measure between two objects
-     * 
-     * @tparam _P 
-     * @param[in] a1 
-     * @param[in] a2 
-     * @return constexpr auto 
+     *
+     * @tparam _P
+     * @param[in] a1
+     * @param[in] a2
+     * @return constexpr auto
      */
     template <Projective_plane2 _P>
     constexpr auto measure(const _P& a1, const _P& a2) const
@@ -243,13 +243,13 @@ struct ellck : ck<P, L, ellck>
  */
 template <typename P, typename L = typename P::dual>
 requires Projective_plane_prim<P, L> // c++20 concept
-struct hyck : ck<P, L, hyck>
+    struct hyck : ck<P, L, hyck>
 {
     /**
      * @brief perp (polar) of point
-     * 
-     * @param[in] v 
-     * @return L 
+     *
+     * @param[in] v
+     * @return L
      */
     constexpr auto perp(const P& v) const
     {
@@ -258,9 +258,9 @@ struct hyck : ck<P, L, hyck>
 
     /**
      * @brief perp (pole) of line
-     * 
-     * @param[in] v 
-     * @return P 
+     *
+     * @param[in] v
+     * @return P
      */
     constexpr auto perp(const L& v) const
     {
@@ -269,11 +269,11 @@ struct hyck : ck<P, L, hyck>
 
     /**
      * @brief measure between two objects
-     * 
-     * @tparam _P 
-     * @param[in] a1 
-     * @param[in] a2 
-     * @return constexpr auto 
+     *
+     * @tparam _P
+     * @param[in] a1
+     * @param[in] a2
+     * @return constexpr auto
      */
     template <Projective_plane2 _P>
     constexpr auto measure(const _P& a1, const _P& a2) const

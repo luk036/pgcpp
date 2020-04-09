@@ -4,8 +4,8 @@
 #include "pgcpp/pg_line.hpp"
 #include "pgcpp/pg_point.hpp"
 #include "pgcpp/proj_plane.hpp"
-#include <doctest.h>
 #include <complex>
+#include <doctest.h>
 #include <iostream>
 
 using namespace fun;
@@ -21,7 +21,7 @@ TEST_CASE("Projective Point")
     std::cout << l << '\n';
 
     CHECK(l == q * p);
-    CHECK(not (l == q));
+    CHECK(not(l == q));
     CHECK(incident(l, p));
     CHECK(incident(l, q));
 

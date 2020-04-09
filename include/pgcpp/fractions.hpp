@@ -41,7 +41,7 @@ constexpr _Mn gcd(_Mn __m, _Mn __n)
 template <Integral _Mn>
 constexpr _Mn lcm(_Mn __m, _Mn __n)
 {
-    return (__m != 0 and  __n != 0) ? (abs(__m) / gcd(__m, __n)) * abs(__n) : 0;
+    return (__m != 0 and __n != 0) ? (abs(__m) / gcd(__m, __n)) * abs(__n) : 0;
 }
 
 template <Integral Z>

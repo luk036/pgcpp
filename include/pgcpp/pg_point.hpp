@@ -26,31 +26,31 @@ struct pg_point : pg_object<_K, pg_line<_K>>
     using _Base2 = std::array<_K, 3>;
     using value_type = _K;
 
-    /*!
-     * @brief Construct a new pg point object
-     *
-     */
-    pg_point(const pg_point<_K>&) = delete;
+    // /*!
+    //  * @brief Construct a new pg point object
+    //  *
+    //  */
+    // pg_point(const pg_point<_K>&) = delete;
 
-    /*!
-     * @brief Construct a new pg point object
-     *
-     */
-    pg_point(pg_point<_K>&&) = default;
+    // /*!
+    //  * @brief Construct a new pg point object
+    //  *
+    //  */
+    // pg_point(pg_point<_K>&&) = default;
 
-    /*!
-     * @brief
-     *
-     * @return pg_point<_K>&
-     */
-    pg_point<_K>& operator=(const pg_point<_K>&) = delete;
+    // /*!
+    //  * @brief
+    //  *
+    //  * @return pg_point<_K>&
+    //  */
+    // pg_point<_K>& operator=(const pg_point<_K>&) = delete;
 
-    /*!
-     * @brief
-     *
-     * @return pg_point<_K>&
-     */
-    pg_point<_K>& operator=(pg_point<_K>&&) = default;
+    // /*!
+    //  * @brief
+    //  *
+    //  * @return pg_point<_K>&
+    //  */
+    // pg_point<_K>& operator=(pg_point<_K>&&) = default;
 
     /*!
      * @brief Construct a new pg object object

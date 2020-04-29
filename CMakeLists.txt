@@ -10,7 +10,7 @@ cmake_minimum_required(VERSION 3.8.2)
 # Set project name, version and laguages here. (change as needed)
 # Version numbers are available by including "exampleConfig.h" in 
 # the source. See exampleConfig.h.in for some more details.
-project(CPP_BOILERPLATE VERSION 1.2.3.4 LANGUAGES CXX)
+project(PGCPP VERSION 1.2.3.4 LANGUAGES CXX)
 
 
 # Options: Things you can set via commandline options to cmake (e.g. -DENABLE_LTO=[ON|OFF])
@@ -91,13 +91,17 @@ target_enable_lto(main optimized)  # enable link-time-optimization if available 
 set_target_properties(
     ${LIBRARY_NAME} main 
       PROPERTIES 
-        CXX_STANDARD 17
+        CXX_STANDARD 20
         CXX_STANDARD_REQUIRED YES 
-        CXX_EXTENSIONS NO
+        CXX_EXTENSIONS YES
 )
 
-# need concept
-add_compile_options(-std=c++1z -fconcepts)
+if(MSVC)
+    add_compile_options(/std:c++latest /W3 /WX )
+else()
+    add_compile_options(-std=c++2a -Wall -Wnon-virtual-dtor -Wunused -pedantic)
+    add_compile_options(-fconcepts)
+endif()
 
 # Set up tests (see tests/CMakeLists.txt).
 add_subdirectory(tests)

@@ -34,6 +34,30 @@ matrix:
     - os: linux
       addons: *gcc8
       env: COMPILER=gcc GCC=8 BUILD_TYPE='Release'
+    - os: linux
+      addons: &gcc9
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-9
+            - lcov
+      env: COMPILER=gcc GCC=9 BUILD_TYPE='Debug'
+    - os: linux
+      addons: *gcc9
+      env: COMPILER=gcc GCC=9 BUILD_TYPE='Release'
+    - os: linux
+      addons: &gcc10
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-10
+            - lcov
+      env: COMPILER=gcc GCC=10 BUILD_TYPE='Debug'
+    - os: linux
+      addons: *gcc10
+      env: COMPILER=gcc GCC=10 BUILD_TYPE='Release'
     # - os: linux
     #   addons: &clang8
     #     apt:

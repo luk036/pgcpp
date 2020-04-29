@@ -9,10 +9,13 @@ RUN apt-get update \
   aria2 \
   git \
   less \
+  libbenchmark-dev \
   libfmt-dev \
   libspdlog-dev \
   lcov \
   neofetch \
+  asciinema \
+  tmux \
   wget
 
 RUN mkdir -p /workspace/data \

@@ -42,6 +42,32 @@ class pg_object : public std::array<_K, 3>
     {
     }
 
+    /*!
+     * @brief Construct a new pg object
+     *
+     */
+    pg_object(const _Self&) = delete;
+
+    /*!
+     * @brief
+     *
+     * @return _Self&
+     */
+    _Self& operator=(const _Self&) = delete;
+
+    /*!
+     * @brief Construct a new pg object
+     *
+     */
+    pg_object(_Self&&) = default;
+
+    /*!
+     * @brief
+     *
+     * @return _Self&
+     */
+    _Self& operator=(_Self&&) = default;
+
     // Operators:
 
     /*!

@@ -56,7 +56,7 @@ constexpr auto is_parallel(const L& l, const L& m) -> bool
  * @param[in] l
  * @return L
  */
-Projective_plane_coord { P, L }
+Projective_plane_coord{P, L}
 constexpr auto altitude(const P& a, const L& l) -> L
 {
     return a * fB(l);
@@ -130,11 +130,7 @@ template <Projective_plane_coord2 P>
 constexpr auto tri_midpoint(const Triple<P>& tri) -> Triple<P>
 {
     const auto& [a1, a2, a3] = tri;
-
-    auto m12 = midpoint(a1, a2);
-    auto m23 = midpoint(a2, a3);
-    auto m13 = midpoint(a1, a3);
-    return {std::move(m12), std::move(m23), std::move(m13)};
+    return {midpoint(a1, a2), midpoint(a2, a3), midpoint(a1, a3)};
 }
 
 /*!
@@ -152,8 +148,7 @@ constexpr auto quad1(const K& x1, const K& z1, const K& x2, const K& z2)
 {
     if constexpr (Integral<K>)
     {
-        Fraction<K> res = sq(Fraction<K>(x1, z1) - Fraction<K>(x2, z2));
-        return res;
+        return sq(Fraction<K>(x1, z1) - Fraction<K>(x2, z2));
     }
     else
     {

@@ -58,8 +58,8 @@ void chk_degenerate(const PG& myck)
 
     if constexpr (Integral<K>)
     {
-        CHECK(not myck.is_parallel(l1, l2));
-        CHECK(not myck.is_parallel(l2, l3));
+        CHECK(!myck.is_parallel(l1, l2));
+        CHECK(!myck.is_parallel(l2, l3));
         CHECK(coincident(t1, t2, t3));
         CHECK(tqf == Ar(q1, q2, q3));
         CHECK(tsf == 0);

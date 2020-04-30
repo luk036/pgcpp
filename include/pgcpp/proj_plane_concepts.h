@@ -24,18 +24,9 @@ concept bool Projective_plane_prim_h = Equality_comparable<P>&& requires(
     P& p, P& q, L& l)
 {
     // { P(p) } -> P; // copyable
-    {
-        incident(p, l)
-    }
-    ->bool; // incidence
-    {
-        p* q
-    }
-    ->L; // join or meet
-    {
-        p.aux()
-    }
-    ->L; // line not incident with p
+    { incident(p, l) } -> bool; // incidence
+    { p * q } -> L; // join or meet
+    { p.aux() } -> L; // line not incident with p
 };
 
 /*!
@@ -72,22 +63,10 @@ concept bool Projective_plane_h = Equality_comparable<P>&& requires(
     typename Value_type<P>;
     // { P(p) } -> P; // copyable
     // { incident(p, l) } -> bool; // incidence
-    {
-        p* q
-    }
-    ->L; // join or meet
-    {
-        p.aux()
-    }
-    ->L; // line not incident with p
-    {
-        p.dot(l)
-    }
-    ->Value_type<P>; // for measurement
-    {
-        plucker(a, p, a, q)
-    }
-    ->P; // vector computation
+    { p * q } -> L; // join or meet
+    { p.aux() } -> L; // line not incident with p
+    { p.dot(l) } -> Value_type<P>; // for measurement
+    { plucker(a, p, a, q) } -> P; // vector computation
 };
 
 /*!
@@ -126,10 +105,7 @@ template <class P, class L>
 concept bool Projective_plane_coord_h = Projective_plane_h<P, L>&& requires(
     P& p, size_t idx)
 {
-    {
-        p[idx]
-    }
-    ->Value_type<P>; // for coordinate acess
+    { p[idx] } -> Value_type<P>; // for coordinate acess
 };
 
 /*!

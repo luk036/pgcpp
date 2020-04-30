@@ -77,8 +77,8 @@ void chk_euclid(const Triple<P>& triangle)
 
     if constexpr (Integral<K>)
     {
-        CHECK(not is_parallel(l1, l2));
-        CHECK(not is_parallel(l2, l3));
+        CHECK(!is_parallel(l1, l2));
+        CHECK(!is_parallel(l2, l3));
         CHECK(is_perpendicular(t1, l1));
         CHECK(spread(t1, l1) == 1);
         CHECK(coincident(t1, t2, t3));

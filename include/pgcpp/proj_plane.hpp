@@ -43,16 +43,15 @@ constexpr bool coincident(const P& p, const P& q, const P& r)
  * @return true if all points are incident with l
  * @return false otherwise
  */
-Projective_plane_prim
-{
-    P, L
-}
+Projective_plane_prim{P, L}
 constexpr bool coincident(const L& l, const Sequence& seq)
 {
-    for (auto const& p : seq)
+    for (const auto& p : seq)
     {
-        if (not incident(l, p))
+        if (!incident(l, p))
+        {
             return false;
+        }
     }
     return true;
 }
@@ -84,11 +83,7 @@ template <Projective_plane_prim2 P>
 constexpr auto tri_func(auto func, const Triple<P>& tri)
 {
     const auto& [a1, a2, a3] = tri;
-
-    auto m1 = func(a2, a3);
-    auto m2 = func(a1, a3);
-    auto m3 = func(a1, a2);
-    return std::tuple {std::move(m1), std::move(m2), std::move(m3)};
+    return std::tuple{func(a2, a3), func(a1, a3), func(a1, a2)};
 }
 
 /*!
@@ -104,7 +99,6 @@ constexpr bool persp(const Triple<P>& tri1, const Triple<P>& tri2)
 {
     const auto& [A, B, C] = tri1;
     const auto& [D, E, F] = tri2;
-
     const auto O = (A * D) * (B * E);
     return incident(O, C * F);
 }
@@ -117,14 +111,10 @@ constexpr bool persp(const Triple<P>& tri1, const Triple<P>& tri2)
  * @return true
  * @return false
  */
-Projective_plane
-{
-    P, L
-}
+Projective_plane{P, L}
 constexpr bool incident(const P& p, const L& l)
 {
-    using K = Value_type<P>;
-    return p.dot(l) == K(0);
+    return p.dot(l) == Value_type<P>(0);
 }
 
 /*!
@@ -143,10 +133,7 @@ constexpr auto harm_conj(const P& A, const P& B, const P& C) -> P
     return plucker(B.dot(lC), A, A.dot(lC), B);
 }
 
-Projective_plane
-{
-    P, L
-}
+Projective_plane{P, L}
 class involution
 {
     using K = Value_type<P>;
@@ -218,17 +205,10 @@ constexpr auto ratio_ratio(const K& a, const K& b, const K& c, const K& d)
  *
  * @todo rewrite by projecting to the y-axis first [:2]
  */
-Projective_plane
-{
-    P, L
-}
+Projective_plane{P, L}
 constexpr auto x_ratio(const P& A, const P& B, const L& l, const L& m)
 {
-    const auto dAl = A.dot(l);
-    const auto dAm = A.dot(m);
-    const auto dBl = B.dot(l);
-    const auto dBm = B.dot(m);
-    return ratio_ratio(dAl, dAm, dBl, dBm);
+    return ratio_ratio(A.dot(l), A.dot(m), B.dot(l), B.dot(m));
 }
 
 /*!
@@ -259,11 +239,7 @@ constexpr auto R(const P& A, const P& B, const P& C, const P& D)
 template <Projective_plane_coord2 P>
 constexpr auto R0(const P& A, const P& B, const P& C, const P& D)
 {
-    const auto ac = cross0(A, C);
-    const auto ad = cross0(A, D);
-    const auto bc = cross0(B, C);
-    const auto bd = cross0(B, D);
-    return ratio_ratio(ac, ad, bc, bd);
+    return ratio_ratio(cross0(A, C), cross0(A, D), cross0(B, C), cross0(B, D)); 
 }
 
 /*!
@@ -278,11 +254,7 @@ constexpr auto R0(const P& A, const P& B, const P& C, const P& D)
 template <Projective_plane_coord2 P>
 constexpr auto R1(const P& A, const P& B, const P& C, const P& D)
 {
-    const auto ac = cross1(A, C);
-    const auto ad = cross1(A, D);
-    const auto bc = cross1(B, C);
-    const auto bd = cross1(B, D);
-    return ratio_ratio(ac, ad, bc, bd);
+    return ratio_ratio(cross1(A, C), cross1(A, D), cross1(B, C), cross1(B, D)); 
 }
 
 /*!
@@ -355,7 +327,7 @@ void check_desargue(const Triple<P>& tri1, const Triple<P>& tri2)
     const auto trid2 = tri_dual(tri2);
     const auto b1 = persp(tri1, tri2);
     const auto b2 = persp(trid1, trid2);
-    assert((b1 and b2) or (not b1 and not b2));
+    assert((b1 && b2) || (!b1 && !b2));
 }
 
 } // namespace fun

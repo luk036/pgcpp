@@ -99,7 +99,7 @@ set_target_properties(
 if(MSVC)
     add_compile_options(/std:c++latest /W3 /WX )
 else()
-    add_compile_options(-std=c++2a -Wall -Wnon-virtual-dtor -Wunused -pedantic)
+    add_compile_options(-std=c++17 -Wall -Wnon-virtual-dtor -Wunused -pedantic)
     add_compile_options(-fconcepts)
 endif()
 

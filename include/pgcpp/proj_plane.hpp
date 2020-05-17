@@ -27,34 +27,35 @@ namespace fun
  * @return true if three points are conincident
  * @return false otherwise
  */
-template <Projective_plane_prim2 P>
-constexpr bool coincident(const P& p, const P& q, const P& r)
+template <Projective_plane_prim2 P, Projective_plane_prim2... Args>
+constexpr bool coincident(const P& p, const P& q, const Args&... r)
 {
-    return incident(r, p * q);
+    auto l = p * q;
+    return (incident(r, l) && ...);
 }
 
-/*!
- * @brief Coincident
- *
- * @tparam P Point
- * @tparam L Line
- * @param[in] l line
- * @param[in] seq Sequence of points
- * @return true if all points are incident with l
- * @return false otherwise
- */
-Projective_plane_prim{P, L}
-constexpr bool coincident(const L& l, const Sequence& seq)
-{
-    for (const auto& p : seq)
-    {
-        if (!incident(l, p))
-        {
-            return false;
-        }
-    }
-    return true;
-}
+// /*!
+//  * @brief Coincident
+//  *
+//  * @tparam P Point
+//  * @tparam L Line
+//  * @param[in] l line
+//  * @param[in] seq Sequence of points
+//  * @return true if all points are incident with l
+//  * @return false otherwise
+//  */
+// Projective_plane_prim{P, L}
+// constexpr bool coincident(const L& l, const Sequence& seq)
+// {
+//     for (const auto& p : seq)
+//     {
+//         if (!incident(l, p))
+//         {
+//             return false;
+//         }
+//     }
+//     return true;
+// }
 
 template <typename P>
 using Triple = std::tuple<P, P, P>;

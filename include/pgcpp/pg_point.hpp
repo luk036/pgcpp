@@ -24,7 +24,7 @@ struct pg_point : pg_object<_K, pg_line<_K>>
     /// Value typedef.
     using _Base = pg_object<_K, pg_line<_K>>;
     using _Base2 = std::array<_K, 3>;
-    using value_type = _K;
+    // using value_type = _K;
 
     // /*!
     //  * @brief Construct a new pg point object

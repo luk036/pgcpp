@@ -170,6 +170,12 @@ constexpr auto quadrance(const P& a1, const P& a2)
         quad1(a1[1], a1[2], a2[1], a2[2]);
 }
 
+template <typename... Args>
+constexpr auto quadrance_copy(const Args&... args)
+{
+    return std::make_tuple(quadrance(args.first, args.second)...);
+}
+
 // Projective_plane2 { L }
 // constexpr auto sbase(const L &l1, const L &l2, const Integer &d) {
 //     return Fraction(d, omgB(l1, l1)) * Fraction(d, omgB(l2, l2));
@@ -226,7 +232,7 @@ constexpr auto tri_quadrance(const Triple<P>& triangle)
     auto m1 = quadrance(a2, a3);
     auto m2 = quadrance(a1, a3);
     auto m3 = quadrance(a1, a2);
-    return std::tuple {std::move(m1), std::move(m2), std::move(m3)};
+    return std::tuple{std::move(m1), std::move(m2), std::move(m3)};
 }
 
 /*!

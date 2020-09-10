@@ -20,7 +20,7 @@ using Iterator_type = decltype(begin(std::declval<T>()));
  * @tparam I 
  */
 template <typename I>
-concept bool Input_iter = requires(I iter)
+concept Input_iter = requires(I iter)
 {
     ++iter;
 };
@@ -31,7 +31,7 @@ concept bool Input_iter = requires(I iter)
  * @tparam T 
  */
 template <typename T>
-concept bool Sequence = requires(T t, Element_type<T> x)
+concept Sequence = requires(T t, Element_type<T> x)
 {
     { t.size() } -> int;
     { t.empty() } -> bool;
@@ -40,7 +40,7 @@ concept bool Sequence = requires(T t, Element_type<T> x)
 };
 
 template <typename T>
-concept bool Range = requires(T range)
+concept Range = requires(T range)
 {
     typename Iterator_type<T>;
     { std::begin(range) } -> Iterator_type<T>;
@@ -48,16 +48,13 @@ concept bool Range = requires(T range)
 };
 
 template <typename P, typename... Args>
-concept bool Predicate()
-{
-    return requires(P pred, Args... args)
+concept Predicate = requires(P pred, Args... args)
     {
         { pred(args...) } ->bool;
     };
-}
 
 template <typename T>
-concept bool Equality_comparable = requires(T a, T b)
+concept Equality_comparable = requires(T a, T b)
 {
     { a == b } -> bool;
     { a != b } -> bool;
@@ -65,7 +62,7 @@ concept bool Equality_comparable = requires(T a, T b)
 // ( T, == ) must be reflective, symmetric, and transitive.
 
 template <typename K>
-concept bool CommutativeRing = Equality_comparable<K> && requires(K a, K b)
+concept CommutativeRing = Equality_comparable<K> && requires(K a, K b)
 {
     { a + b } -> K;
     { a - b } -> K;
@@ -76,7 +73,7 @@ concept bool CommutativeRing = Equality_comparable<K> && requires(K a, K b)
 };
 
 template <typename Z>
-concept bool Integral = CommutativeRing<Z> && requires(Z a, Z b)
+concept Integral = CommutativeRing<Z> && requires(Z a, Z b)
 {
     { a % b } -> Z;
     { a / b } -> Z;

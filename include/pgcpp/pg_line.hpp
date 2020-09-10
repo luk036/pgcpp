@@ -30,7 +30,7 @@ struct pg_line : pg_object<_K, pg_point<_K>>
     /// Value typedef.
     using _Base = pg_object<_K, pg_point<_K>>;
     using _Base2 = std::array<_K, 3>;
-    using value_type = _K;
+    // using value_type = _K;
 
     // pg_line(const pg_line<_K>&) = delete;
     // pg_line(pg_line<_K>&&) = default;

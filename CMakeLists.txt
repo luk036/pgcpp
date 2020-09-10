@@ -91,7 +91,7 @@ target_enable_lto(main optimized)  # enable link-time-optimization if available 
 set_target_properties(
     ${LIBRARY_NAME} main 
       PROPERTIES 
-        CXX_STANDARD 17
+        CXX_STANDARD 20
         CXX_STANDARD_REQUIRED YES 
         CXX_EXTENSIONS YES
 )
@@ -99,8 +99,8 @@ set_target_properties(
 if(MSVC)
     add_compile_options(/std:c++latest /W3 /WX )
 else()
-    add_compile_options(-std=c++17 -Wall -Wnon-virtual-dtor -Wunused -pedantic)
-    add_compile_options(-fconcepts)
+    add_compile_options(-std=c++2a -Wall -Wnon-virtual-dtor -Wunused -pedantic)
+    add_compile_options(-fconcepts-ts)
 endif()
 
 # Set up tests (see tests/CMakeLists.txt).

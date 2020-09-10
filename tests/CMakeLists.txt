@@ -24,10 +24,17 @@ set_target_properties(${TEST_MAIN} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT
 target_set_warnings(${TEST_MAIN} ENABLE ALL AS_ERROR ALL DISABLE Annoying) # Set warnings (if needed).
 
 set_target_properties(${TEST_MAIN} PROPERTIES 
-    CXX_STANDARD 17 
+    CXX_STANDARD 20
     CXX_STANDARD_REQUIRED YES 
     CXX_EXTENSIONS NO
 )
+
+if(MSVC)
+    add_compile_options(/std:c++latest /W3 /WX )
+else()
+    add_compile_options(-std=c++2a -Wall -Wnon-virtual-dtor -Wunused -pedantic)
+    add_compile_options(-fconcepts-ts)
+endif()
 
 add_test(
     # Use some per-module/project prefix so that it is easier to run only tests for this module

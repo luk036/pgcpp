@@ -1,5 +1,5 @@
 language: cpp
-dist: bionic
+dist: focal
 
 cache: # see https://docs.travis-ci.com/user/caching/
   - directories:
@@ -7,45 +7,6 @@ cache: # see https://docs.travis-ci.com/user/caching/
 
 matrix:
   include:
-    - os: linux
-      addons: &gcc7
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-7
-            - lcov
-      env: COMPILER=gcc GCC=7 BUILD_TYPE='Debug'
-    - os: linux
-      addons: *gcc7
-      env: COMPILER=gcc GCC=7 BUILD_TYPE='Release'
-    - os: linux
-      addons: *gcc7
-      env: COMPILER=gcc GCC=7 BUILD_TYPE='Coverage'
-    - os: linux
-      addons: &gcc8
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-8
-            - lcov
-      env: COMPILER=gcc GCC=8 BUILD_TYPE='Debug'
-    - os: linux
-      addons: *gcc8
-      env: COMPILER=gcc GCC=8 BUILD_TYPE='Release'
-    - os: linux
-      addons: &gcc9
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-9
-            - lcov
-      env: COMPILER=gcc GCC=9 BUILD_TYPE='Debug'
-    - os: linux
-      addons: *gcc9
-      env: COMPILER=gcc GCC=9 BUILD_TYPE='Release'
     - os: linux
       addons: &gcc10
         apt:
@@ -58,6 +19,9 @@ matrix:
     - os: linux
       addons: *gcc10
       env: COMPILER=gcc GCC=10 BUILD_TYPE='Release'
+    - os: linux
+      addons: *gcc10
+      env: COMPILER=gcc GCC=10 BUILD_TYPE='Coverage'
     # - os: linux
     #   addons: &clang8
     #     apt:

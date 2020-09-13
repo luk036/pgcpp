@@ -50,7 +50,7 @@ exhale_args = {
     "containmentFolder":     "./api",
     "rootFileName":          "library_root.rst",
     "rootFileTitle":         "Library API",
-    "doxygenStripFromPath":  "../lib/include",
+    "doxygenStripFromPath":  "../include",
     ############################################################################
     # Suggested optional arguments.                                            #
     ############################################################################

@@ -77,13 +77,13 @@ class pg_object : public std::array<_K, 3>
      * @return true if this object is equivalent to the rhs
      * @return false otherwise
      */
-    constexpr bool operator==(const _Self& rhs) const
+    friend constexpr bool operator==(const _Self& lhs, const _Self& rhs)
     {
-        if (this == &rhs)
+        if (&lhs == &rhs)
         {
             return true;
         }
-        return cross(*this, rhs) == _Base {_K(0), _K(0), _K(0)};
+        return cross(lhs, rhs) == _Base {_K(0), _K(0), _K(0)};
     }
 
     /*!
@@ -93,9 +93,9 @@ class pg_object : public std::array<_K, 3>
      * @return true if this object is not equivalent to the rhs
      * @return false otherwise
      */
-    constexpr bool operator!=(const _Self& rhs) const
+    friend constexpr bool operator!=(const _Self& lhs, const _Self& rhs)
     {
-        return !(*this == rhs);
+        return !(lhs == rhs);
     }
 
     /*!
@@ -124,18 +124,6 @@ class pg_object : public std::array<_K, 3>
     }
 
     /*!
-     * @brief Join or meet
-     *
-     * @param[in] rhs
-     * @return true if this point is equivalent to the rhs
-     * @return false otherwise
-     */
-    constexpr dual operator*(const _Self& rhs) const
-    {
-        return dual(cross(*this, rhs));
-    }
-
-    /*!
      * @brief Generate a new line not incident with p
      *
      * @return dual
@@ -143,6 +131,18 @@ class pg_object : public std::array<_K, 3>
     constexpr dual aux() const
     {
         return dual(*this);
+    }
+
+    /*!
+     * @brief Join or meet
+     *
+     * @param[in] rhs
+     * @return true if this point is equivalent to the rhs
+     * @return false otherwise
+     */
+    friend constexpr dual operator*(const _Self& lhs, const _Self& rhs)
+    {
+        return dual(cross(lhs, rhs));
     }
 };
 

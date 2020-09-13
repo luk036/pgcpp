@@ -522,101 +522,96 @@ struct Fraction
     {
         return double(_numerator) / _denominator;
     }
+
+    /*!
+     * @brief
+     *
+     * @param[in] c
+     * @param[in] frac
+     * @return Fraction<Z>
+     */
+    friend constexpr _Self operator+(const Z& c, const _Self& frac)
+    {
+        return frac + c;
+    }
+
+    /*!
+     * @brief
+     *
+     * @param[in] c
+     * @param[in] frac
+     * @return Fraction<Z>
+     */
+    friend constexpr _Self operator-(const Z& c, const _Self& frac)
+    {
+        return (-frac) + c;
+    }
+
+    /*!
+     * @brief
+     *
+     * @param[in] c
+     * @param[in] frac
+     * @return Fraction<Z>
+     */
+    friend constexpr _Self operator*(const Z& c, const _Self& frac)
+    {
+        return frac * c;
+    }
+
+    /*!
+     * @brief
+     *
+     * @param[in] c
+     * @param[in] frac
+     * @return Fraction<Z>
+     */
+    friend constexpr _Self operator+(int&& c, const _Self& frac)
+    {
+        return frac + c;
+    }
+
+    /*!
+     * @brief
+     *
+     * @param[in] c
+     * @param[in] frac
+     * @return Fraction<Z>
+     */
+    friend constexpr _Self operator-(int&& c, const _Self& frac)
+    {
+        return (-frac) + c;
+    }
+
+    /*!
+     * @brief
+     *
+     * @param[in] c
+     * @param[in] frac
+     * @return Fraction<Z>
+     */
+    friend constexpr _Self operator*(int&& c, const _Self& frac)
+    {
+        return frac * c;
+    }
+
+    /*!
+     * @brief
+     *
+     * @tparam _Stream
+     * @tparam Z
+     * @param[in] os
+     * @param[in] frac
+     * @return _Stream&
+     */
+    template <typename _Stream>
+    friend _Stream& operator<<(_Stream& os, const _Self& frac)
+    {
+        os << frac.numerator() << "/" << frac.denominator();
+        return os;
+    }
 };
 
-/*!
- * @brief
- *
- * @param[in] c
- * @param[in] frac
- * @return Fraction<Z>
- */
-template <Integral Z>
-constexpr Fraction<Z> operator+(const Z& c, const Fraction<Z>& frac)
-{
-    return frac + c;
-}
-
-/*!
- * @brief
- *
- * @param[in] c
- * @param[in] frac
- * @return Fraction<Z>
- */
-template <Integral Z>
-constexpr Fraction<Z> operator-(const Z& c, const Fraction<Z>& frac)
-{
-    return c + (-frac);
-}
-
-/*!
- * @brief
- *
- * @param[in] c
- * @param[in] frac
- * @return Fraction<Z>
- */
-template <Integral Z>
-constexpr Fraction<Z> operator*(const Z& c, const Fraction<Z>& frac)
-{
-    return frac * c;
-}
-
-/*!
- * @brief
- *
- * @param[in] c
- * @param[in] frac
- * @return Fraction<Z>
- */
-template <Integral Z>
-constexpr Fraction<Z> operator+(int&& c, const Fraction<Z>& frac)
-{
-    return frac + c;
-}
-
-/*!
- * @brief
- *
- * @param[in] c
- * @param[in] frac
- * @return Fraction<Z>
- */
-template <Integral Z>
-constexpr Fraction<Z> operator-(int&& c, const Fraction<Z>& frac)
-{
-    return (-frac) + c;
-}
-
-/*!
- * @brief
- *
- * @param[in] c
- * @param[in] frac
- * @return Fraction<Z>
- */
-template <Integral Z>
-constexpr Fraction<Z> operator*(int&& c, const Fraction<Z>& frac)
-{
-    return frac * c;
-}
-
-/*!
- * @brief
- *
- * @tparam _Stream
- * @tparam Z
- * @param[in] os
- * @param[in] frac
- * @return _Stream&
- */
-template <typename _Stream, Integral Z>
-_Stream& operator<<(_Stream& os, const Fraction<Z>& frac)
-{
-    os << frac.numerator() << "/" << frac.denominator();
-    return os;
-}
 
 // For template deduction
 // Integral{Z} Fraction(const Z &, const Z &)->Fraction<Z>;

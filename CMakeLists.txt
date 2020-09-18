@@ -99,8 +99,8 @@ set_target_properties(
 if(MSVC)
     add_compile_options(/std:c++latest /W3 /WX )
 else()
-    add_compile_options(-std=c++2a -Wall -Wnon-virtual-dtor -Wunused -pedantic)
-    add_compile_options(-fconcepts-ts -fcoroutines)
+    add_compile_options(-Wall -Wnon-virtual-dtor -Wunused -pedantic)
+    # add_compile_options(-fconcepts-ts -fcoroutines)
 endif()
 
 # Set up tests (see tests/CMakeLists.txt).

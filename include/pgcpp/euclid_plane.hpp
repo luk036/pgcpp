@@ -56,7 +56,8 @@ constexpr auto is_parallel(const L& l, const L& m) -> bool
  * @param[in] l
  * @return L
  */
-Projective_plane_coord{P, L}
+template <typename P, typename L>
+requires Projective_plane_coord<P, L>
 constexpr auto altitude(const P& a, const L& l) -> L
 {
     return a * fB(l);

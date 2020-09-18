@@ -52,7 +52,7 @@ void chk_ck(const PG& myck)
     {
         CHECK(incident(l1, a2));
         CHECK(myck.is_perpendicular(t1, l1));
-        CHECK(coincident(t1, t2, t3));
+        CHECK(coincident(t1 * t2, t3));
         CHECK(o == t2 * t3);
         CHECK(a1 ==
             myck.orthocenter(

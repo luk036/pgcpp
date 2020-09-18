@@ -20,13 +20,13 @@ namespace fun
  * @tparam L Line
  */
 template <class P, class L>
-concept Projective_plane_prim_h = Equality_comparable<P>&& requires(
+concept Projective_plane_prim_h = std::equality_comparable<P>&& requires(
     P& p, P& q, L& l)
 {
     // { P(p) } -> P; // copyable
-    { incident(p, l) } -> bool; // incidence
-    { p * q } -> L; // join or meet
-    { p.aux() } -> L; // line not incident with p
+    { incident(p, l) } -> std::convertible_to<bool>; // incidence
+    { p * q } -> std::convertible_to<L>; // join or meet
+    { p.aux() } -> std::convertible_to<L>; // line not incident with p
 };
 
 /*!
@@ -57,16 +57,16 @@ concept Projective_plane_prim2 =
  * @tparam L Line
  */
 template <class P, class L>
-concept Projective_plane_h = Equality_comparable<P>&& requires(
+concept Projective_plane_h = std::equality_comparable<P>&& requires(
     const P& p, const P& q, const L& l, const Value_type<P>& a)
 {
     typename Value_type<P>;
     // { P(p) } -> P; // copyable
     // { incident(p, l) } -> bool; // incidence
-    { p * q } -> L; // join or meet
-    { p.aux() } -> L; // line not incident with p
-    { p.dot(l) } -> Value_type<P>; // for measurement
-    { plucker(a, p, a, q) } -> P; // vector computation
+    { p * q } -> std::convertible_to<L>; // join or meet
+    { p.aux() } -> std::convertible_to<L>; // line not incident with p
+    { p.dot(l) } -> std::convertible_to<Value_type<P>>; // for measurement
+    { plucker(a, p, a, q) } -> std::convertible_to<P>; // vector computation
 };
 
 /*!
@@ -76,8 +76,7 @@ concept Projective_plane_h = Equality_comparable<P>&& requires(
  * @tparam L Line
  */
 template <class P, class L = typename P::dual>
-concept Projective_plane =
-    Projective_plane_h<P, L>&& Projective_plane_h<L, P>;
+concept Projective_plane = Projective_plane_h<P, L>&& Projective_plane_h<L, P>;
 
 /*
 axiom(P p, P q, P r, L l) {
@@ -105,7 +104,7 @@ template <class P, class L>
 concept Projective_plane_coord_h = Projective_plane_h<P, L>&& requires(
     const P& p, size_t idx)
 {
-    { p[idx] } -> Value_type<P>; // for coordinate acess
+    { p[idx] } -> std::convertible_to<Value_type<P>>; // for coordinate acess
 };
 
 /*!

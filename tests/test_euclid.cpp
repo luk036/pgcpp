@@ -81,7 +81,8 @@ void chk_euclid(const Triple<P>& triangle)
         CHECK(!is_parallel(l2, l3));
         CHECK(is_perpendicular(t1, l1));
         CHECK(spread(t1, l1) == 1);
-        CHECK(coincident(t1, t2, t3));
+        CHECK(coincident(t1 * t2, t3));
+        CHECK(coincident(t1 * t2, t3, t4));
         CHECK(R(t1, t2, t3, t4) == -1);
         CHECK(o == t2 * t3);
         CHECK(tau(tau(a1)) == a1);
@@ -89,7 +90,7 @@ void chk_euclid(const Triple<P>& triangle)
         CHECK(quadrance(a1, a1) == 0);
         CHECK(check_sine_law(Q, S));
         CHECK(check_sine_law(S, Q));
-        CHECK(coincident(mt1, mt2, mt3));
+        CHECK(coincident(mt1 * mt2, mt3));
         // CHECK(cross_s(l1, l2) == c3);
         CHECK((c3 + s3) == 1);
         CHECK(tqf == Ar(q1, q2, q3));

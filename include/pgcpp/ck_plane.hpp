@@ -70,7 +70,8 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
      * @param[in] tri
      * @return std::tuple
      */
-    constexpr auto tri_altitude(const Triple<Projective_plane_prim2>& tri) const
+    constexpr auto tri_altitude(
+        const Triple<Projective_plane_prim2 auto>& tri) const
     {
         const auto [l1, l2, l3] = tri_dual(tri);
         const auto& [a1, a2, a3] = tri;
@@ -87,7 +88,8 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
      * @param[in] tri
      * @return P
      */
-    constexpr auto orthocenter(const Triple<Projective_plane_prim2>& tri) const
+    constexpr auto orthocenter(
+        const Triple<Projective_plane_prim2 auto>& tri) const
     {
         const auto& [a1, a2, a3] = tri;
 
@@ -102,7 +104,7 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
      * @param[in] m
      * @return auto
      */
-    auto reflect(const Projective_plane2& m) const
+    auto reflect(const Projective_plane auto& m) const
     {
         return involution {m, self.perp(m)};
     }
@@ -113,7 +115,7 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
      * @param[in] tri
      * @return constexpr auto
      */
-    constexpr auto tri_measure(const Triple<Projective_plane2>& tri) const
+    constexpr auto tri_measure(const Triple<Projective_plane auto>& tri) const
     {
         const auto& [a1, a2, a3] = tri;
 

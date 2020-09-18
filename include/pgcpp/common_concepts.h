@@ -1,6 +1,8 @@
 #pragma once
 
 #include <utility>
+#include <concepts>
+#include <ranges>
 
 namespace fun
 {
@@ -9,21 +11,18 @@ template <typename T>
 using Value_type = typename T::value_type;
 
 template <typename T>
-using Element_type = decltype(back(std::declval<T>()));
-
-template <typename T>
-using Iterator_type = decltype(begin(std::declval<T>()));
+using Element_type = std::decay<decltype(back(std::declval<T>()))>::value;
 
 /**
  * @brief Input iterator concept
  * 
  * @tparam I 
  */
-template <typename I>
-concept Input_iter = requires(I iter)
-{
-    ++iter;
-};
+// template <typename I>
+// concept Input_iter = requires(I iter)
+// {
+//     ++iter;
+// };
 
 /**
  * @brief Sequence
@@ -33,50 +32,28 @@ concept Input_iter = requires(I iter)
 template <typename T>
 concept Sequence = requires(T t, Element_type<T> x)
 {
-    { t.size() } -> int;
-    { t.empty() } -> bool;
-    { t.back() } -> Element_type<T>;
+    { t.size() }  -> std::convertible_to<std::size_t>;
+    { t.empty() } -> std::convertible_to<bool>;
+    { t.back() }  -> std::same_as<Element_type<T> >;
     { t.push_back(x) };
 };
 
-template <typename T>
-concept Range = requires(T range)
-{
-    typename Iterator_type<T>;
-    { std::begin(range) } -> Iterator_type<T>;
-    { std::end(range) } -> Iterator_type<T>;
-};
-
-template <typename P, typename... Args>
-concept Predicate = requires(P pred, Args... args)
-    {
-        { pred(args...) } ->bool;
-    };
-
-template <typename T>
-concept Equality_comparable = requires(T a, T b)
-{
-    { a == b } -> bool;
-    { a != b } -> bool;
-};
-// ( T, == ) must be reflective, symmetric, and transitive.
-
 template <typename K>
-concept CommutativeRing = Equality_comparable<K> && requires(K a, K b)
+concept CommutativeRing = std::equality_comparable<K> && requires(K a, K b)
 {
-    { a + b } -> K;
-    { a - b } -> K;
-    { a * b } -> K;
-    { -a } -> K;
-    { K(a) } -> K;
-    { K(0) } -> K;
+    { a + b } -> std::convertible_to<K>;
+    { a - b } -> std::convertible_to<K>;
+    { a * b } -> std::convertible_to<K>;
+    { -a }    -> std::convertible_to<K>;
+    { K(a) }  -> std::convertible_to<K>;
+    { K(0) }  -> std::convertible_to<K>;
 };
 
 template <typename Z>
 concept Integral = CommutativeRing<Z> && requires(Z a, Z b)
 {
-    { a % b } -> Z;
-    { a / b } -> Z;
+    { a % b } -> std::convertible_to<Z>;
+    { a / b } -> std::convertible_to<Z>;
 };
 
 } // namespace fun

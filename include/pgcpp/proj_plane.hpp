@@ -27,10 +27,9 @@ namespace fun
  * @return true if three points are conincident
  * @return false otherwise
  */
-template <Projective_plane_prim2 P, Projective_plane_prim2... Args>
-constexpr bool coincident(const P& p, const P& q, const Args&... r)
+template <Projective_plane_prim L, Projective_plane_prim... P>
+constexpr bool coincident(const L& l, const P&... r)
 {
-    auto l = p * q;
     return (incident(r, l) && ...);
 }
 
@@ -112,7 +111,8 @@ constexpr bool persp(const Triple<P>& tri1, const Triple<P>& tri2)
  * @return true
  * @return false
  */
-Projective_plane{P, L}
+template <typename P, typename L>
+requires Projective_plane<P, L>
 constexpr bool incident(const P& p, const L& l)
 {
     return p.dot(l) == Value_type<P>(0);
@@ -134,7 +134,8 @@ constexpr auto harm_conj(const P& A, const P& B, const P& C) -> P
     return plucker(B.dot(lC), A, A.dot(lC), B);
 }
 
-Projective_plane{P, L}
+template <typename P, typename L>
+requires Projective_plane<P, L>
 class involution
 {
     using K = Value_type<P>;
@@ -206,7 +207,8 @@ constexpr auto ratio_ratio(const K& a, const K& b, const K& c, const K& d)
  *
  * @todo rewrite by projecting to the y-axis first [:2]
  */
-Projective_plane{P, L}
+template <typename P, typename L>
+requires Projective_plane<P, L>
 constexpr auto x_ratio(const P& A, const P& B, const L& l, const L& m)
 {
     return ratio_ratio(A.dot(l), A.dot(m), B.dot(l), B.dot(m));

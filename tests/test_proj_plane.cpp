@@ -7,12 +7,16 @@
 #include <complex>
 #include <doctest.h>
 #include <iostream>
+#include <string_view>
 
 using namespace fun;
 
 TEST_CASE("Projective Point")
 {
-    using namespace std::complex_literals;
+    using namespace std::literals;
+
+    auto k = "hello"sv;
+    std::cout << k;
 
     auto p = pg_point {1. - 2i, 3. - 1i, 2. + 1i}; // complex number
     auto q = pg_point {-2. + 1i, 1. - 3i, -1. - 1i};

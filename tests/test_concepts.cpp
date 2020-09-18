@@ -16,6 +16,9 @@ class PA
         {
             return {};
         }
+        RsltP(RsltP&&) = delete;
+        void operator&() const = delete;
+        friend void operator,(RsltP, RsltP) = delete;
     };
 
     PA() = default;
@@ -52,6 +55,9 @@ class LA
         {
             return {};
         }
+        RsltL(RsltL&&) = delete;
+        void operator&() const = delete;
+        friend void operator,(RsltL, RsltL) = delete;
     };
 
     LA() = default;

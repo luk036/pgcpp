@@ -27,8 +27,9 @@ namespace fun
  * @return true if three points are conincident
  * @return false otherwise
  */
-template <Projective_plane_prim L, Projective_plane_prim... P>
-constexpr bool coincident(const L& l, const P&... r)
+template <typename L, typename... Args>
+requires (Projective_plane<L, Args> && ...)
+constexpr auto coincident(const L& l, const Args&... r) -> bool
 {
     return (incident(r, l) && ...);
 }

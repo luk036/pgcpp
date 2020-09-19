@@ -4,7 +4,7 @@
 #include "pgcpp/fractions.hpp"
 #include <boost/multiprecision/cpp_int.hpp>
 #include <doctest.h>
-#include <iostream>
+// #include <iostream>
 
 using namespace fun;
 
@@ -12,8 +12,8 @@ TEST_CASE("undefined behavior")
 {
     int a = 125;
     int c = 32;
-    int b = a >> c; // see if your tool can catch the problem
-    std::cout << "125 >> 32 = " << b << "\n";
+    [[maybe_unused]] int b = a >> c; // see if your tool can catch the problem
+    // std::cout << "125 >> 32 = " << b << "\n";
 }
 
 TEST_CASE("Fraction")
@@ -31,7 +31,7 @@ TEST_CASE("Fraction")
     const auto h = cpp_int {-g};
 
     const auto p = Fraction {a, b};
-    std::cout << p << '\n';
+    // std::cout << p << '\n';
     const auto q = Fraction {c, d};
 
     CHECK(p == Fraction(30, 40));

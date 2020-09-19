@@ -6,8 +6,7 @@
 #include "pgcpp/proj_plane.hpp"
 #include <complex>
 #include <doctest.h>
-#include <iostream>
-#include <string_view>
+// #include <iostream>
 
 using namespace fun;
 
@@ -15,14 +14,11 @@ TEST_CASE("Projective Point")
 {
     using namespace std::literals;
 
-    auto k = "hello"sv;
-    std::cout << k;
-
     auto p = pg_point {1. - 2i, 3. - 1i, 2. + 1i}; // complex number
     auto q = pg_point {-2. + 1i, 1. - 3i, -1. - 1i};
     auto l = p * q;
 
-    std::cout << l << '\n';
+    // std::cout << l << '\n';
 
     CHECK(l == q * p);
     CHECK(not(l == q));
@@ -52,7 +48,7 @@ TEST_CASE("Projective Line")
     auto A = l * m;
     auto lm = plucker(2. + 3i, l, 3. - 4i, m);
 
-    std::cout << A << '\n';
+    // std::cout << A << '\n';
 
     CHECK(A == m * l);
     CHECK(incident(A, l));

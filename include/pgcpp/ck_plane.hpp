@@ -76,10 +76,8 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
         const auto [l1, l2, l3] = tri_dual(tri);
         const auto& [a1, a2, a3] = tri;
 
-        auto t1 = this->altitude(a1, l1);
-        auto t2 = this->altitude(a2, l2);
-        auto t3 = this->altitude(a3, l3);
-        return std::tuple {std::move(t1), std::move(t2), std::move(t3)};
+        return std::tuple {this->altitude(a1, l1), this->altitude(a2, l2),
+            this->altitude(a3, l3)};
     }
 
     /*!
@@ -119,10 +117,8 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
     {
         const auto& [a1, a2, a3] = tri;
 
-        auto m1 = self.measure(a2, a3);
-        auto m2 = self.measure(a1, a3);
-        auto m3 = self.measure(a1, a2);
-        return std::tuple {std::move(m1), std::move(m2), std::move(m3)};
+        return std::tuple {
+            self.measure(a2, a3), self.measure(a1, a3), self.measure(a1, a2)};
     }
 
     /**

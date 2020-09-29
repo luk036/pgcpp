@@ -74,10 +74,8 @@ constexpr auto tri_altitude(const Triple<P>& tri)
 {
     const auto& [a1, a2, a3] = tri;
 
-    auto t1 = altitude(a1, a2 * a3);
-    auto t2 = altitude(a2, a3 * a1);
-    auto t3 = altitude(a3, a1 * a2);
-    return std::tuple {std::move(t1), std::move(t2), std::move(t3)};
+    return std::tuple {
+        altitude(a1, a2 * a3), altitude(a2, a3 * a1), altitude(a3, a1 * a2)};
 }
 
 /*!
@@ -230,10 +228,7 @@ constexpr auto tri_quadrance(const Triple<P>& triangle)
 {
     const auto& [a1, a2, a3] = triangle;
 
-    auto m1 = quadrance(a2, a3);
-    auto m2 = quadrance(a1, a3);
-    auto m3 = quadrance(a1, a2);
-    return std::tuple{std::move(m1), std::move(m2), std::move(m3)};
+    return std::tuple {quadrance(a2, a3), quadrance(a1, a3), quadrance(a1, a2)};
 }
 
 /*!
@@ -247,10 +242,7 @@ constexpr auto tri_spread(const Triple<L>& trilateral)
 {
     const auto& [a1, a2, a3] = trilateral;
 
-    auto m1 = spread(a2, a3);
-    auto m2 = spread(a1, a3);
-    auto m3 = spread(a1, a2);
-    return std::tuple {std::move(m1), std::move(m2), std::move(m3)};
+    return std::tuple {spread(a2, a3), spread(a1, a3), spread(a1, a2)};
 }
 
 /*!

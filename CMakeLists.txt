@@ -99,7 +99,7 @@ set_target_properties(
 if(MSVC)
     add_compile_options(/std:c++latest /W3 /WX )
 else()
-    add_compile_options(-Wall -Wnon-virtual-dtor -Wunused -pedantic)
+    add_compile_options(-DBOOST_EXCEPTION_DISABLE -Wall -Wnon-virtual-dtor -Wunused -pedantic)
     # add_compile_options(-fconcepts-ts -fcoroutines)
 endif()
 

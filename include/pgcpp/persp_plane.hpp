@@ -119,10 +119,8 @@ requires Projective_plane_prim<P, L> // c++20 concept
     {
         const auto& [a1, a2, a3] = tri;
 
-        auto m12 = this->midpoint(a1, a2);
-        auto m23 = this->midpoint(a2, a3);
-        auto m13 = this->midpoint(a1, a3);
-        return Triple<P> {std::move(m12), std::move(m23), std::move(m13)};
+        return Triple<P> {this->midpoint(a1, a2), this->midpoint(a2, a3),
+            this->midpoint(a1, a3)};
     }
 
     /*!

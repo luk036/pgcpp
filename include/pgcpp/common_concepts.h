@@ -11,7 +11,7 @@ template <typename T>
 using Value_type = typename T::value_type;
 
 template <typename T>
-using Element_type = std::decay<decltype(back(std::declval<T>()))>::value;
+using Element_type = typename std::decay<decltype(back(std::declval<T>()))>::type;
 
 /**
  * @brief Input iterator concept

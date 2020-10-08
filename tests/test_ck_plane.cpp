@@ -21,9 +21,10 @@ static auto Zero = doctest::Approx(0).epsilon(0.01);
  * @return true
  * @return false
  */
-inline auto ApproxZero(const auto& a) -> bool
+template <typename T>
+inline auto ApproxZero(const T& a) -> bool
 {
-    return a[0] == Zero and a[1] == Zero and a[2] == Zero;
+    return a[0] == Zero && a[1] == Zero && a[2] == Zero;
 }
 
 template <typename PG>

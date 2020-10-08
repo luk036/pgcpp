@@ -16,7 +16,7 @@ namespace fun
 
 // Forward declarations.
 template <CommutativeRing _K>
-class pg_line;
+struct pg_line;
 
 template <CommutativeRing _K>
 struct pg_point : pg_object<_K, pg_line<_K>>

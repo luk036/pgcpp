@@ -70,8 +70,9 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
      * @param[in] tri
      * @return std::tuple
      */
+    template <Projective_plane_prim2 P>
     constexpr auto tri_altitude(
-        const Triple<Projective_plane_prim2 auto>& tri) const
+        const Triple<P>& tri) const
     {
         const auto [l1, l2, l3] = tri_dual(tri);
         const auto& [a1, a2, a3] = tri;
@@ -86,8 +87,9 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
      * @param[in] tri
      * @return P
      */
+    template <Projective_plane_prim2 P>
     constexpr auto orthocenter(
-        const Triple<Projective_plane_prim2 auto>& tri) const
+        const Triple<P>& tri) const
     {
         const auto& [a1, a2, a3] = tri;
 
@@ -102,7 +104,8 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
      * @param[in] m
      * @return auto
      */
-    auto reflect(const Projective_plane auto& m) const
+    template <Projective_plane P>
+    auto reflect(const P& m) const
     {
         return involution {m, self.perp(m)};
     }
@@ -113,7 +116,8 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
      * @param[in] tri
      * @return constexpr auto
      */
-    constexpr auto tri_measure(const Triple<Projective_plane auto>& tri) const
+    template <Projective_plane P>
+    constexpr auto tri_measure(const Triple<P>& tri) const
     {
         const auto& [a1, a2, a3] = tri;
 
@@ -183,7 +187,7 @@ constexpr bool check_sine_law(const Triple<Q_t>& Q, const Triple<Q_t>& S)
 {
     const auto& [q1, q2, q3] = Q;
     const auto& [s1, s2, s3] = S;
-    return (s1 * q2 == s2 * q1) and (s2 * q3 == s3 * q2);
+    return (s1 * q2 == s2 * q1) && (s2 * q3 == s3 * q2);
 }
 
 /*!

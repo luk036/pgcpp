@@ -188,8 +188,8 @@ constexpr auto quadrance_copy(const Args&... args)
  * @param[in] d
  * @return auto
  */
-template <Projective_plane_coord2 L>
-constexpr auto sbase(const L& l1, const L& l2, auto const& d)
+template <Projective_plane_coord2 L, typename T>
+constexpr auto sbase(const L& l1, const L& l2, const T& d)
 {
     using K = Value_type<L>;
     if constexpr (Integral<K>)
@@ -315,7 +315,8 @@ constexpr auto cqq(const _Q& a, const _Q& b, const _Q& c, const _Q& d)
  * @param[in] quad
  * @return auto
  */
-constexpr auto Ptolemy(const auto& quad) -> bool
+template <typename T>
+constexpr auto Ptolemy(const T& quad) -> bool
 {
     const auto& [Q12, Q23, Q34, Q14, Q13, Q24] = quad;
     return Ar(Q12 * Q34, Q23 * Q14, Q13 * Q24) == 0;

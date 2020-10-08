@@ -17,7 +17,7 @@ namespace fun
 // Forward declarations.
 
 template <CommutativeRing _K>
-class pg_point;
+struct pg_point;
 
 /*!
  * @brief Projective line: two dimensional subspace of K^3

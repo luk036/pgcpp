@@ -1,4 +1,4 @@
-FROM gitpod/workspace-full
+FROM gitpod/workspace-full:latest
 
 USER root
 # Install util tools.
@@ -41,6 +41,6 @@ RUN /opt/conda/bin/conda install -y \
 RUN /opt/conda/bin/conda install -y -c conda-forge \
     benchmark \
     cppcheck \
-    libboost
+    boost
 
 RUN apt-get clean && rm -rf /var/cache/apt/* && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*

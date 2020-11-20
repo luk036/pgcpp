@@ -30,11 +30,6 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
     echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
     echo "conda activate base" >> ~/.bashrc
     
-RUN chown -R gitpod:gitpod /opt/conda \
-    && chmod -R 777 /opt/conda \
-    && chown -R gitpod:gitpod /home/gitpod/.conda \
-    && chmod -R 777 /home/gitpod/.conda
-
 RUN /opt/conda/bin/conda install -y \
     ninja
 
@@ -42,5 +37,10 @@ RUN /opt/conda/bin/conda install -y -c conda-forge \
     benchmark \
     cppcheck \
     boost
+
+RUN chown -R gitpod:gitpod /opt/conda \
+    && chmod -R 777 /opt/conda \
+    && chown -R gitpod:gitpod /home/gitpod/.conda \
+    && chmod -R 777 /home/gitpod/.conda
 
 RUN apt-get clean && rm -rf /var/cache/apt/* && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*

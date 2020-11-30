@@ -79,9 +79,9 @@ script:
   - |
     if [[ "$BUILD_TYPE" == "Coverage" ]]; then
       mkdir build && cd build;
-      cmake -DCMAKE_PREFIX_PATH=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Coverage -DCMAKE_SYSTEM_IGNORE_PATH=/usr/lib ..;
+      cmake -DENABLE_COVERAGE=1 -DCMAKE_PREFIX_PATH=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_IGNORE_PATH=/usr/lib ..;
       make -j2
-      make coverage
+      ctest -VV --output-on-failure
     else
       mkdir build && cd build;
       cmake -DBUILD_TESTS=ON -DCMAKE_PREFIX_PATH=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_SYSTEM_IGNORE_PATH=/usr/lib ..;
@@ -92,8 +92,11 @@ script:
 after_success:
   - |
     if [[ "$BUILD_TYPE" == "Coverage" ]]; then
-      lcov --list coverage_out.info.cleaned
-      bash <(curl -s https://codecov.io/bash) -f coverage_out.info.cleaned || echo "Codecov did not collect coverage reports"
+      lcov --directory . --capture --output-file coverage.info # capture coverage info
+      lcov --remove coverage.info '/usr/*' $CONDA_PREFIX'/*' --output-file coverage.info # filter out system
+      lcov --list coverage.info #debug info
+      # Uploading report to CodeCov
+      bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
     fi
 
 notifications:

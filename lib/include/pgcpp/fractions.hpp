@@ -78,10 +78,15 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
 
     constexpr void normalize()
     {
-        auto common = gcd(this->_numerator, this->_denominator);
+        Z common = gcd(this->_numerator, this->_denominator);
         if (common == Z(1))
+        {
             return;
-        // if (common == Z(0)) [[unlikely]] return; // both num and den are zero
+        }
+        if (common == Z(0)) // both num and den are zero
+        {
+            return;
+        }
         if (this->_denominator < Z(0))
             common = -common;
         this->_numerator /= common;
@@ -393,7 +398,8 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
         return _numerator * frac._denominator - _denominator * frac._numerator;
     }
 
-    constexpr bool operator==(const Fraction<Z>& rhs) const
+    template <typename U>
+    constexpr bool operator==(const Fraction<U>& rhs) const
     {
         if (this->_denominator == rhs._denominator)
         {
@@ -404,7 +410,8 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
             (this->_denominator * rhs._numerator);
     }
 
-    constexpr bool operator<(const Fraction<Z>& rhs) const
+    template <typename U>
+    constexpr bool operator<(const Fraction<U>& rhs) const
     {
         if (this->_denominator == rhs._denominator)
         {

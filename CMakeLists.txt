@@ -1,114 +1,99 @@
-# This file specifies how the project should be built, using CMake.
-# If you are unfamiliar with CMake, don't worry about all the details.
-# The sections you might want to edit are marked as such, and 
-# the comments should hopefully make most of it clear.
-#
-# For many purposes, you may not need to change anything about this file.
+# Distributed under the MIT License (See accompanying file /LICENSE )
 
+# CMake build : global project
+
+# Project specific options :
+#   - BP_USE_DOXYGEN
+#   - BP_BUILD_TESTS (requires BUILD_TESTING set to ON)
+# Other options might be available through the cmake scripts including (not exhaustive):
+#   - ENABLE_WARNINGS_SETTINGS
+#   - ENABLE_LTO
+#
 cmake_minimum_required(VERSION 3.8.2)
 
-# Set project name, version and laguages here. (change as needed)
-# Version numbers are available by including "exampleConfig.h" in 
-# the source. See exampleConfig.h.in for some more details.
-project(PGCPP VERSION 1.2.3.4 LANGUAGES CXX)
+set(CMAKE_PREFIX_PATH $ENV{CONDA_PREFIX})
 
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
+    message(FATAL_ERROR "Do not build in-source. Please remove CMakeCache.txt and the CMakeFiles/ directory. Then build out-of-source.")
+endif()
 
-# Options: Things you can set via commandline options to cmake (e.g. -DENABLE_LTO=[ON|OFF])
-option(ENABLE_WARNINGS_SETTINGS "Allow target_set_warnings to add flags and defines.
-                                 Set this to OFF if you want to provide your own warning parameters." ON)
-option(ENABLE_LTO "Enable link time optimization" ON)
+project (PgCpp LANGUAGES CXX)
+
+option(ENABLE_COVERAGE "Generates the coverage build" OFF)
 option(ENABLE_DOCTESTS "Include tests in the library. Setting this to OFF will remove all doctest related code.
-                        Tests in tests/*.cpp will still be enabled." ON)
+                        Tests in tests/*.cpp will still be enabled." OFF)
 
-# Include stuff. No change needed.
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
-include(ConfigSafeGuards)
+include(CTest) # Must be called before adding tests but after calling project(). This automatically calls enable_testing() and configures ctest targets when using Make/Ninja
+include(CMakeDependentOption)# This is a really useful scripts that creates options that depends on other options. It can even be used with generator expressions !
+
+# Custom modules and scripts
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake")
 include(Colors)
-include(CTest)
 include(Doctest)
-# include(Documentation)
 include(LTO)
-include(Misc)
 include(Warnings)
+include(CopyDllsForDebug)
 
-# Adds convenience methods, see cmake/cleanCppExtensions.cmake
-include(cleanCppExtensions)
+# Guard against in-source builds and bad build-type strings
+#
+include(ConfigSafeGuards)
+include(CMakeFindDependencyMacro) # seems for xtensor-blas only
 
-# Creates options to turn on sanitizers, see cmake/sanitizers.cmake
-include(sanitizers)
+###############
+##  OPTIONS  ##
+###############
 
-# Check for LTO support.
-find_lto(CXX)
+# You should try to give as much control over the project setup to the user.
+# When modifying compile flags for example, if they are not mandatory, provide an option.
 
-# --------------------------------------------------------------------------------
-#                         Locate files (change as needed).
-# --------------------------------------------------------------------------------
-set(SOURCES          # All .cpp files in src/
-    src/example.cpp
+# Use your own option for tests, in case people use your library through add_subdirectory
+cmake_dependent_option(BP_BUILD_TESTS
+    "Enable Boilerplate project tests targets" ON # By default we want tests if CTest is enabled
+    "BUILD_TESTING" OFF # Stay coherent with CTest variables
 )
-# set(TESTFILES        # All .cpp files in tests/
-#     tests/main.cpp
-#     tests/test_ck_plane.cpp
-#     tests/test_ell_plane.cpp
-#     tests/test_euclid.cpp
-#     tests/test_frac.cpp
-#     tests/test_persp_plane.cpp
-#     tests/test_proj_plane.cpp    
-# )
-set(LIBRARY_NAME engine)  # Default name for the library built from src/*.cpp (change if you wish)
 
-# --------------------------------------------------------------------------------
-#                            Build! (Change as needed)
-# --------------------------------------------------------------------------------
-find_package (Boost REQUIRED COMPONENTS coroutine context)
+# It is always easier to navigate in an IDE when projects are organized in folders.
+set_property (GLOBAL PROPERTY USE_FOLDERS ON)
+
+set (CMAKE_CXX_STANDARD 20)
+set (CMAKE_CXX_STANDARD_REQUIRED ON)
+# Don't use e.g. GNU extension (like -std=gnu++11) for portability
+set(CMAKE_CXX_EXTENSIONS OFF)
+if(MSVC)
+	add_compile_options(/std:c++latest /Wv:18 /W3 /WX /wd4819 /wd4146 /D_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING)
+else()
+    # add_compile_options(-fno-exceptions -DXTENSOR_DISABLE_EXCEPTIONS -DBOOST_NO_EXCEPTION -Wall -Wnon-virtual-dtor -Wunused -pedantic)
+    add_compile_options(-Wall -Wnon-virtual-dtor -Wunused -pedantic)
+endif()
+
+# set(LIBS ${LIBS} "-L$ENV{CONDA_PREFIX}/lib")
+
+set (THREADS_PREFER_PTHREAD_FLAG ON)
+find_package (Threads REQUIRED)
+find_package (fmt REQUIRED)
+# find_package (spdlog REQUIRED)
+
+find_package (Boost REQUIRED COMPONENTS context coroutine)
 if (Boost_FOUND)
     message(STATUS "Found boost: ${Boost_INCLUDE_DIRS}")
     set(LIBS ${LIBS} ${Boost_LIBRARIES})
 endif (Boost_FOUND)
-set (LIBRARY_INCLUDE_PATH  ${LIBRARY_INCLUDE_PATH} ${Boost_INCLUDE_DIRS})
 
-# Compile all sources into a library.
-add_library(${LIBRARY_NAME} OBJECT ${SOURCES})
+# add_definitions ( -std=c++1z -g)
+add_subdirectory (external EXCLUDE_FROM_ALL)
 
-# Lib needs its header files, and users of the library must also see these (PUBLIC). (No change needed)
-target_include_directories(${LIBRARY_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include ${LIBRARY_INCLUDE_PATH})
+# set (LIBRARY_INCLUDE_PATH ${LIBRARY_INCLUDE_PATH} ${Boost_INCLUDE_DIRS})
 
-# There's also (probably) doctests within the library, so we need to see this as well.
-target_link_libraries(${LIBRARY_NAME} PUBLIC doctest ${LIBS})
-
-# Set the compile options you want (change as needed).
-target_set_warnings(${LIBRARY_NAME} ENABLE ALL AS_ERROR ALL DISABLE Annoying)
-# target_compile_options(${LIBRARY_NAME} ... )  # For setting manually.
-
-# Add an executable for the file app/main.cpp.
-# If you add more executables, copy these lines accordingly.
-add_executable(main app/main.cpp)   # Name of exec. and location of file.
-target_link_libraries(main PRIVATE ${LIBRARY_NAME})  # Link the executable to library (if it uses it).
-target_set_warnings(main ENABLE ALL AS_ERROR ALL DISABLE Annoying) # Set warnings (if needed).
-target_enable_lto(main optimized)  # enable link-time-optimization if available for non-debug configurations
-
-# Set the properties you require, e.g. what C++ standard to use. Here applied to library and main (change as needed).
-set_target_properties(
-    ${LIBRARY_NAME} main 
-      PROPERTIES 
-        CXX_STANDARD 20
-        CXX_STANDARD_REQUIRED YES 
-        CXX_EXTENSIONS YES
-)
-
-if(MSVC)
-    add_compile_options(/std:c++latest /W3 /WX )
-else()
-    add_compile_options(-DBOOST_EXCEPTION_DISABLE -Wall -Wnon-virtual-dtor -Wunused -pedantic)
-    # add_compile_options(-fconcepts-ts -fcoroutines)
+# Enable code coverage with -DENABLE_COVERAGE=1
+if(ENABLE_COVERAGE)
+    set(CMAKE_BUILD_TYPE "Coverage")
+    include(CodeCoverage)
+    setup_target_for_coverage(${PROJECT_NAME}_coverage ${PROJECT_NAME}_test coverage)
 endif()
 
-# Set up tests (see tests/CMakeLists.txt).
-add_subdirectory(tests)
+# add_subdirectory (doc)
+add_subdirectory (lib)
+add_subdirectory (app)
 
-
-#------------------------------------------------------------------------------
-# Other MISC targets
-
-# Adds misc targets: format, cppcheck, tidy, see cmake/cleanCppExtensions.cmake
-addMiscTargets()
+enable_testing ()

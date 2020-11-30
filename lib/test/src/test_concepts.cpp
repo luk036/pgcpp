@@ -10,17 +10,6 @@ class PA
     using dual = LA;
     using value_type = long;
 
-    struct RsltP
-    {
-        operator PA()
-        {
-            return {};
-        }
-        RsltP(RsltP&&) = delete;
-        void operator&() const = delete;
-        friend void operator,(RsltP, RsltP) = delete;
-    };
-
     PA() = default;
     PA(PA&&) = default;
     PA(PA const&) = delete;
@@ -49,23 +38,13 @@ class LA
     using dual = PA;
     using value_type = long;
 
-    struct RsltL
-    {
-        operator PL()
-        {
-            return {};
-        }
-        RsltL(RsltL&&) = delete;
-        void operator&() const = delete;
-        friend void operator,(RsltL, RsltL) = delete;
-    };
-
     LA() = default;
     LA(LA&&) = default;
     LA(LA const&) = delete;
     LA& operator=(LA&&) = default;
     LA& operator=(LA const&) = delete;
     ~LA() = default;
+
     void operator&() const = delete;
     friend void operator,(LA const&, LA const&) = delete;
     friend bool operator==(LA const&, LA const&) = default;
@@ -80,29 +59,66 @@ class LA
     }
 };
 
-inline RsltL operator*(PA const&, PA const&)
+// struct RsltP
+// {
+//     operator PA() const
+//     {
+//         return PA{};
+//     }
+//     RsltP() = default;
+//     RsltP(RsltP&&) = delete;
+//     RsltP(RsltP const&) = delete;
+//     RsltP& operator=(RsltP&&) = default;
+//     RsltP& operator=(RsltP const&) = delete;
+//     ~RsltP() = default;
+
+//     void operator&() const = delete;
+//     LA aux() const { return {}; }
+//     friend void operator,(RsltP, RsltP) = delete;
+// };
+
+
+// struct RsltL
+// {
+//     operator LA() const
+//     {
+//         return LA{};
+//     }
+//     RsltL() = default;
+//     RsltL(RsltL&&) = delete;
+//     RsltL(RsltL const&) = delete;
+//     RsltL& operator=(RsltL&&) = default;
+//     RsltL& operator=(RsltL const&) = delete;
+//     ~RsltL() = default;
+
+//     void operator&() const = delete;
+//     PA aux() const { return {}; }
+//     friend void operator,(RsltL, RsltL) = delete;
+// };
+
+inline LA operator*(PA const&, PA const&)
 {
-    return {};
+    return LA{};
 }
-inline RsltP operator*(LA const&, LA const&)
+inline PA operator*(LA const&, LA const&)
 {
-    return {};
+    return PA{};
 }
 inline LA PA::aux() const
 {
-    return {};
+    return LA{};
 }
 inline PA LA::aux() const
 {
-    return {};
+    return PA{};
 }
-inline RsltP plucker(const int&, const PA&, const int&, const PA&)
+inline PA plucker(const int&, const PA&, const int&, const PA&)
 {
-    return {};
+    return PA{};
 }
-inline RsltL plucker(const int&, const LA&, const int&, const LA&)
+inline LA plucker(const int&, const LA&, const int&, const LA&)
 {
-    return {};
+    return LA{};
 }
 inline bool incident(const PA&, const LA&)
 {

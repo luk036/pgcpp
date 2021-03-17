@@ -40,7 +40,7 @@ struct pg_line : pg_object<_K, pg_point<_K>>
      *
      * @param[in] a array of coordinates
      */
-    constexpr explicit pg_line(const _Base2& a)
+    constexpr explicit pg_line(const _Base2& a) noexcept(noexcept(_K()))
         : _Base {a}
     {
     }
@@ -52,7 +52,7 @@ struct pg_line : pg_object<_K, pg_point<_K>>
      * @param[in] y
      * @param[in] z
      */
-    constexpr pg_line(const _K& x, const _K& y, const _K& z)
+    constexpr pg_line(const _K& x, const _K& y, const _K& z) noexcept(noexcept(_K()))
         : _Base {_Base2 {x, y, z}}
     {
     }
@@ -60,7 +60,8 @@ struct pg_line : pg_object<_K, pg_point<_K>>
 
 /// Return meet of two lines.
 template <CommutativeRing _K>
-constexpr pg_point<_K> meet(const pg_line<_K>& l, const pg_line<_K>& m)
+constexpr auto meet(const pg_line<_K>& l, const pg_line<_K>& m)
+noexcept(noexcept(_K())) -> pg_point<_K>
 {
     return l * m;
 }

@@ -22,7 +22,7 @@ namespace fun
  * @return _Mn
  */
 template <typename _Mn>
-constexpr _Mn gcd(_Mn __m, _Mn __n)
+constexpr auto gcd(_Mn __m, _Mn __n) noexcept(noexcept(_Mn())) -> _Mn
 {
     return __m == 0 ? abs(__n) : __n == 0 ? abs(__m) : gcd(__n, __m % __n);
 }
@@ -36,7 +36,7 @@ constexpr _Mn gcd(_Mn __m, _Mn __n)
  * @return _Mn
  */
 template <typename _Mn>
-constexpr _Mn lcm(_Mn __m, _Mn __n)
+constexpr auto lcm(_Mn __m, _Mn __n) noexcept(noexcept(_Mn())) -> _Mn
 {
     return (__m != 0 && __n != 0) ? (abs(__m) / gcd(__m, __n)) * abs(__n) : 0;
 }
@@ -56,7 +56,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @param[in] numerator
      * @param[in] denominator
      */
-    constexpr Fraction(Z&& numerator, Z&& denominator) noexcept
+    constexpr Fraction(Z&& numerator, Z&& denominator) noexcept(noexcept(Z()))
         : _numerator {std::move(numerator)}
         , _denominator {std::move(denominator)}
     {
@@ -69,14 +69,14 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @param[in] numerator
      * @param[in] denominator
      */
-    constexpr Fraction(const Z& numerator, const Z& denominator)
+    constexpr Fraction(const Z& numerator, const Z& denominator) noexcept(noexcept(Z()))
         : _numerator {numerator}
         , _denominator {denominator}
     {
         this->normalize();
     }
 
-    constexpr void normalize()
+    constexpr void normalize() noexcept(noexcept(Z()))
     {
         Z common = gcd(this->_numerator, this->_denominator);
         if (common == Z(1))
@@ -98,7 +98,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      *
      * @param[in] numerator
      */
-    constexpr explicit Fraction(Z&& numerator) noexcept
+    constexpr explicit Fraction(Z&& numerator) noexcept(noexcept(Z()))
         : _numerator {std::move(numerator)}
         , _denominator(Z(1))
     {
@@ -109,8 +109,19 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      *
      * @param[in] numerator
      */
-    constexpr explicit Fraction(const Z& numerator)
+    constexpr explicit Fraction(const Z& numerator) noexcept(noexcept(Z()))
         : _numerator {numerator}
+        , _denominator(Z(1))
+    {
+    }
+
+    /*!
+     * @brief Construct a new Fraction object
+     *
+     * @param[in] numerator
+     */
+    constexpr Fraction() noexcept(noexcept(Z()))
+        : _numerator {Z(0)}
         , _denominator(Z(1))
     {
     }
@@ -120,7 +131,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      *
      * @return const Z&
      */
-    constexpr const Z& numerator() const
+    constexpr auto numerator() const noexcept -> const Z&
     {
         return _numerator;
     }
@@ -130,7 +141,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      *
      * @return const Z&
      */
-    constexpr const Z& denominator() const
+    constexpr auto denominator() const noexcept -> const Z&
     {
         return _denominator;
     }
@@ -140,7 +151,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      *
      * @return Fraction
      */
-    constexpr Fraction abs() const
+    constexpr auto abs() const noexcept(noexcept(Z())) -> Fraction
     {
         return Fraction(std::abs(_numerator), std::abs(_denominator));
     }
@@ -149,7 +160,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @brief
      *
      */
-    constexpr void reciprocal()
+    constexpr void reciprocal() noexcept
     {
         std::swap(_numerator, _denominator);
     }
@@ -159,7 +170,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      *
      * @return Fraction
      */
-    constexpr Fraction operator-() const
+    constexpr auto operator-() const noexcept(noexcept(Z())) -> Fraction
     {
         auto res = Fraction(*this);
         res._numerator = -res._numerator;
@@ -172,7 +183,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @param[in] frac
      * @return Fraction
      */
-    constexpr Fraction operator+(const Fraction& frac) const
+    constexpr auto operator+(const Fraction& frac) const noexcept(noexcept(Z())) -> Fraction
     {
         if (_denominator == frac._denominator)
         {
@@ -190,7 +201,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @param[in] frac
      * @return Fraction
      */
-    constexpr Fraction operator-(const Fraction& frac) const
+    constexpr auto operator-(const Fraction& frac) const noexcept(noexcept(Z())) -> Fraction
     {
         return *this + (-frac);
     }
@@ -201,7 +212,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @param[in] frac
      * @return Fraction
      */
-    constexpr Fraction operator*(const Fraction& frac) const
+    constexpr auto operator*(const Fraction& frac) const noexcept(noexcept(Z())) -> Fraction
     {
         auto n = _numerator * frac._numerator;
         auto d = _denominator * frac._denominator;
@@ -214,7 +225,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @param[in] frac
      * @return Fraction
      */
-    constexpr Fraction operator/(Fraction frac) const
+    constexpr auto operator/(Fraction frac) const noexcept(noexcept(Z())) -> Fraction
     {
         frac.reciprocal();
         return *this * frac;
@@ -226,7 +237,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @param[in] i
      * @return Fraction
      */
-    constexpr Fraction operator+(const Z& i) const
+    constexpr auto operator+(const Z& i) const noexcept(noexcept(Z())) -> Fraction
     {
         auto n = _numerator + _denominator * i;
         return Fraction(std::move(n), _denominator);
@@ -238,7 +249,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @param[in] i
      * @return Fraction
      */
-    constexpr Fraction operator-(const Z& i) const
+    constexpr auto operator-(const Z& i) const noexcept(noexcept(Z())) -> Fraction
     {
         return *this + (-i);
     }
@@ -249,7 +260,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
     //  * @param[in] i
     //  * @return Fraction
     //  */
-    // constexpr Fraction operator*(const Z& i) const
+    // constexpr Fraction operator*(const Z& i) const noexcept
     // {
     //     auto n = _numerator * i;
     //     return Fraction(n, _denominator);
@@ -261,7 +272,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
     //  * @param[in] i
     //  * @return Fraction
     //  */
-    // constexpr Fraction operator/(const Z& i) const
+    // constexpr Fraction operator/(const Z& i) const noexcept
     // {
     //     auto d = _denominator * i;
     //     return Fraction(_numerator, d);
@@ -273,7 +284,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @param[in] frac
      * @return Fraction
      */
-    constexpr Fraction& operator+=(const Fraction& frac)
+    constexpr auto operator+=(const Fraction& frac) noexcept(noexcept(Z())) -> Fraction&
     {
         return *this = *this + frac;
     }
@@ -284,7 +295,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @param[in] frac
      * @return Fraction
      */
-    constexpr Fraction& operator-=(const Fraction& frac)
+    constexpr auto operator-=(const Fraction& frac) noexcept(noexcept(Z())) -> Fraction&
     {
         return *this = *this - frac;
     }
@@ -295,7 +306,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @param[in] frac
      * @return Fraction
      */
-    constexpr Fraction& operator*=(const Fraction& frac)
+    constexpr auto operator*=(const Fraction& frac) noexcept(noexcept(Z())) -> Fraction&
     {
         return *this = *this * frac;
     }
@@ -306,7 +317,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @param[in] frac
      * @return Fraction
      */
-    constexpr Fraction& operator/=(const Fraction& frac)
+    constexpr auto operator/=(const Fraction& frac) noexcept(noexcept(Z())) -> Fraction&
     {
         return *this = *this / frac;
     }
@@ -317,7 +328,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @param[in] i
      * @return Fraction
      */
-    constexpr Fraction& operator+=(const Z& i)
+    constexpr auto operator+=(const Z& i) noexcept(noexcept(Z())) -> Fraction&
     {
         return *this = *this + i;
     }
@@ -328,7 +339,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @param[in] i
      * @return Fraction
      */
-    constexpr Fraction& operator-=(const Z& i)
+    constexpr auto operator-=(const Z& i) noexcept(noexcept(Z())) -> Fraction&
     {
         return *this = *this - i;
     }
@@ -339,7 +350,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @param[in] i
      * @return Fraction
      */
-    constexpr Fraction& operator*=(const Z& i)
+    constexpr auto operator*=(const Z& i) noexcept(noexcept(Z())) -> Fraction&
     {
         const auto common = gcd(i, this->_denominator);
         if (common == Z(1))
@@ -364,7 +375,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @param[in] i
      * @return Fraction
      */
-    constexpr Fraction& operator/=(const Z& i)
+    constexpr auto operator/=(const Z& i) noexcept(noexcept(Z())) -> Fraction&
     {
         const auto common = gcd(this->_numerator, i);
         if (common == Z(1))
@@ -391,6 +402,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      */
     template <typename U>
     constexpr auto cmp(const Fraction<U>& frac) const
+    noexcept(noexcept(Z()) && noexcept(U())) -> Fraction&
     {
         // if (_denominator == frac._denominator) {
         //     return _numerator - frac._numerator;
@@ -399,7 +411,8 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
     }
 
     template <typename U>
-    constexpr bool operator==(const Fraction<U>& rhs) const
+    constexpr auto operator==(const Fraction<U>& rhs) const
+    noexcept(noexcept(Z()) && noexcept(U())) -> bool
     {
         if (this->_denominator == rhs._denominator)
         {
@@ -411,7 +424,8 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
     }
 
     template <typename U>
-    constexpr bool operator<(const Fraction<U>& rhs) const
+    constexpr auto operator<(const Fraction<U>& rhs) const
+    noexcept(noexcept(Z()) && noexcept(U())) -> bool
     {
         if (this->_denominator == rhs._denominator)
         {
@@ -426,7 +440,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @brief
      *
      */
-    constexpr bool operator==(const Z& rhs) const
+    constexpr auto operator==(const Z& rhs) const noexcept(noexcept(Z())) -> bool
     {
         return this->_denominator == Z(1) && this->_numerator == rhs;
     }
@@ -435,7 +449,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @brief
      *
      */
-    constexpr bool operator<(const Z& rhs) const
+    constexpr auto operator<(const Z& rhs) const noexcept(noexcept(Z())) -> bool
     {
         return this->_numerator < (this->_denominator * rhs);
     }
@@ -444,7 +458,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @brief
      *
      */
-    constexpr bool operator>(const Z& rhs) const
+    constexpr auto operator>(const Z& rhs) const noexcept(noexcept(Z())) -> bool
     {
         return this->_numerator > (this->_denominator * rhs);
     }
@@ -454,7 +468,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
     //  *
     //  * @return double
     //  */
-    // constexpr explicit operator double()
+    // constexpr explicit operator double() noexcept(noexcept(Z()))
     // {
     //     return double(_numerator) / _denominator;
     // }
@@ -463,7 +477,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
     //  * @brief
     //  *
     //  */
-    // friend constexpr bool operator<(const Z& lhs, const Fraction<Z>& rhs)
+    // friend constexpr bool operator<(const Z& lhs, const Fraction<Z>& rhs) noexcept(noexcept(Z()))
     // {
     //     return lhs * rhs.denominator() < rhs.numerator();
     // }
@@ -478,7 +492,8 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
  * @return Fraction<Z>
  */
 template <typename Z>
-constexpr Fraction<Z> operator+(const Z& c, const Fraction<Z>& frac)
+constexpr auto operator+(const Z& c, const Fraction<Z>& frac)
+noexcept(noexcept(Z())) -> Fraction<Z>
 {
     return frac + c;
 }
@@ -491,7 +506,8 @@ constexpr Fraction<Z> operator+(const Z& c, const Fraction<Z>& frac)
  * @return Fraction<Z>
  */
 template <typename Z>
-constexpr Fraction<Z> operator-(const Z& c, const Fraction<Z>& frac)
+constexpr auto operator-(const Z& c, const Fraction<Z>& frac)
+noexcept(noexcept(Z())) -> Fraction<Z>
 {
     return c + (-frac);
 }
@@ -517,7 +533,8 @@ constexpr Fraction<Z> operator-(const Z& c, const Fraction<Z>& frac)
  * @return Fraction<Z>
  */
 template <typename Z>
-constexpr Fraction<Z> operator+(int&& c, const Fraction<Z>& frac)
+constexpr auto operator+(int&& c, const Fraction<Z>& frac)
+noexcept(noexcept(Z())) -> Fraction<Z>
 {
     return frac + c;
 }
@@ -530,7 +547,8 @@ constexpr Fraction<Z> operator+(int&& c, const Fraction<Z>& frac)
  * @return Fraction<Z>
  */
 template <typename Z>
-constexpr Fraction<Z> operator-(int&& c, const Fraction<Z>& frac)
+constexpr auto operator-(int&& c, const Fraction<Z>& frac)
+noexcept(noexcept(Z())) -> Fraction<Z>
 {
     return (-frac) + c;
 }
@@ -543,7 +561,8 @@ constexpr Fraction<Z> operator-(int&& c, const Fraction<Z>& frac)
  * @return Fraction<Z>
  */
 template <typename Z>
-constexpr Fraction<Z> operator*(int&& c, const Fraction<Z>& frac)
+constexpr auto operator*(int&& c, const Fraction<Z>& frac)
+noexcept(noexcept(Z())) -> Fraction<Z>
 {
     return frac * c;
 }
@@ -558,13 +577,14 @@ constexpr Fraction<Z> operator*(int&& c, const Fraction<Z>& frac)
  * @return _Stream&
  */
 template <typename _Stream, typename Z>
-_Stream& operator<<(_Stream& os, const Fraction<Z>& frac)
+auto operator<<(_Stream& os, const Fraction<Z>& frac)
+noexcept(noexcept(Z())) -> _Stream&
 {
     os << frac.numerator() << "/" << frac.denominator();
     return os;
 }
 
 // For template deduction
-// Integral{Z} Fraction(const Z &, const Z &) -> Fraction<Z>;
+// Integral{Z} Fraction(const Z &, const Z &) noexcept -> Fraction<Z>;
 
 } // namespace fun

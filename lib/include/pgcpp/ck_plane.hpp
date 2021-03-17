@@ -30,7 +30,7 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
      * @brief construct ck object
      *
      */
-    constexpr ck()
+    constexpr ck() noexcept
     {
         static_assert(std::is_base_of_v<ck<_P, _L, Derived>, Derived<_P, _L>>);
     }
@@ -45,7 +45,8 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
      * @return false
      */
     template <Projective_plane_prim2 L>
-    constexpr auto is_perpendicular(const L& l, const L& m) const -> bool
+    constexpr auto is_perpendicular(const L& l, const L& m) const
+    noexcept(noexcept(Value_type<L>())) -> bool
     {
         return incident(m, self.perp(l));
     }
@@ -59,7 +60,8 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
      */
     template <typename P, typename L = typename P::dual>
     requires Projective_plane_prim<P, L> // c++20 concept
-        constexpr auto altitude(const P& p, const L& l) const -> L
+        constexpr auto altitude(const P& p, const L& l) const
+        noexcept(noexcept(Value_type<P>())) -> L
     {
         return p * self.perp(l);
     }
@@ -72,7 +74,7 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
      */
     template <Projective_plane_prim2 P>
     constexpr auto tri_altitude(
-        const Triple<P>& tri) const
+        const Triple<P>& tri) const noexcept(noexcept(Value_type<P>()))
     {
         const auto [l1, l2, l3] = tri_dual(tri);
         const auto& [a1, a2, a3] = tri;
@@ -89,7 +91,7 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
      */
     template <Projective_plane_prim2 P>
     constexpr auto orthocenter(
-        const Triple<P>& tri) const
+        const Triple<P>& tri) const noexcept(noexcept(Value_type<P>())) -> P
     {
         const auto& [a1, a2, a3] = tri;
 
@@ -105,7 +107,7 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
      * @return auto
      */
     template <Projective_plane P>
-    auto reflect(const P& m) const
+    auto reflect(const P& m) const noexcept(noexcept(Value_type<P>()))
     {
         return involution {m, self.perp(m)};
     }
@@ -117,7 +119,7 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
      * @return constexpr auto
      */
     template <Projective_plane P>
-    constexpr auto tri_measure(const Triple<P>& tri) const
+    constexpr auto tri_measure(const Triple<P>& tri) const noexcept(noexcept(Value_type<P>()))
     {
         const auto& [a1, a2, a3] = tri;
 
@@ -132,7 +134,7 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
      * @param[in] q
      * @return constexpr auto
      */
-    constexpr auto quadrance(const _P& p, const _P& q) const
+    constexpr auto quadrance(const _P& p, const _P& q) const noexcept(noexcept(Value_type<_P>()))
     {
         return self.measure(p, q);
     }
@@ -144,7 +146,7 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
      * @param[in] m
      * @return constexpr auto
      */
-    constexpr auto spread(const _L& l, const _L& m) const
+    constexpr auto spread(const _L& l, const _L& m) const noexcept(noexcept(Value_type<_L>()))
     {
         return self.measure(l, m);
     }
@@ -155,7 +157,7 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
      * @param[in] triangle
      * @return constexpr auto
      */
-    constexpr auto tri_quadrance(const Triple<_P>& triangle) const
+    constexpr auto tri_quadrance(const Triple<_P>& triangle) const noexcept(noexcept(Value_type<_P>()))
     {
         return this->tri_measure(triangle);
     }
@@ -166,7 +168,7 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
      * @param[in] trilateral
      * @return constexpr auto
      */
-    constexpr auto tri_spread(const Triple<_L>& trilateral) const
+    constexpr auto tri_spread(const Triple<_L>& trilateral) const noexcept(noexcept(Value_type<_L>()))
     {
         return this->tri_measure(trilateral);
     }
@@ -183,7 +185,8 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
  * @return false
  */
 template <CommutativeRing Q_t>
-constexpr bool check_sine_law(const Triple<Q_t>& Q, const Triple<Q_t>& S)
+constexpr auto check_sine_law(const Triple<Q_t>& Q, const Triple<Q_t>& S)
+noexcept(noexcept(Q_t())) -> bool
 {
     const auto& [q1, q2, q3] = Q;
     const auto& [s1, s2, s3] = S;
@@ -206,7 +209,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
      * @param[in] v
      * @return L
      */
-    constexpr auto perp(const P& v) const -> L
+    constexpr auto perp(const P& v) const noexcept(noexcept(Value_type<L>())) -> L
     {
         return L(v);
     }
@@ -217,7 +220,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
      * @param[in] v
      * @return P
      */
-    constexpr auto perp(const L& v) const -> P
+    constexpr auto perp(const L& v) const noexcept(noexcept(Value_type<P>())) -> P
     {
         return P(v);
     }
@@ -231,7 +234,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
      * @return constexpr auto
      */
     template <Projective_plane2 _P>
-    constexpr auto measure(const _P& a1, const _P& a2) const
+    constexpr auto measure(const _P& a1, const _P& a2) const noexcept(noexcept(Value_type<_P>()))
     {
         return 1 - x_ratio(a1, a2, this->perp(a2), this->perp(a1));
     }
@@ -253,7 +256,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
      * @param[in] v
      * @return L
      */
-    constexpr auto perp(const P& v) const
+    constexpr auto perp(const P& v) const noexcept(noexcept(Value_type<L>())) -> L
     {
         return L(v[0], v[1], -v[2]);
     }
@@ -264,7 +267,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
      * @param[in] v
      * @return P
      */
-    constexpr auto perp(const L& v) const
+    constexpr auto perp(const L& v) const noexcept(noexcept(Value_type<P>())) -> P
     {
         return P(v[0], v[1], -v[2]);
     }
@@ -278,7 +281,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
      * @return constexpr auto
      */
     template <Projective_plane2 _P>
-    constexpr auto measure(const _P& a1, const _P& a2) const
+    constexpr auto measure(const _P& a1, const _P& a2) const noexcept(noexcept(Value_type<_P>()))
     {
         return 1 - x_ratio(a1, a2, this->perp(a2), this->perp(a1));
     }
@@ -292,7 +295,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
  * @return constexpr auto
  */
 template <CommutativeRing K>
-constexpr auto check_cross_TQF(const Triple<K>& Q)
+constexpr auto check_cross_TQF(const Triple<K>& Q) noexcept(noexcept(K()))
 {
     const auto& [q1, q2, q3] = Q;
     return sq(q1 + q2 + q3) - 2 * (q1 * q1 + q2 * q2 + q3 * q3) -
@@ -308,7 +311,7 @@ constexpr auto check_cross_TQF(const Triple<K>& Q)
  * @return constexpr auto
  */
 template <CommutativeRing K>
-constexpr auto check_cross_law(const Triple<K>& S, const K& q3)
+constexpr auto check_cross_law(const Triple<K>& S, const K& q3) noexcept(noexcept(K()))
 {
     const auto& [s1, s2, s3] = S;
     return sq(s1 * s2 * q3 - (s1 + s2 + s3) + 2) -

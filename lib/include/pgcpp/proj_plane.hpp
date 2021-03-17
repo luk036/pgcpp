@@ -29,7 +29,8 @@ namespace fun
  */
 template <typename L, typename... Args>
 requires (Projective_plane<L, Args> && ...)
-constexpr auto coincident(const L& l, const Args&... r) -> bool
+constexpr auto coincident(const L& l, const Args&... r)
+noexcept(noexcept(Value_type<L>())) -> bool
 {
     return (incident(r, l) && ...);
 }
@@ -68,6 +69,7 @@ using Triple = std::tuple<P, P, P>;
  */
 template <Projective_plane_prim2 P>
 constexpr auto tri_dual(const Triple<P>& tri)
+noexcept(noexcept(Value_type<P>()))
 {
     const auto& [a1, a2, a3] = tri;
     return std::tuple {a2 * a3, a1 * a3, a1 * a2};
@@ -82,6 +84,7 @@ constexpr auto tri_dual(const Triple<P>& tri)
  */
 template <Projective_plane_prim2 P, typename Fn>
 constexpr auto tri_func(Fn&& func, const Triple<P>& tri)
+noexcept(noexcept(Value_type<P>()))
 {
     const auto& [a1, a2, a3] = tri;
     return std::tuple{func(a2, a3), func(a1, a3), func(a1, a2)};
@@ -96,7 +99,8 @@ constexpr auto tri_func(Fn&& func, const Triple<P>& tri)
  * @return false
  */
 template <Projective_plane_prim2 P>
-constexpr bool persp(const Triple<P>& tri1, const Triple<P>& tri2)
+constexpr auto persp(const Triple<P>& tri1, const Triple<P>& tri2)
+noexcept(noexcept(Value_type<P>())) -> bool
 {
     const auto& [A, B, C] = tri1;
     const auto& [D, E, F] = tri2;
@@ -114,7 +118,8 @@ constexpr bool persp(const Triple<P>& tri1, const Triple<P>& tri2)
  */
 template <typename P, typename L>
 requires Projective_plane<P, L>
-constexpr bool incident(const P& p, const L& l)
+constexpr auto incident(const P& p, const L& l)
+noexcept(noexcept(Value_type<P>())) -> bool
 {
     return p.dot(l) == Value_type<P>(0);
 }
@@ -129,7 +134,8 @@ constexpr bool incident(const P& p, const L& l)
  * @return constexpr P
  */
 template <Projective_plane2 P>
-constexpr auto harm_conj(const P& A, const P& B, const P& C) -> P
+constexpr auto harm_conj(const P& A, const P& B, const P& C)
+noexcept(noexcept(Value_type<P>())) -> P
 {
     const auto lC = C * (A * B).aux();
     return plucker(B.dot(lC), A, A.dot(lC), B);
@@ -153,7 +159,7 @@ class involution
      * @param[in] m
      * @param[in] o
      */
-    constexpr involution(const L& m, P o) // input mirror and center
+    constexpr involution(const L& m, P o) noexcept(noexcept(K())) // input mirror and center
         : _m {m}
         , _o {std::move(o)}
         , _c {m.dot(_o)}
@@ -166,7 +172,7 @@ class involution
      * @param[in] p
      * @return P
      */
-    constexpr auto operator()(const P& p) const -> P
+    constexpr auto operator()(const P& p) const noexcept(noexcept(K())) -> P
     {
         return plucker(_c, p, K(-2 * p.dot(_m)), _o);
     }
@@ -184,6 +190,7 @@ class involution
  */
 template <CommutativeRing K>
 constexpr auto ratio_ratio(const K& a, const K& b, const K& c, const K& d)
+noexcept(noexcept(K()))
 {
     if constexpr (Integral<K>)
     {
@@ -211,6 +218,7 @@ constexpr auto ratio_ratio(const K& a, const K& b, const K& c, const K& d)
 template <typename P, typename L>
 requires Projective_plane<P, L>
 constexpr auto x_ratio(const P& A, const P& B, const L& l, const L& m)
+noexcept(noexcept(Value_type<P>()))
 {
     return ratio_ratio(A.dot(l), A.dot(m), B.dot(l), B.dot(m));
 }
@@ -226,6 +234,7 @@ constexpr auto x_ratio(const P& A, const P& B, const L& l, const L& m)
  */
 template <Projective_plane2 P>
 constexpr auto R(const P& A, const P& B, const P& C, const P& D)
+noexcept(noexcept(Value_type<P>()))
 {
     const auto O = (C * D).aux();
     return x_ratio(A, B, O * C, O * D);
@@ -242,6 +251,7 @@ constexpr auto R(const P& A, const P& B, const P& C, const P& D)
  */
 template <Projective_plane_coord2 P>
 constexpr auto R0(const P& A, const P& B, const P& C, const P& D)
+noexcept(noexcept(Value_type<P>()))
 {
     return ratio_ratio(cross0(A, C), cross0(A, D), cross0(B, C), cross0(B, D)); 
 }
@@ -257,6 +267,7 @@ constexpr auto R0(const P& A, const P& B, const P& C, const P& D)
  */
 template <Projective_plane_coord2 P>
 constexpr auto R1(const P& A, const P& B, const P& C, const P& D)
+noexcept(noexcept(Value_type<P>()))
 {
     return ratio_ratio(cross1(A, C), cross1(A, D), cross1(B, C), cross1(B, D)); 
 }
@@ -272,6 +283,7 @@ constexpr auto R1(const P& A, const P& B, const P& C, const P& D)
  */
 template <Projective_plane_coord2 P>
 constexpr auto R(const P& A, const P& B, const P& C, const P& D)
+noexcept(noexcept(Value_type<P>()))
 {
     using K = Value_type<P>;
     if (cross0(A, B) != K(0))
@@ -293,6 +305,7 @@ constexpr auto R(const P& A, const P& B, const P& C, const P& D)
  */
 template <Projective_plane2 P>
 constexpr auto is_harmonic(const P& A, const P& B, const P& C, const P& D)
+noexcept(noexcept(Value_type<P>())) -> bool
 {
     using K = Value_type<P>;
     return R(A, B, C, D) == K(-1);
@@ -308,6 +321,7 @@ constexpr auto is_harmonic(const P& A, const P& B, const P& C, const P& D)
  */
 template <Projective_plane_prim2 P>
 void check_pappus(const Triple<P>& co1, const Triple<P>& co2)
+noexcept(noexcept(Value_type<P>()))
 {
     const auto& [A, B, C] = co1;
     const auto& [D, E, F] = co2;

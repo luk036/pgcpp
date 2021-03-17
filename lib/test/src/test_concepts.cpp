@@ -10,7 +10,7 @@ class PA
     using dual = LA;
     using value_type = long;
 
-    PA() = default;
+    PA() noexcept = default;
     PA(PA&&) = default;
     PA(PA const&) = delete;
     PA& operator=(PA&&) = default;
@@ -21,12 +21,12 @@ class PA
     friend void operator,(PA const&, PA const&) = delete;
 
     friend bool operator==(PA const&, PA const&) = default;
-    LA aux() const;
-    value_type dot(LA const&) const
+    LA aux() const noexcept;
+    value_type dot(LA const&) const noexcept
     {
         return {};
     }
-    value_type operator[](size_t) const
+    value_type operator[](size_t) const noexcept
     {
         return {};
     }
@@ -38,7 +38,7 @@ class LA
     using dual = PA;
     using value_type = long;
 
-    LA() = default;
+    LA() noexcept = default;
     LA(LA&&) = default;
     LA(LA const&) = delete;
     LA& operator=(LA&&) = default;
@@ -48,12 +48,12 @@ class LA
     void operator&() const = delete;
     friend void operator,(LA const&, LA const&) = delete;
     friend bool operator==(LA const&, LA const&) = default;
-    PA aux() const;
-    value_type dot(PA const&) const
+    PA aux() const noexcept;
+    value_type dot(PA const&) const noexcept
     {
         return {};
     }
-    value_type operator[](size_t) const
+    value_type operator[](size_t) const noexcept
     {
         return {};
     }
@@ -61,7 +61,7 @@ class LA
 
 // struct RsltP
 // {
-//     operator PA() const
+//     operator PA() const noexcept
 //     {
 //         return PA{};
 //     }
@@ -80,7 +80,7 @@ class LA
 
 // struct RsltL
 // {
-//     operator LA() const
+//     operator LA() const noexcept
 //     {
 //         return LA{};
 //     }
@@ -96,35 +96,35 @@ class LA
 //     friend void operator,(RsltL, RsltL) = delete;
 // };
 
-inline LA operator*(PA const&, PA const&)
+inline LA operator*(PA const&, PA const&) noexcept
 {
     return LA{};
 }
-inline PA operator*(LA const&, LA const&)
+inline PA operator*(LA const&, LA const&) noexcept
 {
     return PA{};
 }
-inline LA PA::aux() const
+inline LA PA::aux() const noexcept
 {
     return LA{};
 }
-inline PA LA::aux() const
+inline PA LA::aux() const noexcept
 {
     return PA{};
 }
-inline PA plucker(const int&, const PA&, const int&, const PA&)
+inline PA plucker(const int&, const PA&, const int&, const PA&) noexcept
 {
     return PA{};
 }
-inline LA plucker(const int&, const LA&, const int&, const LA&)
+inline LA plucker(const int&, const LA&, const int&, const LA&) noexcept
 {
     return LA{};
 }
-inline bool incident(const PA&, const LA&)
+inline bool incident(const PA&, const LA&) noexcept
 {
     return true;
 }
-inline bool incident(const LA&, const PA&)
+inline bool incident(const LA&, const PA&) noexcept
 {
     return true;
 }
@@ -135,7 +135,7 @@ using LArchetype = LA;
 static_assert(Projective_plane_coord<PArchetype, LArchetype>);
 static_assert(Projective_plane_coord<LArchetype, PArchetype>);
 
-inline void test_concept_usage(PArchetype p, LArchetype l)
+inline void test_concept_usage(PArchetype p, LArchetype l) noexcept
 {
     coincident(p * p, p);
     coincident(l * l, l);

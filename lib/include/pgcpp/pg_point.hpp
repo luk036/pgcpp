@@ -43,21 +43,21 @@ struct pg_point : pg_object<_K, pg_line<_K>>
      *
      * @return pg_point<_K>&
      */
-    pg_point<_K>& operator=(const pg_point<_K>&) = delete;
+    auto operator=(const pg_point<_K>&) noexcept -> pg_point<_K>& = delete;
 
     /*!
      * @brief
      *
      * @return pg_point<_K>&
      */
-    pg_point<_K>& operator=(pg_point<_K>&&) = default;
+    auto operator=(pg_point<_K>&&) -> pg_point<_K>& = default;
 
     /*!
      * @brief Construct a new pg object object
      *
      * @param[in] a array of coordinates
      */
-    constexpr explicit pg_point(const _Base2& a)
+    constexpr explicit pg_point(const _Base2& a) noexcept(noexcept(_K()))
         : _Base {a}
     {
     }
@@ -69,7 +69,7 @@ struct pg_point : pg_object<_K, pg_line<_K>>
      * @param[in] y
      * @param[in] z
      */
-    constexpr pg_point(const _K& x, const _K& y, const _K& z)
+    constexpr pg_point(const _K& x, const _K& y, const _K& z) noexcept(noexcept(_K()))
         : _Base {_Base2 {x, y, z}}
     {
     }
@@ -83,7 +83,8 @@ struct pg_point : pg_object<_K, pg_line<_K>>
  * @return pg_line<_K>
  */
 template <CommutativeRing _K>
-constexpr pg_line<_K> join(const pg_point<_K>& p, const pg_point<_K>& q)
+constexpr auto join(const pg_point<_K>& p, const pg_point<_K>& q)
+noexcept(noexcept(_K())) -> pg_line<_K>
 {
     return p * q;
 }

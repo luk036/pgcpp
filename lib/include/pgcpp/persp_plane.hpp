@@ -33,7 +33,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
      * @param[in] Iim
      * @param[in] l_infty
      */
-    constexpr persp_euclid_plane(P Ire, P Iim, L l_infty)
+    constexpr persp_euclid_plane(P Ire, P Iim, L l_infty) noexcept
         : _Ire {std::move(Ire)}
         , _Iim {std::move(Iim)}
         , _l_infty {std::move(l_infty)}
@@ -48,7 +48,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
     //  * @param[in] l_infty
     //  */
     // constexpr persp_euclid_plane(const P &Ire, const P &Iim, const L
-    // &l_infty)
+    // &l_infty) noexcept
     //     : _Ire{Ire}, _Iim{Iim}, _l_infty{l_infty} {}
 
     // /*!
@@ -64,7 +64,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
      *
      * @return const L&
      */
-    constexpr const L& l_infty() const
+    constexpr const L& l_infty() const noexcept
     {
         return this->_l_infty;
     }
@@ -75,7 +75,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
      * @param[in] x
      * @return P
      */
-    constexpr auto perp(const L& v) const -> P
+    constexpr auto perp(const L& v) const noexcept(noexcept(K())) -> P
     {
         const auto alpha = v.dot(this->_Ire);
         const auto beta = v.dot(this->_Iim);
@@ -90,7 +90,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
      * @return true
      * @return false
      */
-    constexpr auto is_parallel(const L& l, const L& m) const -> bool
+    constexpr auto is_parallel(const L& l, const L& m) const noexcept(noexcept(K())) -> bool
     {
         return incident(this->_l_infty, l * m);
     }
@@ -102,7 +102,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
      * @param[in] b
      * @return P
      */
-    constexpr auto midpoint(const P& a, const P& b) const -> P
+    constexpr auto midpoint(const P& a, const P& b) const noexcept(noexcept(K())) -> P
     {
         const auto alpha = a.dot(this->_l_infty);
         const auto beta = b.dot(this->_l_infty);
@@ -115,7 +115,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
      * @param[in] tri
      * @return auto
      */
-    constexpr auto tri_midpoint(const Triple<P>& tri) const
+    constexpr auto tri_midpoint(const Triple<P>& tri) const noexcept(noexcept(K()))
     {
         const auto& [a1, a2, a3] = tri;
 
@@ -129,7 +129,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
      * @param[in] x
      * @return K
      */
-    constexpr auto omega(const P& x) const -> K
+    constexpr auto omega(const P& x) const noexcept(noexcept(K())) -> K
     {
         return sq(x.dot(this->_l_infty));
     }
@@ -140,7 +140,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
      * @param[in] x
      * @return K
      */
-    constexpr auto omega(const L& x) const -> K
+    constexpr auto omega(const L& x) const noexcept(noexcept(K())) -> K
     {
         return sq(x.dot(this->_Ire)) + sq(x.dot(this->_Iim));
     }
@@ -153,7 +153,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
      * @return auto
      */
     template <Projective_plane2 _P>
-    constexpr auto measure(const _P& a1, const _P& a2) const
+    constexpr auto measure(const _P& a1, const _P& a2) const noexcept(noexcept(K()))
     {
         const auto omg = K(this->omega(a1 * a2));
         const auto den = K(this->omega(a1) * this->omega(a2));

@@ -15,7 +15,7 @@
  * Simple main program that demontrates how access
  * CMake definitions (here the version number) from source code.
  */
-int main()
+int main() noexcept
 {
     // Bring in the dummy class from the example source,
     // just to show that it is accessible from main.cpp.

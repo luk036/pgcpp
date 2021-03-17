@@ -10,7 +10,7 @@
 
 using namespace fun;
 
-static auto Zero = doctest::Approx(0).epsilon(0.01);
+static const auto Zero = doctest::Approx(0).epsilon(0.01);
 
 /*!
  * @brief
@@ -20,7 +20,7 @@ static auto Zero = doctest::Approx(0).epsilon(0.01);
  * @return false
  */
 template <typename T>
-inline auto ApproxZero(const T& a) -> bool
+inline auto ApproxZero(const T& a) noexcept -> bool
 {
     return a[0] == Zero && a[1] == Zero && a[2] == Zero;
 }
@@ -32,7 +32,7 @@ inline auto ApproxZero(const T& a) -> bool
  * @param[in] myck
  */
 template <typename PG>
-void chk_tri(const PG& myck)
+void chk_tri(const PG& myck) noexcept
 {
     using Point = typename PG::point_t;
     using K = Value_type<Point>;

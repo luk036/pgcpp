@@ -22,7 +22,8 @@ namespace fun
  * @return _Mn
  */
 template <typename _Mn>
-constexpr auto gcd(_Mn __m, _Mn __n) noexcept(noexcept(_Mn())) -> _Mn
+constexpr auto gcd(_Mn __m, _Mn __n) 
+noexcept(noexcept(abs(__n))) -> _Mn
 {
     return __m == 0 ? abs(__n) : __n == 0 ? abs(__m) : gcd(__n, __m % __n);
 }

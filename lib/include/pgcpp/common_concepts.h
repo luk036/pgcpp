@@ -1,8 +1,8 @@
 #pragma once
 
 #include <utility>
-#include <concepts>
-#include <ranges>
+// #include <concepts>
+// #include <ranges>
 
 namespace fun
 {

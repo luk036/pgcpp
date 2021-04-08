@@ -12,6 +12,7 @@ RUN apt-get update \
   g++-10 \
   clang-13 \
   ccache \
+  cmake-curses-gui \
   clang-format \
   cppcheck \
   doctest-dev \
@@ -63,7 +64,6 @@ RUN /opt/conda/bin/conda config --set always_yes yes --set changeps1 no \
     && /opt/conda/bin/conda info -a
 
 RUN /opt/conda/bin/conda install -y -c conda-forge \
-    ccmake \
     pandoc-crossref \
     pandoc
 

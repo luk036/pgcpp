@@ -5,7 +5,7 @@
 #include "pgcpp/pg_point.hpp"
 #include "pgcpp/proj_plane.hpp"
 #include <complex>
-#include <doctest.h>
+#include <doctest/doctest.h>
 // #include <iostream>
 
 using namespace fun;

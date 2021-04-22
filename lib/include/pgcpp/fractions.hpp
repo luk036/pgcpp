@@ -170,7 +170,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @brief
      *
      */
-    constexpr void reciprocal() noexcept
+    constexpr void reciprocal() noexcept(std::is_nothrow_swappable_v<Z>)
     {
         std::swap(this->_num, this->_den);
     }
@@ -473,7 +473,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
     //  *
     //  * @return double
     //  */
-    // constexpr explicit operator double() noexcept(noexcept(Z()))
+    // constexpr explicit operator double())
     // {
     //     return double(_num) / _den;
     // }
@@ -482,7 +482,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
     //  * @brief
     //  *
     //  */
-    // friend constexpr bool operator<(const Z& lhs, const Fraction<Z>& rhs) noexcept(noexcept(Z()))
+    // friend constexpr bool operator<(const Z& lhs, const Fraction<Z>& rhs))
     // {
     //     return lhs * rhs.den() < rhs.num();
     // }

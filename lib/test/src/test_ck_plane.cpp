@@ -1,5 +1,5 @@
 /*
- *  Distributed under the MIT License (See accompanying file /LICENSE ) noexcept
+ *  Distributed under the MIT License (See accompanying file /LICENSE )
  */
 #include "pgcpp/ck_plane.hpp"
 #include "pgcpp/persp_plane.hpp"
@@ -22,13 +22,13 @@ static const auto Zero = doctest::Approx(0).epsilon(0.01);
  * @return false
  */
 template <typename T>
-inline auto ApproxZero(const T& a) noexcept -> bool
+inline auto ApproxZero(const T& a) -> bool
 {
     return a[0] == Zero && a[1] == Zero && a[2] == Zero;
 }
 
 template <typename PG>
-void chk_ck(const PG& myck) noexcept
+void chk_ck(const PG& myck)
 {
     using P = typename PG::point_t;
     using K = Value_type<P>;
@@ -92,18 +92,18 @@ template <typename P, typename L = typename P::dual>
 requires Projective_plane_prim<P, L> // c++20 concept
     struct myck : ck<P, L, myck>
 {
-    constexpr L perp(const P& v) const noexcept
+    constexpr L perp(const P& v) const
     {
         return L(-2 * v[0], v[1], -2 * v[2]);
     }
 
-    constexpr P perp(const L& v) const noexcept
+    constexpr P perp(const L& v) const
     {
         return P(-v[0], 2 * v[1], -v[2]);
     }
 
     template <Projective_plane2 _P>
-    constexpr auto measure(const _P& a1, const _P& a2) const noexcept
+    constexpr auto measure(const _P& a1, const _P& a2) const
     {
         auto x = x_ratio(a1, a2, this->perp(a2), this->perp(a1));
         // using Q_t = decltype(x);

@@ -30,17 +30,13 @@ struct pg_line : pg_object<_K, pg_point<_K>>
     /// Value typedef.
     using _Base = pg_object<_K, pg_point<_K>>;
     using _Base2 = std::array<_K, 3>;
-    // using value_type = _K;
-
-    // pg_line(const pg_line<_K>&) = delete;
-    // pg_line(pg_line<_K>&&) = default;
 
     /*!
      * @brief Construct a new pg object object
      *
      * @param[in] a array of coordinates
      */
-    constexpr explicit pg_line(const _Base2& a) noexcept(noexcept(_K()))
+    constexpr explicit pg_line(const _Base2& a)
         : _Base {a}
     {
     }
@@ -52,7 +48,7 @@ struct pg_line : pg_object<_K, pg_point<_K>>
      * @param[in] y
      * @param[in] z
      */
-    constexpr pg_line(const _K& x, const _K& y, const _K& z) noexcept(noexcept(_K()))
+    constexpr pg_line(const _K& x, const _K& y, const _K& z)
         : _Base {_Base2 {x, y, z}}
     {
     }
@@ -60,16 +56,10 @@ struct pg_line : pg_object<_K, pg_point<_K>>
 
 /// Return meet of two lines.
 template <ring _K>
-constexpr auto meet(const pg_line<_K>& l, const pg_line<_K>& m)
-noexcept(noexcept(_K())) -> pg_point<_K>
+inline constexpr auto meet(const pg_line<_K>& l,
+                           const pg_line<_K>& m) -> pg_point<_K>
 {
     return l * m;
 }
-
-// template deduction guides (C++17)
-// template <ring _K>
-// pg_line(const std::array<_K, 3>)->pg_line<_K>;
-
-// ring{_K} pg_line(const _K &, const _K &, const _K &)->pg_line<_K>;
 
 } // namespace fun

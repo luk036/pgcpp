@@ -43,7 +43,7 @@ struct pg_point : pg_object<_K, pg_line<_K>>
      *
      * @return pg_point<_K>&
      */
-    auto operator=(const pg_point<_K>&) noexcept -> pg_point<_K>& = delete;
+    auto operator=(const pg_point<_K>&) -> pg_point<_K>& = delete;
 
     /*!
      * @brief
@@ -57,7 +57,7 @@ struct pg_point : pg_object<_K, pg_line<_K>>
      *
      * @param[in] a array of coordinates
      */
-    constexpr explicit pg_point(const _Base2& a) noexcept(noexcept(_K()))
+    constexpr explicit pg_point(const _Base2& a)
         : _Base {a}
     {
     }
@@ -69,7 +69,7 @@ struct pg_point : pg_object<_K, pg_line<_K>>
      * @param[in] y
      * @param[in] z
      */
-    constexpr pg_point(const _K& x, const _K& y, const _K& z) noexcept(noexcept(_K()))
+    constexpr pg_point(const _K& x, const _K& y, const _K& z)
         : _Base {_Base2 {x, y, z}}
     {
     }
@@ -83,16 +83,10 @@ struct pg_point : pg_object<_K, pg_line<_K>>
  * @return pg_line<_K>
  */
 template <ring _K>
-constexpr auto join(const pg_point<_K>& p, const pg_point<_K>& q)
-noexcept(noexcept(_K())) -> pg_line<_K>
+inline constexpr auto join(const pg_point<_K>& p,
+                           const pg_point<_K>& q) -> pg_line<_K>
 {
     return p * q;
 }
-
-// template deduction guides (C++17)
-// ring{_K} pg_point(const std::array<_K, 3> &)->pg_point<_K>;
-
-// ring{_K} pg_point(const _K &, const _K &, const _K
-// &)->pg_point<_K>;
 
 } // namespace fun

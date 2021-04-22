@@ -22,7 +22,7 @@ static const auto Zero = doctest::Approx(0).epsilon(0.01);
  * @return false
  */
 template <typename T>
-inline auto ApproxZero(const T& a) noexcept -> bool
+inline auto ApproxZero(const T& a) -> bool
 {
     return a[0] == Zero && a[1] == Zero && a[2] == Zero;
 }
@@ -34,7 +34,7 @@ inline auto ApproxZero(const T& a) noexcept -> bool
  * @param[in] triangle
  */
 template <Projective_plane_prim2 P>
-void chk_euclid(const Triple<P>& triangle) noexcept(noexcept(Value_type<P>()))
+void chk_euclid(const Triple<P>& triangle)
 {
     auto trilateral = tri_dual(triangle);
 

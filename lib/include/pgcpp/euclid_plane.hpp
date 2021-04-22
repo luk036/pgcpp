@@ -15,7 +15,7 @@ namespace fun
  * @return auto
  */
 template <Projective_plane_coord2 L> // // and requires p[i]
-constexpr auto fB(const L& l) noexcept -> typename L::dual
+constexpr auto fB(const L& l) -> typename L::dual
 {
     return {l[0], l[1], 0};
 }
@@ -29,7 +29,7 @@ constexpr auto fB(const L& l) noexcept -> typename L::dual
  * @return false
  */
 template <Projective_plane_coord2 L>
-constexpr auto is_perpendicular(const L& l, const L& m) noexcept -> bool
+constexpr auto is_perpendicular(const L& l, const L& m) -> bool
 {
     return dot1(l, m) == 0;
 }
@@ -43,7 +43,7 @@ constexpr auto is_perpendicular(const L& l, const L& m) noexcept -> bool
  * @return false
  */
 template <Projective_plane_coord2 L>
-constexpr auto is_parallel(const L& l, const L& m) noexcept -> bool
+constexpr auto is_parallel(const L& l, const L& m) -> bool
 {
     return cross2(l, m) == 0;
 }
@@ -57,7 +57,7 @@ constexpr auto is_parallel(const L& l, const L& m) noexcept -> bool
  */
 template <typename P, typename L>
 requires Projective_plane_coord<P, L>
-constexpr auto altitude(const P& a, const L& l) noexcept -> L
+constexpr auto altitude(const P& a, const L& l) -> L
 {
     return a * fB(l);
 }
@@ -83,7 +83,7 @@ constexpr auto tri_altitude(const Triple<P>& tri)
  * @return P
  */
 template <Projective_plane_coord2 P>
-constexpr auto orthocenter(const Triple<P>& tri) noexcept -> P
+constexpr auto orthocenter(const Triple<P>& tri) -> P
 {
     const auto& [a1, a2, a3] = tri;
     const auto t1 = altitude(a1, a2 * a3);
@@ -111,7 +111,7 @@ constexpr auto reflect(const L& m)
  * @return P
  */
 template <Projective_plane_coord2 P>
-constexpr auto midpoint(const P& a, const P& b) noexcept -> P
+constexpr auto midpoint(const P& a, const P& b) -> P
 {
     return plucker(b[2], a, a[2], b);
 }
@@ -123,7 +123,7 @@ constexpr auto midpoint(const P& a, const P& b) noexcept -> P
  * @return auto
  */
 template <Projective_plane_coord2 P>
-constexpr auto tri_midpoint(const Triple<P>& tri) noexcept -> Triple<P>
+constexpr auto tri_midpoint(const Triple<P>& tri) -> Triple<P>
 {
     const auto& [a1, a2, a3] = tri;
     return {midpoint(a1, a2), midpoint(a2, a3), midpoint(a1, a3)};
@@ -188,7 +188,7 @@ constexpr auto cqq(const _Q& a, const _Q& b, const _Q& c, const _Q& d)
  * @return auto
  */
 template <typename T>
-constexpr auto Ptolemy(const T& quad) noexcept -> bool
+constexpr auto Ptolemy(const T& quad) -> bool
 {
     const auto& [Q12, Q23, Q34, Q14, Q13, Q24] = quad;
     return Ar(Q12 * Q34, Q23 * Q14, Q13 * Q24) == 0;

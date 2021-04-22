@@ -37,7 +37,7 @@ class pg_object : public std::array<_K, 3>
      *
      * @param[in] a array of coordinates
      */
-    constexpr explicit pg_object(const _Base& a) noexcept(noexcept(_K()))
+    constexpr explicit pg_object(const _Base& a)
         : _Base {a}
     {
     }
@@ -59,14 +59,14 @@ class pg_object : public std::array<_K, 3>
      * @brief Construct a new pg object
      *
      */
-    pg_object(_Self&&) noexcept(noexcept(_K())) = default;
+    pg_object(_Self&&) = default;
 
     /*!
      * @brief
      *
      * @return _Self&
      */
-    auto operator=(_Self&&) noexcept(noexcept(_K())) -> _Self& = default;
+    auto operator=(_Self&&) -> _Self& = default;
 
     // Operators:
 
@@ -77,8 +77,7 @@ class pg_object : public std::array<_K, 3>
      * @return true if this object is equivalent to the rhs
      * @return false otherwise
      */
-    friend constexpr auto operator==(const _Self& lhs, const _Self& rhs)
-    noexcept(noexcept(_K())) -> bool
+    friend constexpr auto operator==(const _Self& lhs, const _Self& rhs) -> bool
     {
         if (&lhs == &rhs)
         {
@@ -94,8 +93,7 @@ class pg_object : public std::array<_K, 3>
      * @return true if this object is not equivalent to the rhs
      * @return false otherwise
      */
-    friend constexpr auto operator!=(const _Self& lhs, const _Self& rhs)
-    noexcept(noexcept(_K())) -> bool
+    friend constexpr auto operator!=(const _Self& lhs, const _Self& rhs) -> bool
     {
         return !(lhs == rhs);
     }
@@ -107,7 +105,7 @@ class pg_object : public std::array<_K, 3>
      * @return true if this object is equivalent to the rhs
      * @return false otherwise
      */
-    constexpr auto is_NaN() const noexcept(noexcept(_K())) -> bool
+    constexpr auto is_NaN() const -> bool
     {
         const _Base& base = *this;
         return base == _Base {_K(0), _K(0), _K(0)};
@@ -120,7 +118,7 @@ class pg_object : public std::array<_K, 3>
      * @param[in] l
      * @return _K
      */
-    constexpr auto dot(const dual& l) const noexcept(noexcept(_K())) -> _K
+    constexpr auto dot(const dual& l) const -> _K
     {
         return fun::dot_c(*this, l);
     }
@@ -130,7 +128,7 @@ class pg_object : public std::array<_K, 3>
      *
      * @return dual
      */
-    constexpr auto aux() const noexcept(noexcept(_K())) -> dual
+    constexpr auto aux() const -> dual
     {
         return dual(*this);
     }
@@ -142,8 +140,7 @@ class pg_object : public std::array<_K, 3>
      * @return true if this point is equivalent to the rhs
      * @return false otherwise
      */
-    friend constexpr auto operator*(const _Self& lhs, const _Self& rhs)
-    noexcept(noexcept(_K())) -> dual
+    friend constexpr auto operator*(const _Self& lhs, const _Self& rhs) -> dual
     {
         return dual(cross(lhs, rhs));
     }
@@ -161,10 +158,10 @@ class pg_object : public std::array<_K, 3>
  * @return P
  */
 template <typename P, ring _K = Value_type<P>>
-constexpr auto plucker(const _K& lda1, const P& p, const _K& mu1, const P& q)
-noexcept(noexcept(_K())) -> P
+inline constexpr auto plucker(const _K& ld1, const P& p, 
+                              const _K& mu1, const P& q) -> P
 {
-    return P {plucker_c(lda1, p, mu1, q)};
+    return P {plucker_c(ld1, p, mu1, q)};
 }
 
 /*!
@@ -178,8 +175,7 @@ noexcept(noexcept(_K())) -> P
  * @return _Stream&
  */
 template <ring _K, typename _dual, class _Stream>
-auto operator<<(_Stream& os, const pg_object<_K, _dual>& p)
-noexcept(noexcept(_K())) -> _Stream&
+auto operator<<(_Stream& os, const pg_object<_K, _dual>& p) -> _Stream&
 {
     os << '(' << p[0] << ':' << p[1] << ':' << p[2] << ')';
     return os;

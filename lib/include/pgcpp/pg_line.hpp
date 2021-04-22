@@ -16,7 +16,7 @@ namespace fun
 
 // Forward declarations.
 
-template <CommutativeRing _K>
+template <ring _K>
 struct pg_point;
 
 /*!
@@ -24,7 +24,7 @@ struct pg_point;
  *
  * @tparam  _K  Type of line elements
  */
-template <CommutativeRing _K>
+template <ring _K>
 struct pg_line : pg_object<_K, pg_point<_K>>
 {
     /// Value typedef.
@@ -59,7 +59,7 @@ struct pg_line : pg_object<_K, pg_point<_K>>
 };
 
 /// Return meet of two lines.
-template <CommutativeRing _K>
+template <ring _K>
 constexpr auto meet(const pg_line<_K>& l, const pg_line<_K>& m)
 noexcept(noexcept(_K())) -> pg_point<_K>
 {
@@ -67,9 +67,9 @@ noexcept(noexcept(_K())) -> pg_point<_K>
 }
 
 // template deduction guides (C++17)
-// template <CommutativeRing _K>
+// template <ring _K>
 // pg_line(const std::array<_K, 3>)->pg_line<_K>;
 
-// CommutativeRing{_K} pg_line(const _K &, const _K &, const _K &)->pg_line<_K>;
+// ring{_K} pg_line(const _K &, const _K &, const _K &)->pg_line<_K>;
 
 } // namespace fun

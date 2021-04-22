@@ -19,7 +19,7 @@ namespace fun
  * @tparam _K Type of object elements
  * @tparam _dual
  */
-template <CommutativeRing _K, typename _dual>
+template <ring _K, typename _dual>
 class pg_object : public std::array<_K, 3>
 {
     /// Value typedef.
@@ -160,7 +160,7 @@ class pg_object : public std::array<_K, 3>
  * @param[in] q
  * @return P
  */
-template <typename P, CommutativeRing _K = Value_type<P>>
+template <typename P, ring _K = Value_type<P>>
 constexpr auto plucker(const _K& lda1, const P& p, const _K& mu1, const P& q)
 noexcept(noexcept(_K())) -> P
 {
@@ -177,7 +177,7 @@ noexcept(noexcept(_K())) -> P
  * @param[in] p
  * @return _Stream&
  */
-template <CommutativeRing _K, typename _dual, class _Stream>
+template <ring _K, typename _dual, class _Stream>
 auto operator<<(_Stream& os, const pg_object<_K, _dual>& p)
 noexcept(noexcept(_K())) -> _Stream&
 {

@@ -1,6 +1,9 @@
 #pragma once
 
 #include <utility>
+#include <cmath>
+#include <numeric>
+#include <type_traits>
 // #include <concepts>
 // #include <ranges>
 
@@ -12,17 +15,6 @@ using Value_type = typename T::value_type;
 
 template <typename T>
 using Element_type = typename std::decay<decltype(back(std::declval<T>()))>::type;
-
-/**
- * @brief Input iterator concept
- * 
- * @tparam I 
- */
-// template <typename I>
-// concept Input_iter = requires(I iter)
-// {
-//     ++iter;
-// };
 
 /**
  * @brief Sequence
@@ -38,22 +30,32 @@ concept Sequence = requires(T t, Element_type<T> x)
     { t.push_back(x) };
 };
 
+
 template <typename K>
-concept CommutativeRing = std::equality_comparable<K> && requires(K a, K b)
+concept ring = std::equality_comparable<K> && requires(K a, K b)
 {
-    { a + b } -> std::convertible_to<K>;
-    { a - b } -> std::convertible_to<K>;
-    { a * b } -> std::convertible_to<K>;
-    { -a }    -> std::convertible_to<K>;
-    { K(a) }  -> std::convertible_to<K>;
-    { K(0) }  -> std::convertible_to<K>;
+    { a +  b } -> std::convertible_to<K>;
+    { a -  b } -> std::convertible_to<K>;
+    { a *  b } -> std::convertible_to<K>;
+    { a += b } -> std::same_as<K&>;
+    { a -= b } -> std::same_as<K&>;
+    { a *= b } -> std::same_as<K&>;
+    { -a }     -> std::convertible_to<K>;
+    { K(a) }   -> std::convertible_to<K>;
+    { K(0) }   -> std::convertible_to<K>;
 };
 
+template <typename K>
+concept ordered_ring = ring<K> && std::totally_ordered<K>;
+
+
 template <typename Z>
-concept Integral = CommutativeRing<Z> && requires(Z a, Z b)
+concept Integral = ordered_ring<Z> && requires(Z a, Z b)
 {
-    { a % b } -> std::convertible_to<Z>;
-    { a / b } -> std::convertible_to<Z>;
+    { a %  b } -> std::convertible_to<Z>;
+    { a /  b } -> std::convertible_to<Z>;
+    { a %= b } -> std::same_as<Z&>;
+    { a /= b } -> std::same_as<Z&>;
 };
 
 } // namespace fun

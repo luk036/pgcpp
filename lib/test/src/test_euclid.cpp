@@ -3,6 +3,7 @@
  */
 #include "pgcpp/ck_plane.hpp"
 #include "pgcpp/euclid_plane.hpp"
+#include "pgcpp/euclid_plane_measure.hpp"
 #include "pgcpp/pg_line.hpp"
 #include "pgcpp/pg_point.hpp"
 #include <boost/multiprecision/cpp_int.hpp>
@@ -44,7 +45,7 @@ void chk_euclid(const Triple<P>& triangle) noexcept(noexcept(Value_type<P>()))
     using L = decltype(l1);
     using K = Value_type<P>;
     static_assert(Projective_plane_prim2<L>);
-    static_assert(CommutativeRing<K>);
+    static_assert(ring<K>);
 
     // auto zero = std::array<K, 3> {0, 0, 0};
 

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "fractions.hpp"
 #include "pg_common.hpp" // import cross2, dot1
 #include "proj_plane.hpp" // import pg_point, involution, tri_func, quad_func, plucker
 #include "proj_plane_concepts.h"
@@ -73,7 +72,6 @@ template <Projective_plane_coord2 P>
 constexpr auto tri_altitude(const Triple<P>& tri)
 {
     const auto& [a1, a2, a3] = tri;
-
     return std::tuple {
         altitude(a1, a2 * a3), altitude(a2, a3 * a1), altitude(a3, a1 * a2)};
 }
@@ -88,7 +86,6 @@ template <Projective_plane_coord2 P>
 constexpr auto orthocenter(const Triple<P>& tri) noexcept -> P
 {
     const auto& [a1, a2, a3] = tri;
-
     const auto t1 = altitude(a1, a2 * a3);
     const auto t2 = altitude(a2, a1 * a3);
     return t1 * t2;
@@ -132,131 +129,6 @@ constexpr auto tri_midpoint(const Triple<P>& tri) noexcept -> Triple<P>
     return {midpoint(a1, a2), midpoint(a2, a3), midpoint(a1, a3)};
 }
 
-/*!
- * @brief
- *
- * @tparam K
- * @param[in] x1
- * @param[in] z1
- * @param[in] x2
- * @param[in] z2
- * @return auto
- */
-template <CommutativeRing K>
-constexpr auto quad1(const K& x1, const K& z1, const K& x2, const K& z2)
-{
-    if constexpr (Integral<K>)
-    {
-        return sq(Fraction<K>(x1, z1) - Fraction<K>(x2, z2));
-    }
-    else
-    {
-        return sq(x1 / z1 - x2 / z2);
-    }
-}
-
-/*!
- * @brief
- *
- * @param[in] a1
- * @param[in] a2
- * @return auto
- */
-template <Projective_plane_coord2 P>
-constexpr auto quadrance(const P& a1, const P& a2)
-{
-    return quad1(a1[0], a1[2], a2[0], a2[2]) +
-        quad1(a1[1], a1[2], a2[1], a2[2]);
-}
-
-template <typename... Args>
-constexpr auto quadrance_copy(const Args&... args)
-{
-    return std::make_tuple(quadrance(args.first, args.second)...);
-}
-
-// Projective_plane2 { L }
-// constexpr auto sbase(const L &l1, const L &l2, const Integer &d) {
-//     return Fraction(d, omgB(l1, l1)) * Fraction(d, omgB(l2, l2));
-// }
-
-/*!
- * @brief
- *
- * @param[in] l1
- * @param[in] l2
- * @param[in] d
- * @return auto
- */
-template <Projective_plane_coord2 L, typename T>
-constexpr auto sbase(const L& l1, const L& l2, const T& d)
-{
-    using K = Value_type<L>;
-    if constexpr (Integral<K>)
-    {
-        Fraction<K> res =
-            Fraction<K>(d, dot1(l1, l1)) * Fraction<K>(d, dot1(l2, l2));
-        return res;
-    }
-    else
-    {
-        return (d * d) / (dot1(l1, l1) * dot1(l2, l2));
-    }
-}
-
-/*!
- * @brief
- *
- * @param[in] l1
- * @param[in] l2
- * @return auto
- */
-template <Projective_plane_coord2 L>
-constexpr auto spread(const L& l1, const L& l2)
-{
-    return sbase(l1, l2, cross2(l1, l2));
-}
-
-/*!
- * @brief
- *
- * @param[in] triangle
- * @return auto
- */
-template <Projective_plane_coord2 P>
-constexpr auto tri_quadrance(const Triple<P>& triangle)
-{
-    const auto& [a1, a2, a3] = triangle;
-
-    return std::tuple {quadrance(a2, a3), quadrance(a1, a3), quadrance(a1, a2)};
-}
-
-/*!
- * @brief
- *
- * @param[in] trilateral
- * @return auto
- */
-template <Projective_plane_coord2 L>
-constexpr auto tri_spread(const Triple<L>& trilateral)
-{
-    const auto& [a1, a2, a3] = trilateral;
-
-    return std::tuple {spread(a2, a3), spread(a1, a3), spread(a1, a2)};
-}
-
-/*!
- * @brief
- *
- * @param[in] l1
- * @param[in] l2
- * @return auto
- */
-template <Projective_plane_coord2 L>
-constexpr auto cross_s(const L& l1, const L& l2)
-{
-    return sbase(l1, l2, dot1(l1, l2));
-}
 
 /*!
  * @brief
@@ -282,7 +154,7 @@ constexpr auto uc_point(const Value_type<P>& lda1, const Value_type<P>& mu1)
  * @param[in] c
  * @return auto
  */
-template <CommutativeRing _Q>
+template <ordered_ring _Q>
 constexpr auto Ar(const _Q& a, const _Q& b, const _Q& c)
 {
     return 4 * a * b - sq(a + b - c);
@@ -298,7 +170,7 @@ constexpr auto Ar(const _Q& a, const _Q& b, const _Q& c)
  * @param[in] d
  * @return auto
  */
-template <CommutativeRing _Q>
+template <typename _Q>
 constexpr auto cqq(const _Q& a, const _Q& b, const _Q& c, const _Q& d)
 {
     const auto t1 = 4 * a * b;
@@ -320,34 +192,6 @@ constexpr auto Ptolemy(const T& quad) noexcept -> bool
 {
     const auto& [Q12, Q23, Q34, Q14, Q13, Q24] = quad;
     return Ar(Q12 * Q34, Q23 * Q14, Q13 * Q24) == 0;
-}
-
-#include <cmath>
-
-/*!
- * @brief
- *
- * @param[in] a
- * @param[in] b
- * @return auto
- */
-template <Projective_plane_coord2 P>
-constexpr auto distance(const P& a, const P& b)
-{
-    return std::sqrt(double(quadrance(a, b)));
-}
-
-/*!
- * @brief
- *
- * @param[in] l
- * @param[in] m
- * @return auto
- */
-template <Projective_plane_coord2 L>
-constexpr auto angle(const L& l, const L& m)
-{
-    return std::asin(std::sqrt(double(spread(l, m))));
 }
 
 } // namespace fun

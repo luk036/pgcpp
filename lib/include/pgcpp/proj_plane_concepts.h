@@ -7,8 +7,8 @@
 #include "common_concepts.h"
 
 /*!
- @todo: projectivity >=
-**/
+ * @todo: projectivity >=
+ */
 
 namespace fun
 {
@@ -20,10 +20,9 @@ namespace fun
  * @tparam L Line
  */
 template <class P, class L>
-concept Projective_plane_prim_h = std::equality_comparable<P>&& requires(
+concept Projective_plane_prim_h = std::equality_comparable<P> && requires(
     P& p, P& q, L& l)
 {
-    // { P(p) } -> P; // copyable
     { incident(p, l) } -> std::convertible_to<bool>; // incidence
     { p * q } -> std::convertible_to<L>; // join or meet
     { p.aux() } -> std::convertible_to<L>; // line not incident with p
@@ -37,7 +36,7 @@ concept Projective_plane_prim_h = std::equality_comparable<P>&& requires(
  */
 template <class P, class L = typename P::dual>
 concept Projective_plane_prim =
-    Projective_plane_prim_h<P, L>&& Projective_plane_prim_h<L, P>;
+    Projective_plane_prim_h<P, L> && Projective_plane_prim_h<L, P>;
 
 
 /*!
@@ -101,9 +100,12 @@ concept Projective_plane2 =
  * @tparam L Line
  */
 template <class P, class L>
-concept Projective_plane_coord_h = Projective_plane_h<P, L>&& requires(
+concept Projective_plane_coord_h = Projective_plane_h<P, L> && 
+    requires(
     const P& p, size_t idx)
 {
+    typename Value_type<P>;
+
     { p[idx] } -> std::convertible_to<Value_type<P>>; // for coordinate acess
 };
 

@@ -184,7 +184,7 @@ requires Projective_plane_prim<_P, _L> // c++20 concept
  * @return true
  * @return false
  */
-template <CommutativeRing Q_t>
+template <ordered_ring Q_t>
 constexpr auto check_sine_law(const Triple<Q_t>& Q, const Triple<Q_t>& S)
 noexcept(noexcept(Q_t())) -> bool
 {
@@ -294,7 +294,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
  * @param[in] Q
  * @return constexpr auto
  */
-template <CommutativeRing K>
+template <ordered_ring K>
 constexpr auto check_cross_TQF(const Triple<K>& Q) noexcept(noexcept(K()))
 {
     const auto& [q1, q2, q3] = Q;
@@ -310,7 +310,7 @@ constexpr auto check_cross_TQF(const Triple<K>& Q) noexcept(noexcept(K()))
  * @param[in] q3
  * @return constexpr auto
  */
-template <CommutativeRing K>
+template <ordered_ring K>
 constexpr auto check_cross_law(const Triple<K>& S, const K& q3) noexcept(noexcept(K()))
 {
     const auto& [s1, s2, s3] = S;

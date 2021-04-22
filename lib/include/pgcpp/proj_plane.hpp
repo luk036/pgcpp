@@ -16,15 +16,12 @@
 namespace fun
 {
 
-/*!
+/**
  * @brief Coincident
- *
- * @tparam P Point
- * @tparam L Line
- * @param[in] p p
- * @param[in] q q
- * @param[in] r r
- * @return true if three points are conincident
+ * 
+ * @tparam[in] L Line
+ * @tparam[in] Args points
+ * @return true if points are conincident (on a line l)
  * @return false otherwise
  */
 template <typename L, typename... Args>
@@ -34,29 +31,6 @@ noexcept(noexcept(Value_type<L>())) -> bool
 {
     return (incident(r, l) && ...);
 }
-
-// /*!
-//  * @brief Coincident
-//  *
-//  * @tparam P Point
-//  * @tparam L Line
-//  * @param[in] l line
-//  * @param[in] seq Sequence of points
-//  * @return true if all points are incident with l
-//  * @return false otherwise
-//  */
-// Projective_plane_prim{P, L}
-// constexpr bool coincident(const L& l, const Sequence& seq)
-// {
-//     for (const auto& p : seq)
-//     {
-//         if (!incident(l, p))
-//         {
-//             return false;
-//         }
-//     }
-//     return true;
-// }
 
 template <typename P>
 using Triple = std::tuple<P, P, P>;
@@ -72,6 +46,7 @@ constexpr auto tri_dual(const Triple<P>& tri)
 noexcept(noexcept(Value_type<P>()))
 {
     const auto& [a1, a2, a3] = tri;
+    assert(!coincident(a2 * a3, a1));
     return std::tuple {a2 * a3, a1 * a3, a1 * a2};
 }
 
@@ -91,7 +66,7 @@ noexcept(noexcept(Value_type<P>()))
 }
 
 /*!
- * @brief
+ * @brief return whether two triangles are perspective 
  *
  * @param[in] tri1
  * @param[in] tri2
@@ -188,7 +163,7 @@ class involution
  * @param[in] d
  * @return auto
  */
-template <CommutativeRing K>
+template <ring K>
 constexpr auto ratio_ratio(const K& a, const K& b, const K& c, const K& d)
 noexcept(noexcept(K()))
 {

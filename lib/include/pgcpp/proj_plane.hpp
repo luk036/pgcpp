@@ -1,6 +1,5 @@
 #pragma once
 
-#include "fractions.hpp"
 #include "proj_plane_concepts.h"
 #include <cassert>
 #include <tuple>
@@ -15,6 +14,22 @@
 
 namespace fun
 {
+
+/*!
+ * @brief
+ *
+ * @param[in] p
+ * @param[in] l
+ * @return true
+ * @return false
+ */
+template <typename P, typename L>
+requires Projective_plane<P, L>
+constexpr auto incident(const P& p, const L& l) -> bool
+{
+    return p.dot(l) == Value_type<P>(0);
+}
+
 
 /**
  * @brief Coincident
@@ -73,8 +88,7 @@ constexpr auto tri_func(Fn&& func, const Triple<P>& tri)
  * @return false
  */
 template <Projective_plane_prim2 P>
-constexpr auto persp(const Triple<P>& tri1, const Triple<P>& tri2)
--> bool
+constexpr auto persp(const Triple<P>& tri1, const Triple<P>& tri2) -> bool
 {
     const auto& [A, B, C] = tri1;
     const auto& [D, E, F] = tri2;
@@ -82,21 +96,6 @@ constexpr auto persp(const Triple<P>& tri1, const Triple<P>& tri2)
     return incident(O, C * F);
 }
 
-/*!
- * @brief
- *
- * @param[in] p
- * @param[in] l
- * @return true
- * @return false
- */
-template <typename P, typename L>
-requires Projective_plane<P, L>
-constexpr auto incident(const P& p, const L& l)
--> bool
-{
-    return p.dot(l) == Value_type<P>(0);
-}
 
 /*!
  * @brief
@@ -108,12 +107,51 @@ constexpr auto incident(const P& p, const L& l)
  * @return constexpr P
  */
 template <Projective_plane2 P>
-constexpr auto harm_conj(const P& A, const P& B, const P& C)
--> P
+constexpr auto harm_conj(const P& A, const P& B, const P& C) -> P
 {
+    assert(incident(A * B, C));
     const auto lC = C * (A * B).aux();
     return plucker(B.dot(lC), A, A.dot(lC), B);
 }
+
+
+/*!
+ * @brief
+ *
+ * @tparam P
+ * @param[in] A
+ * @param[in] B
+ * @param[in] C
+ * @return constexpr P
+ */
+template <Projective_plane_generic2 _P>
+constexpr auto harm_conj(const _P& A, const _P& B, const _P& C) -> _P
+{
+    assert(incident(A * B, C));
+    const auto AB = A * B;
+    const auto P = AB.aux();
+    const auto R = P.aux2(C);
+    const auto S = (A * R) * (B * P);
+    const auto Q = (B * R) * (A * P);
+    return (Q * S) * AB ;
+}
+
+/*!
+ * @brief
+ *
+ * @param[in] A
+ * @param[in] B
+ * @param[in] C
+ * @param[in] D
+ * @return constexpr auto
+ *
+ */
+template <Projective_plane2 P>
+constexpr auto is_harmonic(const P& A, const P& B, const P& C, const P& D) -> bool
+{
+    return harm_conj(A, B, C) == D;
+}
+
 
 /**
  * @brief 
@@ -158,134 +196,6 @@ class involution
     }
 };
 
-/*!
- * @brief
- *
- * @tparam K
- * @param[in] a
- * @param[in] b
- * @param[in] c
- * @param[in] d
- * @return auto
- */
-template <ring K>
-constexpr auto ratio_ratio(const K& a, const K& b, const K& c, const K& d)
-{
-    if constexpr (Integral<K>)
-    {
-        return Fraction(a, b) / Fraction(c, d);
-    }
-    else
-    {
-        return (a * d) / (b * c);
-    }
-}
-
-/*!
- * @brief Cross Ratio
- *
- * @tparam P
- * @tparam L
- * @param[in] A point \in P
- * @param[in] B point \in P
- * @param[in] l line \in P
- * @param[in] m line \in P
- * @return cross ratio R(A,B;l,m)
- *
- * @todo rewrite by projecting to the y-axis first [:2]
- */
-template <typename P, typename L>
-requires Projective_plane<P, L>
-constexpr auto x_ratio(const P& A, const P& B, const L& l, const L& m)
-{
-    return ratio_ratio(A.dot(l), A.dot(m), B.dot(l), B.dot(m));
-}
-
-/*!
- * @brief
- *
- * @param[in] A
- * @param[in] B
- * @param[in] C
- * @param[in] D
- * @return constexpr auto
- */
-template <Projective_plane2 P>
-constexpr auto R(const P& A, const P& B, const P& C, const P& D)
-{
-    const auto O = (C * D).aux();
-    return x_ratio(A, B, O * C, O * D);
-}
-
-/*!
- * @brief
- *
- * @param[in] A
- * @param[in] B
- * @param[in] C
- * @param[in] D
- * @return constexpr auto
- */
-template <Projective_plane_coord2 P>
-constexpr auto R0(const P& A, const P& B, const P& C, const P& D)
-{
-    return ratio_ratio(cross0(A, C), cross0(A, D),
-                       cross0(B, C), cross0(B, D)); 
-}
-
-/*!
- * @brief
- *
- * @param[in] A
- * @param[in] B
- * @param[in] C
- * @param[in] D
- * @return constexpr auto
- */
-template <Projective_plane_coord2 P>
-constexpr auto R1(const P& A, const P& B, const P& C, const P& D)
-{
-    return ratio_ratio(cross1(A, C), cross1(A, D),
-                       cross1(B, C), cross1(B, D)); 
-}
-
-/*!
- * @brief
- *
- * @param[in] A
- * @param[in] B
- * @param[in] C
- * @param[in] D
- * @return constexpr auto
- */
-template <Projective_plane_coord2 P>
-constexpr auto R(const P& A, const P& B, const P& C, const P& D)
-
-{
-    using K = Value_type<P>;
-    if (cross0(A, B) != K(0))
-    { // Project points to yz-plane
-        return R0(A, B, C, D);
-    }
-    // Project points to xz-plane
-    return R1(A, B, C, D);
-}
-
-/*!
- * @brief
- *
- * @param[in] A
- * @param[in] B
- * @param[in] C
- * @param[in] D
- * @return constexpr auto
- */
-template <Projective_plane2 P>
-constexpr auto is_harmonic(const P& A, const P& B, const P& C, const P& D) -> bool
-{
-    using K = Value_type<P>;
-    return R(A, B, C, D) == K(-1);
-}
 
 /*!
  * @brief Check Pappus Theorem

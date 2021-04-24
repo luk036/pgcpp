@@ -2,6 +2,7 @@
 
 #include "pg_common.hpp"
 #include "proj_plane.hpp"
+#include "proj_plane_measure.hpp"
 #include "proj_plane_concepts.h"
 #include <type_traits> // std::is_base_of_v
 
@@ -44,8 +45,7 @@ struct ck
      * @return true
      * @return false
      */
-    template <Projective_plane_prim2 L>
-    constexpr auto is_perpendicular(const L& l, const L& m) const -> bool
+    constexpr auto is_perpendicular(const _L& l, const _L& m) const -> bool
     {
         return incident(m, self.perp(l));
     }

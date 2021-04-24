@@ -19,3 +19,7 @@
 ## Archetype
 
 
+# Projective Geometry
+
+- No order
+- No >, <

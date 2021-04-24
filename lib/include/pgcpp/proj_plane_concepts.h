@@ -21,11 +21,12 @@ namespace fun
  */
 template <class P, class L>
 concept Projective_plane_prim_h = std::equality_comparable<P> && requires(
-    P& p, P& q, L& l)
+    const P& p, const P& q, const L& l)
 {
     { incident(p, l) } -> std::convertible_to<bool>; // incidence
     { p * q } -> std::convertible_to<L>; // join or meet
-    { p.aux() } -> std::convertible_to<L>; // line not incident with p
+    // { p.aux() } -> std::convertible_to<L>; // line not incident with p
+    // { p.aux2(q) } -> std::convertible_to<P>; // point r on p * q, r != p and r != q
 };
 
 /*!
@@ -38,7 +39,6 @@ template <class P, class L = typename P::dual>
 concept Projective_plane_prim =
     Projective_plane_prim_h<P, L> && Projective_plane_prim_h<L, P>;
 
-
 /*!
  * @brief Shorthand Notation of Projective_plane
  *
@@ -47,6 +47,41 @@ concept Projective_plane_prim =
 template <class P>
 concept Projective_plane_prim2 =
     Projective_plane_prim<std::remove_reference_t<P>>; // Make the compiler
+                                                       // happy
+
+/*!
+ * @brief Projective plane Concept (full)
+ *
+ * @tparam P Point
+ * @tparam L Line
+ */
+template <class P, class L = typename P::dual>
+concept Projective_plane_generic_h =
+    Projective_plane_prim_h<P, L> && requires(const P& p, const P& q)
+{
+    { p.aux() } -> std::convertible_to<L>; // line not incident with p
+    { p.aux2(q) } -> std::convertible_to<P>; // point r on p * q, r != p and r != q
+};
+
+/*!
+ * @brief Projective plane Concept (full)
+ *
+ * @tparam P Point
+ * @tparam L Line
+ */
+template <class P, class L = typename P::dual>
+concept Projective_plane_generic =
+    Projective_plane_generic_h<P, L> && Projective_plane_generic_h<L, P>;
+
+
+/*!
+ * @brief Shorthand Notation of Projective_plane
+ *
+ * @tparam P Point
+ */
+template <class P>
+concept Projective_plane_generic2 =
+    Projective_plane_generic<std::remove_reference_t<P>>; // Make the compiler
                                                        // happy
 
 /*!
@@ -63,9 +98,9 @@ concept Projective_plane_h = std::equality_comparable<P>&& requires(
     // { P(p) } -> P; // copyable
     // { incident(p, l) } -> bool; // incidence
     { p * q } -> std::convertible_to<L>; // join or meet
-    { p.aux() } -> std::convertible_to<L>; // line not incident with p
     { p.dot(l) } -> std::convertible_to<Value_type<P>>; // for measurement
-    { plucker(a, p, a, q) } -> std::convertible_to<P>; // vector computation
+    { p.aux() } -> std::convertible_to<L>; // line not incident with p
+    { plucker(a, p, a, q) } -> std::convertible_to<P>; // module computation
 };
 
 /*!

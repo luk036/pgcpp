@@ -17,8 +17,7 @@ namespace fun
 template <ordered_ring T>
 inline constexpr auto abs(const T& a) -> T
 {
-    if (a < T(0)) return -a;
-    return a;
+    return (a < T(0))? -a : a;
 }
 
 /*!

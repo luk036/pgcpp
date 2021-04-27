@@ -108,7 +108,7 @@ struct ck
     template <Projective_plane P>
     auto reflect(const P& m) const
     {
-        return involution {m, self.perp(m)};
+        return involution {self.perp(m), P{m}};
     }
 
     /**

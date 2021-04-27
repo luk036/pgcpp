@@ -30,7 +30,7 @@ struct pg_point : pg_object<_K, pg_line<_K>>
      * @brief Construct a new pg point object
      *
      */
-    pg_point(const pg_point<_K>&) = delete;
+    explicit pg_point(const pg_point<_K>&) = default;
 
     /*!
      * @brief Construct a new pg point object

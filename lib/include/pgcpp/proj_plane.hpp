@@ -166,7 +166,7 @@ class involution
     using K = Value_type<P>;
 
   private:
-    const L& _m;
+    L _m;
     P _o;
     K _c;
 
@@ -177,10 +177,10 @@ class involution
      * @param[in] m
      * @param[in] o
      */
-    constexpr involution(const L& m, P o) // input mirror and center
-        : _m {m}
+    constexpr involution(L m, P o) // input mirror and center
+        : _m {std::move(m)}
         , _o {std::move(o)}
-        , _c {m.dot(_o)}
+        , _c {_m.dot(_o)}
     {
     }
 
@@ -192,10 +192,62 @@ class involution
      */
     constexpr auto operator()(const P& p) const -> P
     {
-        return plucker(_c, p, K(-2 * p.dot(_m)), _o);
+        return plucker(this->_c, p, K(-2 * p.dot(this->_m)), this->_o);
+    }
+
+    /*!
+     * @brief
+     *
+     * @param[in] p
+     * @return P
+     */
+    constexpr auto operator()(const L& l) const -> L
+    {
+        return plucker(this->_c, l, K(-2 * l.dot(this->_o)), this->_m);
     }
 };
 
+
+/**
+ * @brief 
+ * 
+ * @tparam P 
+ * @tparam L 
+ */
+template <typename P, typename L>
+requires Projective_plane_generic<P, L>
+class involution_generic
+{
+  private:
+    L _m;
+    P _o;
+
+  public:
+    /*!
+     * @brief Construct a new involution object
+     *
+     * @param[in] m
+     * @param[in] o
+     */
+    constexpr involution_generic(L m, P o) // input mirror and center
+        : _m {std::move(m)}
+        , _o {std::move(o)}
+    {
+    }
+
+    /*!
+     * @brief
+     *
+     * @param[in] p
+     * @return P
+     */
+    constexpr auto operator()(const P& p) const -> P
+    {
+        auto po = p * this->_o;
+        auto B = po * this->_m;
+        return harm_conj(this->_o, B, p);
+    }
+};
 
 /*!
  * @brief Check Pappus Theorem

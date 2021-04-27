@@ -46,7 +46,7 @@ class pg_object : public std::array<_K, 3>
      * @brief Construct a new pg object
      *
      */
-    pg_object(const _Self&) = delete;
+    explicit pg_object(const _Self&) = default;
 
     /*!
      * @brief

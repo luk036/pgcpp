@@ -7,75 +7,43 @@
 
 #include <boost/operators.hpp>
 // #include <cmath>
-#include "common_concepts.h"
 #include <numeric>
 #include <type_traits>
-#include <utility>
+#include "common_concepts.h"
 
 namespace fun
 {
 
-/**
- * @brief absolute (for unsigned)
- * 
- * @tparam T 
- * @param a 
- * @return T 
- */
 template <typename T>
 requires std::is_unsigned_v<T>
-inline constexpr auto abs(const T& a) -> T
+constexpr auto abs(const T& a) -> T
 {
     return a;
 }
 
-/**
- * @brief absolute
- * 
- * @tparam T 
- */
 template <typename T>
 requires (!std::is_unsigned_v<T> && ordered_ring<T>)
-inline constexpr auto abs(const T& a) -> T
+constexpr auto abs(const T& a) -> T
 {
-    return (a < T(0)) ? -a : a;
+    return (a < T(0))? -a : a;
 }
 
-
-/*!
- * @brief Greatest common divider
- *
- * @tparam _Mn
- * @param[in] __m
- * @param[in] __n
- * @return _Mn
- */
-template <Integral _Mn>
-inline constexpr auto gcd_recur(_Mn __m, _Mn __n) -> _Mn
+template <typename T>
+requires Integral<T> 
+constexpr auto gcd_recur(const T& a, const T& b) -> T
 {
-    if (__n == 0)
-    {
-        return abs(__m);
-    }
-    return gcd_recur(__n, __m % __n);
+    // if (a == T(0)) return abs(b);
+    if (b == T(0)) return abs(a);
+    return gcd_recur(b, a % b);
 }
 
-/*!
- * @brief Greatest common divider
- *
- * @tparam _Mn
- * @param[in] __m
- * @param[in] __n
- * @return _Mn
- */
-template <Integral _Mn>
-inline constexpr auto gcd(_Mn __m, _Mn __n) -> _Mn
+template <typename T>
+requires Integral<T> 
+constexpr auto gcd(const T& a, const T& b) -> T
 {
-    if (__m == 0)
-    {
-        return abs(__n);
-    }
-    return gcd_recur(__n, __m % __n);
+    if (a == T(0)) return abs(b);
+    // if (b == T(0)) return abs(a);
+    return gcd_recur(a, b);
 }
 
 /*!
@@ -89,10 +57,7 @@ inline constexpr auto gcd(_Mn __m, _Mn __n) -> _Mn
 template <Integral _Mn>
 inline constexpr auto lcm(_Mn __m, _Mn __n) -> _Mn
 {
-    if (__m == 0 || __n == 0)
-    {
-        return 0;
-    }
+    if (__m == 0 || __n == 0) return 0;
     return (abs(__m) / gcd(__m, __n)) * abs(__n);
 }
 
@@ -106,6 +71,18 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
     Z _num;
     Z _den;
 
+    /*!
+     * @brief Construct a new Fraction object
+     *
+     * @param[in] num
+     * @param[in] den
+     */
+    constexpr Fraction(Z&& num, Z&& den)
+        : _num {std::move(num)}
+        , _den {std::move(den)}
+    {
+        this->normalize();
+    }
 
     /*!
      * @brief Construct a new Fraction object
@@ -113,9 +90,9 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @param[in] num
      * @param[in] den
      */
-    constexpr Fraction(Z num, Z den)
-        : _num {std::move(num)}
-        , _den {std::move(den)}
+    constexpr Fraction(const Z& num, const Z& den)
+        : _num {num}
+        , _den {den}
     {
         this->normalize();
     }
@@ -163,8 +140,8 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @param[in] num
      */
     constexpr Fraction()
-        : _num(0)
-        , _den(1)
+        : _num (0)
+        , _den (1)
     {
     }
 
@@ -173,7 +150,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      *
      * @return const Z&
      */
-    [[nodiscard]] constexpr auto num() const noexcept -> const Z&
+    constexpr auto num() const noexcept -> const Z&
     {
         return _num;
     }
@@ -183,7 +160,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      *
      * @return const Z&
      */
-    [[nodiscard]] constexpr auto den() const noexcept -> const Z&
+    constexpr auto den() const noexcept -> const Z&
     {
         return _den;
     }
@@ -193,7 +170,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      *
      * @return Fraction
      */
-    [[nodiscard]] constexpr auto abs() const -> Fraction
+    constexpr auto abs() const -> Fraction
     {
         return Fraction(abs(this->_num), abs(this->_den));
     }

@@ -13,6 +13,7 @@ RUN apt-get update \
   clang-13 \
   ccache \
   cmake-curses-gui \
+  clang-tidy \
   clang-format \
   cppcheck \
   doctest-dev \

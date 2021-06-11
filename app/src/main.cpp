@@ -6,8 +6,8 @@
 #include "doctest/doctest.h"
 #endif
 
+#include <cstdlib>
 #include <iostream>
-#include <stdlib.h>
 
 #include "example.h"
 
@@ -15,7 +15,7 @@
  * Simple main program that demontrates how access
  * CMake definitions (here the version number) from source code.
  */
-int main() noexcept
+auto main() noexcept -> int
 {
     // Bring in the dummy class from the example source,
     // just to show that it is accessible from main.cpp.

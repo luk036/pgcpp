@@ -108,8 +108,7 @@ constexpr auto R(const P& A, const P& B, const P& C, const P& D)
 template <Projective_plane_coord2 P>
 constexpr auto R0(const P& A, const P& B, const P& C, const P& D)
 {
-    return ratio_ratio(cross0(A, C), cross0(A, D),
-                       cross0(B, C), cross0(B, D)); 
+    return ratio_ratio(cross0(A, C), cross0(A, D), cross0(B, C), cross0(B, D));
 }
 
 /*!
@@ -124,8 +123,7 @@ constexpr auto R0(const P& A, const P& B, const P& C, const P& D)
 template <Projective_plane_coord2 P>
 constexpr auto R1(const P& A, const P& B, const P& C, const P& D)
 {
-    return ratio_ratio(cross1(A, C), cross1(A, D),
-                       cross1(B, C), cross1(B, D)); 
+    return ratio_ratio(cross1(A, C), cross1(A, D), cross1(B, C), cross1(B, D));
 }
 
 } // namespace fun

@@ -1,10 +1,10 @@
 /*
  *  Distributed under the MIT License (See accompanying file /LICENSE )
  */
+#include "pgcpp/common_concepts.h"
 #include "pgcpp/fractions.hpp"
 #include <boost/multiprecision/cpp_int.hpp>
 #include <doctest/doctest.h>
-#include "pgcpp/common_concepts.h"
 // #include <iostream>
 
 using namespace fun;

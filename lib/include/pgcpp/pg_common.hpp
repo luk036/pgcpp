@@ -62,8 +62,8 @@ auto cross2(const std::array<_K, 3>& v, const std::array<_K, 3>& w) -> _K
  * @return Cross product
  */
 template <typename P>
-requires ring<Value_type<P>> auto cross(const P& v, const P& w)
-    -> std::array<Value_type<P>, 3>
+requires ring<Value_type<P>>
+auto cross(const P& v, const P& w) -> std::array<Value_type<P>, 3>
 {
     return {cross0(v, w), -cross1(v, w), cross2(v, w)};
 }

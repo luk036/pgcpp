@@ -33,15 +33,16 @@ constexpr auto incident(const P& p, const L& l) -> bool
 
 /**
  * @brief Coincident
- * 
+ *
  * @tparam[in] L Line
  * @tparam[in] Args points
  * @return true if points are conincident (on a line l)
  * @return false otherwise
  */
 template <typename L, typename... Args>
-requires (Projective_plane_prim<L, Args> && ...)
-constexpr auto coincident(const L& l, const Args&... r) -> bool
+requires(Projective_plane_prim<L, Args> && ...)
+constexpr auto coincident(
+    const L& l, const Args&... r) -> bool
 {
     return (incident(r, l) && ...);
 }
@@ -76,11 +77,11 @@ constexpr auto tri_func(Fn&& func, const Triple<P>& tri)
 
 {
     const auto& [a1, a2, a3] = tri;
-    return std::tuple{func(a2, a3), func(a1, a3), func(a1, a2)};
+    return std::tuple {func(a2, a3), func(a1, a3), func(a1, a2)};
 }
 
 /*!
- * @brief return whether two triangles are perspective 
+ * @brief return whether two triangles are perspective
  *
  * @param[in] tri1
  * @param[in] tri2
@@ -133,7 +134,7 @@ constexpr auto harm_conj(const _P& A, const _P& B, const _P& C) -> _P
     const auto R = P.aux2(C);
     const auto S = (A * R) * (B * P);
     const auto Q = (B * R) * (A * P);
-    return (Q * S) * AB ;
+    return (Q * S) * AB;
 }
 
 /*!
@@ -147,17 +148,18 @@ constexpr auto harm_conj(const _P& A, const _P& B, const _P& C) -> _P
  *
  */
 template <Projective_plane2 P>
-constexpr auto is_harmonic(const P& A, const P& B, const P& C, const P& D) -> bool
+constexpr auto is_harmonic(const P& A, const P& B, const P& C, const P& D)
+    -> bool
 {
     return harm_conj(A, B, C) == D;
 }
 
 
 /**
- * @brief 
- * 
- * @tparam P 
- * @tparam L 
+ * @brief
+ *
+ * @tparam P
+ * @tparam L
  */
 template <typename P, typename L>
 requires Projective_plane<P, L>
@@ -209,10 +211,10 @@ class involution
 
 
 /**
- * @brief 
- * 
- * @tparam P 
- * @tparam L 
+ * @brief
+ *
+ * @tparam P
+ * @tparam L
  */
 template <typename P, typename L>
 requires Projective_plane_generic<P, L>

@@ -36,7 +36,7 @@ struct pg_point : pg_object<_K, pg_line<_K>>
      * @brief Construct a new pg point object
      *
      */
-    pg_point(pg_point<_K>&&) = default;
+    pg_point(pg_point<_K>&&) noexcept = default;
 
     /*!
      * @brief
@@ -50,7 +50,7 @@ struct pg_point : pg_object<_K, pg_line<_K>>
      *
      * @return pg_point<_K>&
      */
-    auto operator=(pg_point<_K>&&) -> pg_point<_K>& = default;
+    auto operator=(pg_point<_K>&&) noexcept -> pg_point<_K>& = default;
 
     /*!
      * @brief Construct a new pg object object
@@ -83,8 +83,8 @@ struct pg_point : pg_object<_K, pg_line<_K>>
  * @return pg_line<_K>
  */
 template <ring _K>
-inline constexpr auto join(const pg_point<_K>& p,
-                           const pg_point<_K>& q) -> pg_line<_K>
+inline constexpr auto join(const pg_point<_K>& p, const pg_point<_K>& q)
+    -> pg_line<_K>
 {
     return p * q;
 }

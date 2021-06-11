@@ -14,7 +14,7 @@ class Dummy
      * Returns a bool.
      * @return Always True.
      */
-    bool doSomething();
+    static auto doSomething() -> bool;
 };
 
 

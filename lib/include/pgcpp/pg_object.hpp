@@ -59,14 +59,14 @@ class pg_object : public std::array<_K, 3>
      * @brief Construct a new pg object
      *
      */
-    pg_object(_Self&&) = default;
+    pg_object(_Self&&) noexcept = default;
 
     /*!
      * @brief
      *
      * @return _Self&
      */
-    auto operator=(_Self&&) -> _Self& = default;
+    auto operator=(_Self&&) noexcept -> _Self& = default;
 
     // Operators:
 
@@ -105,7 +105,7 @@ class pg_object : public std::array<_K, 3>
      * @return true if this object is equivalent to the rhs
      * @return false otherwise
      */
-    constexpr auto is_NaN() const -> bool
+    [[nodiscard]] constexpr auto is_NaN() const -> bool
     {
         const _Base& base = *this;
         return base == _Base {_K(0), _K(0), _K(0)};
@@ -118,7 +118,7 @@ class pg_object : public std::array<_K, 3>
      * @param[in] l
      * @return _K
      */
-    constexpr auto dot(const dual& l) const -> _K
+    [[nodiscard]] constexpr auto dot(const dual& l) const -> _K
     {
         return fun::dot_c(*this, l);
     }
@@ -128,7 +128,7 @@ class pg_object : public std::array<_K, 3>
      *
      * @return dual
      */
-    constexpr auto aux() const -> dual
+    [[nodiscard]] constexpr auto aux() const -> dual
     {
         return dual(*this);
     }
@@ -158,8 +158,8 @@ class pg_object : public std::array<_K, 3>
  * @return P
  */
 template <typename P, ring _K = Value_type<P>>
-inline constexpr auto plucker(const _K& ld1, const P& p, 
-                              const _K& mu1, const P& q) -> P
+inline constexpr auto plucker(
+    const _K& ld1, const P& p, const _K& mu1, const P& q) -> P
 {
     return P {plucker_c(ld1, p, mu1, q)};
 }

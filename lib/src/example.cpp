@@ -1,13 +1,13 @@
 #include "example.h"
 
-Dummy::Dummy() { }
+Dummy::Dummy() = default;
 
-bool Dummy::doSomething()
+auto Dummy::doSomething() -> bool
 {
     // Do silly things, using some C++17 features to enforce C++17 builds only.
     constexpr int digits[2] = {0, 1};
     auto [zero, one] = digits;
-    return zero + one + digits[0] + digits[1];
+    return (zero + one + digits[0] + digits[1]) != 0;
 }
 
 // #ifdef ENABLE_DOCTEST_IN_LIBRARY

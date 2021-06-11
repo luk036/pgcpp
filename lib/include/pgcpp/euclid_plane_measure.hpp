@@ -1,7 +1,7 @@
 #pragma once
 
-#include "fractions.hpp"
 #include "euclid_plane.hpp"
+#include "fractions.hpp"
 
 namespace fun
 {
@@ -79,8 +79,7 @@ inline constexpr auto sbase(const L& l1, const L& l2, const T& d)
     using K = Value_type<L>;
     if constexpr (Integral<K>)
     {
-        return
-            Fraction<K>(d, dot1(l1, l1)) * Fraction<K>(d, dot1(l2, l2));
+        return Fraction<K>(d, dot1(l1, l1)) * Fraction<K>(d, dot1(l2, l2));
     }
     else
     {

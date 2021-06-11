@@ -16,7 +16,7 @@ namespace fun
  */
 template <typename P, typename L = typename P::dual>
 requires Projective_plane_prim<P, L> // c++20 concept
-    class persp_euclid_plane : public ck<P, L, persp_euclid_plane>
+class persp_euclid_plane : public ck<P, L, persp_euclid_plane>
 {
     using K = Value_type<P>;
 
@@ -64,7 +64,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
      *
      * @return const L&
      */
-    constexpr const L& l_infty() const
+    [[nodiscard]] constexpr auto l_infty() const -> const L&
     {
         return this->_l_infty;
     }
@@ -75,7 +75,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
      * @param[in] x
      * @return P
      */
-    constexpr auto perp(const L& v) const -> P
+    [[nodiscard]] constexpr auto perp(const L& v) const -> P
     {
         const auto alpha = v.dot(this->_Ire);
         const auto beta = v.dot(this->_Iim);
@@ -90,7 +90,8 @@ requires Projective_plane_prim<P, L> // c++20 concept
      * @return true
      * @return false
      */
-    constexpr auto is_parallel(const L& l, const L& m) const -> bool
+    [[nodiscard]] constexpr auto is_parallel(const L& l, const L& m) const
+        -> bool
     {
         return incident(this->_l_infty, l * m);
     }
@@ -102,7 +103,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
      * @param[in] b
      * @return P
      */
-    constexpr auto midpoint(const P& a, const P& b) const -> P
+    [[nodiscard]] constexpr auto midpoint(const P& a, const P& b) const -> P
     {
         const auto alpha = a.dot(this->_l_infty);
         const auto beta = b.dot(this->_l_infty);
@@ -115,7 +116,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
      * @param[in] tri
      * @return auto
      */
-    constexpr auto tri_midpoint(const Triple<P>& tri) const
+    [[nodiscard]] constexpr auto tri_midpoint(const Triple<P>& tri) const
     {
         const auto& [a1, a2, a3] = tri;
 
@@ -129,7 +130,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
      * @param[in] x
      * @return K
      */
-    constexpr auto omega(const P& x) const -> K
+    [[nodiscard]] constexpr auto omega(const P& x) const -> K
     {
         return sq(x.dot(this->_l_infty));
     }
@@ -140,7 +141,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
      * @param[in] x
      * @return K
      */
-    constexpr auto omega(const L& x) const -> K
+    [[nodiscard]] constexpr auto omega(const L& x) const -> K
     {
         return sq(x.dot(this->_Ire)) + sq(x.dot(this->_Iim));
     }
@@ -153,7 +154,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
      * @return auto
      */
     template <Projective_plane2 _P>
-    constexpr auto measure(const _P& a1, const _P& a2) const
+    [[nodiscard]] constexpr auto measure(const _P& a1, const _P& a2) const
     {
         const auto omg = K(this->omega(a1 * a2));
         const auto den = K(this->omega(a1) * this->omega(a2));

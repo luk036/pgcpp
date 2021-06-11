@@ -56,8 +56,8 @@ struct pg_line : pg_object<_K, pg_point<_K>>
 
 /// Return meet of two lines.
 template <ring _K>
-inline constexpr auto meet(const pg_line<_K>& l,
-                           const pg_line<_K>& m) -> pg_point<_K>
+inline constexpr auto meet(const pg_line<_K>& l, const pg_line<_K>& m)
+    -> pg_point<_K>
 {
     return l * m;
 }

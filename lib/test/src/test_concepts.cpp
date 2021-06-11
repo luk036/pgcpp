@@ -13,20 +13,20 @@ class PA
     PA() = default;
     PA(PA&&) = default;
     PA(PA const&) = delete;
-    PA& operator=(PA&&) = default;
-    PA& operator=(PA const&) = delete;
+    auto operator=(PA&&) -> PA& = default;
+    auto operator=(PA const&) -> PA& = delete;
     ~PA() = default;
 
     void operator&() const = delete;
     friend void operator,(PA const&, PA const&) = delete;
 
-    friend bool operator==(PA const&, PA const&) = default;
-    LA aux() const;
-    value_type dot(LA const&) const
+    friend auto operator==(PA const&, PA const&) -> bool = default;
+    [[nodiscard]] static auto aux() -> LA;
+    [[nodiscard]] static auto dot(LA const& /*unused*/) -> value_type
     {
         return {};
     }
-    value_type operator[](size_t) const
+    auto operator[](size_t /*unused*/) const -> value_type
     {
         return {};
     }
@@ -41,19 +41,19 @@ class LA
     LA() = default;
     LA(LA&&) = default;
     LA(LA const&) = delete;
-    LA& operator=(LA&&) = default;
-    LA& operator=(LA const&) = delete;
+    auto operator=(LA&&) -> LA& = default;
+    auto operator=(LA const&) -> LA& = delete;
     ~LA() = default;
 
     void operator&() const = delete;
     friend void operator,(LA const&, LA const&) = delete;
-    friend bool operator==(LA const&, LA const&) = default;
-    PA aux() const;
-    value_type dot(PA const&) const
+    friend auto operator==(LA const&, LA const&) -> bool = default;
+    [[nodiscard]] static auto aux() -> PA;
+    [[nodiscard]] static auto dot(PA const& /*unused*/) -> value_type
     {
         return {};
     }
-    value_type operator[](size_t) const
+    auto operator[](size_t /*unused*/) const -> value_type
     {
         return {};
     }
@@ -96,35 +96,37 @@ class LA
 //     friend void operator,(RsltL, RsltL) = delete;
 // };
 
-inline LA operator*(PA const&, PA const&)
+inline auto operator*(PA const& /*unused*/, PA const& /*unused*/) -> LA
 {
-    return LA{};
+    return LA {};
 }
-inline PA operator*(LA const&, LA const&)
+inline auto operator*(LA const& /*unused*/, LA const& /*unused*/) -> PA
 {
-    return PA{};
+    return PA {};
 }
-inline LA PA::aux() const
+inline auto PA::aux() -> LA
 {
-    return LA{};
+    return LA {};
 }
-inline PA LA::aux() const
+inline auto LA::aux() -> PA
 {
-    return PA{};
+    return PA {};
 }
-inline PA plucker(const int&, const PA&, const int&, const PA&)
+inline auto plucker(const int& /*unused*/, const PA& /*unused*/,
+    const int& /*unused*/, const PA& /*unused*/) -> PA
 {
-    return PA{};
+    return PA {};
 }
-inline LA plucker(const int&, const LA&, const int&, const LA&)
+inline auto plucker(const int& /*unused*/, const LA& /*unused*/,
+    const int& /*unused*/, const LA& /*unused*/) -> LA
 {
-    return LA{};
+    return LA {};
 }
-inline bool incident(const PA&, const LA&)
+inline auto incident(const PA& /*unused*/, const LA& /*unused*/) -> bool
 {
     return true;
 }
-inline bool incident(const LA&, const PA&)
+inline auto incident(const LA& /*unused*/, const PA& /*unused*/) -> bool
 {
     return true;
 }

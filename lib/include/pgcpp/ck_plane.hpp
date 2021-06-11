@@ -2,8 +2,8 @@
 
 #include "pg_common.hpp"
 #include "proj_plane.hpp"
-#include "proj_plane_measure.hpp"
 #include "proj_plane_concepts.h"
+#include "proj_plane_measure.hpp"
 #include <type_traits> // std::is_base_of_v
 
 namespace fun
@@ -59,8 +59,7 @@ struct ck
      */
     template <typename P, typename L = typename P::dual>
     requires Projective_plane_prim<P, L> // c++20 concept
-        constexpr auto altitude(const P& p, const L& l) const
-        -> L
+    constexpr auto altitude(const P& p, const L& l) const -> L
     {
         return p * self.perp(l);
     }
@@ -72,8 +71,7 @@ struct ck
      * @return std::tuple
      */
     template <Projective_plane_prim2 P>
-    constexpr auto tri_altitude(
-        const Triple<P>& tri) const
+    constexpr auto tri_altitude(const Triple<P>& tri) const
     {
         const auto [l1, l2, l3] = tri_dual(tri);
         const auto& [a1, a2, a3] = tri;
@@ -89,8 +87,7 @@ struct ck
      * @return P
      */
     template <Projective_plane_prim2 P>
-    constexpr auto orthocenter(
-        const Triple<P>& tri) const -> P
+    constexpr auto orthocenter(const Triple<P>& tri) const -> P
     {
         const auto& [a1, a2, a3] = tri;
 
@@ -108,7 +105,7 @@ struct ck
     template <Projective_plane P>
     auto reflect(const P& m) const
     {
-        return involution {self.perp(m), P{m}};
+        return involution {self.perp(m), P {m}};
     }
 
     /**
@@ -185,7 +182,7 @@ struct ck
  */
 template <ordered_ring Q_t>
 constexpr auto check_sine_law(const Triple<Q_t>& Q, const Triple<Q_t>& S)
--> bool
+    -> bool
 {
     const auto& [q1, q2, q3] = Q;
     const auto& [s1, s2, s3] = S;
@@ -200,7 +197,7 @@ constexpr auto check_sine_law(const Triple<Q_t>& Q, const Triple<Q_t>& S)
  */
 template <typename P, typename L = typename P::dual>
 requires Projective_plane_prim<P, L> // c++20 concept
-    struct ellck : ck<P, L, ellck>
+struct ellck : ck<P, L, ellck>
 {
     /**
      * @brief perp (polar) of point
@@ -247,7 +244,7 @@ requires Projective_plane_prim<P, L> // c++20 concept
  */
 template <typename P, typename L = typename P::dual>
 requires Projective_plane_prim<P, L> // c++20 concept
-    struct hyck : ck<P, L, hyck>
+struct hyck : ck<P, L, hyck>
 {
     /**
      * @brief perp (polar) of point

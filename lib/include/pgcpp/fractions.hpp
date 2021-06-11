@@ -7,9 +7,10 @@
 
 #include <boost/operators.hpp>
 // #include <cmath>
+#include "common_concepts.h"
 #include <numeric>
 #include <type_traits>
-#include "common_concepts.h"
+#include <utility>
 
 namespace fun
 {
@@ -17,7 +18,7 @@ namespace fun
 template <ordered_ring T>
 inline constexpr auto abs(const T& a) -> T
 {
-    return (a < T(0))? -a : a;
+    return (a < T(0)) ? -a : a;
 }
 
 /*!
@@ -31,8 +32,14 @@ inline constexpr auto abs(const T& a) -> T
 template <Integral _Mn>
 inline constexpr auto gcd(_Mn __m, _Mn __n) -> _Mn
 {
-    if (__m == 0) return abs(__n);
-    if (__n == 0) return abs(__m);
+    if (__m == 0)
+    {
+        return abs(__n);
+    }
+    if (__n == 0)
+    {
+        return abs(__m);
+    }
     return gcd(__n, __m % __n);
 }
 
@@ -47,7 +54,10 @@ inline constexpr auto gcd(_Mn __m, _Mn __n) -> _Mn
 template <Integral _Mn>
 inline constexpr auto lcm(_Mn __m, _Mn __n) -> _Mn
 {
-    if (__m == 0 || __n == 0) return 0;
+    if (__m == 0 || __n == 0)
+    {
+        return 0;
+    }
     return (abs(__m) / gcd(__m, __n)) * abs(__n);
 }
 
@@ -61,18 +71,6 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
     Z _num;
     Z _den;
 
-    /*!
-     * @brief Construct a new Fraction object
-     *
-     * @param[in] num
-     * @param[in] den
-     */
-    constexpr Fraction(Z&& num, Z&& den)
-        : _num {std::move(num)}
-        , _den {std::move(den)}
-    {
-        this->normalize();
-    }
 
     /*!
      * @brief Construct a new Fraction object
@@ -80,9 +78,9 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @param[in] num
      * @param[in] den
      */
-    constexpr Fraction(const Z& num, const Z& den)
-        : _num {num}
-        , _den {den}
+    constexpr Fraction(Z num, Z den)
+        : _num {std::move(num)}
+        , _den {std::move(den)}
     {
         this->normalize();
     }
@@ -130,8 +128,8 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      * @param[in] num
      */
     constexpr Fraction()
-        : _num (0)
-        , _den (1)
+        : _num(0)
+        , _den(1)
     {
     }
 
@@ -140,7 +138,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      *
      * @return const Z&
      */
-    constexpr auto num() const noexcept -> const Z&
+    [[nodiscard]] constexpr auto num() const noexcept -> const Z&
     {
         return _num;
     }
@@ -150,7 +148,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      *
      * @return const Z&
      */
-    constexpr auto den() const noexcept -> const Z&
+    [[nodiscard]] constexpr auto den() const noexcept -> const Z&
     {
         return _den;
     }
@@ -160,7 +158,7 @@ struct Fraction : boost::totally_ordered<Fraction<Z>,
      *
      * @return Fraction
      */
-    constexpr auto abs() const -> Fraction
+    [[nodiscard]] constexpr auto abs() const -> Fraction
     {
         return Fraction(abs(this->_num), abs(this->_den));
     }

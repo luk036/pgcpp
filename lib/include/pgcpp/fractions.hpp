@@ -75,7 +75,7 @@ inline constexpr auto gcd(_Mn __m, _Mn __n) -> _Mn
     {
         return abs(__n);
     }
-    return gcd_recur(__n, __m % __n);
+    return gcd_recur(__m, __n);
 }
 
 /*!
